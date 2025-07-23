@@ -1,0 +1,44 @@
+.divider:after,
+.divider:before {
+content: "";
+flex: 1;
+height: 1px;
+background: #021526;
+}
+.h-custom {
+height: calc(100% - 73px);
+}
+@media (max-width: 450px) {
+.h-custom {
+height: 100%;
+}
+}
+
+.login-header {
+  color:#a6c5e0;
+  font:bold;
+  align-content:center;
+  padding:5px;
+}
+
+.dark-bg {
+  background-color:#021526;
+}
+
+.light-bg {
+  background-color:#e0e0e0;
+}
+
+.dark-txt {
+  color:#052f53;
+}
+
+.light-txt {
+  color:#a6c5e0;
+}
+
+.forgotpass {
+  color:#a6c5e0;
+  text-decoration:underline;
+}
+

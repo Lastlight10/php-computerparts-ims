@@ -1,0 +1,19 @@
+{
+    "name": "my-vendor/computer_parts_ims",
+    "description": "Composer for computer ims",
+    "require": {
+        "illuminate/database": "^12.21",
+        "phpmailer/phpmailer": "^6.10"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "MyVendor\\ComputerPartsIms\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Clarenz Recon"
+        }
+    ]
+}
