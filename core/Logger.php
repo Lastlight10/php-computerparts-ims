@@ -12,7 +12,7 @@ class Logger {
         if (!file_exists($dir)) {
             mkdir($dir, 0777, true);
         }
-
+        file_put_contents(self::$logFile, '');
         file_put_contents(self::$logFile, $entry, FILE_APPEND);
     }
 }
