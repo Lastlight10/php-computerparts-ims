@@ -3,28 +3,45 @@ class Router {
     public function route($url) {
         try {
             $parts = explode('/', trim($url, '/'));
-            $controllerName = ucfirst($parts[0] ?? 'login') . 'Controller';
-            $method = $parts[1] ?? 'login';
-            
-            // Validate controller and method names (security)
-            if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $parts[0] ?? 'login') ||
-                !preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $method)) {
-                throw new Exception("Invalid controller or method name");
-            }
-            
-            if (class_exists($controllerName) && method_exists($controllerName, $method)) {
-                $controller = new $controllerName;
-                call_user_func_array([$controller, $method], array_slice($parts, 2));
-                Logger::log("ROUTING: $url => $controllerName@$method");
+            $count = count($parts);
+
+            if ($count === 0 || $parts[0] === '') {
+                $controllerName = 'LoginController';
+                $method = 'login';
+                $params = [];
+            } elseif ($count === 1) {
+                $controllerName = ucfirst($parts[0]) . 'Controller';
+                $method = 'index';
+                $params = [];
+            } elseif ($count === 2) {
+                $controllerName = ucfirst($parts[0]) . 'Controller';
+                $method = $parts[1];
+                $params = [];
             } else {
-                $this->handle404($url);
+                // For nested controllers like staff/manager/view
+                $controllerName = ucfirst($parts[0]) . ucfirst($parts[1]) . 'Controller';
+                $method = $parts[2] ?? 'index';
+                $params = array_slice($parts, 3);
+            }
+
+            Logger::log("ROUTING: $url => $controllerName@$method");
+
+            if (class_exists($controllerName)) {
+                $controller = new $controllerName();
+                if (method_exists($controller, $method)) {
+                    return call_user_func_array([$controller, $method], $params);
+                } else {
+                    throw new Exception("Method $method not found in $controllerName");
+                }
+            } else {
+                throw new Exception("Controller $controllerName not found");
             }
         } catch (Exception $e) {
             Logger::log("ROUTING ERROR: " . $e->getMessage());
             $this->handle404($url);
         }
     }
-    
+
     private function handle404($url) {
         http_response_code(404);
         echo "404 Not Found";

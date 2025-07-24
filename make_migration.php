@@ -2,49 +2,42 @@
 // make_migration.php
 
 if ($argc < 2) {
-    echo "Usage: php make_migration.php <migration_name>\n";
-    echo "Example: php make_migration.php CreateProductsTable\n";
+    echo "Usage: php make_migration.php <MigrationName>\n";
+    echo "Example: php make_migration.php CreateUsersTable\n";
     exit(1);
 }
 
 $migrationName = $argv[1];
 $timestamp = date('Y_m_d_His');
-$fileName = "{$timestamp}_" . strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $migrationName)) . ".php";
+$snakeCase = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $migrationName));
+$fileName = "{$timestamp}_{$snakeCase}.php";
 $migrationPath = "database/migrations";
 
-// Derive a snake_case table name from the migration name
-// Example: CreateUsersTable -> users, AddColumnToProductsTable -> products
-// This is a common convention, but you might need to adjust for specific migration types
+// Infer table name
 $baseTableName = strtolower(
     preg_replace(
-        ['/^(create|add|alter|drop)_/', '/_table$/', '/(?<!^)[A-Z]/'],
+        ['/^(create|add|alter|drop)/i', '/table$/i', '/(?<!^)[A-Z]/'],
         ['', '', '_$0'],
         $migrationName
     )
 );
-$baseTableName = str_replace('__', '_', $baseTableName); // Remove double underscores if any
+$baseTableName = str_replace('__', '_', $baseTableName);
 
-// If the migration name implies creation (e.g., "CreateUsersTable")
+// Infer operation
 if (str_starts_with(strtolower($migrationName), 'create')) {
-    $tableName = str_replace('create_', '', $baseTableName);
     $tableOperation = "create";
-} else if (str_starts_with(strtolower($migrationName), 'add')) {
-    // This is for adding columns, so we just get the base name without 'add'
-    $tableName = str_replace('add_', '', $baseTableName);
-    $tableOperation = "table"; // use Capsule::schema()->table
+} elseif (str_starts_with(strtolower($migrationName), 'add')) {
+    $tableOperation = "table";
+} else {
+    $tableOperation = "table"; // fallback/default
 }
-// You can add more conditions for 'alter', 'drop', etc.
-else {
-    $tableName = $baseTableName;
-    $tableOperation = "table"; // Default to table for general changes
-}
-
+$tableName = $baseTableName;
 
 if (!is_dir($migrationPath)) {
     mkdir($migrationPath, 0755, true);
 }
 
-// Use Heredoc syntax for multi-line string content
+// Heredoc to write the actual migration file
 $fileContent = <<<EOT
 <?php
 
@@ -53,34 +46,39 @@ $fileContent = <<<EOT
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Schema\Blueprint;
 
-// IMPORTANT: Make sure your Logger class is available here.
-// If it's autoloaded by Composer (recommended), you don't need a direct require_once here.
-// If not, you might need: require_once __DIR__ . '/../app/Logger.php'; // Adjust path
-
-require 'core/Logger.php'
-
 function up()
 {
     try {
-        echo "Attempting to {$tableOperation} '{$tableName}' table..." . PHP_EOL;
-        Capsule::schema()->{$tableOperation}('{$tableName}', function (Blueprint \$table) {
-            // Add your table columns here
-            // This is a placeholder. You'll fill this in after generation.
-            \$table->id(); // Example for 'create' operation
-            // \$table->string('name')->nullable();
-            // \$table->integer('age')->default(0);
-            \$table->timestamps(); // Example for 'create' operation
-        });
-        echo "'{$tableName}' table {$tableOperation}d successfully!" . PHP_EOL;
-        Logger::log("MIGRATION SUCCESS: {$tableOperation}d '{$tableName}' table.");
+        \$tableName = '{$tableName}';
 
-    } catch (\Exception \$e) { // Catch any general PHP Exception
-        // Log the detailed error message
-        \$errorMessage = "Error {$tableOperation}ing '{$tableName}' table: " . \$e->getMessage();
+        if (!Capsule::schema()->hasTable(\$tableName)) {
+            echo "Creating '\$tableName' table..." . PHP_EOL;
+
+            Capsule::schema()->create(\$tableName, function (Blueprint \$table) {
+                \$table->id();
+                // Add more fields as needed
+                \$table->timestamps();
+            });
+
+            echo "Table '\$tableName' created successfully!" . PHP_EOL;
+        } else {
+            echo "Modifying '\$tableName' table..." . PHP_EOL;
+
+            Capsule::schema()->table(\$tableName, function (Blueprint \$table) {
+                if (!Capsule::schema()->hasColumn('{$tableName}', 'example_column')) {
+                    \$table->string('example_column')->nullable();
+                }
+            });
+
+            echo "Table '\$tableName' modified successfully!" . PHP_EOL;
+        }
+
+    } catch (\\Exception \$e) {
+        \$errorMessage = "Error updating '\$tableName' table: " . \$e->getMessage();
         echo \$errorMessage . PHP_EOL;
-        Logger::log("MIGRATION FAILED: " . \$errorMessage);
-        // It's good practice to re-throw the exception so the runner script knows it failed,
-        // and doesn't incorrectly report overall success.
+        if (function_exists('Logger::log')) {
+            Logger::log("MIGRATION FAILED: " . \$errorMessage);
+        }
         throw \$e;
     }
 }
@@ -88,15 +86,20 @@ function up()
 function down()
 {
     try {
-        echo "Attempting to drop '{$tableName}' table..." . PHP_EOL;
-        Capsule::schema()->dropIfExists('{$tableName}');
-        echo "'{$tableName}' table dropped successfully!" . PHP_EOL;
-        Logger::log("MIGRATION SUCCESS: Dropped '{$tableName}' table.");
+        \$tableName = '{$tableName}';
+        echo "Dropping '\$tableName' table..." . PHP_EOL;
+        Capsule::schema()->dropIfExists(\$tableName);
+        echo "Table '\$tableName' dropped successfully!" . PHP_EOL;
+        if (function_exists('Logger::log')) {
+            Logger::log("MIGRATION SUCCESS: Dropped '\$tableName' table.");
+        }
 
-    } catch (\Exception \$e) {
-        \$errorMessage = "Error dropping '{$tableName}' table: " . \$e->getMessage();
+    } catch (\\Exception \$e) {
+        \$errorMessage = "Error dropping '\$tableName' table: " . \$e->getMessage();
         echo \$errorMessage . PHP_EOL;
-        Logger::log("MIGRATION FAILED: " . \$errorMessage);
+        if (function_exists('Logger::log')) {
+            Logger::log("MIGRATION FAILED: " . \$errorMessage);
+        }
         throw \$e;
     }
 }
@@ -104,5 +107,5 @@ EOT;
 
 file_put_contents("{$migrationPath}/{$fileName}", $fileContent);
 
-echo "Migration file created: {$migrationPath}/{$fileName}\n";
-echo "Remember to fill in your specific table schema in the 'up' and 'down' methods.\n";
+echo "✅ Migration created: {$migrationPath}/{$fileName}\n";
+echo "➡️  You can now customize the schema in the 'up' and 'down' methods.\n";

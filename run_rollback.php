@@ -17,7 +17,7 @@ if (!file_exists($autoloadPath)) {
 }
 require_once $autoloadPath;
 echo "Composer autoloader loaded." . PHP_EOL;
-
+LOGGER::log("ROLLBACK (run_rollback.php) Composer autoloader loaded". PHP_EOL);
 // 2. Set up the database connection (Capsule Manager)
 require_once __DIR__ . '/core/Connection.php';
 echo "Database connection (Capsule) loaded." . PHP_EOL;
@@ -34,7 +34,7 @@ if ($argc < 2) {
 }
 
 $migrationFilename = $argv[1]; // Get the first argument
-$migrationFilePath = __DIR__ . '/migrations/' . $migrationFilename . '.php';
+$migrationFilePath = __DIR__ . '/database/migrations/' . $migrationFilename . '.php';
 
 // Check if the migration file exists
 echo "Attempting to include migration file for rollback: " . $migrationFilePath . PHP_EOL;

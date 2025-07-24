@@ -14,15 +14,15 @@
         <div class="login-header text-center mb-4">
           <h3 class="text-white">COMPUTER IMS</h3>
         </div>
-        <form method="POST" action="login">
+        <form method="POST" action="/login/login_acc">
           <div class="mb-4">
             <label class="form-label light-txt">Username</label>
-            <input type="text" name="username" class="form-control form-control-lg dark-txt light-bg"
+            <input type="text" id="username" name="username" class="form-control form-control-lg dark-txt light-bg"
                   required maxlength="50"/>
           </div>
           <div class="mb-3">
             <label class="form-label light-txt">Password</label>
-            <input type="password" name="password" class="form-control form-control-lg dark-txt light-bg"
+            <input type="password" id="password" name="password" class="form-control form-control-lg dark-txt light-bg"
                   required maxlength="50"/>
           </div>
 

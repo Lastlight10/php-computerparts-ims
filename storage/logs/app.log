@@ -1,1 +1,2533 @@
-[2025-07-24 05:03:49] ROUTING (index.php): To login/forgotpass
+[2025-07-24 09:42:31] ROUTING (index.php): To login/login_acc
+[2025-07-24 09:43:11] 📥 Incoming request: login/login
+[2025-07-24 09:43:11] Attempting to set up database connection...
+
+[2025-07-24 09:43:11] Composer autoloader loaded.
+
+[2025-07-24 09:43:11] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 09:43:11] ROUTING: login/login => LoginController@login
+[2025-07-24 09:43:11] RENDERING (views/login/login.php): views/login/login.php with data: {"title":"Welcome","message":"Hello from MVC!"}
+[2025-07-24 09:43:11] Used: 377832 on login.php
+[2025-07-24 09:43:11] ROUTING (index.php): To login/login
+[2025-07-24 09:43:16] 📥 Incoming request: login/login_acc
+[2025-07-24 09:43:16] Attempting to set up database connection...
+
+[2025-07-24 09:43:16] Composer autoloader loaded.
+
+[2025-07-24 09:43:16] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 09:43:16] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 09:43:16] LOGIN_ACC: Method called
+[2025-07-24 09:43:16] INPUT: Username = admin, Password = admin123
+[2025-07-24 09:43:16] RENDERING (views/login/login.php): views/login/login.php with data: {"error":"Invalid credentials."}
+[2025-07-24 09:43:16] Used: 387608 on login.php
+[2025-07-24 09:43:16] LOGIN FAILED: Invalid credentials for admin
+[2025-07-24 09:43:16] ROUTING (index.php): To login/login_acc
+[2025-07-24 09:44:08] 📥 Incoming request: login/login_acc
+[2025-07-24 09:44:08] Attempting to set up database connection...
+
+[2025-07-24 09:44:08] Composer autoloader loaded.
+
+[2025-07-24 09:44:08] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 09:44:08] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 09:44:08] LOGIN_ACC: Method called
+[2025-07-24 09:44:08] INPUT: Username = admin, Password = admin12345
+[2025-07-24 09:44:08] RENDERING (views/login/login.php): views/login/login.php with data: {"error":"Invalid credentials."}
+[2025-07-24 09:44:08] Used: 387640 on login.php
+[2025-07-24 09:44:08] LOGIN FAILED: Invalid credentials for admin
+[2025-07-24 09:44:08] ROUTING (index.php): To login/login_acc
+[2025-07-24 09:57:18] Attempting to set up database connection...
+
+[2025-07-24 09:57:18] Composer autoloader loaded.
+
+[2025-07-24 09:57:18] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 09:59:18] 📥 Incoming request: login/login
+[2025-07-24 09:59:18] Attempting to set up database connection...
+
+[2025-07-24 09:59:18] Composer autoloader loaded.
+
+[2025-07-24 09:59:18] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 09:59:18] ROUTING: login/login => LoginController@login
+[2025-07-24 09:59:18] RENDERING (views/login/login.php): views/login/login.php with data: {"title":"Welcome","message":"Hello from MVC!"}
+[2025-07-24 09:59:18] Used: 378456 on login.php
+[2025-07-24 09:59:18] ROUTING (index.php): To login/login
+[2025-07-24 09:59:22] 📥 Incoming request: login/login_acc
+[2025-07-24 09:59:22] Attempting to set up database connection...
+
+[2025-07-24 09:59:22] Composer autoloader loaded.
+
+[2025-07-24 09:59:22] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 09:59:22] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 09:59:22] LOGIN_ACC: Method called
+[2025-07-24 09:59:22] INPUT: Username = admin, Password = admini12345
+[2025-07-24 09:59:22] RENDERING (views/login/login.php): views/login/login.php with data: {"error":"Invalid credentials."}
+[2025-07-24 09:59:22] Used: 527640 on login.php
+[2025-07-24 09:59:22] LOGIN FAILED: Invalid credentials for admin
+[2025-07-24 09:59:22] ROUTING (index.php): To login/login_acc
+[2025-07-24 09:59:37] 📥 Incoming request: login/login_acc
+[2025-07-24 09:59:37] Attempting to set up database connection...
+
+[2025-07-24 09:59:37] Composer autoloader loaded.
+
+[2025-07-24 09:59:37] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 09:59:37] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 09:59:37] LOGIN_ACC: Method called
+[2025-07-24 09:59:37] INPUT: Username = admin, Password = admin12345
+[2025-07-24 09:59:37] RENDERING (views/login/login.php): views/login/login.php with data: {"error":"Invalid credentials."}
+[2025-07-24 09:59:37] Used: 394968 on login.php
+[2025-07-24 09:59:37] LOGIN FAILED: Invalid credentials for admin
+[2025-07-24 09:59:37] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:01:19] Attempting to set up database connection...
+
+[2025-07-24 10:01:19] Composer autoloader loaded.
+
+[2025-07-24 10:01:19] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:02:00] Attempting to set up database connection...
+
+[2025-07-24 10:02:00] Composer autoloader loaded.
+
+[2025-07-24 10:02:00] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:02:32] Attempting to set up database connection...
+
+[2025-07-24 10:02:32] Composer autoloader loaded.
+
+[2025-07-24 10:02:32] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:03:22] Attempting to set up database connection...
+
+[2025-07-24 10:03:22] Composer autoloader loaded.
+
+[2025-07-24 10:03:22] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:04:02] Attempting to set up database connection...
+
+[2025-07-24 10:04:02] Composer autoloader loaded.
+
+[2025-07-24 10:04:02] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:04:03] Attempting to set up database connection...
+
+[2025-07-24 10:04:03] Composer autoloader loaded.
+
+[2025-07-24 10:04:03] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:04:13] Attempting to set up database connection...
+
+[2025-07-24 10:04:13] Composer autoloader loaded.
+
+[2025-07-24 10:04:13] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:05:06] Attempting to set up database connection...
+
+[2025-07-24 10:05:06] Composer autoloader loaded.
+
+[2025-07-24 10:05:06] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:06:02] Attempting to set up database connection...
+
+[2025-07-24 10:06:02] Composer autoloader loaded.
+
+[2025-07-24 10:06:02] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:06:19] Attempting to set up database connection...
+
+[2025-07-24 10:06:19] Composer autoloader loaded.
+
+[2025-07-24 10:06:19] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:06:36] Attempting to set up database connection...
+
+[2025-07-24 10:06:36] Composer autoloader loaded.
+
+[2025-07-24 10:06:36] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:06:39] Attempting to set up database connection...
+
+[2025-07-24 10:06:39] Composer autoloader loaded.
+
+[2025-07-24 10:06:39] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:09:09] Attempting to set up database connection...
+
+[2025-07-24 10:09:09] Composer autoloader loaded.
+
+[2025-07-24 10:09:09] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:09:11] Attempting to set up database connection...
+
+[2025-07-24 10:09:11] Composer autoloader loaded.
+
+[2025-07-24 10:09:11] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:09:29] Attempting to set up database connection...
+
+[2025-07-24 10:09:29] Composer autoloader loaded.
+
+[2025-07-24 10:09:29] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:09:32] Attempting to set up database connection...
+
+[2025-07-24 10:09:32] Composer autoloader loaded.
+
+[2025-07-24 10:09:32] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:09:32] Attempting to set up database connection...
+
+[2025-07-24 10:09:32] Composer autoloader loaded.
+
+[2025-07-24 10:09:32] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:10:12] Attempting to set up database connection...
+
+[2025-07-24 10:10:12] Composer autoloader loaded.
+
+[2025-07-24 10:10:12] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:10:12] Attempting to set up database connection...
+
+[2025-07-24 10:10:12] Composer autoloader loaded.
+
+[2025-07-24 10:10:12] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:10:14] Attempting to set up database connection...
+
+[2025-07-24 10:10:14] Composer autoloader loaded.
+
+[2025-07-24 10:10:14] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:12:01] Attempting to set up database connection...
+
+[2025-07-24 10:12:01] Composer autoloader loaded.
+
+[2025-07-24 10:12:01] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:12:37] Attempting to set up database connection...
+
+[2025-07-24 10:12:37] Composer autoloader loaded.
+
+[2025-07-24 10:12:37] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:12:53] Attempting to set up database connection...
+
+[2025-07-24 10:12:53] Composer autoloader loaded.
+
+[2025-07-24 10:12:53] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:12:56] Attempting to set up database connection...
+
+[2025-07-24 10:12:56] Composer autoloader loaded.
+
+[2025-07-24 10:12:56] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:14:04] Attempting to set up database connection...
+
+[2025-07-24 10:14:04] Composer autoloader loaded.
+
+[2025-07-24 10:14:04] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:15:55] Attempting to set up database connection...
+
+[2025-07-24 10:15:55] Composer autoloader loaded.
+
+[2025-07-24 10:15:55] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:16:39] 📥 Incoming request: login/login_acc
+[2025-07-24 10:16:39] Attempting to set up database connection...
+
+[2025-07-24 10:16:39] Composer autoloader loaded.
+
+[2025-07-24 10:16:39] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:16:39] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:16:39] LOGIN_ACC: Method called
+[2025-07-24 10:16:39] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:16:39] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:16:39] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:16:39] Used: 1279928 on dashboard.php
+[2025-07-24 10:16:39] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:16:48] 📥 Incoming request: login/login
+[2025-07-24 10:16:48] Attempting to set up database connection...
+
+[2025-07-24 10:16:48] Composer autoloader loaded.
+
+[2025-07-24 10:16:48] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:16:48] ROUTING: login/login => LoginController@login
+[2025-07-24 10:16:48] RENDERING (views/login/login.php): views/login/login.php with data: {"title":"Welcome","message":"Hello from MVC!"}
+[2025-07-24 10:16:48] Used: 377640 on login.php
+[2025-07-24 10:16:48] ROUTING (index.php): To login/login
+[2025-07-24 10:16:51] 📥 Incoming request: login/login_acc
+[2025-07-24 10:16:51] Attempting to set up database connection...
+
+[2025-07-24 10:16:51] Composer autoloader loaded.
+
+[2025-07-24 10:16:51] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:16:51] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:16:51] LOGIN_ACC: Method called
+[2025-07-24 10:16:51] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:16:51] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:16:51] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:16:51] Used: 420648 on dashboard.php
+[2025-07-24 10:16:51] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:17:16] 📥 Incoming request: login/login
+[2025-07-24 10:17:16] Attempting to set up database connection...
+
+[2025-07-24 10:17:16] Composer autoloader loaded.
+
+[2025-07-24 10:17:16] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:17:16] ROUTING: login/login => LoginController@login
+[2025-07-24 10:17:16] RENDERING (views/login/login.php): views/login/login.php with data: {"title":"Welcome","message":"Hello from MVC!"}
+[2025-07-24 10:17:16] Used: 377640 on login.php
+[2025-07-24 10:17:16] ROUTING (index.php): To login/login
+[2025-07-24 10:19:17] 📥 Incoming request: login/login
+[2025-07-24 10:19:17] Attempting to set up database connection...
+
+[2025-07-24 10:19:17] Composer autoloader loaded.
+
+[2025-07-24 10:19:17] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:19:17] ROUTING: login/login => LoginController@login
+[2025-07-24 10:19:17] RENDERING (views/login/login.php): views/login/login.php with data: {"title":"Welcome","message":"Hello from MVC!"}
+[2025-07-24 10:19:17] Used: 377640 on login.php
+[2025-07-24 10:19:17] ROUTING (index.php): To login/login
+[2025-07-24 10:19:20] 📥 Incoming request: login/login_acc
+[2025-07-24 10:19:20] Attempting to set up database connection...
+
+[2025-07-24 10:19:20] Composer autoloader loaded.
+
+[2025-07-24 10:19:20] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:19:20] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:19:20] LOGIN_ACC: Method called
+[2025-07-24 10:19:20] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:19:20] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:19:20] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:19:20] Used: 420488 on dashboard.php
+[2025-07-24 10:19:20] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:19:32] 📥 Incoming request: login/login_acc
+[2025-07-24 10:19:32] Attempting to set up database connection...
+
+[2025-07-24 10:19:32] Composer autoloader loaded.
+
+[2025-07-24 10:19:32] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:19:32] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:19:32] LOGIN_ACC: Method called
+[2025-07-24 10:19:32] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:19:32] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:19:32] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:19:32] Used: 420392 on dashboard.php
+[2025-07-24 10:19:32] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:19:39] 📥 Incoming request: login/login_acc
+[2025-07-24 10:19:39] Attempting to set up database connection...
+
+[2025-07-24 10:19:39] Composer autoloader loaded.
+
+[2025-07-24 10:19:39] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:19:39] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:19:39] LOGIN_ACC: Method called
+[2025-07-24 10:19:39] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:19:39] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:19:39] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:19:39] Used: 420392 on dashboard.php
+[2025-07-24 10:19:39] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:19:47] 📥 Incoming request: login/login_acc
+[2025-07-24 10:19:47] Attempting to set up database connection...
+
+[2025-07-24 10:19:47] Composer autoloader loaded.
+
+[2025-07-24 10:19:47] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:19:47] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:19:47] LOGIN_ACC: Method called
+[2025-07-24 10:19:47] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:19:47] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:19:47] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:19:47] Used: 420392 on dashboard.php
+[2025-07-24 10:19:47] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:22:17] 📥 Incoming request: login/login
+[2025-07-24 10:22:17] Attempting to set up database connection...
+
+[2025-07-24 10:22:17] Composer autoloader loaded.
+
+[2025-07-24 10:22:17] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:22:17] ROUTING: login/login => LoginController@login
+[2025-07-24 10:22:17] RENDERING (views/login/login.php): views/login/login.php with data: {"title":"Welcome","message":"Hello from MVC!"}
+[2025-07-24 10:22:17] Used: 377640 on login.php
+[2025-07-24 10:22:17] ROUTING (index.php): To login/login
+[2025-07-24 10:22:23] 📥 Incoming request: login/login_acc
+[2025-07-24 10:22:23] Attempting to set up database connection...
+
+[2025-07-24 10:22:23] Composer autoloader loaded.
+
+[2025-07-24 10:22:23] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:22:23] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:22:23] LOGIN_ACC: Method called
+[2025-07-24 10:22:23] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:22:23] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:22:23] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:22:23] Used: 420344 on dashboard.php
+[2025-07-24 10:22:23] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:24:15] 📥 Incoming request: login/login_acc
+[2025-07-24 10:24:15] Attempting to set up database connection...
+
+[2025-07-24 10:24:15] Composer autoloader loaded.
+
+[2025-07-24 10:24:15] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:24:15] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:24:15] LOGIN_ACC: Method called
+[2025-07-24 10:24:15] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:24:15] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:24:15] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:24:15] Used: 420344 on dashboard.php
+[2025-07-24 10:24:15] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:25:07] 📥 Incoming request: login/login_acc
+[2025-07-24 10:25:07] Attempting to set up database connection...
+
+[2025-07-24 10:25:07] Composer autoloader loaded.
+
+[2025-07-24 10:25:07] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:25:07] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:25:07] LOGIN_ACC: Method called
+[2025-07-24 10:25:07] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:25:07] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:25:07] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:25:07] Used: 420440 on dashboard.php
+[2025-07-24 10:25:07] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:25:42] 📥 Incoming request: login/login_acc
+[2025-07-24 10:25:42] Attempting to set up database connection...
+
+[2025-07-24 10:25:42] Composer autoloader loaded.
+
+[2025-07-24 10:25:42] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:25:42] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:25:42] LOGIN_ACC: Method called
+[2025-07-24 10:25:42] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:25:42] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:25:42] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:25:42] Used: 420344 on dashboard.php
+[2025-07-24 10:25:42] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:26:16] 📥 Incoming request: login/login_acc
+[2025-07-24 10:26:16] Attempting to set up database connection...
+
+[2025-07-24 10:26:16] Composer autoloader loaded.
+
+[2025-07-24 10:26:16] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:26:16] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:26:16] LOGIN_ACC: Method called
+[2025-07-24 10:26:16] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:26:16] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:26:16] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:26:16] Used: 420344 on dashboard.php
+[2025-07-24 10:26:16] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:26:36] 📥 Incoming request: login/login_acc
+[2025-07-24 10:26:36] Attempting to set up database connection...
+
+[2025-07-24 10:26:36] Composer autoloader loaded.
+
+[2025-07-24 10:26:36] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:26:36] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:26:36] LOGIN_ACC: Method called
+[2025-07-24 10:26:36] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:26:36] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:26:36] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:26:36] Used: 420344 on dashboard.php
+[2025-07-24 10:26:36] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:27:14] 📥 Incoming request: login/login_acc
+[2025-07-24 10:27:14] Attempting to set up database connection...
+
+[2025-07-24 10:27:14] Composer autoloader loaded.
+
+[2025-07-24 10:27:14] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:27:14] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:27:14] LOGIN_ACC: Method called
+[2025-07-24 10:27:14] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:27:14] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:27:14] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:27:14] Used: 420440 on dashboard.php
+[2025-07-24 10:27:14] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:27:40] 📥 Incoming request: login/login_acc
+[2025-07-24 10:27:40] Attempting to set up database connection...
+
+[2025-07-24 10:27:40] Composer autoloader loaded.
+
+[2025-07-24 10:27:40] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:27:40] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:27:40] LOGIN_ACC: Method called
+[2025-07-24 10:27:40] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:27:40] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:27:40] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:27:40] Used: 420440 on dashboard.php
+[2025-07-24 10:27:40] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:28:41] 📥 Incoming request: login/login_acc
+[2025-07-24 10:28:41] Attempting to set up database connection...
+
+[2025-07-24 10:28:41] Composer autoloader loaded.
+
+[2025-07-24 10:28:41] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:28:41] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:28:41] LOGIN_ACC: Method called
+[2025-07-24 10:28:41] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:28:41] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:28:41] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:28:41] Used: 420344 on dashboard.php
+[2025-07-24 10:28:41] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:30:06] 📥 Incoming request: login/login_acc
+[2025-07-24 10:30:06] Attempting to set up database connection...
+
+[2025-07-24 10:30:06] Composer autoloader loaded.
+
+[2025-07-24 10:30:06] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:30:06] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:30:06] LOGIN_ACC: Method called
+[2025-07-24 10:30:06] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:30:06] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:30:06] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:30:06] Used: 420344 on dashboard.php
+[2025-07-24 10:30:06] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:30:36] 📥 Incoming request: login/login_acc
+[2025-07-24 10:30:36] Attempting to set up database connection...
+
+[2025-07-24 10:30:36] Composer autoloader loaded.
+
+[2025-07-24 10:30:36] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:30:36] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:30:36] LOGIN_ACC: Method called
+[2025-07-24 10:30:36] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:30:36] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:30:36] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:30:36] Used: 420344 on dashboard.php
+[2025-07-24 10:30:36] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:30:52] 📥 Incoming request: login/login_acc
+[2025-07-24 10:30:52] Attempting to set up database connection...
+
+[2025-07-24 10:30:52] Composer autoloader loaded.
+
+[2025-07-24 10:30:52] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:30:52] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:30:52] LOGIN_ACC: Method called
+[2025-07-24 10:30:52] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:30:52] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:30:52] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:30:52] Used: 420344 on dashboard.php
+[2025-07-24 10:30:52] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:31:10] 📥 Incoming request: login/login_acc
+[2025-07-24 10:31:10] Attempting to set up database connection...
+
+[2025-07-24 10:31:10] Composer autoloader loaded.
+
+[2025-07-24 10:31:10] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:31:10] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:31:10] LOGIN_ACC: Method called
+[2025-07-24 10:31:10] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:31:10] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:31:10] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:31:10] Used: 420344 on dashboard.php
+[2025-07-24 10:31:10] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:38:34] 📥 Incoming request: login/login_acc
+[2025-07-24 10:38:34] Attempting to set up database connection...
+
+[2025-07-24 10:38:34] Composer autoloader loaded.
+
+[2025-07-24 10:38:34] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:38:34] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:38:34] LOGIN_ACC: Method called
+[2025-07-24 10:38:34] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:38:34] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:38:34] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:38:34] Used: 420344 on dashboard.php
+[2025-07-24 10:38:34] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:39:07] 📥 Incoming request: login/login_acc
+[2025-07-24 10:39:07] Attempting to set up database connection...
+
+[2025-07-24 10:39:07] Composer autoloader loaded.
+
+[2025-07-24 10:39:07] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:39:07] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:39:07] LOGIN_ACC: Method called
+[2025-07-24 10:39:07] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:39:07] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:39:07] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:39:07] Used: 420440 on dashboard.php
+[2025-07-24 10:39:07] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:40:04] 📥 Incoming request: login/login_acc
+[2025-07-24 10:40:04] Attempting to set up database connection...
+
+[2025-07-24 10:40:04] Composer autoloader loaded.
+
+[2025-07-24 10:40:04] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:40:04] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:40:04] LOGIN_ACC: Method called
+[2025-07-24 10:40:04] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:40:04] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:40:04] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:40:04] Used: 420752 on dashboard.php
+[2025-07-24 10:40:04] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:43:45] 📥 Incoming request: login/login_acc
+[2025-07-24 10:43:45] Attempting to set up database connection...
+
+[2025-07-24 10:43:45] Composer autoloader loaded.
+
+[2025-07-24 10:43:45] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:43:45] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:43:45] LOGIN_ACC: Method called
+[2025-07-24 10:43:45] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:43:46] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:43:46] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:43:46] Used: 421824 on dashboard.php
+[2025-07-24 10:43:46] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:45:03] 📥 Incoming request: login/login
+[2025-07-24 10:45:03] Attempting to set up database connection...
+
+[2025-07-24 10:45:03] Composer autoloader loaded.
+
+[2025-07-24 10:45:03] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:45:03] ROUTING: login/login => LoginController@login
+[2025-07-24 10:45:03] RENDERING (views/login/login.php): views/login/login.php with data: {"title":"Welcome","message":"Hello from MVC!"}
+[2025-07-24 10:45:03] Used: 377640 on login.php
+[2025-07-24 10:45:03] ROUTING (index.php): To login/login
+[2025-07-24 10:45:06] 📥 Incoming request: login/login_acc
+[2025-07-24 10:45:06] Attempting to set up database connection...
+
+[2025-07-24 10:45:06] Composer autoloader loaded.
+
+[2025-07-24 10:45:06] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:45:06] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:45:06] LOGIN_ACC: Method called
+[2025-07-24 10:45:06] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:45:07] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:45:07] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:45:07] Used: 421520 on dashboard.php
+[2025-07-24 10:45:07] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:46:20] 📥 Incoming request: login/login_acc
+[2025-07-24 10:46:20] Attempting to set up database connection...
+
+[2025-07-24 10:46:20] Composer autoloader loaded.
+
+[2025-07-24 10:46:20] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:46:20] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:46:20] LOGIN_ACC: Method called
+[2025-07-24 10:46:20] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:46:20] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:46:20] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:46:20] Used: 421664 on dashboard.php
+[2025-07-24 10:46:20] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:48:04] 📥 Incoming request: login/login_acc
+[2025-07-24 10:48:04] Attempting to set up database connection...
+
+[2025-07-24 10:48:04] Composer autoloader loaded.
+
+[2025-07-24 10:48:04] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:48:04] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:48:04] LOGIN_ACC: Method called
+[2025-07-24 10:48:04] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:48:04] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:48:04] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:48:04] Used: 421664 on dashboard.php
+[2025-07-24 10:48:04] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:50:04] 📥 Incoming request: login/login_acc
+[2025-07-24 10:50:04] Attempting to set up database connection...
+
+[2025-07-24 10:50:04] Composer autoloader loaded.
+
+[2025-07-24 10:50:04] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:50:04] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:50:04] LOGIN_ACC: Method called
+[2025-07-24 10:50:04] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:50:04] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:50:04] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:50:04] Used: 421056 on dashboard.php
+[2025-07-24 10:50:04] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:50:46] 📥 Incoming request: login/login_acc
+[2025-07-24 10:50:46] Attempting to set up database connection...
+
+[2025-07-24 10:50:46] Composer autoloader loaded.
+
+[2025-07-24 10:50:46] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:50:46] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:50:46] LOGIN_ACC: Method called
+[2025-07-24 10:50:46] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:50:46] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:50:46] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:50:46] Used: 442984 on dashboard.php
+[2025-07-24 10:50:46] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:53:57] 📥 Incoming request: login/login_acc
+[2025-07-24 10:53:57] Attempting to set up database connection...
+
+[2025-07-24 10:53:57] Composer autoloader loaded.
+
+[2025-07-24 10:53:57] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:53:57] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:53:57] LOGIN_ACC: Method called
+[2025-07-24 10:53:57] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:53:57] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:53:57] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:53:57] Used: 442376 on dashboard.php
+[2025-07-24 10:53:57] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:54:09] 📥 Incoming request: login/login_acc
+[2025-07-24 10:54:09] Attempting to set up database connection...
+
+[2025-07-24 10:54:09] Composer autoloader loaded.
+
+[2025-07-24 10:54:09] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:54:09] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:54:09] LOGIN_ACC: Method called
+[2025-07-24 10:54:09] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:54:09] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:54:09] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:54:09] Used: 421664 on dashboard.php
+[2025-07-24 10:54:09] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:55:17] 📥 Incoming request: login/login_acc
+[2025-07-24 10:55:17] Attempting to set up database connection...
+
+[2025-07-24 10:55:17] Composer autoloader loaded.
+
+[2025-07-24 10:55:17] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:55:17] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:55:17] LOGIN_ACC: Method called
+[2025-07-24 10:55:17] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:55:17] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:55:17] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:55:17] Used: 421056 on dashboard.php
+[2025-07-24 10:55:17] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:57:06] 📥 Incoming request: login/login_acc
+[2025-07-24 10:57:06] Attempting to set up database connection...
+
+[2025-07-24 10:57:06] Composer autoloader loaded.
+
+[2025-07-24 10:57:06] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:57:06] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:57:06] LOGIN_ACC: Method called
+[2025-07-24 10:57:06] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:57:06] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:57:06] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:57:06] Used: 421872 on dashboard.php
+[2025-07-24 10:57:06] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:57:07] 📥 Incoming request: login/staff/dashboard
+[2025-07-24 10:57:07] Attempting to set up database connection...
+
+[2025-07-24 10:57:07] Composer autoloader loaded.
+
+[2025-07-24 10:57:07] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:57:07] ROUTING ERROR: 404 Not Found for login/staff/dashboard
+[2025-07-24 10:57:07] ROUTING (index.php): To login/staff/dashboard
+[2025-07-24 10:58:45] 📥 Incoming request: login/login_acc
+[2025-07-24 10:58:45] Attempting to set up database connection...
+
+[2025-07-24 10:58:45] Composer autoloader loaded.
+
+[2025-07-24 10:58:45] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:58:45] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:58:45] LOGIN_ACC: Method called
+[2025-07-24 10:58:45] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:58:45] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:58:45] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:58:45] Used: 421056 on dashboard.php
+[2025-07-24 10:58:45] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:58:48] 📥 Incoming request: login/login_acc
+[2025-07-24 10:58:48] Attempting to set up database connection...
+
+[2025-07-24 10:58:48] Composer autoloader loaded.
+
+[2025-07-24 10:58:48] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:58:48] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:58:48] LOGIN_ACC: Method called
+[2025-07-24 10:58:48] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:58:48] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:58:48] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:58:48] Used: 421056 on dashboard.php
+[2025-07-24 10:58:48] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:58:50] 📥 Incoming request: login/staff/dashboard
+[2025-07-24 10:58:50] Attempting to set up database connection...
+
+[2025-07-24 10:58:50] Composer autoloader loaded.
+
+[2025-07-24 10:58:50] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:58:50] ROUTING ERROR: 404 Not Found for login/staff/dashboard
+[2025-07-24 10:58:50] ROUTING (index.php): To login/staff/dashboard
+[2025-07-24 10:59:01] 📥 Incoming request: login/login_acc
+[2025-07-24 10:59:01] Attempting to set up database connection...
+
+[2025-07-24 10:59:01] Composer autoloader loaded.
+
+[2025-07-24 10:59:01] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:59:01] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:59:01] LOGIN_ACC: Method called
+[2025-07-24 10:59:01] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:59:01] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:59:01] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:59:01] Used: 421056 on dashboard.php
+[2025-07-24 10:59:01] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:59:04] 📥 Incoming request: login/staff/dashboard
+[2025-07-24 10:59:04] Attempting to set up database connection...
+
+[2025-07-24 10:59:04] Composer autoloader loaded.
+
+[2025-07-24 10:59:04] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:59:04] ROUTING ERROR: 404 Not Found for login/staff/dashboard
+[2025-07-24 10:59:04] ROUTING (index.php): To login/staff/dashboard
+[2025-07-24 10:59:06] 📥 Incoming request: login/login_acc
+[2025-07-24 10:59:06] Attempting to set up database connection...
+
+[2025-07-24 10:59:06] Composer autoloader loaded.
+
+[2025-07-24 10:59:06] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:59:06] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:59:06] LOGIN_ACC: Method called
+[2025-07-24 10:59:06] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:59:07] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:59:07] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:59:07] Used: 421056 on dashboard.php
+[2025-07-24 10:59:07] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:59:09] 📥 Incoming request: login/staff/dashboard
+[2025-07-24 10:59:09] Attempting to set up database connection...
+
+[2025-07-24 10:59:09] Composer autoloader loaded.
+
+[2025-07-24 10:59:09] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:59:09] ROUTING ERROR: 404 Not Found for login/staff/dashboard
+[2025-07-24 10:59:09] ROUTING (index.php): To login/staff/dashboard
+[2025-07-24 10:59:22] 📥 Incoming request: login/staff/dashboard
+[2025-07-24 10:59:22] Attempting to set up database connection...
+
+[2025-07-24 10:59:22] Composer autoloader loaded.
+
+[2025-07-24 10:59:22] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:59:22] ROUTING ERROR: 404 Not Found for login/staff/dashboard
+[2025-07-24 10:59:22] ROUTING (index.php): To login/staff/dashboard
+[2025-07-24 10:59:25] 📥 Incoming request: login/login_acc
+[2025-07-24 10:59:25] Attempting to set up database connection...
+
+[2025-07-24 10:59:25] Composer autoloader loaded.
+
+[2025-07-24 10:59:25] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:59:25] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:59:25] LOGIN_ACC: Method called
+[2025-07-24 10:59:25] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:59:25] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:59:25] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:59:25] Used: 421056 on dashboard.php
+[2025-07-24 10:59:25] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:59:26] 📥 Incoming request: staff/dashboard
+[2025-07-24 10:59:26] ROUTING ERROR: 404 Not Found for staff/dashboard
+[2025-07-24 10:59:26] ROUTING (index.php): To staff/dashboard
+[2025-07-24 10:59:34] 📥 Incoming request: login/login_acc
+[2025-07-24 10:59:34] Attempting to set up database connection...
+
+[2025-07-24 10:59:34] Composer autoloader loaded.
+
+[2025-07-24 10:59:34] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 10:59:34] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 10:59:34] LOGIN_ACC: Method called
+[2025-07-24 10:59:34] INPUT: Username = admin, Password = admin12345
+[2025-07-24 10:59:35] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 10:59:35] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 10:59:35] Used: 421056 on dashboard.php
+[2025-07-24 10:59:35] ROUTING (index.php): To login/login_acc
+[2025-07-24 10:59:36] 📥 Incoming request: staff/dashboard
+[2025-07-24 10:59:36] ROUTING ERROR: 404 Not Found for staff/dashboard
+[2025-07-24 10:59:36] ROUTING (index.php): To staff/dashboard
+[2025-07-24 11:00:18] 📥 Incoming request: login/login
+[2025-07-24 11:00:18] Attempting to set up database connection...
+
+[2025-07-24 11:00:18] Composer autoloader loaded.
+
+[2025-07-24 11:00:18] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:00:18] ROUTING: login/login => LoginController@login
+[2025-07-24 11:00:18] RENDERING (views/login/login.php): views/login/login.php with data: {"title":"Welcome","message":"Hello from MVC!"}
+[2025-07-24 11:00:18] Used: 377640 on login.php
+[2025-07-24 11:00:18] ROUTING (index.php): To login/login
+[2025-07-24 11:00:21] 📥 Incoming request: login/login_acc
+[2025-07-24 11:00:21] Attempting to set up database connection...
+
+[2025-07-24 11:00:21] Composer autoloader loaded.
+
+[2025-07-24 11:00:21] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:00:21] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 11:00:21] LOGIN_ACC: Method called
+[2025-07-24 11:00:21] INPUT: Username = admin, Password = admin12345
+[2025-07-24 11:00:21] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 11:00:21] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php with data: {"user":{"id":7,"username":"admin","email":"admin@example.com","password":"$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze","last_name":"Admin","first_name":"Super","middle_name":"User","birthdate":"2000-01-01","created_at":"2025-07-24T10:15:55.000000Z","updated_at":"2025-07-24T10:15:55.000000Z","type":"Staff"}}
+[2025-07-24 11:00:21] Used: 421056 on dashboard.php
+[2025-07-24 11:00:21] ROUTING (index.php): To login/login_acc
+[2025-07-24 11:00:23] 📥 Incoming request: staff/dashboard
+[2025-07-24 11:00:23] ROUTING ERROR: 404 Not Found for staff/dashboard
+[2025-07-24 11:00:23] ROUTING (index.php): To staff/dashboard
+[2025-07-24 11:02:11] 📥 Incoming request: login/login
+[2025-07-24 11:02:11] Attempting to set up database connection...
+
+[2025-07-24 11:02:11] Composer autoloader loaded.
+
+[2025-07-24 11:02:11] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:02:11] ROUTING: login/login => LoginController@login
+[2025-07-24 11:02:11] RENDERING (views/login/login.php): views/login/login.php 
+[2025-07-24 11:02:11] Used: 377832 on login.php
+[2025-07-24 11:02:11] ROUTING (index.php): To login/login
+[2025-07-24 11:02:15] 📥 Incoming request: login/login_acc
+[2025-07-24 11:02:15] Attempting to set up database connection...
+
+[2025-07-24 11:02:15] Composer autoloader loaded.
+
+[2025-07-24 11:02:15] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:02:15] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 11:02:15] LOGIN_ACC: Method called
+[2025-07-24 11:02:15] INPUT: Username = admin, Password = admin12345
+[2025-07-24 11:02:15] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 11:02:15] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 11:02:15] Used: 396256 on dashboard.php
+[2025-07-24 11:02:15] ROUTING (index.php): To login/login_acc
+[2025-07-24 11:02:17] 📥 Incoming request: staff/dashboard
+[2025-07-24 11:02:17] ROUTING ERROR: 404 Not Found for staff/dashboard
+[2025-07-24 11:02:17] ROUTING (index.php): To staff/dashboard
+[2025-07-24 11:04:19] 📥 Incoming request: login/login_acc
+[2025-07-24 11:04:19] Attempting to set up database connection...
+
+[2025-07-24 11:04:19] Composer autoloader loaded.
+
+[2025-07-24 11:04:19] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:04:19] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 11:04:19] LOGIN_ACC: Method called
+[2025-07-24 11:04:19] INPUT: Username = admin, Password = admin12345
+[2025-07-24 11:04:19] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 11:04:19] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 11:04:19] Used: 396256 on dashboard.php
+[2025-07-24 11:04:19] ROUTING (index.php): To login/login_acc
+[2025-07-24 11:04:20] 📥 Incoming request: staff/dashboard
+[2025-07-24 11:04:20] ROUTING ERROR: 404 Not Found for staff/dashboard
+[2025-07-24 11:04:20] ROUTING (index.php): To staff/dashboard
+[2025-07-24 11:04:21] 📥 Incoming request: staff/dashboard
+[2025-07-24 11:04:21] ROUTING ERROR: 404 Not Found for staff/dashboard
+[2025-07-24 11:04:21] ROUTING (index.php): To staff/dashboard
+[2025-07-24 11:04:27] 📥 Incoming request: login/login_acc
+[2025-07-24 11:04:27] Attempting to set up database connection...
+
+[2025-07-24 11:04:27] Composer autoloader loaded.
+
+[2025-07-24 11:04:27] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:04:27] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 11:04:27] LOGIN_ACC: Method called
+[2025-07-24 11:04:27] INPUT: Username = admin, Password = admin12345
+[2025-07-24 11:04:27] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 11:04:27] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 11:04:27] Used: 396256 on dashboard.php
+[2025-07-24 11:04:27] ROUTING (index.php): To login/login_acc
+[2025-07-24 11:04:28] 📥 Incoming request: staff/dashboard
+[2025-07-24 11:04:28] ROUTING ERROR: 404 Not Found for staff/dashboard
+[2025-07-24 11:04:28] ROUTING (index.php): To staff/dashboard
+[2025-07-24 11:10:17] 📥 Incoming request: login/login_acc
+[2025-07-24 11:10:17] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 11:10:17] Attempting to set up database connection...
+
+[2025-07-24 11:10:17] Composer autoloader loaded.
+
+[2025-07-24 11:10:17] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:10:17] LOGIN_ACC: Method called
+[2025-07-24 11:10:17] INPUT: Username = admin, Password = admin12345
+[2025-07-24 11:10:17] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 11:10:17] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 11:10:17] Used: 396960 on dashboard.php
+[2025-07-24 11:10:17] ROUTING (index.php): To login/login_acc
+[2025-07-24 11:10:18] 📥 Incoming request: staff/dashboard
+[2025-07-24 11:10:18] ROUTING: staff/dashboard => StaffDashboardController@index
+[2025-07-24 11:10:18] ROUTING ERROR: Controller StaffDashboardController not found
+[2025-07-24 11:10:18] ROUTING ERROR: 404 Not Found for staff/dashboard
+[2025-07-24 11:10:18] ROUTING (index.php): To staff/dashboard
+[2025-07-24 11:10:19] 📥 Incoming request: staff/dashboard
+[2025-07-24 11:10:19] ROUTING: staff/dashboard => StaffDashboardController@index
+[2025-07-24 11:10:19] ROUTING ERROR: Controller StaffDashboardController not found
+[2025-07-24 11:10:19] ROUTING ERROR: 404 Not Found for staff/dashboard
+[2025-07-24 11:10:19] ROUTING (index.php): To staff/dashboard
+[2025-07-24 11:10:28] 📥 Incoming request: login/login
+[2025-07-24 11:10:28] ROUTING: login/login => LoginController@login
+[2025-07-24 11:10:28] Attempting to set up database connection...
+
+[2025-07-24 11:10:28] Composer autoloader loaded.
+
+[2025-07-24 11:10:28] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:10:28] RENDERING (views/login/login.php): views/login/login.php 
+[2025-07-24 11:10:28] Used: 377640 on login.php
+[2025-07-24 11:10:28] ROUTING (index.php): To login/login
+[2025-07-24 11:10:32] 📥 Incoming request: login/login_acc
+[2025-07-24 11:10:32] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 11:10:32] Attempting to set up database connection...
+
+[2025-07-24 11:10:32] Composer autoloader loaded.
+
+[2025-07-24 11:10:32] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:10:32] LOGIN_ACC: Method called
+[2025-07-24 11:10:32] INPUT: Username = admin, Password = admin12345
+[2025-07-24 11:10:32] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 11:10:32] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 11:10:32] Used: 396256 on dashboard.php
+[2025-07-24 11:10:32] ROUTING (index.php): To login/login_acc
+[2025-07-24 11:10:33] 📥 Incoming request: staff/dashboard
+[2025-07-24 11:10:33] ROUTING: staff/dashboard => StaffDashboardController@index
+[2025-07-24 11:10:33] ROUTING ERROR: Controller StaffDashboardController not found
+[2025-07-24 11:10:33] ROUTING ERROR: 404 Not Found for staff/dashboard
+[2025-07-24 11:10:33] ROUTING (index.php): To staff/dashboard
+[2025-07-24 11:11:14] 📥 Incoming request: staff/dashboard
+[2025-07-24 11:11:14] ROUTING: staff/dashboard => StaffDashboardController@index
+[2025-07-24 11:11:14] Attempting to set up database connection...
+
+[2025-07-24 11:11:14] Composer autoloader loaded.
+
+[2025-07-24 11:11:14] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:11:14] ROUTING ERROR: Method index not found in StaffDashboardController
+[2025-07-24 11:11:14] ROUTING ERROR: 404 Not Found for staff/dashboard
+[2025-07-24 11:11:14] ROUTING (index.php): To staff/dashboard
+[2025-07-24 11:11:15] 📥 Incoming request: staff/dashboard
+[2025-07-24 11:11:15] ROUTING: staff/dashboard => StaffDashboardController@index
+[2025-07-24 11:11:15] Attempting to set up database connection...
+
+[2025-07-24 11:11:15] Composer autoloader loaded.
+
+[2025-07-24 11:11:15] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:11:15] ROUTING ERROR: Method index not found in StaffDashboardController
+[2025-07-24 11:11:15] ROUTING ERROR: 404 Not Found for staff/dashboard
+[2025-07-24 11:11:15] ROUTING (index.php): To staff/dashboard
+[2025-07-24 11:11:15] 📥 Incoming request: staff/dashboard
+[2025-07-24 11:11:15] ROUTING: staff/dashboard => StaffDashboardController@index
+[2025-07-24 11:11:15] Attempting to set up database connection...
+
+[2025-07-24 11:11:15] Composer autoloader loaded.
+
+[2025-07-24 11:11:15] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:11:15] ROUTING ERROR: Method index not found in StaffDashboardController
+[2025-07-24 11:11:15] ROUTING ERROR: 404 Not Found for staff/dashboard
+[2025-07-24 11:11:15] ROUTING (index.php): To staff/dashboard
+[2025-07-24 11:11:15] 📥 Incoming request: staff/dashboard
+[2025-07-24 11:11:15] ROUTING: staff/dashboard => StaffDashboardController@index
+[2025-07-24 11:11:15] Attempting to set up database connection...
+
+[2025-07-24 11:11:15] Composer autoloader loaded.
+
+[2025-07-24 11:11:15] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:11:15] ROUTING ERROR: Method index not found in StaffDashboardController
+[2025-07-24 11:11:15] ROUTING ERROR: 404 Not Found for staff/dashboard
+[2025-07-24 11:11:15] ROUTING (index.php): To staff/dashboard
+[2025-07-24 11:11:16] 📥 Incoming request: staff/dashboard
+[2025-07-24 11:11:16] ROUTING: staff/dashboard => StaffDashboardController@index
+[2025-07-24 11:11:16] Attempting to set up database connection...
+
+[2025-07-24 11:11:16] Composer autoloader loaded.
+
+[2025-07-24 11:11:16] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:11:16] ROUTING ERROR: Method index not found in StaffDashboardController
+[2025-07-24 11:11:16] ROUTING ERROR: 404 Not Found for staff/dashboard
+[2025-07-24 11:11:16] ROUTING (index.php): To staff/dashboard
+[2025-07-24 11:11:19] 📥 Incoming request: login/login_acc
+[2025-07-24 11:11:19] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 11:11:19] Attempting to set up database connection...
+
+[2025-07-24 11:11:19] Composer autoloader loaded.
+
+[2025-07-24 11:11:19] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:11:19] LOGIN_ACC: Method called
+[2025-07-24 11:11:19] INPUT: Username = admin, Password = admin12345
+[2025-07-24 11:11:19] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 11:11:19] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 11:11:19] Used: 396256 on dashboard.php
+[2025-07-24 11:11:19] ROUTING (index.php): To login/login_acc
+[2025-07-24 11:11:20] 📥 Incoming request: staff/dashboard
+[2025-07-24 11:11:20] ROUTING: staff/dashboard => StaffDashboardController@index
+[2025-07-24 11:11:20] Attempting to set up database connection...
+
+[2025-07-24 11:11:20] Composer autoloader loaded.
+
+[2025-07-24 11:11:20] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:11:20] ROUTING ERROR: Method index not found in StaffDashboardController
+[2025-07-24 11:11:20] ROUTING ERROR: 404 Not Found for staff/dashboard
+[2025-07-24 11:11:20] ROUTING (index.php): To staff/dashboard
+[2025-07-24 11:12:47] 📥 Incoming request: login/login_acc
+[2025-07-24 11:12:47] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 11:12:47] Attempting to set up database connection...
+
+[2025-07-24 11:12:47] Composer autoloader loaded.
+
+[2025-07-24 11:12:47] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:12:47] LOGIN_ACC: Method called
+[2025-07-24 11:12:47] INPUT: Username = admin, Password = admin12345
+[2025-07-24 11:12:47] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 11:12:47] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 11:12:47] Used: 396960 on dashboard.php
+[2025-07-24 11:12:47] ROUTING (index.php): To login/login_acc
+[2025-07-24 11:12:48] 📥 Incoming request: staff/dashboard
+[2025-07-24 11:12:48] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 11:12:48] Attempting to set up database connection...
+
+[2025-07-24 11:12:48] Composer autoloader loaded.
+
+[2025-07-24 11:12:48] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:12:48] Reach Dashboard.
+[2025-07-24 11:12:48] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 11:12:48] Used: 385512 on dashboard.php
+[2025-07-24 11:12:48] ROUTING (index.php): To staff/dashboard
+[2025-07-24 11:13:24] 📥 Incoming request: login/login_acc
+[2025-07-24 11:13:24] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 11:13:24] Attempting to set up database connection...
+
+[2025-07-24 11:13:24] Composer autoloader loaded.
+
+[2025-07-24 11:13:24] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:13:24] LOGIN_ACC: Method called
+[2025-07-24 11:13:24] INPUT: Username = admin, Password = admin12345
+[2025-07-24 11:13:24] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 11:13:24] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 11:13:24] Used: 421008 on dashboard.php
+[2025-07-24 11:13:24] ROUTING (index.php): To login/login_acc
+[2025-07-24 11:13:27] 📥 Incoming request: login/login_acc
+[2025-07-24 11:13:27] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 11:13:27] Attempting to set up database connection...
+
+[2025-07-24 11:13:27] Composer autoloader loaded.
+
+[2025-07-24 11:13:27] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 11:13:27] LOGIN_ACC: Method called
+[2025-07-24 11:13:27] INPUT: Username = admin, Password = admin12345
+[2025-07-24 11:13:27] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 11:13:27] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 11:13:27] Used: 420912 on dashboard.php
+[2025-07-24 11:13:27] ROUTING (index.php): To login/login_acc
+[2025-07-24 12:04:49] 📥 Incoming request: login/login
+[2025-07-24 12:04:49] ROUTING: login/login => LoginController@login
+[2025-07-24 12:04:49] Attempting to set up database connection...
+
+[2025-07-24 12:04:49] Composer autoloader loaded.
+
+[2025-07-24 12:04:49] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:04:49] RENDERING (views/login/login.php): views/login/login.php 
+[2025-07-24 12:04:49] Used: 378456 on login.php
+[2025-07-24 12:04:49] ROUTING (index.php): To login/login
+[2025-07-24 12:04:54] 📥 Incoming request: login/login_acc
+[2025-07-24 12:04:54] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 12:04:54] Attempting to set up database connection...
+
+[2025-07-24 12:04:54] Composer autoloader loaded.
+
+[2025-07-24 12:04:54] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:04:54] LOGIN_ACC: Method called
+[2025-07-24 12:04:54] INPUT: Username = admin, Password = admin12345
+[2025-07-24 12:04:54] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 12:04:54] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:04:54] Used: 395880 on dashboard.php
+[2025-07-24 12:04:54] ROUTING (index.php): To login/login_acc
+[2025-07-24 12:04:57] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:04:57] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:04:57] Attempting to set up database connection...
+
+[2025-07-24 12:04:57] Composer autoloader loaded.
+
+[2025-07-24 12:04:57] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:04:57] Reach Dashboard.
+[2025-07-24 12:04:57] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:04:57] Used: 384904 on dashboard.php
+[2025-07-24 12:04:57] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:04:58] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:04:58] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:04:58] Attempting to set up database connection...
+
+[2025-07-24 12:04:58] Composer autoloader loaded.
+
+[2025-07-24 12:04:58] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:04:58] Reach Dashboard.
+[2025-07-24 12:04:58] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:04:58] Used: 384088 on dashboard.php
+[2025-07-24 12:04:58] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:04:58] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:04:58] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:04:58] Attempting to set up database connection...
+
+[2025-07-24 12:04:58] Composer autoloader loaded.
+
+[2025-07-24 12:04:58] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:04:58] Reach Dashboard.
+[2025-07-24 12:04:58] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:04:58] Used: 384088 on dashboard.php
+[2025-07-24 12:04:58] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:04:59] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:04:59] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:04:59] Attempting to set up database connection...
+
+[2025-07-24 12:04:59] Composer autoloader loaded.
+
+[2025-07-24 12:04:59] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:04:59] Reach Dashboard.
+[2025-07-24 12:04:59] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:04:59] Used: 384088 on dashboard.php
+[2025-07-24 12:04:59] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:05:27] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:05:27] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:05:27] Attempting to set up database connection...
+
+[2025-07-24 12:05:27] Composer autoloader loaded.
+
+[2025-07-24 12:05:27] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:05:27] Reach Dashboard.
+[2025-07-24 12:05:27] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:05:27] Used: 384392 on dashboard.php
+[2025-07-24 12:05:27] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:05:27] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:05:27] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:05:27] Attempting to set up database connection...
+
+[2025-07-24 12:05:27] Composer autoloader loaded.
+
+[2025-07-24 12:05:27] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:05:27] Reach Dashboard.
+[2025-07-24 12:05:27] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:05:27] Used: 384088 on dashboard.php
+[2025-07-24 12:05:27] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:05:28] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:05:28] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:05:28] Attempting to set up database connection...
+
+[2025-07-24 12:05:28] Composer autoloader loaded.
+
+[2025-07-24 12:05:28] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:05:28] Reach Dashboard.
+[2025-07-24 12:05:28] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:05:28] Used: 384088 on dashboard.php
+[2025-07-24 12:05:28] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:05:28] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:05:28] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:05:28] Attempting to set up database connection...
+
+[2025-07-24 12:05:28] Composer autoloader loaded.
+
+[2025-07-24 12:05:28] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:05:28] Reach Dashboard.
+[2025-07-24 12:05:28] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:05:28] Used: 384088 on dashboard.php
+[2025-07-24 12:05:28] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:09:26] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:09:26] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:09:26] Attempting to set up database connection...
+
+[2025-07-24 12:09:26] Composer autoloader loaded.
+
+[2025-07-24 12:09:26] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:09:26] Reach Dashboard.
+[2025-07-24 12:09:26] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:09:26] Used: 384904 on dashboard.php
+[2025-07-24 12:09:26] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:09:26] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:09:26] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:09:26] Attempting to set up database connection...
+
+[2025-07-24 12:09:26] Composer autoloader loaded.
+
+[2025-07-24 12:09:26] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:09:26] Reach Dashboard.
+[2025-07-24 12:09:26] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:09:26] Used: 384088 on dashboard.php
+[2025-07-24 12:09:26] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:09:27] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:09:27] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:09:27] Attempting to set up database connection...
+
+[2025-07-24 12:09:27] Composer autoloader loaded.
+
+[2025-07-24 12:09:27] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:09:27] Reach Dashboard.
+[2025-07-24 12:09:27] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:09:27] Used: 384088 on dashboard.php
+[2025-07-24 12:09:27] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:09:27] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:09:27] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:09:27] Attempting to set up database connection...
+
+[2025-07-24 12:09:27] Composer autoloader loaded.
+
+[2025-07-24 12:09:27] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:09:27] Reach Dashboard.
+[2025-07-24 12:09:27] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:09:27] Used: 384088 on dashboard.php
+[2025-07-24 12:09:27] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:09:28] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:09:28] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:09:28] Attempting to set up database connection...
+
+[2025-07-24 12:09:28] Composer autoloader loaded.
+
+[2025-07-24 12:09:28] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:09:28] Reach Dashboard.
+[2025-07-24 12:09:28] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:09:28] Used: 384088 on dashboard.php
+[2025-07-24 12:09:28] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:09:32] 📥 Incoming request: login/login_acc
+[2025-07-24 12:09:32] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 12:09:32] Attempting to set up database connection...
+
+[2025-07-24 12:09:32] Composer autoloader loaded.
+
+[2025-07-24 12:09:32] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:09:32] LOGIN_ACC: Method called
+[2025-07-24 12:09:32] INPUT: Username = admin, Password = admin12345
+[2025-07-24 12:09:32] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 12:09:32] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:09:32] Used: 396744 on dashboard.php
+[2025-07-24 12:09:32] ROUTING (index.php): To login/login_acc
+[2025-07-24 12:09:36] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:09:36] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:09:36] Attempting to set up database connection...
+
+[2025-07-24 12:09:36] Composer autoloader loaded.
+
+[2025-07-24 12:09:36] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:09:36] Reach Dashboard.
+[2025-07-24 12:09:36] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:09:36] Used: 384088 on dashboard.php
+[2025-07-24 12:09:36] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:09:37] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:09:37] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:09:37] Attempting to set up database connection...
+
+[2025-07-24 12:09:37] Composer autoloader loaded.
+
+[2025-07-24 12:09:37] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:09:37] Reach Dashboard.
+[2025-07-24 12:09:37] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:09:37] Used: 384088 on dashboard.php
+[2025-07-24 12:09:37] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:12:19] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:12:19] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:12:19] Attempting to set up database connection...
+
+[2025-07-24 12:12:19] Composer autoloader loaded.
+
+[2025-07-24 12:12:19] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:12:19] Reach Dashboard.
+[2025-07-24 12:12:19] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:12:19] Used: 386568 on dashboard.php
+[2025-07-24 12:12:19] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:12:21] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:12:21] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:12:21] Attempting to set up database connection...
+
+[2025-07-24 12:12:21] Composer autoloader loaded.
+
+[2025-07-24 12:12:21] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:12:21] Reach Dashboard.
+[2025-07-24 12:12:21] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:12:21] Used: 385752 on dashboard.php
+[2025-07-24 12:12:21] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:12:21] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:12:21] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:12:21] Attempting to set up database connection...
+
+[2025-07-24 12:12:21] Composer autoloader loaded.
+
+[2025-07-24 12:12:21] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:12:21] Reach Dashboard.
+[2025-07-24 12:12:21] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:12:21] Used: 385752 on dashboard.php
+[2025-07-24 12:12:21] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:12:21] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:12:21] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:12:21] Attempting to set up database connection...
+
+[2025-07-24 12:12:21] Composer autoloader loaded.
+
+[2025-07-24 12:12:21] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:12:21] Reach Dashboard.
+[2025-07-24 12:12:21] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:12:21] Used: 385752 on dashboard.php
+[2025-07-24 12:12:21] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:12:22] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:12:22] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:12:22] Attempting to set up database connection...
+
+[2025-07-24 12:12:22] Composer autoloader loaded.
+
+[2025-07-24 12:12:22] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:12:22] Reach Dashboard.
+[2025-07-24 12:12:22] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:12:22] Used: 385752 on dashboard.php
+[2025-07-24 12:12:22] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:12:52] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:12:52] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:12:52] Attempting to set up database connection...
+
+[2025-07-24 12:12:52] Composer autoloader loaded.
+
+[2025-07-24 12:12:52] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:12:52] Reach Dashboard.
+[2025-07-24 12:12:52] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:12:52] Used: 385864 on dashboard.php
+[2025-07-24 12:12:52] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:12:53] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:12:53] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:12:53] Attempting to set up database connection...
+
+[2025-07-24 12:12:53] Composer autoloader loaded.
+
+[2025-07-24 12:12:53] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:12:53] Reach Dashboard.
+[2025-07-24 12:12:53] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:12:53] Used: 385560 on dashboard.php
+[2025-07-24 12:12:53] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:12:54] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:12:54] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:12:54] Attempting to set up database connection...
+
+[2025-07-24 12:12:54] Composer autoloader loaded.
+
+[2025-07-24 12:12:54] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:12:54] Reach Dashboard.
+[2025-07-24 12:12:54] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:12:54] Used: 385560 on dashboard.php
+[2025-07-24 12:12:54] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:16:44] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:16:44] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:16:44] Attempting to set up database connection...
+
+[2025-07-24 12:16:44] Composer autoloader loaded.
+
+[2025-07-24 12:16:44] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:16:44] Reach Dashboard.
+[2025-07-24 12:16:44] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:16:44] Used: 385560 on dashboard.php
+[2025-07-24 12:16:44] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:18:49] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:18:49] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:18:49] Attempting to set up database connection...
+
+[2025-07-24 12:18:49] Composer autoloader loaded.
+
+[2025-07-24 12:18:49] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:18:49] Reach Dashboard.
+[2025-07-24 12:18:49] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:18:49] Used: 385560 on dashboard.php
+[2025-07-24 12:18:49] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:20:24] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:20:24] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:20:24] Attempting to set up database connection...
+
+[2025-07-24 12:20:24] Composer autoloader loaded.
+
+[2025-07-24 12:20:24] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:20:24] Reach Dashboard.
+[2025-07-24 12:20:24] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:20:24] Used: 385560 on dashboard.php
+[2025-07-24 12:20:24] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:20:40] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:20:40] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:20:40] Attempting to set up database connection...
+
+[2025-07-24 12:20:40] Composer autoloader loaded.
+
+[2025-07-24 12:20:40] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:20:40] Reach Dashboard.
+[2025-07-24 12:20:40] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:20:40] Used: 385560 on dashboard.php
+[2025-07-24 12:20:40] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:22:01] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:22:01] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:22:01] Attempting to set up database connection...
+
+[2025-07-24 12:22:01] Composer autoloader loaded.
+
+[2025-07-24 12:22:01] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:22:01] Reach Dashboard.
+[2025-07-24 12:22:01] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:22:01] Used: 385560 on dashboard.php
+[2025-07-24 12:22:01] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:22:14] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:22:14] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:22:14] Attempting to set up database connection...
+
+[2025-07-24 12:22:14] Composer autoloader loaded.
+
+[2025-07-24 12:22:14] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:22:14] Reach Dashboard.
+[2025-07-24 12:22:14] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:22:14] Used: 381680 on dashboard.php
+[2025-07-24 12:22:14] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:23:05] 📥 Incoming request: login/login
+[2025-07-24 12:23:05] ROUTING: login/login => LoginController@login
+[2025-07-24 12:23:05] Attempting to set up database connection...
+
+[2025-07-24 12:23:05] Composer autoloader loaded.
+
+[2025-07-24 12:23:05] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:23:05] RENDERING (views/login/login.php): views/login/login.php 
+[2025-07-24 12:23:05] Used: 379928 on login.php
+[2025-07-24 12:23:05] ROUTING (index.php): To login/login
+[2025-07-24 12:23:09] 📥 Incoming request: login/login_acc
+[2025-07-24 12:23:09] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 12:23:09] Attempting to set up database connection...
+
+[2025-07-24 12:23:09] Composer autoloader loaded.
+
+[2025-07-24 12:23:09] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:23:09] LOGIN_ACC: Method called
+[2025-07-24 12:23:09] INPUT: Username = admin, Password = admin12345
+[2025-07-24 12:23:09] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 12:23:09] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:23:09] Used: 395928 on dashboard.php
+[2025-07-24 12:23:09] ROUTING (index.php): To login/login_acc
+[2025-07-24 12:23:16] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:23:16] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:23:16] Attempting to set up database connection...
+
+[2025-07-24 12:23:16] Composer autoloader loaded.
+
+[2025-07-24 12:23:16] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:23:16] Reach Dashboard.
+[2025-07-24 12:23:16] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:23:16] Used: 385560 on dashboard.php
+[2025-07-24 12:23:16] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:23:37] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:23:37] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:23:37] Attempting to set up database connection...
+
+[2025-07-24 12:23:37] Composer autoloader loaded.
+
+[2025-07-24 12:23:37] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:23:37] Reach Dashboard.
+[2025-07-24 12:23:37] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:23:37] Used: 385656 on dashboard.php
+[2025-07-24 12:23:37] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:23:39] 📥 Incoming request: staff/staff/dashboard
+[2025-07-24 12:23:39] ROUTING: staff/staff/dashboard => StaffStaffController@dashboard
+[2025-07-24 12:23:39] ROUTING ERROR: Controller StaffStaffController not found
+[2025-07-24 12:23:39] ROUTING ERROR: 404 Not Found for staff/staff/dashboard
+[2025-07-24 12:23:39] ROUTING (index.php): To staff/staff/dashboard
+[2025-07-24 12:23:40] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:23:40] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:23:40] Attempting to set up database connection...
+
+[2025-07-24 12:23:40] Composer autoloader loaded.
+
+[2025-07-24 12:23:40] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:23:40] Reach Dashboard.
+[2025-07-24 12:23:40] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:23:40] Used: 385656 on dashboard.php
+[2025-07-24 12:23:40] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:23:45] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:23:45] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:23:45] Attempting to set up database connection...
+
+[2025-07-24 12:23:45] Composer autoloader loaded.
+
+[2025-07-24 12:23:45] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:23:45] Reach Dashboard.
+[2025-07-24 12:23:45] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:23:45] Used: 385656 on dashboard.php
+[2025-07-24 12:23:45] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:23:45] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:23:45] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:23:45] Attempting to set up database connection...
+
+[2025-07-24 12:23:45] Composer autoloader loaded.
+
+[2025-07-24 12:23:45] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:23:45] Reach Dashboard.
+[2025-07-24 12:23:45] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:23:45] Used: 385656 on dashboard.php
+[2025-07-24 12:23:45] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:23:46] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:23:46] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:23:46] Attempting to set up database connection...
+
+[2025-07-24 12:23:46] Composer autoloader loaded.
+
+[2025-07-24 12:23:46] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:23:46] Reach Dashboard.
+[2025-07-24 12:23:46] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:23:46] Used: 385656 on dashboard.php
+[2025-07-24 12:23:46] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:23:46] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:23:46] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:23:46] Attempting to set up database connection...
+
+[2025-07-24 12:23:46] Composer autoloader loaded.
+
+[2025-07-24 12:23:46] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:23:46] Reach Dashboard.
+[2025-07-24 12:23:46] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:23:46] Used: 385560 on dashboard.php
+[2025-07-24 12:23:46] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:25:01] 📥 Incoming request: login/login
+[2025-07-24 12:25:01] ROUTING: login/login => LoginController@login
+[2025-07-24 12:25:01] Attempting to set up database connection...
+
+[2025-07-24 12:25:01] Composer autoloader loaded.
+
+[2025-07-24 12:25:01] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:25:01] RENDERING (views/login/login.php): views/login/login.php 
+[2025-07-24 12:25:01] Used: 379336 on login.php
+[2025-07-24 12:25:01] ROUTING (index.php): To login/login
+[2025-07-24 12:25:05] 📥 Incoming request: login/login_acc
+[2025-07-24 12:25:05] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 12:25:05] Attempting to set up database connection...
+
+[2025-07-24 12:25:05] Composer autoloader loaded.
+
+[2025-07-24 12:25:05] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:25:05] LOGIN_ACC: Method called
+[2025-07-24 12:25:05] INPUT: Username = admin, Password = admin12345
+[2025-07-24 12:25:05] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 12:25:05] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:25:05] Used: 395928 on dashboard.php
+[2025-07-24 12:25:05] ROUTING (index.php): To login/login_acc
+[2025-07-24 12:25:59] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:25:59] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:25:59] Attempting to set up database connection...
+
+[2025-07-24 12:25:59] Composer autoloader loaded.
+
+[2025-07-24 12:25:59] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:25:59] Reach Dashboard.
+[2025-07-24 12:25:59] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:25:59] Used: 385560 on dashboard.php
+[2025-07-24 12:25:59] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:26:18] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:26:18] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:26:18] Attempting to set up database connection...
+
+[2025-07-24 12:26:18] Composer autoloader loaded.
+
+[2025-07-24 12:26:18] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:26:18] Reach Dashboard.
+[2025-07-24 12:26:18] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:26:18] Used: 381680 on dashboard.php
+[2025-07-24 12:26:18] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:27:51] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:27:51] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:27:51] Attempting to set up database connection...
+
+[2025-07-24 12:27:51] Composer autoloader loaded.
+
+[2025-07-24 12:27:51] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:27:51] Reach Dashboard.
+[2025-07-24 12:27:51] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:27:51] Used: 385560 on dashboard.php
+[2025-07-24 12:27:51] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:28:14] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:28:14] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:28:14] Attempting to set up database connection...
+
+[2025-07-24 12:28:14] Composer autoloader loaded.
+
+[2025-07-24 12:28:14] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:28:14] Reach Dashboard.
+[2025-07-24 12:28:14] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:28:14] Used: 385560 on dashboard.php
+[2025-07-24 12:28:14] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:29:49] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:29:49] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:29:49] Attempting to set up database connection...
+
+[2025-07-24 12:29:49] Composer autoloader loaded.
+
+[2025-07-24 12:29:49] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:29:49] Reach Dashboard.
+[2025-07-24 12:29:49] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:29:49] Used: 385560 on dashboard.php
+[2025-07-24 12:29:49] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:30:56] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:30:56] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:30:56] Attempting to set up database connection...
+
+[2025-07-24 12:30:56] Composer autoloader loaded.
+
+[2025-07-24 12:30:56] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:30:56] Reach Dashboard.
+[2025-07-24 12:30:56] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:30:56] Used: 385560 on dashboard.php
+[2025-07-24 12:30:56] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:31:01] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:31:01] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:31:01] Attempting to set up database connection...
+
+[2025-07-24 12:31:01] Composer autoloader loaded.
+
+[2025-07-24 12:31:01] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:31:01] Reach Dashboard.
+[2025-07-24 12:31:01] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:31:01] Used: 385560 on dashboard.php
+[2025-07-24 12:31:01] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:31:03] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:31:03] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:31:03] Attempting to set up database connection...
+
+[2025-07-24 12:31:03] Composer autoloader loaded.
+
+[2025-07-24 12:31:03] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:31:03] Reach Dashboard.
+[2025-07-24 12:31:03] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:31:03] Used: 385560 on dashboard.php
+[2025-07-24 12:31:03] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:31:03] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:31:03] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:31:03] Attempting to set up database connection...
+
+[2025-07-24 12:31:03] Composer autoloader loaded.
+
+[2025-07-24 12:31:03] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:31:03] Reach Dashboard.
+[2025-07-24 12:31:03] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:31:03] Used: 385560 on dashboard.php
+[2025-07-24 12:31:03] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:31:04] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:31:04] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:31:04] Attempting to set up database connection...
+
+[2025-07-24 12:31:04] Composer autoloader loaded.
+
+[2025-07-24 12:31:04] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:31:04] Reach Dashboard.
+[2025-07-24 12:31:04] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:31:04] Used: 385560 on dashboard.php
+[2025-07-24 12:31:04] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:31:05] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:31:05] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:31:05] Attempting to set up database connection...
+
+[2025-07-24 12:31:05] Composer autoloader loaded.
+
+[2025-07-24 12:31:05] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:31:05] Reach Dashboard.
+[2025-07-24 12:31:05] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:31:05] Used: 385560 on dashboard.php
+[2025-07-24 12:31:05] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:31:05] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:31:05] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:31:05] Attempting to set up database connection...
+
+[2025-07-24 12:31:05] Composer autoloader loaded.
+
+[2025-07-24 12:31:05] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:31:05] Reach Dashboard.
+[2025-07-24 12:31:05] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:31:05] Used: 385560 on dashboard.php
+[2025-07-24 12:31:05] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:31:30] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:31:30] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:31:30] Attempting to set up database connection...
+
+[2025-07-24 12:31:30] Composer autoloader loaded.
+
+[2025-07-24 12:31:30] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:31:30] Reach Dashboard.
+[2025-07-24 12:31:30] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:31:30] Used: 385560 on dashboard.php
+[2025-07-24 12:31:30] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:31:46] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:31:46] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:31:46] Attempting to set up database connection...
+
+[2025-07-24 12:31:46] Composer autoloader loaded.
+
+[2025-07-24 12:31:46] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:31:46] Reach Dashboard.
+[2025-07-24 12:31:46] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:31:46] Used: 381680 on dashboard.php
+[2025-07-24 12:31:46] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:31:58] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:31:58] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:31:58] Attempting to set up database connection...
+
+[2025-07-24 12:31:58] Composer autoloader loaded.
+
+[2025-07-24 12:31:58] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:31:58] Reach Dashboard.
+[2025-07-24 12:31:58] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:31:58] Used: 385560 on dashboard.php
+[2025-07-24 12:31:58] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:32:23] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:32:23] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:32:23] Attempting to set up database connection...
+
+[2025-07-24 12:32:23] Composer autoloader loaded.
+
+[2025-07-24 12:32:23] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:32:23] Reach Dashboard.
+[2025-07-24 12:32:23] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:32:23] Used: 385560 on dashboard.php
+[2025-07-24 12:32:23] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:32:46] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:32:46] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:32:46] Attempting to set up database connection...
+
+[2025-07-24 12:32:46] Composer autoloader loaded.
+
+[2025-07-24 12:32:46] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:32:46] Reach Dashboard.
+[2025-07-24 12:32:46] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:32:46] Used: 385560 on dashboard.php
+[2025-07-24 12:32:46] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:34:36] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:34:36] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:34:36] Attempting to set up database connection...
+
+[2025-07-24 12:34:36] Composer autoloader loaded.
+
+[2025-07-24 12:34:36] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:34:36] Reach Dashboard.
+[2025-07-24 12:34:36] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:34:36] Used: 385560 on dashboard.php
+[2025-07-24 12:34:36] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:35:18] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:35:18] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:35:18] Attempting to set up database connection...
+
+[2025-07-24 12:35:18] Composer autoloader loaded.
+
+[2025-07-24 12:35:18] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:35:18] Reach Dashboard.
+[2025-07-24 12:35:18] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:35:18] Used: 385560 on dashboard.php
+[2025-07-24 12:35:18] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:37:59] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:37:59] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:37:59] Attempting to set up database connection...
+
+[2025-07-24 12:37:59] Composer autoloader loaded.
+
+[2025-07-24 12:37:59] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:37:59] Reach Dashboard.
+[2025-07-24 12:37:59] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:37:59] Used: 385560 on dashboard.php
+[2025-07-24 12:37:59] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:42:10] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:42:10] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:42:10] Attempting to set up database connection...
+
+[2025-07-24 12:42:10] Composer autoloader loaded.
+
+[2025-07-24 12:42:10] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:42:10] Reach Dashboard.
+[2025-07-24 12:42:10] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:42:10] Used: 385560 on dashboard.php
+[2025-07-24 12:42:10] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:45:31] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:45:31] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:45:31] Attempting to set up database connection...
+
+[2025-07-24 12:45:31] Composer autoloader loaded.
+
+[2025-07-24 12:45:31] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:45:31] Reach Dashboard.
+[2025-07-24 12:45:31] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:45:31] Used: 385560 on dashboard.php
+[2025-07-24 12:45:31] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:47:04] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:47:04] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:47:04] Attempting to set up database connection...
+
+[2025-07-24 12:47:04] Composer autoloader loaded.
+
+[2025-07-24 12:47:04] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:47:04] Reach Dashboard.
+[2025-07-24 12:47:04] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:47:04] Used: 385560 on dashboard.php
+[2025-07-24 12:47:04] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:47:09] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:47:09] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:47:09] Attempting to set up database connection...
+
+[2025-07-24 12:47:09] Composer autoloader loaded.
+
+[2025-07-24 12:47:09] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:47:09] Reach Dashboard.
+[2025-07-24 12:47:09] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:47:09] Used: 385560 on dashboard.php
+[2025-07-24 12:47:09] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:47:11] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:47:11] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:47:11] Attempting to set up database connection...
+
+[2025-07-24 12:47:11] Composer autoloader loaded.
+
+[2025-07-24 12:47:11] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:47:11] Reach Dashboard.
+[2025-07-24 12:47:11] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:47:11] Used: 385560 on dashboard.php
+[2025-07-24 12:47:11] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:47:46] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:47:46] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:47:46] Attempting to set up database connection...
+
+[2025-07-24 12:47:46] Composer autoloader loaded.
+
+[2025-07-24 12:47:46] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:47:46] Reach Dashboard.
+[2025-07-24 12:47:46] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:47:46] Used: 385560 on dashboard.php
+[2025-07-24 12:47:46] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:47:59] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:47:59] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:47:59] Attempting to set up database connection...
+
+[2025-07-24 12:47:59] Composer autoloader loaded.
+
+[2025-07-24 12:47:59] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:47:59] Reach Dashboard.
+[2025-07-24 12:47:59] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:47:59] Used: 385656 on dashboard.php
+[2025-07-24 12:47:59] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:49:23] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:49:23] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:49:23] Attempting to set up database connection...
+
+[2025-07-24 12:49:23] Composer autoloader loaded.
+
+[2025-07-24 12:49:23] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:49:23] Reach Dashboard.
+[2025-07-24 12:49:23] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:49:23] Used: 385656 on dashboard.php
+[2025-07-24 12:49:23] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:52:00] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:52:00] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:52:00] Attempting to set up database connection...
+
+[2025-07-24 12:52:00] Composer autoloader loaded.
+
+[2025-07-24 12:52:00] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:52:00] Reach Dashboard.
+[2025-07-24 12:52:00] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:52:00] Used: 385560 on dashboard.php
+[2025-07-24 12:52:00] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:52:02] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:52:02] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:52:02] Attempting to set up database connection...
+
+[2025-07-24 12:52:02] Composer autoloader loaded.
+
+[2025-07-24 12:52:02] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:52:02] Reach Dashboard.
+[2025-07-24 12:52:02] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:52:02] Used: 385560 on dashboard.php
+[2025-07-24 12:52:02] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:52:08] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:52:08] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:52:08] Attempting to set up database connection...
+
+[2025-07-24 12:52:08] Composer autoloader loaded.
+
+[2025-07-24 12:52:08] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:52:08] Reach Dashboard.
+[2025-07-24 12:52:08] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:52:08] Used: 385560 on dashboard.php
+[2025-07-24 12:52:08] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:52:16] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:52:16] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:52:16] Attempting to set up database connection...
+
+[2025-07-24 12:52:16] Composer autoloader loaded.
+
+[2025-07-24 12:52:16] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:52:16] Reach Dashboard.
+[2025-07-24 12:52:16] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:52:16] Used: 385560 on dashboard.php
+[2025-07-24 12:52:16] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:54:36] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:54:36] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:54:36] Attempting to set up database connection...
+
+[2025-07-24 12:54:36] Composer autoloader loaded.
+
+[2025-07-24 12:54:36] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:54:36] Reach Dashboard.
+[2025-07-24 12:54:36] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:54:36] Used: 385560 on dashboard.php
+[2025-07-24 12:54:36] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:55:28] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:55:28] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:55:28] Attempting to set up database connection...
+
+[2025-07-24 12:55:28] Composer autoloader loaded.
+
+[2025-07-24 12:55:28] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:55:28] Reach Dashboard.
+[2025-07-24 12:55:28] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:55:28] Used: 385560 on dashboard.php
+[2025-07-24 12:55:28] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:59:37] 📥 Incoming request: staff/dashboard
+[2025-07-24 12:59:37] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 12:59:37] Attempting to set up database connection...
+
+[2025-07-24 12:59:37] Composer autoloader loaded.
+
+[2025-07-24 12:59:37] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:59:37] Reach Dashboard.
+[2025-07-24 12:59:37] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 12:59:37] Used: 385864 on dashboard.php
+[2025-07-24 12:59:37] ROUTING (index.php): To staff/dashboard
+[2025-07-24 12:59:40] 📥 Incoming request: staff/user_list
+[2025-07-24 12:59:40] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 12:59:40] Attempting to set up database connection...
+
+[2025-07-24 12:59:40] Composer autoloader loaded.
+
+[2025-07-24 12:59:40] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 12:59:40] ROUTING ERROR: Method user_list not found in StaffController
+[2025-07-24 12:59:40] ROUTING ERROR: 404 Not Found for staff/user_list
+[2025-07-24 12:59:40] ROUTING (index.php): To staff/user_list
+[2025-07-24 13:00:00] 📥 Incoming request: staff/dashboard
+[2025-07-24 13:00:00] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 13:00:00] Attempting to set up database connection...
+
+[2025-07-24 13:00:00] Composer autoloader loaded.
+
+[2025-07-24 13:00:00] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:00:00] Reach Dashboard.
+[2025-07-24 13:00:00] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 13:00:00] Used: 387440 on dashboard.php
+[2025-07-24 13:00:00] ROUTING (index.php): To staff/dashboard
+[2025-07-24 13:00:01] 📥 Incoming request: staff/dashboard
+[2025-07-24 13:00:01] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 13:00:01] Attempting to set up database connection...
+
+[2025-07-24 13:00:01] Composer autoloader loaded.
+
+[2025-07-24 13:00:01] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:00:01] Reach Dashboard.
+[2025-07-24 13:00:01] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 13:00:01] Used: 385864 on dashboard.php
+[2025-07-24 13:00:01] ROUTING (index.php): To staff/dashboard
+[2025-07-24 13:00:02] 📥 Incoming request: staff/user_list
+[2025-07-24 13:00:02] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 13:00:02] Attempting to set up database connection...
+
+[2025-07-24 13:00:02] Composer autoloader loaded.
+
+[2025-07-24 13:00:02] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:00:02] Reached List of Users
+[2025-07-24 13:00:02] ❌ Exception: extract(): Argument #1 ($array) must be of type array, Illuminate\Database\Eloquent\Builder given
+[2025-07-24 13:01:41] 📥 Incoming request: staff/user_list
+[2025-07-24 13:01:41] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 13:01:41] Attempting to set up database connection...
+
+[2025-07-24 13:01:41] Composer autoloader loaded.
+
+[2025-07-24 13:01:41] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:01:41] Reached List of Users
+[2025-07-24 13:01:41] ❌ Exception: extract(): Argument #1 ($array) must be of type array, Illuminate\Database\Eloquent\Builder given
+[2025-07-24 13:01:42] 📥 Incoming request: staff/user_list
+[2025-07-24 13:01:42] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 13:01:42] Attempting to set up database connection...
+
+[2025-07-24 13:01:42] Composer autoloader loaded.
+
+[2025-07-24 13:01:42] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:01:42] Reached List of Users
+[2025-07-24 13:01:42] ❌ Exception: extract(): Argument #1 ($array) must be of type array, Illuminate\Database\Eloquent\Builder given
+[2025-07-24 13:03:08] 📥 Incoming request: staff/dashboard
+[2025-07-24 13:03:08] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 13:03:08] Attempting to set up database connection...
+
+[2025-07-24 13:03:08] Composer autoloader loaded.
+
+[2025-07-24 13:03:08] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:03:08] Reach Dashboard.
+[2025-07-24 13:03:08] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 13:03:08] Used: 385864 on dashboard.php
+[2025-07-24 13:03:08] ROUTING (index.php): To staff/dashboard
+[2025-07-24 13:03:09] 📥 Incoming request: staff/user_list
+[2025-07-24 13:03:09] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 13:03:09] Attempting to set up database connection...
+
+[2025-07-24 13:03:09] Composer autoloader loaded.
+
+[2025-07-24 13:03:09] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:03:09] Reached List of Users
+[2025-07-24 13:03:09] RENDERING (views/staff/user_list.php): views/staff/user_list.php 
+[2025-07-24 13:03:09] Used: 386072 on dashboard.php
+[2025-07-24 13:03:09] ROUTING (index.php): To staff/user_list
+[2025-07-24 13:03:45] 📥 Incoming request: staff/user_list
+[2025-07-24 13:03:45] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 13:03:45] Attempting to set up database connection...
+
+[2025-07-24 13:03:45] Composer autoloader loaded.
+
+[2025-07-24 13:03:45] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:03:45] Reached List of Users
+[2025-07-24 13:03:45] RENDERING (views/staff/user_list.php): views/staff/user_list.php 
+[2025-07-24 13:03:45] Used: 386072 on dashboard.php
+[2025-07-24 13:03:45] ROUTING (index.php): To staff/user_list
+[2025-07-24 13:03:46] 📥 Incoming request: staff/user_list
+[2025-07-24 13:03:46] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 13:03:46] Attempting to set up database connection...
+
+[2025-07-24 13:03:46] Composer autoloader loaded.
+
+[2025-07-24 13:03:46] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:03:46] Reached List of Users
+[2025-07-24 13:03:46] RENDERING (views/staff/user_list.php): views/staff/user_list.php 
+[2025-07-24 13:03:46] Used: 385976 on dashboard.php
+[2025-07-24 13:03:46] ROUTING (index.php): To staff/user_list
+[2025-07-24 13:03:46] 📥 Incoming request: staff/user_list
+[2025-07-24 13:03:46] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 13:03:46] Attempting to set up database connection...
+
+[2025-07-24 13:03:46] Composer autoloader loaded.
+
+[2025-07-24 13:03:46] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:03:46] Reached List of Users
+[2025-07-24 13:03:46] RENDERING (views/staff/user_list.php): views/staff/user_list.php 
+[2025-07-24 13:03:46] Used: 385976 on dashboard.php
+[2025-07-24 13:03:46] ROUTING (index.php): To staff/user_list
+[2025-07-24 13:05:13] 📥 Incoming request: staff/user_list
+[2025-07-24 13:05:13] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 13:05:13] Attempting to set up database connection...
+
+[2025-07-24 13:05:13] Composer autoloader loaded.
+
+[2025-07-24 13:05:13] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:05:13] Reached List of Users
+[2025-07-24 13:05:13] RENDERING (views/staff/user_list.php): views/staff/user_list.php 
+[2025-07-24 13:05:13] Used: 391520 on user_list.php
+[2025-07-24 13:05:13] ROUTING (index.php): To staff/user_list
+[2025-07-24 13:05:46] 📥 Incoming request: staff/users/edit/7
+[2025-07-24 13:05:46] ROUTING: staff/users/edit/7 => StaffUsersController@edit
+[2025-07-24 13:05:46] ROUTING ERROR: Controller StaffUsersController not found
+[2025-07-24 13:05:46] ROUTING ERROR: 404 Not Found for staff/users/edit/7
+[2025-07-24 13:05:46] ROUTING (index.php): To staff/users/edit/7
+[2025-07-24 13:05:48] 📥 Incoming request: staff/user_list
+[2025-07-24 13:05:48] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 13:05:48] Attempting to set up database connection...
+
+[2025-07-24 13:05:48] Composer autoloader loaded.
+
+[2025-07-24 13:05:48] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:05:48] Reached List of Users
+[2025-07-24 13:05:48] RENDERING (views/staff/user_list.php): views/staff/user_list.php 
+[2025-07-24 13:05:48] Used: 390720 on user_list.php
+[2025-07-24 13:05:48] ROUTING (index.php): To staff/user_list
+[2025-07-24 13:07:28] 📥 Incoming request: staff/user_list
+[2025-07-24 13:07:28] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 13:07:28] Attempting to set up database connection...
+
+[2025-07-24 13:07:28] Composer autoloader loaded.
+
+[2025-07-24 13:07:28] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:07:28] Reached List of Users
+[2025-07-24 13:07:28] RENDERING (views/staff/user_list.php): views/staff/user_list.php 
+[2025-07-24 13:07:28] Used: 392112 on user_list.php
+[2025-07-24 13:07:28] ROUTING (index.php): To staff/user_list
+[2025-07-24 13:07:29] 📥 Incoming request: staff/user_list
+[2025-07-24 13:07:29] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 13:07:29] Attempting to set up database connection...
+
+[2025-07-24 13:07:29] Composer autoloader loaded.
+
+[2025-07-24 13:07:29] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:07:29] Reached List of Users
+[2025-07-24 13:07:29] RENDERING (views/staff/user_list.php): views/staff/user_list.php 
+[2025-07-24 13:07:29] Used: 391312 on user_list.php
+[2025-07-24 13:07:29] ROUTING (index.php): To staff/user_list
+[2025-07-24 13:08:15] 📥 Incoming request: staff/user_list
+[2025-07-24 13:08:15] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 13:08:15] Attempting to set up database connection...
+
+[2025-07-24 13:08:15] Composer autoloader loaded.
+
+[2025-07-24 13:08:15] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:08:15] Reached List of Users
+[2025-07-24 13:08:15] RENDERING (views/staff/user_list.php): views/staff/user_list.php 
+[2025-07-24 13:08:15] Used: 392112 on user_list.php
+[2025-07-24 13:08:15] ROUTING (index.php): To staff/user_list
+[2025-07-24 13:08:15] 📥 Incoming request: staff/user_list
+[2025-07-24 13:08:15] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 13:08:15] Attempting to set up database connection...
+
+[2025-07-24 13:08:15] Composer autoloader loaded.
+
+[2025-07-24 13:08:15] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:08:15] Reached List of Users
+[2025-07-24 13:08:15] RENDERING (views/staff/user_list.php): views/staff/user_list.php 
+[2025-07-24 13:08:15] Used: 391312 on user_list.php
+[2025-07-24 13:08:15] ROUTING (index.php): To staff/user_list
+[2025-07-24 13:08:57] 📥 Incoming request: staff/user_list
+[2025-07-24 13:08:57] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 13:08:57] Attempting to set up database connection...
+
+[2025-07-24 13:08:57] Composer autoloader loaded.
+
+[2025-07-24 13:08:57] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:08:57] Reached List of Users
+[2025-07-24 13:08:57] RENDERING (views/staff/user_list.php): views/staff/user_list.php 
+[2025-07-24 13:08:57] Used: 399408 on user_list.php
+[2025-07-24 13:08:57] ROUTING (index.php): To staff/user_list
+[2025-07-24 13:08:58] 📥 Incoming request: staff/user_list
+[2025-07-24 13:08:58] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 13:08:58] Attempting to set up database connection...
+
+[2025-07-24 13:08:58] Composer autoloader loaded.
+
+[2025-07-24 13:08:58] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:08:58] Reached List of Users
+[2025-07-24 13:08:58] RENDERING (views/staff/user_list.php): views/staff/user_list.php 
+[2025-07-24 13:08:58] Used: 398496 on user_list.php
+[2025-07-24 13:08:58] ROUTING (index.php): To staff/user_list
+[2025-07-24 13:10:06] 📥 Incoming request: staff/user_list
+[2025-07-24 13:10:06] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 13:10:06] Attempting to set up database connection...
+
+[2025-07-24 13:10:06] Composer autoloader loaded.
+
+[2025-07-24 13:10:06] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 13:10:06] Reached List of Users
+[2025-07-24 13:10:06] RENDERING (views/staff/user_list.php): views/staff/user_list.php 
+[2025-07-24 13:10:06] Used: 401136 on user_list.php
+[2025-07-24 13:10:06] ROUTING (index.php): To staff/user_list
+[2025-07-24 14:12:05] Attempting to set up database connection...
+
+[2025-07-24 14:12:05] Composer autoloader loaded.
+
+[2025-07-24 14:12:06] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 14:12:06] MIGRATION SUCCESS: '2025_07_24_134245_createsupplierstable.php
+[2025-07-24 14:15:52] Attempting to set up database connection...
+
+[2025-07-24 14:15:52] Composer autoloader loaded.
+
+[2025-07-24 14:15:52] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 14:15:52] MIGRATION SUCCESS: '2025_07_24_141527_create_customers_table.php
+[2025-07-24 14:23:54] Attempting to set up database connection...
+
+[2025-07-24 14:23:54] Composer autoloader loaded.
+
+[2025-07-24 14:23:54] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 14:23:54] MIGRATION SUCCESS: '2025_07_24_142053_create_categories_table.php
+[2025-07-24 14:29:03] Attempting to set up database connection...
+
+[2025-07-24 14:29:03] Composer autoloader loaded.
+
+[2025-07-24 14:29:03] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 14:29:03] MIGRATION FAILED: Does this exists? - /home/ayen/PHP/LaravelTest/comp_parts_ims/database/migrations/2025_2025_07_24_142504_create_brands_table.php
+[2025-07-24 14:29:22] Attempting to set up database connection...
+
+[2025-07-24 14:29:22] Composer autoloader loaded.
+
+[2025-07-24 14:29:22] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 14:29:22] MIGRATION SUCCESS: '2025_07_24_142504_create_brands_table.php
+[2025-07-24 14:46:00] Attempting to set up database connection...
+
+[2025-07-24 14:46:00] Composer autoloader loaded.
+
+[2025-07-24 14:46:00] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 14:46:01] MIGRATION SUCCESS: '2025_07_24_143150_create_products_table.php
+[2025-07-24 14:49:30] ✅ DATABASE SETUP SUCCESS: Connection and Eloquent booted.
+[2025-07-24 14:49:52] ❌ CONNECTION ERROR: ❌ DATABASE SETUP FAILED: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql307.infinityfree.com failed: Name or service not known (Connection: default, SQL: SELECT 1)
+[2025-07-24 15:08:57] 📥 Incoming request: login/login
+[2025-07-24 15:08:57] ROUTING: login/login => LoginController@login
+[2025-07-24 15:08:57] Attempting to set up database connection...
+
+[2025-07-24 15:08:57] Composer autoloader loaded.
+
+[2025-07-24 15:08:57] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 15:08:57] RENDERING (views/login/login.php): views/login/login.php 
+[2025-07-24 15:08:57] Used: 379024 on login.php
+[2025-07-24 15:08:57] ROUTING (index.php): To login/login
+[2025-07-24 15:09:07] 📥 Incoming request: login/login_acc
+[2025-07-24 15:09:07] ROUTING: login/login_acc => LoginController@login_acc
+[2025-07-24 15:09:07] Attempting to set up database connection...
+
+[2025-07-24 15:09:07] Composer autoloader loaded.
+
+[2025-07-24 15:09:07] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 15:09:07] LOGIN_ACC: Method called
+[2025-07-24 15:09:07] INPUT: Username = admin
+[2025-07-24 15:09:07] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-24 15:09:07] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 15:09:07] Used: 395784 on dashboard.php
+[2025-07-24 15:09:07] ROUTING (index.php): To login/login_acc
+[2025-07-24 15:09:12] 📥 Incoming request: staff/products_list
+[2025-07-24 15:09:12] ROUTING: staff/products_list => StaffController@products_list
+[2025-07-24 15:09:12] Attempting to set up database connection...
+
+[2025-07-24 15:09:12] Composer autoloader loaded.
+
+[2025-07-24 15:09:12] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 15:09:12] Reached List of Users
+[2025-07-24 15:09:12] RENDERING (views/staff/products_list.php): views/staff/products_list.php 
+[2025-07-24 15:09:12] Used: 402616 on products_list.php
+[2025-07-24 15:09:12] ROUTING (index.php): To staff/products_list
+[2025-07-24 15:10:50] 📥 Incoming request: staff/products_list
+[2025-07-24 15:10:50] ROUTING: staff/products_list => StaffController@products_list
+[2025-07-24 15:10:50] Attempting to set up database connection...
+
+[2025-07-24 15:10:50] Composer autoloader loaded.
+
+[2025-07-24 15:10:50] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 15:10:50] Reached List of Users
+[2025-07-24 15:10:50] RENDERING (views/staff/products_list.php): views/staff/products_list.php 
+[2025-07-24 15:10:50] Used: 389392 on products_list.php
+[2025-07-24 15:10:50] ROUTING (index.php): To staff/products_list
+[2025-07-24 15:11:14] 📥 Incoming request: staff/dashboard
+[2025-07-24 15:11:14] ROUTING: staff/dashboard => StaffController@dashboard
+[2025-07-24 15:11:14] Attempting to set up database connection...
+
+[2025-07-24 15:11:14] Composer autoloader loaded.
+
+[2025-07-24 15:11:14] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 15:11:14] Reach Dashboard.
+[2025-07-24 15:11:14] RENDERING (views/staff/dashboard.php): views/staff/dashboard.php 
+[2025-07-24 15:11:14] Used: 385592 on dashboard.php
+[2025-07-24 15:11:14] ROUTING (index.php): To staff/dashboard
+[2025-07-24 15:11:16] 📥 Incoming request: staff/products_list
+[2025-07-24 15:11:16] ROUTING: staff/products_list => StaffController@products_list
+[2025-07-24 15:11:16] Attempting to set up database connection...
+
+[2025-07-24 15:11:16] Composer autoloader loaded.
+
+[2025-07-24 15:11:16] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 15:11:16] Reached List of Users
+[2025-07-24 15:11:16] RENDERING (views/staff/products_list.php): views/staff/products_list.php 
+[2025-07-24 15:11:16] Used: 388560 on products_list.php
+[2025-07-24 15:11:16] ROUTING (index.php): To staff/products_list
+[2025-07-24 15:11:16] 📥 Incoming request: staff/products_list
+[2025-07-24 15:11:16] ROUTING: staff/products_list => StaffController@products_list
+[2025-07-24 15:11:16] Attempting to set up database connection...
+
+[2025-07-24 15:11:16] Composer autoloader loaded.
+
+[2025-07-24 15:11:16] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 15:11:16] Reached List of Users
+[2025-07-24 15:11:16] RENDERING (views/staff/products_list.php): views/staff/products_list.php 
+[2025-07-24 15:11:16] Used: 388592 on products_list.php
+[2025-07-24 15:11:16] ROUTING (index.php): To staff/products_list
+[2025-07-24 15:11:17] 📥 Incoming request: staff/products_list
+[2025-07-24 15:11:17] ROUTING: staff/products_list => StaffController@products_list
+[2025-07-24 15:11:17] Attempting to set up database connection...
+
+[2025-07-24 15:11:17] Composer autoloader loaded.
+
+[2025-07-24 15:11:17] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 15:11:17] Reached List of Users
+[2025-07-24 15:11:17] RENDERING (views/staff/products_list.php): views/staff/products_list.php 
+[2025-07-24 15:11:17] Used: 388592 on products_list.php
+[2025-07-24 15:11:17] ROUTING (index.php): To staff/products_list
+[2025-07-24 15:11:17] 📥 Incoming request: staff/products_list
+[2025-07-24 15:11:17] ROUTING: staff/products_list => StaffController@products_list
+[2025-07-24 15:11:17] Attempting to set up database connection...
+
+[2025-07-24 15:11:17] Composer autoloader loaded.
+
+[2025-07-24 15:11:17] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 15:11:17] Reached List of Users
+[2025-07-24 15:11:17] RENDERING (views/staff/products_list.php): views/staff/products_list.php 
+[2025-07-24 15:11:17] Used: 388592 on products_list.php
+[2025-07-24 15:11:17] ROUTING (index.php): To staff/products_list
+[2025-07-24 15:11:18] 📥 Incoming request: staff/user_list
+[2025-07-24 15:11:18] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 15:11:18] Attempting to set up database connection...
+
+[2025-07-24 15:11:18] Composer autoloader loaded.
+
+[2025-07-24 15:11:18] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 15:11:18] Reached List of Users
+[2025-07-24 15:11:18] RENDERING (views/staff/user_list.php): views/staff/user_list.php 
+[2025-07-24 15:11:18] Used: 400256 on user_list.php
+[2025-07-24 15:11:18] ROUTING (index.php): To staff/user_list
+[2025-07-24 15:11:18] 📥 Incoming request: staff/user_list
+[2025-07-24 15:11:18] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 15:11:18] Attempting to set up database connection...
+
+[2025-07-24 15:11:18] Composer autoloader loaded.
+
+[2025-07-24 15:11:18] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 15:11:18] Reached List of Users
+[2025-07-24 15:11:18] RENDERING (views/staff/user_list.php): views/staff/user_list.php 
+[2025-07-24 15:11:18] Used: 400224 on user_list.php
+[2025-07-24 15:11:18] ROUTING (index.php): To staff/user_list
+[2025-07-24 15:11:20] 📥 Incoming request: staff/user_list
+[2025-07-24 15:11:20] ROUTING: staff/user_list => StaffController@user_list
+[2025-07-24 15:11:20] Attempting to set up database connection...
+
+[2025-07-24 15:11:20] Composer autoloader loaded.
+
+[2025-07-24 15:11:20] Database connection and Eloquent ORM successfully set up.
+
+[2025-07-24 15:11:20] Reached List of Users
+[2025-07-24 15:11:20] RENDERING (views/staff/user_list.php): views/staff/user_list.php 
+[2025-07-24 15:11:20] Used: 400224 on user_list.php
+[2025-07-24 15:11:20] ROUTING (index.php): To staff/user_list

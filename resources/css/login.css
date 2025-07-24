@@ -102,3 +102,39 @@ button {
   color:#a6c5e0;
   text-decoration:underline;
 }
+
+.verify-code, .send-code {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.verify-code-button, .send-code-button{
+  max-width:160px;
+  text-align:center;
+  margin: 10;
+
+}
+form {
+  max-width: 500px;
+  margin: auto;
+}
+
+body {
+  background-color: #061526;
+  color: white;
+}
+
+.form-wrapper {
+  max-width: 400px;
+  margin: 0 auto; /* center horizontally */
+  padding: 40px 20px;
+}
+
+.btn {
+  display: block;
+  margin: 0 auto;
+}
+
+.w-100 {
+  width: 100%;
+}

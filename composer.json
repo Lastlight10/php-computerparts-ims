@@ -3,12 +3,14 @@
     "description": "Composer for computer ims",
     "require": {
         "illuminate/database": "^12.21",
-        "phpmailer/phpmailer": "^6.10"
+        "phpmailer/phpmailer": "^6.10",
+        "vlucas/phpdotenv": "^5.6"
     },
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "MyVendor\\ComputerPartsIms\\": "src/"
+            "MyVendor\\ComputerPartsIms\\": "src/",
+            "Models\\": "models/"
         }
     },
     "authors": [

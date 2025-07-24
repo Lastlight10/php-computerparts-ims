@@ -1,0 +1,15 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "users" ("id" integer primary key autoincrement not null, "username" varchar not null, "email" varchar not null, "password" varchar not null, "last_name" varchar not null, "first_name" varchar not null, "middle_name" varchar not null, "birthdate" date not null, "created_at" datetime, "updated_at" datetime, "type" varchar check ("type" in ('Staff', 'Manager', 'Admin')) not null default 'Staff');
+INSERT INTO users VALUES(7,'admin','admin@example.com','$2y$10$jWCmhSCX6YCvvGsKID6OQ.0juPlcvNSBukD4Szxn6PINVMIJyMPze','Admin','Super','User','2000-01-01','2025-07-24 10:15:55','2025-07-24 10:15:55','Admin');
+CREATE TABLE IF NOT EXISTS "suppliers" ("id" integer primary key autoincrement not null, "supplier_type" varchar check ("supplier_type" in ('Individual', 'Company')) not null default 'Company', "company_name" varchar, "contact_first_name" varchar, "contact_middle_name" varchar, "contact_last_name" varchar, "email" varchar, "phone_number" varchar, "address" varchar, "created_at" datetime, "updated_at" datetime);
+CREATE TABLE IF NOT EXISTS "customers" ("id" integer primary key autoincrement not null, "customer_type" varchar check ("customer_type" in ('Individual', 'Company')) not null default 'Individual', "company_name" varchar, "contact_person_first_name" varchar, "contact_person_last_name" varchar, "email" varchar, "phone_number" varchar, "address" varchar, "created_at" datetime, "updated_at" datetime);
+CREATE TABLE IF NOT EXISTS "categories" ("id" integer primary key autoincrement not null, "name" varchar not null, "description" text, "created_at" datetime, "updated_at" datetime);
+CREATE TABLE IF NOT EXISTS "brands" ("id" integer primary key autoincrement not null, "name" varchar not null, "website" varchar, "contact_email" varchar, "created_at" datetime, "updated_at" datetime);
+CREATE TABLE IF NOT EXISTS "products" ("id" integer primary key autoincrement not null, "sku" varchar not null, "name" varchar not null, "description" text, "category_id" integer not null, "brand_id" integer not null, "unit_price" numeric not null, "cost_price" numeric, "current_stock" integer not null default '0', "reorder_level" integer not null default '0', "is_serialized" tinyint(1) not null default '0', "is_active" tinyint(1) not null default '1', "location_aisle" varchar, "location_bin" varchar, "created_at" datetime, "updated_at" datetime, foreign key("category_id") references "categories"("id"), foreign key("brand_id") references "brands"("id"));
+DELETE FROM sqlite_sequence;
+INSERT INTO sqlite_sequence VALUES('users',7);
+CREATE UNIQUE INDEX "categories_name_unique" on "categories" ("name");
+CREATE UNIQUE INDEX "brands_name_unique" on "brands" ("name");
+CREATE UNIQUE INDEX "products_sku_unique" on "products" ("sku");
+COMMIT;

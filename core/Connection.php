@@ -2,10 +2,8 @@
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 // core/Connection.php
-
+require_once 'core/Logger.php';
 // 1. Include the Logger class first, so it's available for error logging
-// Adjust this path if your Logger.php is located elsewhere relative to this file
-require 'corepp/Logger.php'; // Assuming 'app/Logger.php' from project root
 
 
 // Enable error reporting for debugging (optional, but good for development)
@@ -13,28 +11,39 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-echo "Attempting to set up database connection..." . PHP_EOL;
+
 
 try {
+    Logger::log( "Attempting to set up database connection..." . PHP_EOL);
     // Load Composer's autoloader
-    $autoloadPath = __DIR__ . '/vendor/autoload.php';
+    $autoloadPath = 'vendor/autoload.php';
     if (!file_exists($autoloadPath)) {
         throw new Exception("ERROR: Composer autoloader not found at " . $autoloadPath);
     }
     require_once $autoloadPath;
-    echo "Composer autoloader loaded." . PHP_EOL;
+    Logger::log("Composer autoloader loaded." . PHP_EOL);
+
+    //Load ENV file here
+    $dotenv = Dotenv\Dotenv::createImmutable('./'); // adjust path
+    $dotenv->load();
 
     $capsule = new Capsule;
-
+    /* temporarily
     $capsule->addConnection([
         'driver'    => 'mysql',
-        'host'      => 'your_db_host',      // Replace with your InfinityFree DB Host
-        'database'  => 'your_db_name',      // Replace with your InfinityFree DB Name
-        'username'  => 'your_db_user',      // Replace with your InfinityFree DB Username
-        'password'  => 'your_db_password',  // Replace with your InfinityFree DB Password
+        'host'      => $_ENV['DB_HOST'],
+        'database'  => $_ENV['DB_NAME'],
+        'username'  => $_ENV['DB_USER'],
+        'password'  => $_ENV['DB_PASS'],
         'charset'   => 'utf8mb4',
         'collation' => 'utf8mb4_unicode_ci',
         'prefix'    => '',
+    ]);
+    */
+    $capsule->addConnection([
+        'driver'   => 'sqlite',
+        'database' => __DIR__ . '/../database.sqlite',
+        'prefix'   => '',
     ]);
 
     // Set the event dispatcher used by Eloquent models (optional)
@@ -48,8 +57,7 @@ try {
     // Setup the Eloquent ORM... (this is important!)
     $capsule->bootEloquent();
 
-    echo "Database connection and Eloquent ORM successfully set up." . PHP_EOL;
-    Logger::log("DATABASE SETUP SUCCESS: Connection and Eloquent booted.");
+    Logger::log("Database connection and Eloquent ORM successfully set up." . PHP_EOL);
 
 } catch (\Exception $e) {
     // Catch any exception that occurs during the database setup process

@@ -1,7 +1,9 @@
 <?php
-require 'core/Router.php';
-require 'core/Controller.php';
-require 'core/Logger.php';
+require_once 'core/Router.php';
+require_once 'core/Controller.php';
+require_once 'core/Logger.php';
+require_once 'vendor/autoload.php'; 
+
 spl_autoload_register(function ($class) {
     foreach (['controllers', 'models'] as $folder) {
         $path = "$folder/$class.php";
