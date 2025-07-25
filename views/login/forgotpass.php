@@ -1,4 +1,3 @@
-<?php ob_start(); ?>
 <section class="page-wrapper dark-bg">
   <!-- Content -->
   <div class="container-fluid page-content">
@@ -37,11 +36,7 @@
   </div>
 </section>
 
-<?php
-$content = ob_get_clean();
-require_once 'layout.php';
-
-require_once 'core/Logger.php';
-$memory = memory_get_usage();
-Logger::log("Used: $memory on forgotpass.php");
+<?php 
+use App\Core\Logger;
+Logger::log('UI: On forgotpass.php')
 ?>

@@ -70,12 +70,17 @@ class ComposerStaticInit9855c5176ab1dd9f92eeace01b33306f
         ),
         'C' => 
         array (
+            'Controllers\\' => 12,
             'Carbon\\Doctrine\\' => 16,
             'Carbon\\' => 7,
         ),
         'B' => 
         array (
             'Brick\\Math\\' => 11,
+        ),
+        'A' => 
+        array (
+            'App\\Core\\' => 9,
         ),
     );
 
@@ -175,6 +180,10 @@ class ComposerStaticInit9855c5176ab1dd9f92eeace01b33306f
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector',
         ),
+        'Controllers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/controllers',
+        ),
         'Carbon\\Doctrine\\' => 
         array (
             0 => __DIR__ . '/..' . '/carbonphp/carbon-doctrine-types/src/Carbon/Doctrine',
@@ -186,6 +195,10 @@ class ComposerStaticInit9855c5176ab1dd9f92eeace01b33306f
         'Brick\\Math\\' => 
         array (
             0 => __DIR__ . '/..' . '/brick/math/src',
+        ),
+        'App\\Core\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/core',
         ),
     );
 

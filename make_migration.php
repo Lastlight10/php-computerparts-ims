@@ -42,7 +42,9 @@ $fileContent = <<<EOT
 <?php
 
 // {$fileName}
-
+use App\Core\Connection;
+use App\Core\Logger;
+Use App\Core\Controller;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Schema\Blueprint;
 

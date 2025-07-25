@@ -1,10 +1,27 @@
-<?php ob_start(); ?>
+<?php
+// Place all 'use' statements here, at the very top of the PHP file
+// (Already present from your combined snippet, good!)
+use App\Core\Logger;
 
-  <h1 class="text-white mb-4">Product List</h1> <div class="table-responsive">
+// Check for success message in URL query parameters (keeping your existing code)
+if (isset($_GET['success_message']) && !empty($_GET['success_message'])) {
+    $success_message = htmlspecialchars($_GET['success_message']);
+    echo '<div class="alert alert-success text-center mb-3" role="alert">' . $success_message . '</div>';
+}
+
+// Check for error message in URL query parameters (keeping your existing code)
+if (isset($_GET['error']) && !empty($_GET['error'])) {
+    $error_message = htmlspecialchars($_GET['error']);
+    echo '<div class="alert alert-danger text-center mb-3" role="alert">' . $error_message . '</div>';
+}
+?>
+
+  <h1 class="text-white mb-4">Product List</h1>
+  <div class="table-responsive">
     <table class="table table-dark table-striped table-hover">
       <thead>
         <tr>
-          <th>ID</th>
+          <th class="hidden-header">ID</th>
           <th>SKU</th>
           <th>NAME</th>
           <th>DESCRIPTION</th>
@@ -16,17 +33,17 @@
           <th>REORDER LEVEL</th>
           <th>SERIALIZED?</th>
           <th>ACTIVE?</th>
-          <th>AISLE</th>
-          <th>BIN</th>
+          <th class="hidden-header">AISLE</th>
+          <th class="hidden-header">BIN</th>
           <th>CREATION DATE</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <?php if (!empty($products)): // Assuming $products is the collection, not $user_info ?>
-            <?php foreach ($products as $product): // Looping through each product model, not user ?>
+        <?php if (!$products_info->isEmpty()): // Changed !empty($products) to !$products->isEmpty() ?>
+            <?php foreach ($products_info as $product): ?>
                 <tr>
-                    <td><?= htmlspecialchars($product->id) ?></td>
+                    <td class="hidden-column"><?= htmlspecialchars($product->id) ?></td>
                     <td><?= htmlspecialchars($product->sku ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($product->name ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($product->description ?? 'N/A') ?></td>
@@ -44,28 +61,25 @@
                     <td>
                         <?= htmlspecialchars(($product->is_active ? 'Yes' : 'No')) ?>
                     </td>
-                    <td><?= htmlspecialchars($product->location_aisle ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($product->location_bin ?? 'N/A') ?></td>
+                    <td class="hidden-column"><?= htmlspecialchars($product->location_aisle ?? 'N/A') ?></td>
+                    <td class="hidden-column"><?= htmlspecialchars($product->location_bin ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($product->created_at ?? 'N/A') ?></td>
                     <td>
                         <a href="/staff/products/edit/<?= htmlspecialchars($product->id) ?>" class="btn btn-sm btn-info me-1">Edit</a>
-                        <a href="/staff/products/delete/<?= htmlspecialchars($product->id) ?>" class="btn btn-sm btn-danger">Delete</a>
+                        <a href="/staff/products/delete/<?= htmlspecialchars($product->id) ?>" class="btn btn-sm btn-danger"  onclick="return confirm('Are you sure you want to delete this category? This action cannot be undone.');">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
+            <?php Logger::log('DEBUG: Product list ELSE block was executed (empty case)!'); ?>
             <tr>
-                <td colspan="16" class="text-center">No products found.</td> </tr>
+                <td colspan="16" class="text-center">No products found.</td>
+            </tr>
         <?php endif; ?>
       </tbody>
     </table>
   </div>
 
 <?php
-$content = ob_get_clean();
-require_once 'staff_layout.php';
-
-require_once 'core/Logger.php';
-$memory = memory_get_usage();
-Logger::log("Used: $memory on products_list.php");
+Logger::log('UI: On products_list.php'); // Your existing logger call
 ?>

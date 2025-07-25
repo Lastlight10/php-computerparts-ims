@@ -1,77 +1,95 @@
 <?php
+
+namespace App\Core; // <-- Define the namespace for this class
+
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Dotenv\Dotenv; // Use the Dotenv class directly
 
-// core/Connection.php
-require_once 'core/Logger.php';
-// 1. Include the Logger class first, so it's available for error logging
+// IMPORTANT: Remove require_once 'core/Logger.php'; here
+// because Logger is now also namespaced and will be autoloaded.
+// Also, remove require_once 'vendor/autoload.php'; if it's already in your index.php.
 
+class Connection
+{
+    /**
+     * @var Capsule|null The Eloquent Capsule instance.
+     */
+    protected static ?Capsule $capsule = null;
 
-// Enable error reporting for debugging (optional, but good for development)
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+    /**
+     * Initializes the database connection and Eloquent ORM.
+     * This method should be called once at the application's bootstrap.
+     *
+     * @return void
+     * @throws \Exception If database setup fails.
+     */
+    public static function init(): void
+    {
+        // Prevent multiple initializations
+        if (static::$capsule !== null) {
+            Logger::log("DB_INFO: Database connection already initialized. Skipping.");
+            return;
+        }
 
+        // Enable error reporting for debugging (optional, but good for development)
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
 
+        try {
+            Logger::log("DB_INFO: Attempting to set up database connection...");
 
-try {
-    Logger::log( "Attempting to set up database connection..." . PHP_EOL);
-    // Load Composer's autoloader
-    $autoloadPath = 'vendor/autoload.php';
-    if (!file_exists($autoloadPath)) {
-        throw new Exception("ERROR: Composer autoloader not found at " . $autoloadPath);
+            // Load Composer's autoloader (ensure this is done once at the application entry point)
+            // If vendor/autoload.php is already required in index.php, you can remove this block.
+            $autoloadPath = __DIR__ . '/../vendor/autoload.php'; // Adjust path relative to Connection.php
+            if (!file_exists($autoloadPath)) {
+                throw new \Exception("Composer autoloader not found at " . $autoloadPath);
+            }
+            require_once $autoloadPath;
+            Logger::log("DB_INFO: Composer autoloader loaded (if not already).");
+
+            // Load ENV file here
+            // Adjust path to your .env file relative to the project root
+            $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+            $dotenv->load();
+            Logger::log("DB_INFO: .env file loaded.");
+
+            static::$capsule = new Capsule;
+
+            // Use SQLite connection as per your current setup
+            static::$capsule->addConnection([
+                'driver'   => 'sqlite',
+                'database' => __DIR__ . '/../database.sqlite', // Path to your sqlite file
+                'prefix'   => '',
+            ]);
+
+            // Set the event dispatcher used by Eloquent models (optional)
+            // use Illuminate\Events\Dispatcher;
+            // use Illuminate\Container\Container;
+            // static::$capsule->setEventDispatcher(new Dispatcher(new Container));
+
+            // Make this Capsule instance available globally via static methods...
+            static::$capsule->setAsGlobal();
+
+            // Setup the Eloquent ORM... (this is important!)
+            static::$capsule->bootEloquent();
+
+            Logger::log("DB_INFO: Database connection and Eloquent ORM successfully set up.");
+
+        } catch (\Exception $e) {
+            $errorMessage = "DATABASE SETUP FAILED: " . $e->getMessage();
+            echo $errorMessage . PHP_EOL; // Display error for immediate feedback
+            Logger::log("DB_ERROR: $errorMessage");
+            exit(1); // Exit with an error code if DB connection is critical
+        }
     }
-    require_once $autoloadPath;
-    Logger::log("Composer autoloader loaded." . PHP_EOL);
 
-    //Load ENV file here
-    $dotenv = Dotenv\Dotenv::createImmutable('./'); // adjust path
-    $dotenv->load();
-
-    $capsule = new Capsule;
-    /* temporarily
-    $capsule->addConnection([
-        'driver'    => 'mysql',
-        'host'      => $_ENV['DB_HOST'],
-        'database'  => $_ENV['DB_NAME'],
-        'username'  => $_ENV['DB_USER'],
-        'password'  => $_ENV['DB_PASS'],
-        'charset'   => 'utf8mb4',
-        'collation' => 'utf8mb4_unicode_ci',
-        'prefix'    => '',
-    ]);
-    */
-    $capsule->addConnection([
-        'driver'   => 'sqlite',
-        'database' => __DIR__ . '/../database.sqlite',
-        'prefix'   => '',
-    ]);
-
-    // Set the event dispatcher used by Eloquent models (optional)
-    // use Illuminate\Events\Dispatcher;
-    // use Illuminate\Container\Container;
-    // $capsule->setEventDispatcher(new Dispatcher(new Container));
-
-    // Make this Capsule instance available globally via static methods...
-    $capsule->setAsGlobal();
-
-    // Setup the Eloquent ORM... (this is important!)
-    $capsule->bootEloquent();
-
-    Logger::log("Database connection and Eloquent ORM successfully set up." . PHP_EOL);
-
-} catch (\Exception $e) {
-    // Catch any exception that occurs during the database setup process
-    $errorMessage = "DATABASE SETUP FAILED: " . $e->getMessage();
-    echo $errorMessage . PHP_EOL;
-    Logger::log("CONNECTION ERROR: $errorMessage");
-
-    // Depending on your application's needs, you might want to:
-    // 1. Just log and display the error (as above).
-    // 2. Exit the script, as the application cannot function without a DB connection.
-    exit(1); // Exit with an error code
+    /**
+     * Get the Eloquent Capsule instance.
+     * @return Capsule|null
+     */
+    public static function getCapsule(): ?Capsule
+    {
+        return static::$capsule;
+    }
 }
-
-// You can now access the database through Capsule or your Eloquent Models.
-// For example:
-// $users = Capsule::table('users')->get();
-// print_r($users);

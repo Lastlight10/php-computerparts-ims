@@ -1,11 +1,14 @@
 <?php
+namespace App\Core;
 
 class Logger {
     protected static $logFile = 'storage/logs/app.log';
 
     public static function log($message) {
-        $date = date('Y-m-d H:i:s');
-        $entry = "[$date] $message" . PHP_EOL;
+        $manilaTimeZone = new \DateTimeZone('Asia/Manila');
+        $dateTimeManila = new \DateTime('now', $manilaTimeZone);
+        $manilaTime = $dateTimeManila->format('Y-m-d H:i:s');
+        $entry = "[$manilaTime] $message" . PHP_EOL;
 
         // Ensure log directory exists
         $dir = dirname(self::$logFile);

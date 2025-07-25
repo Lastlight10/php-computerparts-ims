@@ -10,7 +10,9 @@
     "autoload": {
         "psr-4": {
             "MyVendor\\ComputerPartsIms\\": "src/",
-            "Models\\": "models/"
+            "Models\\": "models/",
+            "App\\Core\\":"core/",
+            "Controllers\\":"controllers/"
         }
     },
     "authors": [

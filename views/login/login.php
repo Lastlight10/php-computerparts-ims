@@ -1,24 +1,29 @@
-<?php ob_start(); ?>
+
+
 <section class="page-wrapper dark-bg">
-  <!-- Content -->
   <div class="container-fluid page-content">
     <div class="row w-100 justify-content-center align-items-center">
-      <!-- Left Image -->
       <div class="col-12 col-md-6 mb-4 text-center">
         <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
              alt="Login image" class="img-fluid d-none d-md-block" style="max-height: 400px;">
       </div>
 
-      <!-- Right Form -->
       <div class="col-12 col-md-4">
         <div class="login-header text-center mb-4">
           <h3 class="text-white">COMPUTER IMS</h3>
         </div>
+
+        <?php if (isset($error) && !empty($error)): ?>
+          <div class="alert alert-danger text-center mb-3" role="alert">
+            <?php echo htmlspecialchars($error); // Use htmlspecialchars to prevent XSS ?>
+          </div>
+        <?php endif; ?>
+
         <form method="POST" action="/login/login_acc">
           <div class="mb-4">
             <label class="form-label light-txt">Username</label>
             <input type="text" id="username" name="username" class="form-control form-control-lg dark-txt light-bg"
-                  required maxlength="50"/>
+                  required maxlength="50" value="<?php echo htmlspecialchars($user_username ?? ''); // Retain username if re-displaying after error ?>"/>
           </div>
           <div class="mb-3">
             <label class="form-label light-txt">Password</label>
@@ -42,7 +47,6 @@
     </div>
   </div>
 
-  <!-- Footer -->
   <footer class="bg-primary text-white text-center py-3 mt-auto">
     <div>&copy; 2020. All rights reserved.</div>
   </footer>
@@ -55,11 +59,7 @@ function togglePassword() {
 }
 </script>
 
-<?php
-$content = ob_get_clean();
-require_once 'layout.php';
-
-require_once 'core/Logger.php';
-$memory = memory_get_usage();
-Logger::log("Used: $memory on login.php");
+<?php 
+use App\Core\Logger;
+Logger::log('UI: On login.php')
 ?>

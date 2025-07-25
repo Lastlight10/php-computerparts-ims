@@ -11,6 +11,8 @@
 
   <!-- Your custom CSS -->
   <link href="/resources/css/dashboard.css" rel="stylesheet">
+  <link href="/resources/css/tables.css" rel="stylesheet">
+  <link href="/resources/css/staff.css" rel="stylesheet">
 
 </head>
 <body>
@@ -23,7 +25,7 @@
         <div class="col-sm-auto bg-light sticky-top">
             <div class="d-flex flex-sm-column flex-row flex-nowrap bg-light align-items-center sticky-top" style="height: 100vh;">
                 <a href="#" class="nav-link py-3 px-2" data-bs-toggle="tooltip" title="Home">
-                    <i class="bi-house fs-1"></i>
+                    <i class="bi bi-house-door-fill fs-1"></i>
                 </a>
 
                 <!-- Scrollable nav container -->
@@ -31,33 +33,51 @@
                     <ul class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto align-items-center">
 
                         <li>
-                            <a href="/staff/dashboard" class="nav-link py-3 px-2" data-bs-toggle="tooltip" title="Dashboard">
-                                <i class="bi-speedometer2 fs-1"></i>
+                            <a href="/staff/dashboard" class="nav-link py-3 px-2" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
+                                <i class="bi bi-clipboard-data fs-1"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link py-3 px-2" data-bs-toggle="tooltip" title="Transactions">
+                            <a href="/staff/brands_list" class="nav-link py-3 px-2" data-bs-toggle="tooltip" data-bs-placement="right" title="Brands">
+                                <i class="bi bi-bootstrap fs-1"></i>
+                            </a>
+                        <li>
+                            <a href="/staff/categories_list" class="nav-link py-3 px-2" data-bs-toggle="tooltip" data-bs-placement="right" title="Categories">
+                                <i class="bi bi-grid-1x2 fs-1"></i>
+                            </a>
+                        <li>
+                            <a href="/staff/transactions_list" class="nav-link py-3 px-2" data-bs-toggle="tooltip" data-bs-placement="right" title="Transactions">
                                 <i class="bi-table fs-1"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="/staff/products_list" class="nav-link py-3 px-2" data-bs-toggle="tooltip" title="Products">
-                                <i class="bi-heart fs-1"></i>
+                            <a href="/staff/products_list" class="nav-link py-3 px-2" data-bs-placement="right" data-bs-toggle="tooltip" title="Products">
+                                <i class="bi bi-motherboard fs-1"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link py-3 px-2" data-bs-toggle="tooltip" title="Customers">
-                                <i class="bi bi-person-lines-fill fs-1"></i>
+                            <a href="/staff/customers_list" class="nav-link py-3 px-2" data-bs-toggle="tooltip" data-bs-placement="right" title="Customers">
+                                <i class="bi bi-bag-check fs-1"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="/staff/user_list" class="nav-link py-3 px-2" data-bs-toggle="tooltip" title="Users">
-                                <i class="bi-people-fill fs-1"></i>
+                            <a href="/staff/suppliers_list" class="nav-link py-3 px-2" data-bs-toggle="tooltip" data-bs-placement="right" title="Suppliers">
+                                <i class="bi bi-truck fs-1"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link py-3 px-2" data-bs-toggle="tooltip" title="User Settings">
-                                <i class="bi bi-person-fill-gear fs-1"></i>
+                            <a href="/staff/user_list" class="nav-link py-3 px-2" data-bs-toggle="tooltip"  data-bs-placement="right" title="Users">
+                                <i class="bi-people fs-1"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/staff/edit_user_account" class="nav-link py-3 px-2" data-bs-toggle="tooltip" data-bs-placement="right" title="User Settings" >
+                                <i class="bi bi-person-gear fs-1"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/login/logout" class="nav-link py-3 px-2" data-bs-toggle="tooltip" data-bs-placement="right" title="Logout" onclick="return confirmLogout()">
+                                <i class="bi bi-door-open fs-1"></i>
                             </a>
                         </li>
                     </ul>
@@ -77,5 +97,14 @@
   const tooltipList = [...tooltipTriggerList].map(t => new bootstrap.Tooltip(t));
 </script>
 
+<script>
+/**
+ * Prompts the user for confirmation before logging out.
+ * @returns {boolean} True if the user confirms, false otherwise.
+ */
+function confirmLogout() {
+    return confirm("Are you sure you want to log out?");
+}
+</script>
 </body>
 </html>

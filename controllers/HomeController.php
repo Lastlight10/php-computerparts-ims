@@ -1,4 +1,8 @@
 <?php
+namespace Controllers;
+use App\Core\Controller;
+use App\Core\Logger;
+use App\Core\Connection;
 
 class HomeController extends Controller {
     public function index() {

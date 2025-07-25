@@ -6,11 +6,15 @@
 .dropdown-menu {
   z-index: 1055; /* Make sure it’s above */
 }
-
+.lightgreen-bg {
+  background-color:#269422;
+}
 .dark-bg {
     background-color:#021526;
   }
-
+.lighterdark-bg {
+  background-color:#2971af;
+}
 .light-bg {
     background-color:#e0e0e0;
   }
@@ -38,4 +42,5 @@
         align-items: center;
         min-height: 100vh;
         background-color: #f8f9fa; /* Light background for visibility */
+        overflow:auto;
     }

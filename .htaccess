@@ -1,0 +1,12 @@
+# Turn on the Rewrite Engine
+RewriteEngine On
+
+# Allow some files/directories to pass through directly
+# If the request is for an existing file, don't do anything
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+# If the request is for an existing directory, don't do anything
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Otherwise, send all requests to index.php
+RewriteRule ^(.*)$ index.php [L,QSA]

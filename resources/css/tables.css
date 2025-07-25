@@ -1,0 +1,4 @@
+  .hidden-column,
+  .hidden-header { /* Apply display: none to both classes */
+      display: none;
+  }
