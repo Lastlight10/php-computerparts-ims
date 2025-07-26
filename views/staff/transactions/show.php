@@ -89,7 +89,7 @@ $can_add_items = ($transaction->status !== 'Completed' && $transaction->status !
                         <div class="col-md-6 mb-2"><strong>Transaction Date:</strong> <?= $transaction_date_formatted ?></div>
                         <div class="col-md-6 mb-2"><strong><?= $party_type ?>:</strong> <?= $party_name ?></div>
                         <div class="col-md-6 mb-2"><strong>Status:</strong> <?= htmlspecialchars($transaction->status) ?></div>
-                        <div class="col-md-6 mb-2"><strong>Total Amount:</strong> $<?= number_format($transaction->total_amount, 2) ?></div>
+                        <div class="col-md-6 mb-2"><strong>Total Amount:</strong> ₱<?= number_format($transaction->total_amount, 2) ?></div>
                         <div class="col-md-6 mb-2"><strong>Created By:</strong> <?= htmlspecialchars($transaction->createdBy->username ?? 'N/A') ?></div>
                         <div class="col-md-6 mb-2"><strong>Created At:</strong> <?= $created_at_formatted ?></div>
                         <div class="col-md-6 mb-2"><strong>Updated By:</strong> <?= htmlspecialchars($transaction->updatedBy->username ?? 'N/A') ?></div>
@@ -137,7 +137,9 @@ $can_add_items = ($transaction->status !== 'Completed' && $transaction->status !
                                         <tr>
                                             <td><?= $item_counter++ ?></td>
                                             <td><?= htmlspecialchars($item->product->name ?? 'N/A') ?></td>
-                                            <td><?= htmlspecialchars($item->quantity !== null ? $item->quantity : 'N/A') ?></td> <td>$<?= number_format($item->unit_price_at_transaction !== null ? (float)$item->unit_price_at_transaction : 0.00, 2) ?></td> <td>$<?= number_format($item->line_total !== null ? (float)$item->line_total : 0.00, 2) ?></td> <?php if ($can_add_items): ?>
+                                            <td><?= htmlspecialchars($item->quantity !== null ? $item->quantity : 'N/A') ?></td>
+                                            <td>₱<?= number_format($item->unit_price_at_transaction !== null ? (float)$item->unit_price_at_transaction : 0.00, 2) ?></td>
+                                            <td>₱<?= number_format($item->line_total !== null ? (float)$item->line_total : 0.00, 2) ?></td> <?php if ($can_add_items): ?>
                                                 <td>
                                                     <a href="/staff/transaction_items/edit/<?= htmlspecialchars($item->id) ?>" class="btn btn-sm btn-warning mb-1">Edit</a>
                                                     <form action="/staff/transaction_items/delete/<?= htmlspecialchars($item->id) ?>" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this item? This action cannot be undone.');">

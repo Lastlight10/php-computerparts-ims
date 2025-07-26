@@ -10,6 +10,7 @@ use Models\Transaction;
 use Models\Customer; // For dropdowns
 use Models\Supplier; // For dropdowns
 use Models\ProductInstance;
+use Models\Product;
 use Models\TransactionItem;
 use Models\User;     // For createdBy/updatedBy relationships
 
@@ -150,27 +151,25 @@ class StaffTransactionController extends Controller {
             $customer_id = null; // Clear both for adjustments
             $supplier_id = null;
         }
-         Logger::log("DEBUG_AFTER_CLEARING_LOGIC: transaction_type='{$transaction_type}', customer_id='" . var_export($customer_id, true) . "', supplier_id='" . var_export($supplier_id, true) . "'");
-
+        Logger::log("DEBUG_AFTER_CLEARING_LOGIC: transaction_type='{$transaction_type}', customer_id='" . var_export($customer_id, true) . "', supplier_id='" . var_export($supplier_id, true) . "'");
         if (empty($status)) $errors[] = 'Status is required.';
         // UPDATED: Added 'Confirmed' to the allowed statuses
         if (!in_array($status, ['Draft', 'Pending', 'Confirmed', 'Completed', 'Cancelled'])) $errors[] = 'Invalid Status.';
         if (empty($current_user_id)) $errors[] = 'User ID not found. Please log in.';
-
 
         if (!empty($errors)) {
             Logger::log("TRANSACTION_STORE_FAILED: Validation errors: " . implode(', ', $errors));
             $customers = Customer::all()->toArray(); // Ensure array for view
             $suppliers = Supplier::all()->toArray(); // Ensure array for view
             $this->view('staff/transactions/add', [
-                'error' => implode('<br>', $errors),
+                'error' => 'Please correct the following issues: ' . implode(', ', $errors),
                 'customers' => $customers,
                 'suppliers' => $suppliers,
-                'transaction' => (object)[ // Repopulate form with submitted data
+                'transaction' => (object) [ // Pass back input to repopulate form
                     'transaction_type' => $transaction_type,
                     'customer_id' => $customer_id,
                     'supplier_id' => $supplier_id,
-                    'transaction_date' => $transaction_date_str, // Use original string for repopulation
+                    'transaction_date' => $transaction_date_str,
                     'status' => $status,
                     'notes' => $notes,
                 ]
@@ -178,97 +177,41 @@ class StaffTransactionController extends Controller {
             return;
         }
 
-        // 3. Generate Invoice/Bill Number based on the SELECTED transaction_date
-        $prefix = '';
-    if ($transaction_type === 'Sale') {
-        $prefix = 'INV';
-    } elseif ($transaction_type === 'Purchase') {
-        $prefix = 'PO';
-    } elseif ($transaction_type === 'Customer Return') { // <-- Match DB
-        $prefix = 'CRET'; // Or 'RET' if you prefer a generic return prefix
-    } elseif ($transaction_type === 'Supplier Return') { // <-- Match DB
-        $prefix = 'SRET'; // Or 'RET' if you prefer a generic return prefix
-    } elseif ($transaction_type === 'Stock Adjustment') { // <-- Match DB
-        $prefix = 'ADJ';
-    }
-
-        $date_for_number = date('Ymd', strtotime($transaction_date_str)); // Date part of the invoice number
-        $date_for_query = date('Y-m-d', strtotime($transaction_date_str)); // Date part for database query (e.g., '2025-07-26')
-
-        // Find the highest sequence number for the chosen transaction date and prefix
-        $lastTransactionForDate = Transaction::where('transaction_date', 'LIKE', $date_for_query . '%') // Query based on the date part chosen
-                                            ->where('invoice_bill_number', 'LIKE', $prefix . '-' . $date_for_number . '-%')
-                                            ->orderBy('invoice_bill_number', 'desc')
-                                            ->first();
-
-        $sequence = 1;
-        if ($lastTransactionForDate && preg_match('/-(\d+)$/', $lastTransactionForDate->invoice_bill_number, $matches)) {
-            $sequence = (int)$matches[1] + 1;
-        }
-        $generated_invoice_bill_number = $prefix . '-' . $date_for_number . '-' . str_pad($sequence, 4, '0', STR_PAD_LEFT);
-
-        // Double check for absolute uniqueness (rare but possible in race conditions without DB sequence)
-        $attempts = 0;
-        while (Transaction::where('invoice_bill_number', $generated_invoice_bill_number)->exists() && $attempts < 100) {
-            $sequence++;
-            $generated_invoice_bill_number = $prefix . '-' . $date_for_number . '-' . str_pad($sequence, 4, '0', STR_PAD_LEFT);
-            $attempts++;
-        }
-        if ($attempts >= 100) {
-             Logger::log("TRANSACTION_STORE_ERROR: Failed to generate unique invoice number after many attempts for type $transaction_type and date $transaction_date_str.");
-             $customers = Customer::all()->toArray(); // Ensure array for view
-             $suppliers = Supplier::all()->toArray(); // Ensure array for view
-             $this->view('staff/transactions/add', [
-                 'error' => 'Failed to generate a unique transaction number. Please try again or contact support.',
-                 'customers' => $customers,
-                 'suppliers' => $suppliers,
-                 'transaction' => (object)[
-                     'transaction_type' => $transaction_type,
-                     'customer_id' => $customer_id,
-                     'supplier_id' => $supplier_id,
-                     'transaction_date' => $transaction_date_str,
-                     'status' => $status,
-                     'notes' => $notes,
-                 ]
-             ], 'staff');
-             return;
-        }
-
-
-        // 4. Create and Save Transaction
+        DB::beginTransaction();
         try {
             $transaction = new Transaction();
+            $transaction->invoice_bill_number = 'INV-' . strtoupper(uniqid()); // Simple unique ID
             $transaction->transaction_type = $transaction_type;
             $transaction->customer_id = $customer_id;
             $transaction->supplier_id = $supplier_id;
-            $transaction->transaction_date = $transaction_date_db; // Use normalized date for DB
-            $transaction->invoice_bill_number = $generated_invoice_bill_number;
-            $transaction->total_amount = 0.00;
+            $transaction->transaction_date = $transaction_date_db;
             $transaction->status = $status;
             $transaction->notes = $notes;
-            $transaction->created_by_user_id = $current_user_id;
-            $transaction->updated_by_user_id = $current_user_id;
-
+            $transaction->created_by_user_id = $_SESSION['user_id'] ?? null; // <-- Add this line
+            $transaction->updated_by_user_id = $_SESSION['user_id'] ?? null; 
             $transaction->save();
 
-            Logger::log("TRANSACTION_STORE_SUCCESS: New transaction '{$transaction->invoice_bill_number}' (ID: {$transaction->id}, Type: {$transaction->transaction_type}) created successfully.");
-            // Redirect to the show page to add items
-            $this->view('staff/transactions/show', ['transaction' => $transaction, 'success_message' => 'Transaction created. Now add items.'], 'staff');
-            return;
+            DB::commit();
+            Logger::log('TRANSACTION_STORE_SUCCESS: Transaction created successfully with ID: ' . $transaction->id);
+            // Redirect to edit page for the newly created transaction
+            header('Location: /staff/transactions/edit/' . $transaction->id . '?success_message=' . urlencode('Transaction created successfully. You can now add items.'));
+            exit();
 
-        } catch (\Exception $e) {
-            Logger::log("TRANSACTION_STORE_DB_ERROR: Failed to add transaction - " . $e->getMessage());
+        } catch (Exception $e) {
+            DB::rollBack();
+            Logger::log('TRANSACTION_STORE_ERROR: Failed to store transaction. Exception: ' . $e->getMessage());
+            Logger::log('TRANSACTION_STORE_ERROR: Stack Trace: ' . $e->getTraceAsString());
             $customers = Customer::all()->toArray(); // Ensure array for view
             $suppliers = Supplier::all()->toArray(); // Ensure array for view
             $this->view('staff/transactions/add', [
-                'error' => 'An error occurred while creating the transaction. Please try again. ' . $e->getMessage(),
+                'error' => 'An unexpected error occurred while saving the transaction. Please try again. ' . $e->getMessage(),
                 'customers' => $customers,
                 'suppliers' => $suppliers,
-                'transaction' => (object)[
+                'transaction' => (object) [ // Pass back input to repopulate form
                     'transaction_type' => $transaction_type,
                     'customer_id' => $customer_id,
                     'supplier_id' => $supplier_id,
-                    'transaction_date' => $transaction_date_str, // Use original string for repopulation
+                    'transaction_date' => $transaction_date_str,
                     'status' => $status,
                     'notes' => $notes,
                 ]
@@ -284,71 +227,76 @@ class StaffTransactionController extends Controller {
      * @param int $id The ID of the transaction to edit.
      * @return void
      */
-    // In StaffTransactionController.php (within the edit($id) method)
+    // In StaffTransactionController.php (inside the edit method)
 
- public function edit($id) // Assuming $id is passed as a route parameter
-    {
-        Logger::log("TRANSACTION_EDIT: Attempting to retrieve transaction ID: $id for editing.");
+public function edit($id) {
+    Logger::log("TRANSACTION_EDIT: Attempting to display edit form for transaction ID: $id.");
 
-        $transaction = Transaction::with([
-            'items.product',
-            'items.purchasedInstances',
-            'items.soldInstances',
-            'items.returnedFromCustomerInstances',
-            'items.returnedToSupplierInstances',
-            'items.adjustedInInstances',
-            'items.adjustedOutInstances',
-        ])->find($id);
+    // Eager load necessary relationships for the edit form
+    $transaction = Transaction::with([
+        'items.product',
+        'items.purchasedInstances',
+        'items.soldInstances',
+        'items.returnedFromCustomerInstances',
+        'items.returnedToSupplierInstances',
+        'items.adjustedInInstances',
+        'items.adjustedOutInstances',
+    ])->find($id);
 
-        if (!$transaction) {
-            Logger::log("TRANSACTION_EDIT_FAILED: Transaction ID $id not found.");
-            // Use view instead of header redirect
-            $this->view('staff/transactions_list', ['error' => 'Transaction not found for editing.'], 'staff');
-            return;
-        }
+    if (!$transaction) {
+        Logger::log("TRANSACTION_EDIT_FAILED: Transaction ID $id not found for editing.");
+        header('Location: /staff/transactions_list?error=' . urlencode('Transaction not found.'));
+        exit();
+    }
 
-        $customers = Customer::all()->toArray(); // Convert to array
-        $suppliers = Supplier::all()->toArray(); // Convert to array
+    $customers = Customer::all();
+    $suppliers = Supplier::all();
 
-        // Prepare available serial numbers for sale/return/adjustment outflow dropdowns
-        // Convert these collections to arrays directly here.
-        $available_serial_numbers_by_product = [];
-        $potential_customer_return_serials_by_product = [];
-        $potential_supplier_return_serials_by_product = [];
-        $potential_adjusted_out_serials_by_product = [];
+    // Fetch available serial numbers for 'Sale' and 'Supplier Return' and 'Adjustment Outflow'
+    // These are product instances currently 'In Stock'
+    $available_serial_numbers_by_product = [];
+    $in_stock_product_instances = ProductInstance::where('status', 'In Stock')->get()->groupBy('product_id');
 
-        foreach ($transaction->items as $item) {
-            if ($item->product && $item->product->is_serialized) {
-                $product_id = $item->product->id;
+    foreach ($in_stock_product_instances as $productId => $instances) {
+        $available_serial_numbers_by_product[$productId] = $instances->map(function ($instance) {
+            return ['serial_number' => $instance->serial_number, 'status' => $instance->status];
+        })->toArray();
+    }
+    $potential_adjusted_out_serials_by_product = $available_serial_numbers_by_product; // Stock Adjustment Outflow uses In Stock
 
-                // For Sales (products "In Stock")
-                $available_serial_numbers_by_product[$product_id] = ProductInstance::where('product_id', $product_id)
-                                                                ->where('status', 'In Stock')
-                                                                ->get()
-                                                                ->toArray(); // Convert to array here
+    // Fetch potential customer return serial numbers if a customer is selected
+    $potential_customer_return_serials_by_product = [];
+        if ($transaction->customer_id) {
+            $sold_to_customer_instances = ProductInstance::whereHas('saleTransactionItem.transaction', function ($query) use ($transaction) {
+                $query->where('customer_id', $transaction->customer_id);
+            })->where('status', 'Sold') // Product instances that were sold to this customer
+              ->get()
+              ->groupBy('product_id');
 
-                // For Customer Returns (products "Sold")
-                $potential_customer_return_serials_by_product[$product_id] = ProductInstance::where('product_id', $product_id)
-                                                                            ->where('status', 'Sold')
-                                                                            ->get()
-                                                                            ->toArray(); // Convert to array here
-
-                // For Supplier Returns (products "In Stock" - usually implies returning existing stock)
-                $potential_supplier_return_serials_by_product[$product_id] = ProductInstance::where('product_id', $product_id)
-                                                                            ->where('status', 'In Stock')
-                                                                            ->get()
-                                                                            ->toArray(); // Convert to array here
-
-                // For Stock Adjustment Outflow (products "In Stock")
-                $potential_adjusted_out_serials_by_product[$product_id] = ProductInstance::where('product_id', $product_id)
-                                                                        ->where('status', 'In Stock')
-                                                                        ->get()
-                                                                        ->toArray(); // Convert to array here
+            foreach ($sold_to_customer_instances as $productId => $instances) {
+                $potential_customer_return_serials_by_product[$productId] = $instances->map(function ($instance) {
+                    return ['serial_number' => $instance->serial_number, 'status' => $instance->status];
+                })->toArray();
             }
         }
 
 
-        Logger::log("TRANSACTION_EDIT_SUCCESS: Transaction ID: $id retrieved.");
+    // Fetch potential supplier return serial numbers (same as in-stock)
+    $potential_supplier_return_serials_by_product = $available_serial_numbers_by_product;
+
+    $temp_submitted_serials = $_SESSION['temp_submitted_serials'] ?? [];
+        unset($_SESSION['temp_submitted_serials']); // Clear after use
+
+        $temp_submitted_adjustment_directions = $_SESSION['temp_submitted_adjustment_directions'] ?? [];
+        unset($_SESSION['temp_submitted_adjustment_directions']); // Clear after use
+
+        // Existing error_data for failed submissions (lower priority than temp_submitted_serials if both exist)
+        $error_data = $_SESSION['error_data'] ?? [];
+        unset($_SESSION['error_data']); // Clear after use
+
+
+    Logger::log("TRANSACTION_EDIT_SUCCESS: Displaying edit form for transaction ID: $id.");
+
         $this->view('staff/transactions/edit', [
             'transaction' => $transaction,
             'customers' => $customers,
@@ -357,473 +305,516 @@ class StaffTransactionController extends Controller {
             'potential_customer_return_serials_by_product' => $potential_customer_return_serials_by_product,
             'potential_supplier_return_serials_by_product' => $potential_supplier_return_serials_by_product,
             'potential_adjusted_out_serials_by_product' => $potential_adjusted_out_serials_by_product,
-            // Pass error_data if you were redirecting from a validation error in update()
-            // 'error_data' => $_SESSION['error_data'] ?? [],
-            // 'error' => $_SESSION['error_message'] ?? '',
-            // 'success_message' => $_SESSION['success_message'] ?? '',
+            'error_data' => $error_data, // Still pass error data
+            'temp_submitted_serials' => $temp_submitted_serials, // Pass temp submitted serials
+            'temp_submitted_adjustment_directions' => $temp_submitted_adjustment_directions, // Pass temp submitted directions
+            'error_message' => $_GET['error'] ?? null,
+            'success_message' => $_GET['success_message'] ?? null,
         ], 'staff');
+}
 
-        // Clear session messages and error data after displaying
-        // unset($_SESSION['error_data']);
-        // unset($_SESSION['error_message']);
-        // unset($_SESSION['success_message']);
-    }
     /**
-     * Handles the POST request to update an existing transaction in the database.
+     * Handles the POST request to update an existing transaction.
      * Accessible via /staff/transactions/update
      *
      * @return void
      */
     
-    public function update($id = null)
+    public function update()
     {
-        Logger::log('TRANSACTION_UPDATE: Attempting to update transaction.');
+        Logger::log("TRANSACTION_UPDATE: Attempting to update transaction.");
 
+        // Check if the request method is POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $_SESSION['error_message'] = 'Invalid request method.';
-            header('Location: /staff/transactions_list'); // Changed: Using header for redirect
-            exit(); // Changed: Exit after redirect
+            Logger::log("TRANSACTION_UPDATE_ERROR: Invalid request method. Must be POST.");
+            // Redirect or show an error
+            header('Location: /staff/transactions_list?error=' . urlencode('Invalid request method.'));
+            exit();
         }
 
-        $id = $_POST['id'] ?? $id;
+        $transactionId = $this->input('id');
+        $transaction = Transaction::find($transactionId);
 
-        if (empty($id)) {
-            Logger::log('ERROR: Transaction ID not provided in POST data or route for update.');
-            $_SESSION['error_message'] = 'Transaction ID is missing.';
-            header('Location: /staff/transactions_list'); // Changed: Using header for redirect
-            exit(); // Changed: Exit after redirect
+        if (!$transaction) {
+            Logger::log("TRANSACTION_UPDATE_ERROR: Transaction not found. ID: {$transactionId}");
+            header('Location: /staff/transactions_list?error=' . urlencode('Transaction not found.'));
+            exit();
         }
 
-        Logger::log("DEBUG: Final transaction ID being used for update: {$id}");
-
-        $validationErrors = [];
-        $submittedSerialsByItemId = []; // To store submitted serials for sticky form
-
-        try {
-            DB::beginTransaction(); // Start a database transaction
-
-            $transaction = Transaction::with(['items.product', 'items.purchasedInstances', 'items.soldInstances', 'items.returnedFromCustomerInstances', 'items.returnedToSupplierInstances', 'items.adjustedInInstances', 'items.adjustedOutInstances'])->find($id);
-
-            if (!$transaction) {
-                // This error log might be misleading if it implies the transaction isn't found for validation.
-                // It means the $transaction object itself is null here.
-                Logger::log("ERROR: Transaction ID {$id} not found for update.");
-                $_SESSION['error_message'] = 'Transaction not found.';
-                DB::rollBack();
-                header('Location: /staff/transactions_list'); // Changed: Using header for redirect
-                exit(); // Changed: Exit after redirect
-            }
-
-            Logger::log("DEBUG: Final transaction ID being used for update: {$transaction->id}");
-
-            $oldStatus = $transaction->status; // Store old status before updating
-            $newStatus = $_POST['status'] ?? $oldStatus; // Get new status from form
-
-            // Basic validation for required fields
-            if (empty($_POST['transaction_type'])) {
-                $validationErrors['transaction_type'] = 'Transaction Type is required.';
-            }
-            if (empty($_POST['transaction_date'])) {
-                $validationErrors['transaction_date'] = 'Transaction Date is required.';
-            }
-            if (empty($_POST['status'])) {
-                $validationErrors['status'] = 'Status is required.';
-            }
-
-            $transactionType = $_POST['transaction_type'];
-            $customerId = $_POST['customer_id'] ?? null;
-            $supplierId = $_POST['supplier_id'] ?? null;
-
-            // Conditional validation for customer/supplier
-            if (($transactionType == 'Sale' || $transactionType == 'Customer Return') && empty($customerId)) {
-                $validationErrors['customer_id'] = 'Customer is required for Sale and Customer Return transactions.';
-            }
-            if (($transactionType == 'Purchase' || $transactionType == 'Supplier Return') && empty($supplierId)) {
-                $validationErrors['supplier_id'] = 'Supplier is required for Purchase and Supplier Return transactions.';
-            }
-
-            // Validate Transaction Items and Serial Numbers
-            if (!isset($_POST['item_quantities']) || !is_array($_POST['item_quantities'])) {
-                // This should not happen if items are pre-populated from transaction->items
-                $validationErrors['items'] = 'No transaction items found.';
-            } else {
-                foreach ($transaction->items as $item) {
-                    $product = $item->product;
-                    $itemId = $item->id;
-                    $quantity = $item->quantity;
-
-                    // Serialized product logic
-                    if ($product->is_serialized) {
-                        $serialsInput = [];
-                        $adjustmentDirection = '';
-
-                        if ($transactionType == 'Purchase') {
-                            $serialsInput = $_POST['serial_numbers'][$itemId] ?? [];
-                        } elseif ($transactionType == 'Sale') {
-                            $serialsInput = $_POST['selected_serial_numbers'][$itemId] ?? [];
-                        } elseif ($transactionType == 'Customer Return') {
-                            $serialsInput = $_POST['returned_serial_numbers'][$itemId] ?? [];
-                        } elseif ($transactionType == 'Supplier Return') {
-                            $serialsInput = $_POST['supplier_returned_serial_numbers'][$itemId] ?? [];
-                        } elseif ($transactionType == 'Stock Adjustment') {
-                            $adjustmentDirection = $_POST['item_adjustment_direction'][$itemId] ?? '';
-                            if ($adjustmentDirection == 'inflow') {
-                                $serialsInput = $_POST['adjusted_in_serial_numbers'][$itemId] ?? [];
-                            } elseif ($adjustmentDirection == 'outflow') {
-                                $serialsInput = $_POST['adjusted_out_serial_numbers'][$itemId] ?? [];
-                            }
-                            if (empty($adjustmentDirection) && in_array($newStatus, ['Pending', 'Confirmed', 'Completed'])) {
-                                 $validationErrors["item_adjustment_direction_{$itemId}"] = 'Adjustment direction is required for serialized stock adjustment items.';
-                            }
-                        }
-
-                        // Store for sticky form
-                        if (!empty($serialsInput)) {
-                            // Trim and filter empty serials for validation purposes, but store raw for sticky form if needed.
-                            $filteredSerialsInput = array_filter(array_map('trim', $serialsInput));
-                            $submittedSerialsByItemId[$itemId] = $filteredSerialsInput;
-
-                            Logger::log("DEBUG_VALIDATION: Item ID {$itemId}, Product '{$product->name}' (Serialized). Expected Quantity: {$quantity}, Submitted Serials Count: " . count($filteredSerialsInput) . ". Submitted Serials: " . json_encode($filteredSerialsInput));
-
-                            // Only validate serial count if status is not Draft or Cancelled, and is a serialized product.
-                            // The front-end disables fields for 'Cancelled', so no submission.
-                            if (in_array($newStatus, ['Pending', 'Confirmed', 'Completed'])) {
-                                if (count($filteredSerialsInput) !== (int)$quantity) {
-                                    $_SESSION['serial_number_validation_errors'][$itemId][] = "Expected {$quantity} serial numbers, but " . count($filteredSerialsInput) . " provided for item '{$product->name}'.";
-                                    $validationErrors['serial_numbers_count'] = true;
-                                } else {
-                                    $uniqueSerials = [];
-                                    foreach ($filteredSerialsInput as $serial) {
-                                        if (empty($serial)) {
-                                            $_SESSION['serial_number_validation_errors'][$itemId][] = "Serial number cannot be empty for item '{$product->name}'.";
-                                            $validationErrors['serial_numbers_empty'] = true;
-                                            continue;
-                                        }
-                                        if (in_array($serial, $uniqueSerials)) {
-                                            $_SESSION['serial_number_validation_errors'][$itemId][] = "Duplicate serial number '{$serial}' found for item '{$product->name}'.";
-                                            $validationErrors['serial_numbers_duplicate'] = true;
-                                        }
-                                        $uniqueSerials[] = $serial;
-                                    }
-
-                                    // Further validation based on transaction type for serialized items
-                                    if ($transactionType == 'Sale') {
-                                        $existingInstances = ProductInstance::where('product_id', $product->id)
-                                                                            ->whereIn('serial_number', $uniqueSerials)
-                                                                            ->get()
-                                                                            ->keyBy('serial_number');
-
-                                        foreach ($uniqueSerials as $serial) {
-                                            $instance = $existingInstances->get($serial);
-                                            if (!$instance || $instance->status !== 'In Stock') {
-                                                $_SESSION['serial_number_validation_errors'][$itemId][] = "Serial number '{$serial}' for item '{$product->name}' is not 'In Stock' for sale.";
-                                                $validationErrors['serial_numbers_invalid_status'] = true;
-                                            }
-                                            // Also prevent selling the same instance multiple times in one transaction
-                                            if ($instance && isset($soldSerialsInTransaction[$instance->id])) {
-                                                $_SESSION['serial_number_validation_errors'][$itemId][] = "Serial number '{$serial}' for item '{$product->name}' is selected multiple times within this transaction.";
-                                                $validationErrors['serial_numbers_duplicate_in_transaction'] = true;
-                                            }
-                                            $soldSerialsInTransaction[$instance->id] = true;
-                                        }
-                                    } elseif ($transactionType == 'Purchase') {
-                                        foreach ($uniqueSerials as $serial) {
-                                            if (ProductInstance::where('serial_number', $serial)->exists()) {
-                                                $_SESSION['serial_number_validation_errors'][$itemId][] = "Serial number '{$serial}' for item '{$product->name}' already exists in the system.";
-                                                $validationErrors['serial_numbers_exists'] = true;
-                                            }
-                                        }
-                                    } elseif ($transactionType == 'Customer Return') {
-                                        $existingInstances = ProductInstance::where('product_id', $product->id)
-                                                                            ->whereIn('serial_number', $uniqueSerials)
-                                                                            ->get()
-                                                                            ->keyBy('serial_number');
-                                        foreach ($uniqueSerials as $serial) {
-                                            $instance = $existingInstances->get($serial);
-                                            if (!$instance || $instance->status !== 'Sold') {
-                                                $_SESSION['serial_number_validation_errors'][$itemId][] = "Serial number '{$serial}' for item '{$product->name}' was not found or not 'Sold' to be returned by a customer.";
-                                                $validationErrors['serial_numbers_invalid_status'] = true;
-                                            }
-                                        }
-                                    } elseif ($transactionType == 'Supplier Return') {
-                                        $existingInstances = ProductInstance::where('product_id', $product->id)
-                                                                            ->whereIn('serial_number', $uniqueSerials)
-                                                                            ->get()
-                                                                            ->keyBy('serial_number');
-                                        foreach ($uniqueSerials as $serial) {
-                                            $instance = $existingInstances->get($serial);
-                                            if (!$instance || $instance->status !== 'In Stock') {
-                                                $_SESSION['serial_number_validation_errors'][$itemId][] = "Serial number '{$serial}' for item '{$product->name}' was not found or not 'In Stock' to be returned to a supplier.";
-                                                $validationErrors['serial_numbers_invalid_status'] = true;
-                                            }
-                                        }
-                                    } elseif ($transactionType == 'Stock Adjustment') {
-                                        if ($adjustmentDirection == 'inflow') {
-                                            foreach ($uniqueSerials as $serial) {
-                                                if (ProductInstance::where('serial_number', $serial)->exists()) {
-                                                    $_SESSION['serial_number_validation_errors'][$itemId][] = "Serial number '{$serial}' for item '{$product->name}' already exists in the system and cannot be adjusted in.";
-                                                    $validationErrors['serial_numbers_exists'] = true;
-                                                }
-                                            }
-                                        } elseif ($adjustmentDirection == 'outflow') {
-                                            $existingInstances = ProductInstance::where('product_id', $product->id)
-                                                                                ->whereIn('serial_number', $uniqueSerials)
-                                                                                ->get()
-                                                                                ->keyBy('serial_number');
-                                            foreach ($uniqueSerials as $serial) {
-                                                $instance = $existingInstances->get($serial);
-                                                if (!$instance || $instance->status !== 'In Stock') {
-                                                    $_SESSION['serial_number_validation_errors'][$itemId][] = "Serial number '{$serial}' for item '{$product->name}' was not found or not 'In Stock' to be adjusted out.";
-                                                    $validationErrors['serial_numbers_invalid_status'] = true;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            // If there are validation errors, set session and redirect
-            if (!empty($validationErrors)) {
-                Logger::log("VALIDATION_ERROR: " . json_encode($validationErrors));
-                $_SESSION['error_message'] = 'Please correct the errors below.';
-                $_SESSION['error_data'] = [
-                    'submitted_serial_numbers' => $submittedSerialsByItemId,
-                    'item_adjustment_direction' => $_POST['item_adjustment_direction'] ?? [],
-                    // Add other POST data you want to make sticky if necessary
-                ];
-                DB::rollBack();
-                header('Location: /staff/transactions/edit/' . $transaction->id); // Changed: Using header for redirect
-                exit(); // Changed: Exit after redirect
-            }
-
-            // Update transaction details
-            $transaction->transaction_type = $transactionType;
-            $transaction->customer_id = $customerId;
-            $transaction->supplier_id = $supplierId;
-            $transaction->transaction_date = $_POST['transaction_date'];
-            $transaction->status = $newStatus;
-            $transaction->notes = $_POST['notes'] ?? '';
-
-            // Handle transition to 'Completed' status
-            if ($newStatus === 'Completed' && $oldStatus !== 'Completed') {
-                Logger::log("TRANSACTION_STATUS_CHANGE: Transaction #{$transaction->id} changing from '{$oldStatus}' to '{$newStatus}'. Processing stock updates.");
-
-                foreach ($transaction->items as $item) {
-                    $product = $item->product;
-                    $quantity = $item->quantity;
-                    $itemId = $item->id;
-
-                    if ($product->is_serialized) {
-                        $serialsToProcess = $submittedSerialsByItemId[$itemId] ?? [];
-                        Logger::log("DEBUG_STOCK: Processing serialized product '{$product->name}' (ID: {$product->id}), Item ID: {$itemId}. Serials: " . json_encode($serialsToProcess));
-
-                        foreach ($serialsToProcess as $serial) {
-                            $productInstance = ProductInstance::firstOrNew(['serial_number' => $serial, 'product_id' => $product->id]);
-
-                            if ($transactionType == 'Purchase') {
-                                // For purchase, create new instances if they don't exist
-                                $productInstance->product_id = $product->id; // Ensure product_id is set for new instances
-                                $productInstance->serial_number = $serial;
-                                $productInstance->status = 'In Stock';
-                                $productInstance->purchase_transaction_item_id = $item->id;
-                                $productInstance->save();
-                                Logger::log("STOCK_UPDATE: Serial '{$serial}' set to 'In Stock' for Purchase (Product ID: {$product->id}).");
-
-                            } elseif ($transactionType == 'Sale') {
-                                // For sale, find existing instance and update status
-                                $instanceToUpdate = ProductInstance::where('serial_number', $serial)
-                                                                    ->where('product_id', $product->id)
-                                                                    ->where('status', 'In Stock')
-                                                                    ->first();
-                                if ($instanceToUpdate) {
-                                    $instanceToUpdate->status = 'Sold';
-                                    $instanceToUpdate->sale_transaction_item_id = $item->id;
-                                    $instanceToUpdate->save();
-                                    Logger::log("STOCK_UPDATE: Serial '{$serial}' set to 'Sold' for Sale (Product ID: {$product->id}).");
-                                } else {
-                                    Logger::log("ERROR: Attempted to sell serial '{$serial}' for Product ID {$product->id} but it was not 'In Stock'. This should have been caught by validation.");
-                                    // You might want to rollback here or throw an exception if this state is critical
-                                }
-
-                            } elseif ($transactionType == 'Customer Return') {
-                                $instanceToUpdate = ProductInstance::where('serial_number', $serial)
-                                                                    ->where('product_id', $product->id)
-                                                                    ->where('status', 'Sold')
-                                                                    ->first();
-                                if ($instanceToUpdate) {
-                                    $instanceToUpdate->status = 'In Stock';
-                                    $instanceToUpdate->customer_return_transaction_item_id = $item->id;
-                                    $instanceToUpdate->save();
-                                    Logger::log("STOCK_UPDATE: Serial '{$serial}' set to 'In Stock' for Customer Return (Product ID: {$product->id}).");
-                                } else {
-                                    Logger::log("ERROR: Attempted to return serial '{$serial}' for Product ID {$product->id} but it was not 'Sold'. This should have been caught by validation.");
-                                }
-
-                            } elseif ($transactionType == 'Supplier Return') {
-                                $instanceToUpdate = ProductInstance::where('serial_number', $serial)
-                                                                    ->where('product_id', $product->id)
-                                                                    ->where('status', 'In Stock')
-                                                                    ->first();
-                                if ($instanceToUpdate) {
-                                    $instanceToUpdate->status = 'Returned to Supplier'; // Or 'Disposed', depending on your stock model
-                                    $instanceToUpdate->supplier_return_transaction_item_id = $item->id;
-                                    $instanceToUpdate->save();
-                                    Logger::log("STOCK_UPDATE: Serial '{$serial}' set to 'Returned to Supplier' for Supplier Return (Product ID: {$product->id}).");
-                                } else {
-                                    Logger::log("ERROR: Attempted to return serial '{$serial}' to supplier for Product ID {$product->id} but it was not 'In Stock'. This should have been caught by validation.");
-                                }
-
-                            } elseif ($transactionType == 'Stock Adjustment') {
-                                $adjustmentDirection = $_POST['item_adjustment_direction'][$itemId] ?? '';
-                                if ($adjustmentDirection == 'inflow') {
-                                    $productInstance->product_id = $product->id; // Ensure product_id is set for new instances
-                                    $productInstance->serial_number = $serial;
-                                    $productInstance->status = 'In Stock';
-                                    $productInstance->adjusted_in_transaction_item_id = $item->id;
-                                    $productInstance->save();
-                                    Logger::log("STOCK_UPDATE: Serial '{$serial}' set to 'In Stock' for Adjustment Inflow (Product ID: {$product->id}).");
-                                } elseif ($adjustmentDirection == 'outflow') {
-                                    $instanceToUpdate = ProductInstance::where('serial_number', $serial)
-                                                                        ->where('product_id', $product->id)
-                                                                        ->where('status', 'In Stock')
-                                                                        ->first();
-                                    if ($instanceToUpdate) {
-                                        $instanceToUpdate->status = 'Adjusted Out';
-                                        $instanceToUpdate->adjusted_out_transaction_item_id = $item->id;
-                                        $instanceToUpdate->save();
-                                        Logger::log("STOCK_UPDATE: Serial '{$serial}' set to 'Adjusted Out' for Adjustment Outflow (Product ID: {$product->id}).");
-                                    } else {
-                                        Logger::log("ERROR: Attempted to adjust out serial '{$serial}' for Product ID {$product->id} but it was not 'In Stock'. This should have been caught by validation.");
-                                    }
-                                }
-                            }
-                        }
-                        // After processing all instances for this item, recalculate and update product's current_stock
-                        // For serialized products, current_stock should reflect actual 'In Stock' instances
-                        $product->current_stock = ProductInstance::where('product_id', $product->id)
-                                                                ->where('status', 'In Stock')
-                                                                ->count();
-                        $product->save();
-                        Logger::log("PRODUCT_STOCK_UPDATE: Recalculated stock for Product '{$product->name}' (ID: {$product->id}). New stock: {$product->current_stock}.");
-
+        // Store original serial numbers for comparison later
+        $originalSerialsByItemId = [];
+        foreach ($transaction->items as $item) {
+            if ($item->product->is_serialized) {
+                // Determine which relationship to check based on transaction type and item status
+                if ($transaction->transaction_type === 'Purchase') {
+                    $originalSerialsByItemId[$item->id] = $item->purchasedInstances->pluck('serial_number')->toArray();
+                } elseif ($transaction->transaction_type === 'Sale') {
+                    $originalSerialsByItemId[$item->id] = $item->soldInstances->pluck('serial_number')->toArray();
+                } elseif ($transaction->transaction_type === 'Customer Return') {
+                    $originalSerialsByItemId[$item->id] = $item->returnedFromCustomerInstances->pluck('serial_number')->toArray();
+                } elseif ($transaction->transaction_type === 'Supplier Return') {
+                    $originalSerialsByItemId[$item->id] = $item->returnedToSupplierInstances->pluck('serial_number')->toArray();
+                } elseif ($transaction->transaction_type === 'Stock Adjustment') {
+                    // For adjustments, we need to know direction
+                    if ($item->adjustedInInstances->isNotEmpty()) {
+                        $originalSerialsByItemId[$item->id] = $item->adjustedInInstances->pluck('serial_number')->toArray();
+                    } elseif ($item->adjustedOutInstances->isNotEmpty()) {
+                        $originalSerialsByItemId[$item->id] = $item->adjustedOutInstances->pluck('serial_number')->toArray();
                     } else {
-                        // Non-serialized product logic
-                        Logger::log("DEBUG_STOCK: Processing non-serialized product '{$product->name}' (ID: {$product->id}), Item ID: {$itemId}. Quantity: {$quantity}");
-
-                        if ($transactionType == 'Purchase' || $transactionType == 'Customer Return' || ($transactionType == 'Stock Adjustment' && ($_POST['item_adjustment_direction'][$itemId] ?? '') == 'inflow')) {
-                            $product->current_stock += $quantity;
-                            Logger::log("STOCK_UPDATE: Added {$quantity} to stock for non-serialized '{$product->name}'. New stock: {$product->current_stock}.");
-                        } elseif ($transactionType == 'Sale' || $transactionType == 'Supplier Return' || ($transactionType == 'Stock Adjustment' && ($_POST['item_adjustment_direction'][$itemId] ?? '') == 'outflow')) {
-                            $product->current_stock -= $quantity;
-                            Logger::log("STOCK_UPDATE: Subtracted {$quantity} from stock for non-serialized '{$product->name}'. New stock: {$product->current_stock}.");
-                        }
-                        $product->save();
-                        Logger::log("PRODUCT_STOCK_UPDATE: Updated stock for Product '{$product->name}' (ID: {$product->id}). New stock: {$product->current_stock}.");
+                        $originalSerialsByItemId[$item->id] = [];
                     }
                 }
-            } elseif ($newStatus === 'Cancelled' && $oldStatus !== 'Cancelled') {
-                 // Revert stock changes if transaction goes from Completed to Cancelled
-                if ($oldStatus === 'Completed') {
-                    Logger::log("TRANSACTION_STATUS_CHANGE: Transaction #{$transaction->id} changing from 'Completed' to 'Cancelled'. Reverting stock.");
-                    foreach ($transaction->items as $item) {
-                        $product = $item->product;
-                        $quantity = $item->quantity;
-                        $itemId = $item->id;
-
-                        if ($product->is_serialized) {
-                            // Find instances associated with this item and revert their status
-                            if ($transaction->transaction_type === 'Purchase') {
-                                $instances = ProductInstance::where('purchase_transaction_item_id', $itemId)->get();
-                                foreach ($instances as $instance) {
-                                    $instance->status = 'Cancelled (from Purchase)'; // Or delete, depending on your business rules
-                                    $instance->purchase_transaction_item_id = null; // Disassociate
-                                    $instance->save();
-                                }
-                            } elseif ($transaction->transaction_type === 'Sale') {
-                                $instances = ProductInstance::where('sale_transaction_item_id', $itemId)->get();
-                                foreach ($instances as $instance) {
-                                    $instance->status = 'In Stock'; // Revert to In Stock
-                                    $instance->sale_transaction_item_id = null; // Disassociate
-                                    $instance->save();
-                                }
-                            } elseif ($transaction->transaction_type === 'Customer Return') {
-                                $instances = ProductInstance::where('customer_return_transaction_item_id', $itemId)->get();
-                                foreach ($instances as $instance) {
-                                    $instance->status = 'Sold'; // Revert to Sold
-                                    $instance->customer_return_transaction_item_id = null; // Disassociate
-                                    $instance->save();
-                                }
-                            } elseif ($transaction->transaction_type === 'Supplier Return') {
-                                $instances = ProductInstance::where('supplier_return_transaction_item_id', $itemId)->get();
-                                foreach ($instances as $instance) {
-                                    $instance->status = 'In Stock'; // Revert to In Stock (from being returned to supplier)
-                                    $instance->supplier_return_transaction_item_id = null; // Disassociate
-                                    $instance->save();
-                                }
-                            } elseif ($transaction->transaction_type === 'Stock Adjustment') {
-                                $adjustedInInstances = ProductInstance::where('adjusted_in_transaction_item_id', $itemId)->get();
-                                foreach ($adjustedInInstances as $instance) {
-                                    $instance->status = 'Cancelled (from Adjustment In)'; // Or delete
-                                    $instance->adjusted_in_transaction_item_id = null;
-                                    $instance->save();
-                                }
-                                $adjustedOutInstances = ProductInstance::where('adjusted_out_transaction_item_id', $itemId)->get();
-                                foreach ($adjustedOutInstances as $instance) {
-                                    $instance->status = 'In Stock'; // Revert to In Stock
-                                    $instance->adjusted_out_transaction_item_id = null;
-                                    $instance->save();
-                                }
-                            }
-                             // Recalculate and update product's current_stock after reverting
-                            $product->current_stock = ProductInstance::where('product_id', $product->id)
-                                                                    ->where('status', 'In Stock')
-                                                                    ->count();
-                            $product->save();
-                            Logger::log("PRODUCT_STOCK_REVERT: Recalculated stock for Product '{$product->name}' (ID: {$product->id}) after cancellation. New stock: {$product->current_stock}.");
-
-                        } else {
-                            // Non-serialized product stock reversion
-                            if ($transaction->transaction_type == 'Purchase' || $transaction->transaction_type == 'Customer Return' || ($transaction->transaction_type == 'Stock Adjustment' && $item->adjustment_direction == 'inflow')) {
-                                $product->current_stock -= $quantity; // Subtract if it was an addition
-                                Logger::log("STOCK_REVERT: Subtracted {$quantity} from stock for non-serialized '{$product->name}' due to cancellation. New stock: {$product->current_stock}.");
-                            } elseif ($transaction->transaction_type == 'Sale' || $transaction->transaction_type == 'Supplier Return' || ($transaction->transaction_type == 'Stock Adjustment' && $item->adjustment_direction == 'outflow')) {
-                                $product->current_stock += $quantity; // Add back if it was a subtraction
-                                Logger::log("STOCK_REVERT: Added {$quantity} to stock for non-serialized '{$product->name}' due to cancellation. New stock: {$product->current_stock}.");
-                            }
-                            $product->save();
-                            Logger::log("PRODUCT_STOCK_REVERT: Updated stock for Product '{$product->name}' (ID: {$product->id}) after cancellation. New stock: {$product->current_stock}.");
-                        }
-                    }
-                }
+            } else {
+                $originalSerialsByItemId[$item->id] = [];
             }
+        }
 
 
+        DB::beginTransaction();
+        try {
+            // Update transaction details
+            $transaction->invoice_bill_number = $this->input('invoice_bill_number');
+            $transaction->transaction_type = $this->input('transaction_type');
+            $transaction->customer_id = $this->input('customer_id') ?: null;
+            $transaction->supplier_id = $this->input('supplier_id') ?: null;
+            $transaction->total_amount = $this->input('total_amount');
+            $transaction->transaction_date = $this->input('transaction_date');
+            $originalStatus = $transaction->status; // Capture original status
+            $transaction->status = $this->input('status'); // Update status
+            $transaction->notes = $this->input('notes');
+            $transaction->updated_by_user_id = $_SESSION['user_id'] ?? null;
             $transaction->save();
 
-            DB::commit(); // Commit the transaction
-            Logger::log('TRANSACTION_UPDATE_SUCCESS: Transaction ID ' . $transaction->id . ' updated successfully.');
-            $_SESSION['success_message'] = 'Transaction updated successfully!';
-            header('Location: /staff/transactions/edit/' . $transaction->id); // Changed: Using header for redirect
-            exit(); // Changed: Exit after redirect
+            // Handle transaction items and their serial numbers
+            $submittedItems = $this->input('items') ?? [];
+            $submittedSerials = $this->input('serial_numbers') ?? [];
+            $submittedSelectedSerials = $this->input('selected_serial_numbers') ?? []; // For Sale
+            $submittedReturnedSerials = $this->input('returned_serial_numbers') ?? []; // For Customer Return
+            $submittedSupplierReturnedSerials = $this->input('supplier_returned_serial_numbers') ?? []; // For Supplier Return
+            $submittedAdjustmentSerials = $this->input('adjustment_serial_numbers') ?? []; // For Stock Adjustment
+
+            foreach ($submittedItems as $submittedItemData) {
+                $itemId = $submittedItemData['id'];
+                $item = TransactionItem::find($itemId);
+
+                if ($item) {
+                    $product = Product::find($item->product_id); // Get the associated product
+
+                    // Update item details (quantity, unit_price, line_total)
+                    $item->quantity = $submittedItemData['quantity'];
+                    $unitPrice = (float) ($submittedItemData['unit_price'] ?? 0.00); // Ensure this line exists and correctly captures the input
+                    $item->unit_price_at_transaction = $unitPrice; // Make sure this is captured from form
+                    $item->line_total = $submittedItemData['line_total']; // Make sure this is captured from form
+                    $item->updated_by_user_id = $_SESSION['user_id'] ?? null;
+                    $item->save();
+
+                    // Handle serial numbers for serialized products
+                    if ($product->is_serialized) {
+                        $itemSubmittedSerials = [];
+                        if ($transaction->transaction_type === 'Purchase') {
+                            $itemSubmittedSerials = array_map('trim', $submittedSerials[$itemId] ?? []);
+                        } elseif ($transaction->transaction_type === 'Sale') {
+                            $itemSubmittedSerials = array_map('trim', $submittedSelectedSerials[$itemId] ?? []);
+                        } elseif ($transaction->transaction_type === 'Customer Return') {
+                            $itemSubmittedSerials = array_map('trim', $submittedReturnedSerials[$itemId] ?? []);
+                        } elseif ($transaction->transaction_type === 'Supplier Return') {
+                            $itemSubmittedSerials = array_map('trim', $submittedSupplierReturnedSerials[$itemId] ?? []);
+                        } elseif ($transaction->transaction_type === 'Stock Adjustment') {
+                            $itemSubmittedSerials = array_map('trim', $submittedAdjustmentSerials[$itemId] ?? []);
+                        }
+
+                        $itemSubmittedSerials = array_filter($itemSubmittedSerials); // Remove empty strings
+
+                        // Compare submitted serials with original serials linked to this item
+                        $newSerials = array_diff($itemSubmittedSerials, $originalSerialsByItemId[$itemId]);
+                        $removedSerials = array_diff($originalSerialsByItemId[$itemId], $itemSubmittedSerials);
+
+                        if (!empty($newSerials) || !empty($removedSerials)) {
+                            Logger::log("SERIAL_UPDATE_DEBUG: Changes detected for item {$itemId} serials. Submitted: " . json_encode($itemSubmittedSerials) . ", Original: " . json_encode($originalSerialsByItemId[$itemId]));
+
+                            // Unlink existing ProductInstances that are no longer in the submitted list
+                            foreach ($removedSerials as $serial_number) {
+                                $instance = ProductInstance::where('serial_number', $serial_number)
+                                                            ->where('product_id', $product->id)
+                                                            ->first();
+                                if ($instance) {
+                                    // Reset the transaction_item_id that linked it to this item
+                                    // The status change should only happen if the transaction is completed.
+                                    // If status changes from Completed to Pending, it should revert.
+                                    switch ($transaction->transaction_type) {
+                                        case 'Purchase':
+                                            $instance->purchase_transaction_item_id = null;
+                                            if ($originalStatus === 'Completed' && $transaction->status !== 'Completed') {
+                                                $instance->status = 'Removed'; // Or 'Discarded' etc.
+                                            }
+                                            break;
+                                        case 'Sale':
+                                            $instance->sale_transaction_item_id = null;
+                                            if ($originalStatus === 'Completed' && $transaction->status !== 'Completed') {
+                                                $instance->status = 'In Stock'; // Revert to in stock if sale is un-completed
+                                            }
+                                            break;
+                                        case 'Customer Return':
+                                            $instance->returned_from_customer_transaction_item_id = null;
+                                            if ($originalStatus === 'Completed' && $transaction->status !== 'Completed') {
+                                                $instance->status = 'Sold'; // Revert to sold if return is un-completed
+                                            }
+                                            break;
+                                        case 'Supplier Return':
+                                            $instance->returned_to_supplier_transaction_item_id = null;
+                                            if ($originalStatus === 'Completed' && $transaction->status !== 'Completed') {
+                                                $instance->status = 'In Stock'; // Revert to in stock if return is un-completed
+                                            }
+                                            break;
+                                        case 'Stock Adjustment':
+                                            // More complex: check if it was inflow or outflow
+                                            if ($instance->adjusted_in_transaction_item_id === $item->id) {
+                                                $instance->adjusted_in_transaction_item_id = null;
+                                                if ($originalStatus === 'Completed' && $transaction->status !== 'Completed') {
+                                                    $instance->status = 'Removed'; // Or previous status before inflow
+                                                }
+                                            } elseif ($instance->adjusted_out_transaction_item_id === $item->id) {
+                                                $instance->adjusted_out_transaction_item_id = null;
+                                                if ($originalStatus === 'Completed' && $transaction->status !== 'Completed') {
+                                                    $instance->status = 'In Stock'; // Or previous status before outflow
+                                                }
+                                            }
+                                            break;
+                                    }
+                                    $instance->updated_by_user_id = $_SESSION['user_id'] ?? null;
+                                    $instance->save();
+                                    Logger::log("SERIAL_UPDATE_DEBUG: Unlinked existing ProductInstances for item {$itemId}. Serial: {$serial_number}");
+                                }
+                            }
+                        }
+
+                        // Process new and existing serial numbers (only if transaction status is Completed)
+                        // This block ensures ProductInstances are created/updated in the DB
+                        if ($transaction->status === 'Completed') {
+                            Logger::log("DEBUG: Transaction status is Completed. Processing serial numbers for ProductInstances.");
+                            foreach ($itemSubmittedSerials as $serial_number) {
+                                switch ($transaction->transaction_type) {
+                                    case 'Purchase':
+                                        Logger::log("SERIAL_PROCESS: Starting Purchase ProductInstance processing for serial: {$serial_number}");
+
+                                        $instance = ProductInstance::where('serial_number', $serial_number)
+                                                                ->where('product_id', $product->id)
+                                                                ->first();
+
+                                        if (!$instance) {
+                                            $instance = new ProductInstance();
+                                            $instance->product_id = $product->id;
+                                            $instance->serial_number = $serial_number;
+                                            $instance->created_by_user_id = $_SESSION['user_id'] ?? null;
+                                            $instance->created_at = Carbon::now();
+                                            Logger::log("SERIAL_PROCESS: New ProductInstance created for serial: {$serial_number}");
+                                        } else {
+                                            Logger::log("SERIAL_PROCESS: Existing ProductInstance found for serial: {$serial_number}");
+                                        }
+                                        $productPrice = $product->unit_price ?? 0.00; // Get the product's default price
+
+                                        // --- Price Validation ---
+                                        // This assumes $unitPrice is available from earlier processing of submitted data.
+                                        // The previous instructions ensured $unitPrice was properly captured and cast.
+                                        if ($unitPrice < $productPrice && $unitPrice > 0) { // Only check if unitPrice is positive and lower than product price
+                                            $errorMessage = "Unit price ({$unitPrice}) for serial '{$serial_number}' cannot be lower than the product's standard price ({$productPrice}).";
+                                            Logger::log("VALIDATION_ERROR: " . $errorMessage);
+
+                                            // Set an error message in a session variable
+                                            $_SESSION['error_message'] = $errorMessage;
+
+                                            // Redirect back to the edit form immediately
+                                            header('Location: /staff/transactions/edit/' . $transactionId . '?error=' . urlencode($errorMessage));
+                                            exit(); // Stop script execution
+                                        }
+                                        $instance->status = 'In Stock';
+
+                                        // --- ADD THESE LOGGING LINES ---
+                                        Logger::log("SERIAL_PROCESS: TransactionItem ID for instance: " . ($item->id ?? 'N/A'));
+                                        Logger::log("SERIAL_PROCESS: unit_price_at_transaction from item: " . ($item->unit_price_at_transaction ?? 'NULL/Empty'));
+
+                                        $instance->cost_at_receipt = $unitPrice;
+
+                                        Logger::log("SERIAL_PROCESS: cost_at_receipt assigned: " . ($instance->cost_at_receipt ?? 'NULL/Empty'));
+                                        // --- END ADDED LOGGING LINES ---
+
+                                        $instance->updated_by_user_id = $_SESSION['user_id'] ?? null;
+                                        $instance->updated_at = Carbon::now();
+                                        $instance->purchase_transaction_item_id = $item->id;
+
+                                        $instance->save(); // This is the save call
+
+                                        Logger::log("SERIAL_UPDATE: ProductInstance save attempted for: {$serial_number}. ID: {$instance->id}");
+
+                                        // ... rest of your purchase case logic ...
+                                        Logger::log("SERIAL_UPDATE: Processed Purchase ProductInstance: {$serial_number}.");
+
+                                        // Update product current_stock (for non-serialized products or as a redundancy/total count for serialized)
+                                        // This part specifically for when transaction goes to 'Completed'
+                                        if ($originalStatus !== 'Completed' && $transaction->status === 'Completed') {
+                                            $product->increment('current_stock', 1); // Increment for each serial
+                                            Logger::log("STOCK_UPDATE: Increased stock for Product ID: {$product->id}. New stock: {$product->current_stock}");
+                                        }
+                                        break;
+
+                                    case 'Sale':
+                                        // Ensure the product's overall stock won't go negative
+                                        if ($product->current_stock < 1) {
+                                            DB::rollBack();
+                                            Logger::log("STOCK_ERROR: Insufficient stock for Product '{$product->name}' (ID: {$product->id}, Serial: {$serial_number}). Current stock: {$product->current_stock}. Sale aborted.");
+                                            $_SESSION['error_message'] = "Cannot complete sale for '{$product->name}' (Serial: {$serial_number}). Insufficient stock. Current stock is {$product->current_stock}.";
+                                            header('Location: /staff/transactions/edit/' . $transactionId . '?error=' . urlencode($_SESSION['error_message']));
+                                            exit();
+                                        }
+
+                                        $instance = ProductInstance::where('serial_number', $serial_number)
+                                                                  ->where('product_id', $product->id)
+                                                                  ->where('status', 'In Stock') // Ensure it was in stock before selling
+                                                                  ->first();
+                                        if ($instance) {
+                                            $instance->status = 'Sold';
+                                            $instance->sale_transaction_item_id = $item->id;
+                                            $instance->updated_by_user_id = $_SESSION['user_id'] ?? null;
+                                            $instance->updated_at = Carbon::now();
+                                            $instance->save();
+                                            Logger::log("SERIAL_UPDATE: Marked ProductInstance as Sale: {$serial_number}.");
+
+                                            // Update product current_stock
+                                            if ($originalStatus !== 'Completed' && $transaction->status === 'Completed') {
+                                                $product->decrement('current_stock', 1); // Decrement for each serial
+                                                Logger::log("STOCK_UPDATE: Decreased stock for Product ID: {$product->id}. New stock: {$product->current_stock}");
+                                            }
+                                        } else {
+                                            // Handle case where serial is not found or not in stock for sale
+                                            DB::rollBack();
+                                            Logger::log("STOCK_ERROR: Serial number '{$serial_number}' not found or not 'In Stock' for Sale transaction. Sale aborted.");
+                                            $_SESSION['error_message'] = "Serial number '{$serial_number}' not found or not available for sale for product '{$product->name}'.";
+                                            header('Location: /staff/transactions/edit/' . $transactionId . '?error=' . urlencode($_SESSION['error_message']));
+                                            exit();
+                                        }
+                                        break;
+
+                                    case 'Customer Return':
+                                        $instance = ProductInstance::where('serial_number', $serial_number)
+                                                                  ->where('product_id', $product->id)
+                                                                  // Optionally, check its previous status like 'Sold'
+                                                                  ->first();
+                                        if ($instance) {
+                                            $instance->status = 'Returned - Resalable'; // Or 'Returned - Damaged' etc.
+                                            $instance->returned_from_customer_transaction_item_id = $item->id;
+                                            $instance->updated_by_user_id = $_SESSION['user_id'] ?? null;
+                                            $instance->updated_at = Carbon::now();
+                                            $instance->save();
+                                            Logger::log("SERIAL_UPDATE: Marked ProductInstance as Returned from Customer: {$serial_number}.");
+
+                                            // Update product current_stock
+                                            if ($originalStatus !== 'Completed' && $transaction->status === 'Completed') {
+                                                $product->increment('current_stock', 1); // Increment for each serial
+                                                Logger::log("STOCK_UPDATE: Increased stock for Product ID: {$product->id}. New stock: {$product->current_stock}");
+                                            }
+                                        } else {
+                                            // Handle case where serial is not found for customer return
+                                            DB::rollBack();
+                                            Logger::log("STOCK_ERROR: Serial number '{$serial_number}' not found for Customer Return. Return aborted.");
+                                            $_SESSION['error_message'] = "Serial number '{$serial_number}' not found for product '{$product->name}' during Customer Return.";
+                                            header('Location: /staff/transactions/edit/' . $transactionId . '?error=' . urlencode($_SESSION['error_message']));
+                                            exit();
+                                        }
+                                        break;
+
+                                    case 'Supplier Return':
+                                        // Ensure the product's overall stock won't go negative
+                                        if ($product->current_stock < 1) {
+                                            DB::rollBack();
+                                            Logger::log("STOCK_ERROR: Insufficient stock for Product '{$product->name}' (ID: {$product->id}, Serial: {$serial_number}). Current stock: {$product->current_stock}. Supplier return aborted.");
+                                            $_SESSION['error_message'] = "Cannot complete supplier return for '{$product->name}' (Serial: {$serial_number}). Insufficient stock. Current stock is {$product->current_stock}.";
+                                            header('Location: /staff/transactions/edit/' . $transactionId . '?error=' . urlencode($_SESSION['error_message']));
+                                            exit();
+                                        }
+
+                                        $instance = ProductInstance::where('serial_number', $serial_number)
+                                                                  ->where('product_id', $product->id)
+                                                                  ->where('status', 'In Stock') // Only return what's in stock
+                                                                  ->first();
+                                        if ($instance) {
+                                            $instance->status = 'Removed'; // Status after returning to supplier
+                                            $instance->returned_to_supplier_transaction_item_id = $item->id;
+                                            $instance->updated_by_user_id = $_SESSION['user_id'] ?? null;
+                                            $instance->updated_at = Carbon::now();
+                                            $instance->save();
+                                            Logger::log("SERIAL_UPDATE: Marked ProductInstance as Returned to Supplier: {$serial_number}.");
+
+                                            // Update product current_stock
+                                            if ($originalStatus !== 'Completed' && $transaction->status === 'Completed') {
+                                                $product->decrement('current_stock', 1); // Decrement for each serial
+                                                Logger::log("STOCK_UPDATE: Decreased stock for Product ID: {$product->id}. New stock: {$product->current_stock}");
+                                            }
+                                        } else {
+                                            // Handle case where serial is not found or not in stock for supplier return
+                                            DB::rollBack();
+                                            Logger::log("STOCK_ERROR: Serial number '{$serial_number}' not found or not 'In Stock' for Supplier Return. Return aborted.");
+                                            $_SESSION['error_message'] = "Serial number '{$serial_number}' not found or not available for supplier return for product '{$product->name}'.";
+                                            header('Location: /staff/transactions/edit/' . $transactionId . '?error=' . urlencode($_SESSION['error_message']));
+                                            exit();
+                                        }
+                                        break;
+
+                                    case 'Stock Adjustment':
+                                        $adjustmentDirection = $this->input("adjustment_direction_{$item->id}");
+
+                                        if ($adjustmentDirection === 'inflow') {
+                                            $instance = ProductInstance::where('serial_number', $serial_number)
+                                                                      ->where('product_id', $product->id)
+                                                                      ->first();
+                                            if (!$instance) {
+                                                $instance = new ProductInstance();
+                                                $instance->product_id = $product->id;
+                                                $instance->serial_number = $serial_number;
+                                                $instance->created_by_user_id = $_SESSION['user_id'] ?? null;
+                                                $instance->created_at = Carbon::now();
+                                            }
+                                            $instance->status = 'In Stock';
+                                            $instance->updated_by_user_id = $_SESSION['user_id'] ?? null;
+                                            $instance->updated_at = Carbon::now();
+                                            $instance->adjusted_in_transaction_item_id = $item->id;
+                                            $instance->save();
+                                            Logger::log("SERIAL_UPDATE: Created/Updated ProductInstance for Stock Adjustment Inflow: {$serial_number}.");
+
+                                            // Update product current_stock
+                                            if ($originalStatus !== 'Completed' && $transaction->status === 'Completed') {
+                                                $product->increment('current_stock', 1); // Increment for each serial
+                                                Logger::log("STOCK_UPDATE: Increased stock for Product ID: {$product->id}. New stock: {$product->current_stock}");
+                                            }
+                                        } elseif ($adjustmentDirection === 'outflow') {
+                                            // Ensure the product's overall stock won't go negative
+                                            if ($product->current_stock < 1) {
+                                                DB::rollBack();
+                                                Logger::log("STOCK_ERROR: Insufficient stock for Product '{$product->name}' (ID: {$product->id}, Serial: {$serial_number}). Current stock: {$product->current_stock}. Stock adjustment outflow aborted.");
+                                                $_SESSION['error_message'] = "Cannot complete stock adjustment outflow for '{$product->name}' (Serial: {$serial_number}). Insufficient stock. Current stock is {$product->current_stock}.";
+                                                header('Location: /staff/transactions/edit/' . $transactionId . '?error=' . urlencode($_SESSION['error_message']));
+                                                exit();
+                                            }
+
+                                            $instance = ProductInstance::where('serial_number', $serial_number)
+                                                                      ->where('product_id', $product->id)
+                                                                      ->where('status', 'In Stock') // Only adjust out if in stock
+                                                                      ->first();
+                                            if ($instance) {
+                                                $instance->status = 'Adjusted Out';
+                                                $instance->adjusted_out_transaction_item_id = $item->id;
+                                                $instance->updated_by_user_id = $_SESSION['user_id'] ?? null;
+                                                $instance->updated_at = Carbon::now();
+                                                $instance->save();
+                                                Logger::log("SERIAL_UPDATE: Marked ProductInstance as Adjusted Out: {$serial_number}.");
+
+                                                // Update product current_stock
+                                                if ($originalStatus !== 'Completed' && $transaction->status === 'Completed') {
+                                                    $product->decrement('current_stock', 1); // Decrement for each serial
+                                                    Logger::log("STOCK_UPDATE: Decreased stock for Product ID: {$product->id}. New stock: {$product->current_stock}");
+                                                }
+                                            } else {
+                                                // Handle case where serial is not found or not in stock for adjustment outflow
+                                                DB::rollBack();
+                                                Logger::log("STOCK_ERROR: Serial number '{$serial_number}' not found or not 'In Stock' for Stock Adjustment Outflow. Adjustment aborted.");
+                                                $_SESSION['error_message'] = "Serial number '{$serial_number}' not found or not available for stock adjustment outflow for product '{$product->name}'.";
+                                                header('Location: /staff/transactions/edit/' . $transactionId . '?error=' . urlencode($_SESSION['error_message']));
+                                                exit();
+                                            }
+                                        } else {
+                                            // Handle case where adjustment direction is not specified
+                                            DB::rollBack();
+                                            Logger::log("ADJUSTMENT_ERROR: Adjustment direction not specified for item {$item->id}. Adjustment aborted.");
+                                            $_SESSION['error_message'] = "Adjustment direction not specified for item {$item->product->name}.";
+                                            header('Location: /staff/transactions/edit/' . $transactionId . '?error=' . urlencode($_SESSION['error_message']));
+                                            exit();
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+                    } else {
+                        // Logic for non-serialized products when transaction becomes 'Completed'
+                        if ($originalStatus !== 'Completed' && $transaction->status === 'Completed') {
+                            switch ($transaction->transaction_type) {
+                                case 'Purchase':
+                                case 'Customer Return':
+                                    // These are inflow, so no stock check needed before incrementing
+                                    $product->increment('current_stock', $item->quantity);
+                                    Logger::log("STOCK_UPDATE: Increased stock for non-serialized Product ID: {$product->id}. New stock: {$product->current_stock}");
+                                    break;
+                                case 'Sale':
+                                case 'Supplier Return':
+                                case 'Stock Adjustment': // For non-serialized, this covers outflow
+                                    // Ensure the product's overall stock won't go negative
+                                    if ($product->current_stock < $item->quantity) {
+                                        DB::rollBack();
+                                        Logger::log("STOCK_ERROR: Insufficient stock for non-serialized Product '{$product->name}' (ID: {$product->id}). Attempted to decrement {$item->quantity}, but current stock is {$product->current_stock}. Transaction aborted.");
+                                        $_SESSION['error_message'] = "Cannot complete transaction for '{$product->name}'. Insufficient stock. Attempted to remove {$item->quantity}, but only {$product->current_stock} available.";
+                                        header('Location: /staff/transactions/edit/' . $transactionId . '?error=' . urlencode($_SESSION['error_message']));
+                                        exit();
+                                    }
+                                    $product->decrement('current_stock', $item->quantity);
+                                    Logger::log("STOCK_UPDATE: Decreased stock for non-serialized Product ID: {$product->id}. New stock: {$product->current_stock}");
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Reload transaction and its items to ensure 'items' relationship is up-to-date for subsequent logging/redirect
+            $transaction->load('items.product'); // Ensure product data is fresh for stock updates
+
+            // Capture submitted serial numbers and adjustment directions for pending transactions
+            if ($transaction->status === 'Pending') {
+                $submittedSerialsToPersist = [];
+                $submittedAdjustmentDirectionsToPersist = [];
+
+                foreach ($transaction->items as $item) {
+                    if ($item->product->is_serialized) {
+                        if ($transaction->transaction_type === 'Stock Adjustment') {
+                            $itemAdjustmentSerials = array_map('trim', $submittedAdjustmentSerials[$item->id] ?? []);
+                            $submittedSerialsToPersist[$item->id] = array_filter($itemAdjustmentSerials);
+                            $submittedAdjustmentDirectionsToPersist[$item->id] = $this->input("adjustment_direction_{$item->id}") ?? '';
+                        } else {
+                            // Adjust these input names based on your form's 'name' attributes for each transaction type
+                            if ($transaction->transaction_type === 'Purchase') {
+                                $itemSerials = $this->input('serial_numbers')[$item->id] ?? [];
+                            } elseif ($transaction->transaction_type === 'Sale') {
+                                $itemSerials = $this->input('selected_serial_numbers')[$item->id] ?? [];
+                            } elseif ($transaction->transaction_type === 'Customer Return') {
+                                $itemSerials = $this->input('returned_serial_numbers')[$item->id] ?? [];
+                            } elseif ($transaction->transaction_type === 'Supplier Return') {
+                                $itemSerials = $this->input('supplier_returned_serial_numbers')[$item->id] ?? [];
+                            } else {
+                                $itemSerials = []; // Fallback for other types
+                            }
+
+                            $itemSerials = array_map('trim', $itemSerials);
+                            $submittedSerialsToPersist[$item->id] = array_filter($itemSerials);
+                        }
+                    }
+                }
+
+                $_SESSION['temp_submitted_serials'] = $submittedSerialsToPersist;
+                $_SESSION['temp_submitted_adjustment_directions'] = $submittedAdjustmentDirectionsToPersist;
+                Logger::log("DEBUG: Stored temp_submitted_serials for pending transaction.");
+            }
+
+            DB::commit();
+            Logger::log("TRANSACTION_UPDATE_SUCCESS: Transaction and associated serial numbers updated successfully. ID: {$transaction->id}");
+            header('Location: /staff/transactions_list?success_message=' . urlencode('Transaction updated successfully.'));
+            exit();
 
         } catch (Exception $e) {
-            DB::rollBack(); // Rollback on error
-            Logger::log('TRANSACTION_UPDATE_ERROR: ' . $e->getMessage());
-            Logger::log('TRANSACTION_UPDATE_ERROR_TRACE: ' . $e->getTraceAsString());
-            $_SESSION['error_message'] = 'Failed to update transaction: ' . $e->getMessage();
-            $_SESSION['error_data'] = [
-                'submitted_serial_numbers' => $submittedSerialsByItemId,
-                'item_adjustment_direction' => $_POST['item_adjustment_direction'] ?? [],
-                // Add other POST data you want to make sticky if necessary
-            ];
-            header('Location: /staff/transactions/edit/' . $id); // Changed: Using header for redirect
-            exit(); // Changed: Exit after redirect
+            DB::rollBack();
+            Logger::log("TRANSACTION_UPDATE_ERROR: " . $e->getMessage());
+            $_SESSION['error_data'] = $_POST; // Populate form with submitted data
+            header('Location: /staff/transactions/edit/' . $transactionId . '?error=' . urlencode($e->getMessage()));
+            exit();
         }
     }
+
 
     /**
      * Handles the deletion of a transaction.
@@ -958,7 +949,7 @@ class StaffTransactionController extends Controller {
         header('Location: /staff/transactions_list?success_message=' . urlencode($_SESSION['success_message']));
         exit();
 
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         $pdo->rollBack(); // <--- Transaction rolled back here on failure
         Logger::log("TRANSACTION_DELETE_DB_ERROR: Failed to delete transaction ID {$id} - " . $e->getMessage());
         $_SESSION['error_message'] = 'An error occurred while deleting the transaction: ' . $e->getMessage();
@@ -1009,7 +1000,7 @@ class StaffTransactionController extends Controller {
                     ]);
                     Logger::log("Created new purchased serial: {$serialNumber} for item {$item->id}.");
                     $serialsToKeep[] = $serialNumber;
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     Logger::log('ERROR: Failed to create new ProductInstance for serial ' . $serialNumber . ': ' . $e->getMessage());
                     throw $e;
                 }
@@ -1102,7 +1093,7 @@ class StaffTransactionController extends Controller {
                             'updated_at' => date('Y-m-d H:i:s'),
                         ]);
                         Logger::log("Created new adjusted-in serial: {$serialNumber} for item {$item->id}.");
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         Logger::log('ERROR: Failed to create new ProductInstance for adjustment inflow serial ' . $serialNumber . ': ' . $e->getMessage());
                         throw $e; // Re-throw to indicate a critical error
                     }
@@ -1139,7 +1130,7 @@ class StaffTransactionController extends Controller {
                 $instance = ProductInstance::findBySerialNumber($serialNumber);
                 if (!$instance) {
                     Logger::log('ERROR: Attempted to adjust out non-existent serial number: ' . $serialNumber . ' for product ' . $item->product->sku);
-                    throw new \Exception('Invalid serial number for adjustment outflow: ' . $serialNumber);
+                    throw new Exception('Invalid serial number for adjustment outflow: ' . $serialNumber);
                 }
 
                 // If transaction is completed, ensure status is 'Adjusted Out'
@@ -1216,7 +1207,7 @@ class StaffTransactionController extends Controller {
                 $serialsToKeep[] = $serialNumber;
             } else {
                 Logger::log('ERROR: Attempted to sell non-existent or invalid serial number: ' . $serialNumber . ' for product ' . $item->product->sku);
-                throw new \Exception('Invalid serial number for sale: ' . $serialNumber); // Re-throw for transaction rollback
+                throw new Exception('Invalid serial number for sale: ' . $serialNumber); // Re-throw for transaction rollback
             }
         }
 
@@ -1263,7 +1254,7 @@ class StaffTransactionController extends Controller {
                 $serialsToKeep[] = $serialNumber;
             } else {
                 Logger::log('ERROR: Attempted to return non-existent or invalid serial number: ' . $serialNumber . ' for product ' . $item->product->sku);
-                throw new \Exception('Invalid serial number for customer return: ' . $serialNumber);
+                throw new Exception('Invalid serial number for customer return: ' . $serialNumber);
             }
         }
 
@@ -1310,7 +1301,7 @@ class StaffTransactionController extends Controller {
                 $serialsToKeep[] = $serialNumber;
             } else {
                 Logger::log('ERROR: Attempted to return to supplier non-existent or invalid serial number: ' . $serialNumber . ' for product ' . $item->product->sku);
-                throw new \Exception('Invalid serial number for supplier return: ' . $serialNumber);
+                throw new Exception('Invalid serial number for supplier return: ' . $serialNumber);
             }
         }
 

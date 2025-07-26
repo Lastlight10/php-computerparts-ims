@@ -25,8 +25,8 @@ if (!$product) {
                     <p class="light-txt mb-1"><strong>SKU:</strong> <?= htmlspecialchars($product->sku ?? 'N/A') ?></p>
                     <p class="light-txt mb-1"><strong>Category:</strong> <?= htmlspecialchars($product->category->name ?? 'N/A') ?></p>
                     <p class="light-txt mb-1"><strong>Brand:</strong> <?= htmlspecialchars($product->brand->name ?? 'N/A') ?></p>
-                    <p class="light-txt mb-1"><strong>Unit Price:</strong> $<?= htmlspecialchars(number_format($product->unit_price ?? 0, 2)) ?></p>
-                    <p class="light-txt mb-1"><strong>Cost Price:</strong> $<?= htmlspecialchars(number_format($product->cost_price ?? 0, 2)) ?></p>
+                    <p class="light-txt mb-1"><strong>Unit Price:</strong> ₱<?= htmlspecialchars(number_format($product->unit_price ?? 0, 2)) ?></p>
+                    <p class="light-txt mb-1"><strong>Cost Price:</strong> ₱<?= htmlspecialchars(number_format($product->cost_price ?? 0, 2)) ?></p>
                 </div>
                 <div class="col-md-6">
                     <p class="light-txt mb-1"><strong>Current Stock:</strong> <?= htmlspecialchars($product->current_stock ?? 'N/A') ?></p>
@@ -71,18 +71,30 @@ if (!$product) {
                                     <td><?= htmlspecialchars($instance->id) ?></td>
                                     <td><?= htmlspecialchars($instance->serial_number ?? 'N/A') ?></td>
                                     <td><?= htmlspecialchars($instance->status ?? 'N/A') ?></td>
-                                    <td>$<?= htmlspecialchars(number_format($instance->cost_at_receipt ?? 0, 2)) ?></td>
+                                    <td>₱<?= htmlspecialchars(number_format((float)$instance->cost_at_receipt ?? 0, 2)) ?></td>
                                     <td><?= htmlspecialchars($instance->warranty_expires_at ?? 'N/A') ?></td>
                                     <td>
                                         <?php
                                         // Display purchase transaction date if available
-                                        echo htmlspecialchars($instance->purchaseItem->transaction->transaction_date ?? 'N/A');
+                                        // Check if purchaseTransactionItem exists, AND if its transaction exists
+                                        if (isset($instance->purchaseTransactionItem->transaction->transaction_date)) {
+                                            // Format the Carbon date object
+                                            echo htmlspecialchars($instance->purchaseTransactionItem->transaction->transaction_date->format('Y-m-d'));
+                                        } else {
+                                            echo 'N/A';
+                                        }
                                         ?>
                                     </td>
                                     <td>
                                         <?php
                                         // Display sale transaction date if available
-                                        echo htmlspecialchars($instance->saleItem->transaction->transaction_date ?? 'N/A');
+                                        // Check if saleTransactionItem exists, AND if its transaction exists
+                                        if (isset($instance->saleTransactionItem->transaction->transaction_date)) {
+                                            // Format the Carbon date object
+                                            echo htmlspecialchars($instance->saleTransactionItem->transaction->transaction_date->format('Y-m-d'));
+                                        } else {
+                                            echo 'N/A';
+                                        }
                                         ?>
                                     </td>
                                     <td>

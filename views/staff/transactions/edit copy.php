@@ -77,7 +77,7 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
     <div class="row justify-content-center">
       <div class="col-12 col-md-10 col-lg-8">
         <div class="card lighterdark-bg p-4 shadow-sm">
-          <h3 class="text-white text-center mb-4">Edit Transaction: #<?= htmlspecialchars($transaction->invoice_bill_number ?? 'N/A') ?></h3>
+          <h3 class="text-white text-center mb-4">Edit Transaction: #<?= htmlspecialchars($transaction->invoice_bill_number) ?></h3>
 
           <?php if (!empty($display_success_message)): ?>
             <div class="alert alert-success text-center mb-3" role="alert">
@@ -92,20 +92,17 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
           <?php endif; ?>
 
           <form action="/staff/transactions/update" method="POST" id="transactionForm">
-            <input type="hidden" name="id" value="<?= htmlspecialchars($transaction->id ?? 'N/A') ?>">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($transaction->id) ?>">
             <input type="hidden" id="initialStatus" value="<?= htmlspecialchars($transaction->status) ?>">
             <input type="hidden" id="initialTransactionType" value="<?= htmlspecialchars($transaction->transaction_type) ?>">
             <input type="hidden" name="items[]" value="" style="display: none;">
 
 
-            <div class="row mb-3">
-                <label for="invoice_bill_number" class="form-label light-txt">Invoice/Bill Number</label>
-                <div class="col-sm-10">
-                    <input readonly type="text" class="form-control form-select-lg dark-txt light-bg" id="invoice_bill_number" name="invoice_bill_number"
-                        value="<?= htmlspecialchars($transaction->invoice_bill_number ?? '') ?>">
-                </div>
+            <div class="mb-3">
+              <label for="invoice_bill_number" class="form-label light-txt">Invoice/Bill Number</label>
+              <input type="text" class="form-control form-control-lg dark-txt light-bg" id="invoice_bill_number" value="<?= htmlspecialchars($transaction->invoice_bill_number) ?>" readonly>
             </div>
-            
+
             <div class="mb-3">
               <label for="transaction_type" class="form-label light-txt">Transaction Type</label>
               <select class="form-select form-select-lg dark-txt light-bg" id="transaction_type" name="transaction_type" required <?= $initial_is_form_readonly ? 'disabled' : '' ?>>
@@ -152,13 +149,6 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                 <?php endforeach; ?>
               </select>
             </div>
-            <div class="row mb-3">
-                <label for="total_amount" class="form-label light-txt">Total Amount</label>
-                <div class="col-sm-10">
-                    <input type="number" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="total_amount" name="total_amount"
-                        value="<?= htmlspecialchars($transaction->total_amount ?? '') ?>" readonly>
-                </div>
-            </div>
             <div class="mb-3">
               <label for="transaction_date" class="form-label light-txt">Transaction Date</label>
               <input type="date" class="form-control form-control-lg dark-txt light-bg" id="transaction_date" name="transaction_date"
@@ -179,11 +169,7 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
             <h3 class="text-white mt-4 mb-3">Transaction Items</h3>
             <div class="transaction-items-list">
                 <?php if (!empty($transaction->items) && count($transaction->items) > 0): ?>
-                    
-                    <?php 
-                        $error_data = $_SESSION['error_data'] ?? [];
-                        unset($_SESSION['error_data']); // Clear it after use
-                        foreach ($transaction->items as $index => $item): ?>
+                    <?php foreach ($transaction->items as $index => $item): ?>
                         <div class="card lighterdark-bg mb-3 p-3 shadow-sm" data-product-id="<?= htmlspecialchars($item->product->id); ?>" data-is-serialized="<?= htmlspecialchars((int)$item->product->is_serialized); ?>" data-quantity="<?= htmlspecialchars($item->quantity); ?>">
                             <div class="card-body">
                                 <h5 class="card-title text-white"><?= htmlspecialchars($item->product->name ?? 'N/A') ?> (SKU: <?= htmlspecialchars($item->product->sku ?? 'N/A') ?>)</h5>
@@ -196,7 +182,7 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                 <input type="hidden" name="items[<?= $index ?>][id]" value="<?= htmlspecialchars($item->id) ?>">
                                 <input type="hidden" name="items[<?= $index ?>][product_id]" value="<?= htmlspecialchars($item->product_id) ?>">
                                 <input type="hidden" name="items[<?= $index ?>][quantity]" value="<?= htmlspecialchars($item->quantity) ?>">
-                                <input type="number" step="0.01" name="items[<?= $index ?>][unit_price]" value="<?= htmlspecialchars($item->unit_price ?? '') ?>">
+                                <input type="hidden" name="items[<?= $index ?>][unit_price]" value="<?= htmlspecialchars($item->unit_price) ?>">
                                 <input type="hidden" name="items[<?= $index ?>][line_total]" value="<?= htmlspecialchars($item->line_total) ?>">
 
                                 <?php
@@ -212,64 +198,32 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
 
                                         <?php
                                         $current_purchase_serials = [];
-                                        // Priority 1: From temporary session data (e.g., successful update of PENDING transaction)
-                                        if (isset($temp_submitted_serials[$item->id]) && is_array($temp_submitted_serials[$item->id])) {
-                                            $current_purchase_serials = $temp_submitted_serials[$item->id];
-                                        }
-                                        // Priority 2: From submitted error data (sticky form repopulation on *failed* attempt)
-                                        elseif (isset($error_data['submitted_serial_numbers'][$item->id]) && is_array($error_data['submitted_serial_numbers'][$item->id])) {
+                                        // Priority 1: From submitted error data (sticky form repopulation)
+                                        if (isset($error_data['submitted_serial_numbers'][$item->id]) && is_array($error_data['submitted_serial_numbers'][$item->id])) {
                                             $current_purchase_serials = $error_data['submitted_serial_numbers'][$item->id];
                                         }
-                                        // Priority 3: From existing ProductInstances if the transaction is already completed (or has existing links)
+                                        // Priority 2: From existing ProductInstances if the transaction is already completed
+                                        // This requires 'items.purchasedInstances' to be eager-loaded in the controller.
                                         elseif ($item->relationLoaded('purchasedInstances') && !empty($item->purchasedInstances)) {
                                             foreach ($item->purchasedInstances as $instance) {
                                                 $current_purchase_serials[] = $instance->serial_number;
                                             }
                                         }
-                                        // Ensure array has as many elements as quantity, padding with empty strings
-                                        $displayed_purchase_serials = []; // Use a separate variable for display
-                                        for ($i = 0; $i < $item->quantity; $i++) {
-                                            $displayed_purchase_serials[] = $current_purchase_serials[$i] ?? '';
-                                        }
-                                        // Now use $displayed_purchase_serials in the loop below
                                         ?>
 
-                                        <?php
-                                        $current_purchase_serials = [];
-                                        // Priority 1: From temporary session data (e.g., successful update of PENDING transaction)
-                                        if (isset($temp_submitted_serials[$item->id]) && is_array($temp_submitted_serials[$item->id])) {
-                                            $current_purchase_serials = $temp_submitted_serials[$item->id];
-                                        }
-                                        // Priority 2: From submitted error data (sticky form repopulation on *failed* attempt)
-                                        elseif (isset($error_data['submitted_serial_numbers'][$item->id]) && is_array($error_data['submitted_serial_numbers'][$item->id])) {
-                                            $current_purchase_serials = $error_data['submitted_serial_numbers'][$item->id];
-                                        }
-                                        // Priority 3: From existing ProductInstances if the transaction is already completed (or has existing links)
-                                        elseif ($item->relationLoaded('purchasedInstances') && !empty($item->purchasedInstances)) {
-                                            foreach ($item->purchasedInstances as $instance) {
-                                                $current_purchase_serials[] = $instance->serial_number;
-                                            }
-                                        }
-                                        // Ensure array has as many elements as quantity, padding with empty strings
-                                        $displayed_purchase_serials = []; // Use a separate variable for display
-                                        for ($i = 0; $i < $item->quantity; $i++) {
-                                            $displayed_purchase_serials[] = $current_purchase_serials[$i] ?? '';
-                                        }
-                                        ?>
-
-                                        <?php foreach ($displayed_purchase_serials as $i => $serial_value): ?>
+                                        <?php for ($i = 0; $i < $item->quantity; $i++): ?>
                                             <div class="form-group mb-2">
                                                 <label for="purchase_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>" class="form-label light-txt">Serial #<?= ($i + 1); ?>:</label>
                                                 <input type="text"
                                                        class="form-control form-control-sm dark-txt light-bg serial-number-input"
                                                        id="purchase_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
                                                        name="serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
-                                                       value="<?= htmlspecialchars($serial_value); ?>"
+                                                       value="<?= htmlspecialchars($current_purchase_serials[$i] ?? ''); ?>"
                                                        data-product-id="<?= htmlspecialchars($item->product->id); ?>"
                                                        data-item-id="<?= htmlspecialchars($item->id); ?>"
                                                        required>
                                             </div>
-                                        <?php endforeach; ?>
+                                        <?php endfor; ?>
                                     </div>
                                 <?php endif; ?>
 
@@ -288,18 +242,15 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
 
                                         // Prepare pre-filled selected serial numbers for sales
                                         $current_sale_serials = [];
-                                        // Priority 1: From temporary session data (e.g., successful update of PENDING transaction)
-                                        if (isset($temp_submitted_serials[$item->id]) && is_array($temp_submitted_serials[$item->id])) {
-                                            $current_sale_serials = $temp_submitted_serials[$item->id];
-                                        }
-                                        // Priority 2: From submitted error data (sticky form repopulation)
-                                        elseif (isset($error_data['selected_serial_numbers'][$item->id]) && is_array($error_data['selected_serial_numbers'][$item->id])) {
+                                        // Priority 1: From submitted error data (sticky form repopulation)
+                                        if (isset($error_data['selected_serial_numbers'][$item->id]) && is_array($error_data['selected_serial_numbers'][$item->id])) {
                                             $current_sale_serials = $error_data['selected_serial_numbers'][$item->id];
                                         }
-                                        // Priority 3: From existing ProductInstances if the transaction is already completed
+                                        // Priority 2: From existing ProductInstances if the transaction is already completed
+                                        // This requires 'items.soldInstances' to be eager-loaded in the controller.
                                         elseif ($item->relationLoaded('soldInstances') && !empty($item->soldInstances)) {
                                             foreach ($item->soldInstances as $instance) {
-                                                $current_sale_serials[] = $instance->serial_number;
+                                                $current_sale_serials[] = $instance->serial_number; // This is a real Eloquent object
                                             }
                                         }
                                         ?>
@@ -380,18 +331,11 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
 
                                                 // Prepare pre-filled selected serial numbers for customer returns
                                                 $current_return_serials = [];
-                                                // Priority 1: From temporary session data (e.g., successful update of PENDING transaction)
-                                                if (isset($temp_submitted_serials[$item->id]) && is_array($temp_submitted_serials[$item->id])) {
-                                                    $current_return_serials = $temp_submitted_serials[$item->id];
-                                                }
-                                                // Priority 2: From submitted error data (sticky form repopulation)
-                                                elseif (isset($error_data['returned_serial_numbers'][$item->id]) && is_array($error_data['returned_serial_numbers'][$item->id])) {
+                                                if (isset($error_data['returned_serial_numbers'][$item->id]) && is_array($error_data['returned_serial_numbers'][$item->id])) {
                                                     $current_return_serials = $error_data['returned_serial_numbers'][$item->id];
-                                                }
-                                                // Priority 3: From existing ProductInstances if the transaction is already completed
-                                                elseif ($item->relationLoaded('returnedFromCustomerInstances') && !empty($item->returnedFromCustomerInstances)) {
+                                                } elseif ($item->relationLoaded('returnedFromCustomerInstances') && !empty($item->returnedFromCustomerInstances)) {
                                                     foreach ($item->returnedFromCustomerInstances as $instance) {
-                                                        $current_return_serials[] = $instance->serial_number;
+                                                        $current_return_serials[] = $instance->serial_number; // This is a real Eloquent object
                                                     }
                                                 }
                                                 ?>
@@ -472,18 +416,11 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
 
                                                 // Prepare pre-filled selected serial numbers for supplier returns
                                                 $current_supplier_return_serials = [];
-                                                // Priority 1: From temporary session data (e.g., successful update of PENDING transaction)
-                                                if (isset($temp_submitted_serials[$item->id]) && is_array($temp_submitted_serials[$item->id])) {
-                                                    $current_supplier_return_serials = $temp_submitted_serials[$item->id];
-                                                }
-                                                // Priority 2: From submitted error data (sticky form repopulation)
-                                                elseif (isset($error_data['supplier_returned_serial_numbers'][$item->id]) && is_array($error_data['supplier_returned_serial_numbers'][$item->id])) {
+                                                if (isset($error_data['supplier_returned_serial_numbers'][$item->id]) && is_array($error_data['supplier_returned_serial_numbers'][$item->id])) {
                                                     $current_supplier_return_serials = $error_data['supplier_returned_serial_numbers'][$item->id];
-                                                }
-                                                // Priority 3: From existing ProductInstances if the transaction is already completed
-                                                elseif ($item->relationLoaded('returnedToSupplierInstances') && !empty($item->returnedToSupplierInstances)) {
+                                                } elseif ($item->relationLoaded('returnedToSupplierInstances') && !empty($item->returnedToSupplierInstances)) {
                                                     foreach ($item->returnedToSupplierInstances as $instance) {
-                                                        $current_supplier_return_serials[] = $instance->serial_number;
+                                                        $current_supplier_return_serials[] = $instance->serial_number; // This is a real Eloquent object
                                                     }
                                                 }
                                                 ?>
@@ -553,72 +490,19 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                         <h6 class="text-white">Serial Numbers (Adjustment - Qty: <?= htmlspecialchars($item->quantity) ?>)</h6>
                                         <p class="text-muted">Specify the direction of the adjustment (inflow/outflow) and manage serial numbers.</p>
 
-                                        <?php if ($is_serialized_product && $transaction->transaction_type === 'Stock Adjustment'): ?>
-                                    <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="adjustment" data-item-id="<?= htmlspecialchars($item->id); ?>">
-                                        <h6 class="text-white">Serial Numbers (Adjustment - Qty: <?= htmlspecialchars($item->quantity) ?>)</h6>
-                                        <p class="text-muted">Specify the direction of the adjustment (inflow/outflow) and manage serial numbers.</p>
-
                                         <?php
-                                        // Initialize serials array
-                                        $current_adjustment_serials = [];
-                                        $current_adjustment_direction = ''; // To be determined for display
+                                        // Determine the current adjustment direction for this item from old input or previous transaction
+                                        $current_adjustment_direction = $submitted_adjustment_directions[$item->id] ?? null;
 
-                                        // Priority 1: From temporary session data (e.g., successful update of PENDING transaction)
-                                        if (isset($temp_submitted_serials[$item->id]) && is_array($temp_submitted_serials[$item->id])) {
-                                            $current_adjustment_serials = $temp_submitted_serials[$item->id];
-                                            $current_adjustment_direction = $temp_submitted_adjustment_directions[$item->id] ?? '';
-                                        }
-                                        // Priority 2: From submitted error data (sticky form repopulation on *failed* attempt)
-                                        elseif (isset($error_data['adjustment_serial_numbers'][$item->id]) && is_array($error_data['adjustment_serial_numbers'][$item->id])) {
-                                            $current_adjustment_serials = $error_data['adjustment_serial_numbers'][$item->id];
-                                            $current_adjustment_direction = $error_data['adjustment_direction'][$item->id] ?? '';
-                                        }
-                                        // Priority 3: From existing ProductInstances if the transaction is already completed/exists
-                                        elseif ($item->relationLoaded('adjustedInInstances') && count($item->adjustedInInstances) > 0) {
-                                            $current_adjustment_serials = $item->adjustedInInstances->pluck('serial_number')->toArray();
-                                            $current_adjustment_direction = 'inflow';
-                                        } elseif ($item->relationLoaded('adjustedOutInstances') && count($item->adjustedOutInstances) > 0) {
-                                            $current_adjustment_serials = $item->adjustedOutInstances->pluck('serial_number')->toArray();
-                                            $current_adjustment_direction = 'outflow';
-                                        }
-
-                                        // Ensure we have enough input fields for the quantity, pre-filling existing serials
-                                        $displayed_adjustment_serials = [];
-                                        for ($i = 0; $i < $item->quantity; $i++) {
-                                            $displayed_adjustment_serials[] = $current_adjustment_serials[$i] ?? ''; // Use existing serial or empty string
+                                        if (!$current_adjustment_direction) {
+                                            // Attempt to get from existing instances if transaction is completed/pending
+                                            if ($item->relationLoaded('adjustedInInstances') && count($item->adjustedInInstances) > 0) {
+                                                $current_adjustment_direction = 'inflow';
+                                            } elseif ($item->relationLoaded('adjustedOutInstances') && count($item->adjustedOutInstances) > 0) {
+                                                $current_adjustment_direction = 'outflow';
+                                            }
                                         }
                                         ?>
-
-                                        <div class="form-group mb-3">
-                                            <label for="adjustment_direction_<?= htmlspecialchars($item->id); ?>" class="form-label light-txt">Adjustment Direction:</label>
-                                            <select class="form-select form-control-sm dark-txt light-bg adjustment-direction-select"
-                                                    id="adjustment_direction_<?= htmlspecialchars($item->id); ?>"
-                                                    name="adjustment_direction_<?= htmlspecialchars($item->id); ?>"
-                                                    data-item-id="<?= htmlspecialchars($item->id); ?>"
-                                                    required>
-                                                <option value="">-- Select Direction --</option>
-                                                <option value="inflow" <?= ($current_adjustment_direction === 'inflow') ? 'selected' : ''; ?>>Inflow (Adding to Stock)</option>
-                                                <option value="outflow" <?= ($current_adjustment_direction === 'outflow') ? 'selected' : ''; ?>>Outflow (Removing from Stock)</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="serial-numbers-inputs-container" data-item-id="<?= htmlspecialchars($item->id); ?>">
-                                            <?php foreach ($displayed_adjustment_serials as $serial_idx => $serial_value) : ?>
-                                                <div class="form-group mb-2">
-                                                    <label for="adjustment_serial_<?= htmlspecialchars($item->id); ?>_<?= $serial_idx; ?>" class="form-label light-txt">Serial #<?= ($serial_idx + 1); ?>:</label>
-                                                    <input type="text"
-                                                           class="form-control form-control-sm dark-txt light-bg serial-number-input"
-                                                           id="adjustment_serial_<?= htmlspecialchars($item->id); ?>_<?= $serial_idx; ?>"
-                                                           name="adjustment_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
-                                                           value="<?= htmlspecialchars($serial_value); ?>"
-                                                           data-product-id="<?= htmlspecialchars($item->product->id); ?>"
-                                                           data-item-id="<?= htmlspecialchars($item->id); ?>"
-                                                           required>
-                                                </div>
-                                            <?php endforeach; ?>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
 
                                         <div class="form-group mb-3">
                                             <label class="form-label light-txt">Adjustment Direction:</label>
@@ -761,9 +645,278 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
 </section>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const transactionForm = document.getElementById('transactionForm');
+    const transactionTypeSelect = document.getElementById('transaction_type');
+    const statusSelect = document.getElementById('status');
+    const initialStatusInput = document.getElementById('initialStatus');
+    const initialTransactionTypeInput = document.getElementById('initialTransactionType');
+    const customerField = document.getElementById('customer_field');
+    const supplierField = document.getElementById('supplier_field');
+    const customerSelect = document.getElementById('customer_id');
+    const supplierSelect = document.getElementById('supplier_id');
+    const initialCustomerValue = customerSelect.dataset.initialValue;
+    const initialSupplierValue = supplierSelect.dataset.initialValue;
+    const updateButton = document.getElementById('updateButton');
+
+    // Get all form controls that should be disabled when the form is read-only (excluding serial numbers and the update button)
     const formControls = document.querySelectorAll(
-    '#transactionForm input:not(#invoice_bill_number):not(.serial-number-input):not([name="id"]), ' + // <-- ADDED :not([name="id"])
-    '#transactionForm select:not(#status):not(.serial-number-input), ' +
-    '#transactionForm textarea'
-);
+        '#transactionForm input:not(#invoice_bill_number):not(.serial-number-input), ' + // Exclude invoice_bill_number (always readonly) and serial-number-input
+        '#transactionForm select:not(#status):not(.serial-number-input), ' + // Exclude status dropdown itself and serial-number-input
+        '#transactionForm textarea' // Exclude adjustment-direction-radio
+    );
+
+    // Get all serial number sections and their product types
+    const serialNumberSections = document.querySelectorAll('.serial-numbers-section');
+
+    // Store the initial status of the transaction from the PHP rendered value
+    const initialTransactionStatus = initialStatusInput.value;
+
+    function setFormReadonly(isReadonly) {
+        formControls.forEach(control => {
+            if (isReadonly) {
+                control.setAttribute('disabled', 'disabled');
+            } else {
+                control.removeAttribute('disabled');
+            }
+        });
+
+        // The status dropdown itself
+        const statusOptions = statusSelect.options;
+        for (let i = 0; i < statusOptions.length; i++) {
+            if (isReadonly && statusOptions[i].value !== statusSelect.value) {
+                // If form is read-only, disable all status options except the currently selected one
+                statusOptions[i].setAttribute('disabled', 'disabled');
+            } else {
+                // If form is not read-only, ensure all original options are enabled
+                // (except 'Completed' and 'Cancelled' if they are the current status, which is handled by PHP initial_is_form_readonly)
+                if (statusOptions[i].value !== 'Completed' && statusOptions[i].value !== 'Cancelled') {
+                     statusOptions[i].removeAttribute('disabled');
+                }
+            }
+        }
+        // Special case for 'Completed' and 'Cancelled' options if the form is already read-only
+        if (initialTransactionStatus === 'Completed' || initialTransactionStatus === 'Cancelled') {
+            for (let i = 0; i < statusOptions.length; i++) {
+                if (statusOptions[i].value !== initialTransactionStatus) {
+                    statusOptions[i].setAttribute('disabled', 'disabled');
+                }
+            }
+        }
+
+        // --- REMOVED THIS BLOCK TO KEEP THE BUTTON ALWAYS ENABLED ---
+        // if (isReadonly) {
+        //     updateButton.setAttribute('disabled', 'disabled');
+        // } else {
+        //     updateButton.removeAttribute('disabled');
+        // }
+        // --- END REMOVED BLOCK ---
+
+
+        // Now, trigger updateVisibility to handle serial number specific states (visibility and required)
+        updateVisibility();
+    }
+
+    function updateVisibility() {
+        const selectedType = transactionTypeSelect.value;
+        const selectedStatus = statusSelect.value; // Get the current selected status
+
+        // Reset display and required attributes for customer/supplier fields
+        customerField.style.display = 'none';
+        supplierField.style.display = 'none';
+        customerSelect.removeAttribute('required');
+        supplierSelect.removeAttribute('required');
+
+        // Note: Customer/supplier selects are now also generally disabled by setFormReadonly() if isReadonly.
+        // This specific logic primarily controls their visibility and 'required' attribute when the form IS editable.
+
+        // Reset selected values for customer/supplier dropdowns based on transaction type logic
+        if (selectedType === 'Sale' || selectedType === 'Customer Return') {
+            customerField.style.display = 'block';
+            if (!(selectedStatus === 'Completed' || selectedStatus === 'Cancelled')) { // Only set required if not completed/cancelled
+                customerSelect.setAttribute('required', 'required');
+            }
+            customerSelect.value = initialCustomerValue;
+            supplierSelect.value = '';
+        } else if (selectedType === 'Purchase' || selectedType === 'Supplier Return') {
+            supplierField.style.display = 'block';
+            if (!(selectedStatus === 'Completed' || selectedStatus === 'Cancelled')) { // Only set required if not completed/cancelled
+                supplierSelect.setAttribute('required', 'required');
+            }
+            supplierSelect.value = initialSupplierValue;
+            customerSelect.value = '';
+        } else if (selectedType === 'Stock Adjustment') {
+            customerSelect.value = '';
+            supplierSelect.value = '';
+        }
+
+        // Handle visibility and required state of serial number sections and their inputs
+        serialNumberSections.forEach(section => {
+            const sectionType = section.dataset.type;
+            const quantity = parseInt(section.closest('.card').dataset.quantity);
+
+            section.style.display = 'none'; // Hide all sections by default
+
+            const serialInputs = section.querySelectorAll('.serial-number-input');
+            const adjustmentDirectionRadios = section.querySelectorAll('.adjustment-direction-radio');
+
+            // Serial number inputs and adjustment radios should always be enabled, so no `disabled` logic here.
+            serialInputs.forEach(input => {
+                input.removeAttribute('disabled'); // Ensure serial inputs are never disabled by this JS
+                input.removeAttribute('required'); // Remove required initially, will be set conditionally below
+            });
+            adjustmentDirectionRadios.forEach(radio => {
+                radio.removeAttribute('disabled'); // Ensure radios are never disabled by this JS
+            });
+
+
+            // Show relevant serial number section based on transaction type
+            if (selectedType === 'Purchase' && sectionType === 'purchase') {
+                section.style.display = 'block';
+                if (quantity > 0) serialInputs.forEach(input => input.setAttribute('required', 'required'));
+            } else if (selectedType === 'Sale' && sectionType === 'sale') {
+                section.style.display = 'block';
+                if (quantity > 0) serialInputs.forEach(input => input.setAttribute('required', 'required'));
+            } else if (selectedType === 'Customer Return' && sectionType === 'customer-return') {
+                section.style.display = 'block';
+                if (quantity > 0) serialInputs.forEach(input => input.setAttribute('required', 'required'));
+            } else if (selectedType === 'Supplier Return' && sectionType === 'supplier-return') {
+                section.style.display = 'block';
+                if (quantity > 0) serialInputs.forEach(input => input.setAttribute('required', 'required'));
+            } else if (selectedType === 'Stock Adjustment' && sectionType === 'adjustment') {
+                section.style.display = 'block';
+                updateAdjustmentSerialFields(); // This function will handle setting 'required' for adjustment serials
+            }
+        });
+    }
+
+    function updateAdjustmentSerialFields() {
+        document.querySelectorAll('.serial-numbers-section[data-type="adjustment"]').forEach(section => {
+            const itemId = section.dataset.itemId;
+            const quantity = parseInt(section.closest('.card').dataset.quantity);
+            const inflowRadio = document.getElementById(`adjustment_inflow_${itemId}`);
+            const outflowRadio = document.getElementById(`adjustment_outflow_${itemId}`);
+            const inflowSection = section.querySelector('.inflow-section');
+            const outflowSection = section.querySelector('.outflow-section');
+
+            if (inflowSection) inflowSection.style.display = 'none';
+            if (outflowSection) outflowSection.style.display = 'none';
+
+            const inflowInputs = inflowSection ? inflowSection.querySelectorAll('.serial-number-input') : [];
+            const outflowInputs = outflowSection ? outflowSection.querySelectorAll('.serial-number-input') : [];
+
+            // First, remove required from all adjustment serial inputs
+            inflowInputs.forEach(input => input.removeAttribute('required'));
+            outflowInputs.forEach(input => input.removeAttribute('required'));
+
+
+            if (inflowRadio && inflowRadio.checked) {
+                if (inflowSection) inflowSection.style.display = 'block';
+                if (quantity > 0) inflowInputs.forEach(input => input.setAttribute('required', 'required'));
+            } else if (outflowRadio && outflowRadio.checked) {
+                if (outflowSection) outflowSection.style.display = 'block';
+                if (quantity > 0) outflowInputs.forEach(input => input.setAttribute('required', 'required'));
+            }
+            // If neither is checked, inputs remain not required and visible (default state for adjustment)
+        });
+    }
+
+    // --- Custom Validation Logic on Submit ---
+    transactionForm.addEventListener('submit', function(event) {
+        const currentSelectedStatus = statusSelect.value;
+        const previousStatus = initialStatusInput.value;
+        const transactionType = initialTransactionTypeInput.value;
+
+        // Only perform custom serial validation if transitioning TO 'Completed' from a non-'Completed' state
+        if (currentSelectedStatus === 'Completed' && previousStatus !== 'Completed') {
+            let allSerialsFilled = true;
+            let missingSerialsMessage = "Please fill in all required serial numbers before marking the transaction as 'Completed'.\n\nMissing serial numbers for:";
+
+            // Iterate through each transaction item that has serial numbers
+            document.querySelectorAll('.card[data-is-serialized="1"]').forEach(itemCard => {
+                const isSerialized = itemCard.dataset.isSerialized === '1';
+                const quantity = parseInt(itemCard.dataset.quantity);
+                let currentItemHasMissingSerials = false;
+
+                if (isSerialized) {
+                    const itemName = itemCard.querySelector('.card-title').textContent.trim();
+                    let serialInputs = [];
+
+                    if (transactionType === 'Purchase') {
+                        serialInputs = itemCard.querySelectorAll('.serial-numbers-section[data-type="purchase"] input.serial-number-input');
+                    } else if (transactionType === 'Sale') {
+                        serialInputs = itemCard.querySelectorAll('.serial-numbers-section[data-type="sale"] select.serial-number-input');
+                    } else if (transactionType === 'Customer Return') {
+                        serialInputs = itemCard.querySelectorAll('.serial-numbers-section[data-type="customer-return"] select.serial-number-input');
+                    } else if (transactionType === 'Supplier Return') {
+                        serialInputs = itemCard.querySelectorAll('.serial-numbers-section[data-type="supplier-return"] select.serial-number-input');
+                    } else if (transactionType === 'Stock Adjustment') {
+                        const itemId = itemCard.querySelector('.serial-numbers-section[data-type="adjustment"]').dataset.itemId;
+                        const inflowRadio = document.getElementById(`adjustment_inflow_${itemId}`);
+                        const outflowRadio = document.getElementById(`adjustment_outflow_${itemId}`);
+
+                        if (inflowRadio && inflowRadio.checked) {
+                            serialInputs = itemCard.querySelectorAll('.serial-numbers-section[data-type="adjustment"] .inflow-section input.serial-number-input');
+                        } else if (outflowRadio && outflowRadio.checked) {
+                            serialInputs = itemCard.querySelectorAll('.serial-numbers-section[data-type="adjustment"] .outflow-section select.serial-number-input');
+                        } else {
+                            // If it's an adjustment and no direction is selected, it's an error
+                            allSerialsFilled = false;
+                            missingSerialsMessage += `\n- ${itemName} (Stock Adjustment: Direction not selected)`;
+                            currentItemHasMissingSerials = true;
+                        }
+                    }
+
+                    if (!currentItemHasMissingSerials) { // Only check if direction was selected for adjustment or not adjustment
+                        let filledCount = 0;
+                        serialInputs.forEach(input => {
+                            if (input.value.trim() !== '') {
+                                filledCount++;
+                            }
+                        });
+
+                        if (filledCount < quantity) {
+                            allSerialsFilled = false;
+                            missingSerialsMessage += `\n- ${itemName} (${filledCount} / ${quantity} filled)`;
+                        }
+                    }
+                }
+            });
+
+            if (!allSerialsFilled) {
+                event.preventDefault(); // Stop the form submission
+                alert(missingSerialsMessage);
+                return; // Exit the function
+            }
+
+            // If all serials are filled, then ask for final confirmation
+            const confirmCompletion = confirm("Are you sure you want to mark this transaction as 'Completed'? This action will update stock and make the transaction read-only.");
+            if (!confirmCompletion) {
+                event.preventDefault(); // Stop the form submission
+            }
+        }
+    });
+
+
+    // Initial calls on page load
+    // The initial call to setFormReadonly will correctly disable main fields if needed
+    // but the serial number inputs are intentionally left enabled by the JS logic.
+    setFormReadonly(Boolean(<?php echo json_encode($initial_is_form_readonly); ?>));
+    updateVisibility(); // Ensure initial visibility of serial number sections based on initial transaction type
+
+
+    transactionTypeSelect.addEventListener('change', updateVisibility);
+    statusSelect.addEventListener('change', function() {
+        // When status changes, re-evaluate readonly state for main form controls
+        const newStatus = statusSelect.value;
+        const isReadonlyBasedOnNewStatus = (newStatus === 'Completed' || newStatus === 'Cancelled');
+        setFormReadonly(isReadonlyBasedOnNewStatus);
+        // updateVisibility is called by setFormReadonly, so it handles serial numbers' required state
+    });
+
+    // Event listeners for adjustment direction radios
+    document.querySelectorAll('.adjustment-direction-radio').forEach(radio => {
+        radio.addEventListener('change', updateAdjustmentSerialFields);
+    });
+});
 </script>

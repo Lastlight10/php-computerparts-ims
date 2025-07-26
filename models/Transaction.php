@@ -20,7 +20,11 @@ class Transaction extends Model {
         'transaction_date', 'invoice_bill_number', 'total_amount',
         'status', 'notes', 'created_by_user_id', 'updated_by_user_id'
     ];
-
+    protected $casts = [
+        'transaction_date' => 'date', // Casts the transaction_date to a Carbon instance
+        'created_at' => 'date',
+        'updated_at' => 'date',
+    ];
     // Define relationship with TransactionItem (one-to-many)
     public function items(): HasMany
     {

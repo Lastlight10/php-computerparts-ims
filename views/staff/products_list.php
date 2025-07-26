@@ -30,8 +30,8 @@ if (isset($_GET['error']) && !empty($_GET['error'])) {
           <th>DESCRIPTION</th>
           <th>CATEGORY</th>
           <th>BRAND</th>
-          <th>UNIT PRICE</th>
-          <th>COST PRICE</th>
+          <th>UNIT PRICE (₱)</th>
+          <th>COST PRICE (₱)</th>
           <th>CURRENT STOCK</th>
           <th>REORDER LEVEL</th>
           <th>SERIALIZED?</th>

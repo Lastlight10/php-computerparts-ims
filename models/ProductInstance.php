@@ -3,8 +3,8 @@ namespace Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection; // Make sure to import Collection
+use Illuminate\Database\Eloquent\Builder; // Import Builder for type hinting in query scopes or complex whereHas
 
 class ProductInstance extends Model {
     protected $table = 'product_instances';
@@ -26,38 +26,34 @@ class ProductInstance extends Model {
         return $this->belongsTo(Product::class, 'product_id');
     }
 
-    // Define relationship with the TransactionItem that *purchased* this instance
-    public function purchaseItem(): BelongsTo
+    // Define relationships with the specific TransactionItem types
+
+    public function purchaseTransactionItem(): BelongsTo
     {
         return $this->belongsTo(TransactionItem::class, 'purchase_transaction_item_id');
     }
 
-    // Define relationship with the TransactionItem that *sold* this instance
-    public function saleItem(): BelongsTo
+    public function saleTransactionItem(): BelongsTo
     {
         return $this->belongsTo(TransactionItem::class, 'sale_transaction_item_id');
     }
 
-    // NEW: Define relationship with the TransactionItem that *returned from customer* this instance
-    public function returnedFromCustomerItem(): BelongsTo
+    public function returnedFromCustomerTransactionItem(): BelongsTo
     {
         return $this->belongsTo(TransactionItem::class, 'returned_from_customer_transaction_item_id');
     }
 
-    // NEW: Define relationship with the TransactionItem that *returned to supplier* this instance
-    public function returnedToSupplierItem(): BelongsTo
+    public function returnedToSupplierTransactionItem(): BelongsTo
     {
         return $this->belongsTo(TransactionItem::class, 'returned_to_supplier_transaction_item_id');
     }
 
-    // NEW: Define relationship with the TransactionItem that *adjusted in* this instance
-    public function adjustedInItem(): BelongsTo
+    public function adjustedInTransactionItem(): BelongsTo
     {
         return $this->belongsTo(TransactionItem::class, 'adjusted_in_transaction_item_id');
     }
 
-    // NEW: Define relationship with the TransactionItem that *adjusted out* this instance
-    public function adjustedOutItem(): BelongsTo
+    public function adjustedOutTransactionItem(): BelongsTo
     {
         return $this->belongsTo(TransactionItem::class, 'adjusted_out_transaction_item_id');
     }
@@ -81,32 +77,60 @@ class ProductInstance extends Model {
 
     /**
      * Get available serial numbers for a given product ID based on status.
-     * Optionally exclude serial numbers linked to a specific transaction item
+     * Optionally include serial numbers linked to a specific transaction item ID
      * (e.g., when editing an item, its previously linked serials should still be options).
      *
      * @param int $productId
-     * @param array $statuses Array of statuses to consider as "available"
-     * @param int|null $excludeTransactionItemId Optional: Exclude serials linked to this transaction item ID
+     * @param array $statuses Array of statuses to consider as "available" (e.g., ['In Stock'])
+     * @param int|null $currentTransactionItemId Optional: Include serials currently linked to THIS transaction item ID
      * @return \Illuminate\Support\Collection
      */
-    public static function getAvailableSerialsByProduct(int $productId, array $statuses = ['In Stock', 'Returned'], ?int $excludeTransactionItemId = null): Collection
+    public static function getAvailableSerialsByProduct(int $productId, array $statuses = ['In Stock'], ?int $currentTransactionItemId = null): Collection
     {
-        $query = self::where('product_id', $productId)
-                      ->whereIn('status', $statuses);
+        $query = self::where('product_id', $productId);
 
-        // Exclude serials currently linked to other transaction types if they are being used elsewhere
-        // This is a more complex logic, but for now, we'll focus on the excludeTransactionItemId.
-        if ($excludeTransactionItemId !== null) {
-            $query->orWhere(function ($q) use ($excludeTransactionItemId) {
-                $q->where('purchase_transaction_item_id', $excludeTransactionItemId)
-                  ->orWhere('sale_transaction_item_id', $excludeTransactionItemId)
-                  ->orWhere('returned_from_customer_transaction_item_id', $excludeTransactionItemId)
-                  ->orWhere('returned_to_supplier_transaction_item_id', $excludeTransactionItemId)
-                  ->orWhere('adjusted_in_transaction_item_id', $excludeTransactionItemId)
-                  ->orWhere('adjusted_out_transaction_item_id', $excludeTransactionItemId);
-            });
-        }
+        // Start a group for the main availability conditions
+        $query->where(function (Builder $q) use ($statuses, $currentTransactionItemId) {
+            // Include instances that are in the specified "available" statuses
+            $q->whereIn('status', $statuses);
+
+            // If a current transaction item ID is provided, also include instances
+            // that are currently linked to this specific item, regardless of their status.
+            // This is crucial for pre-selecting previously chosen serials.
+            if ($currentTransactionItemId !== null) {
+                $q->orWhere('purchase_transaction_item_id', $currentTransactionItemId)
+                  ->orWhere('sale_transaction_item_id', $currentTransactionItemId)
+                  ->orWhere('returned_from_customer_transaction_item_id', $currentTransactionItemId)
+                  ->orWhere('returned_to_supplier_transaction_item_id', $currentTransactionItemId)
+                  ->orWhere('adjusted_in_transaction_item_id', $currentTransactionItemId)
+                  ->orWhere('adjusted_out_transaction_item_id', $currentTransactionItemId);
+            }
+        });
+
+        // Additionally, exclude serials that are currently linked to *other* transaction items
+        // unless they are the $currentTransactionItemId.
+        // This prevents showing serials already tied up in other sales, returns, etc.
+        $query->where(function (Builder $q) use ($currentTransactionItemId) {
+            $q->whereNull('purchase_transaction_item_id')
+              ->whereNull('sale_transaction_item_id')
+              ->whereNull('returned_from_customer_transaction_item_id')
+              ->whereNull('returned_to_supplier_transaction_item_id')
+              ->whereNull('adjusted_in_transaction_item_id')
+              ->whereNull('adjusted_out_transaction_item_id');
+
+            // If a specific item ID is provided, allow that item's linked serials
+            if ($currentTransactionItemId !== null) {
+                $q->orWhere('purchase_transaction_item_id', $currentTransactionItemId)
+                  ->orWhere('sale_transaction_item_id', $currentTransactionItemId)
+                  ->orWhere('returned_from_customer_transaction_item_id', $currentTransactionItemId)
+                  ->orWhere('returned_to_supplier_transaction_item_id', $currentTransactionItemId)
+                  ->orWhere('adjusted_in_transaction_item_id', $currentTransactionItemId)
+                  ->orWhere('adjusted_out_transaction_item_id', $currentTransactionItemId);
+            }
+        });
+
 
         return $query->get(['id', 'serial_number', 'status']);
     }
+
 }

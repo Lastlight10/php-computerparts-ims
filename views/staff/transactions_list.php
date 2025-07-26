@@ -36,7 +36,7 @@ if (!isset($transactions_info) || is_array($transactions_info)) {
           <th class="hidden-header">SUPPLIER</th>
           <th>TRANSACTION DATE</th>
           <th>INVOICE</th>
-          <th>TOTAL AMOUNT</th>
+          <th>TOTAL AMOUNT (₱)</th>
           <th>STATUS</th>
           <th>REMARKS</th>
           <th>CREATED BY</th>

@@ -23,25 +23,39 @@ class StaffProductController extends Controller {
      * @param int $id The ID of the product to show.
      * @return void
      */
-    public function show($id) {
-        Logger::log("PRODUCT_SHOW: Attempting to show product ID: $id");
+    public function show($id)
+    {
+        Logger::log("PRODUCT_SHOW: Attempting to show product ID: {$id}");
 
+        // Find the product by its ID and eager load related data
+        // Ensure that the relationships defined in your Product and ProductInstance models are correct.
+        // For ProductInstance relationships, they should link to TransactionItem model.
         $product = Product::with([
-            'category', // Eager load category name
-            'brand',    // Eager load brand name
-            'instances',
-            'instances.purchaseItem.transaction', // Eager load transaction for purchase details
-            'instances.saleItem.transaction'     // Eager load transaction for sale details
+            'category', // Assuming product has a category relationship
+            'productInstances' => function($query) {
+                $query->with([
+                    // Assuming ProductInstance has these relationships defined
+                    // These names should match the function names in ProductInstance model
+                    'purchaseTransactionItem',
+                    'saleTransactionItem',
+                    'returnedFromCustomerTransactionItem',
+                    'returnedToSupplierTransactionItem',
+                    'adjustedInTransactionItem',
+                    'adjustedOutTransactionItem'
+                ]);
+            }
         ])->find($id);
 
         if (!$product) {
-            Logger::log("PRODUCT_SHOW_FAILED: Product ID $id not found.");
-            // Consistent layout for 404 within staff area
-            return $this->view('errors/404', ['message' => 'Product not found.'],'staff');
+            Logger::log("PRODUCT_SHOW_ERROR: Product not found. ID: {$id}");
+            // Use session for error messages and redirect back
+            $_SESSION['error_message'] = "Product with ID {$id} not found.";
+            header('Location: /staff/products_list?error=' . urlencode($_SESSION['error_message']));
+            exit();
         }
 
-        Logger::log("PRODUCT_SHOW_SUCCESS: Displaying product ID: $id - {$product->name}");
-        $this->view('staff/products/show', ['product' => $product],'staff');
+        Logger::log("PRODUCT_SHOW_SUCCESS: Displaying product details for ID: {$id}");
+        $this->view('staff/products/show', ['product' => $product]);
     }
 
     /**
