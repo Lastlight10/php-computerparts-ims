@@ -68,3 +68,16 @@
             margin-bottom: 20px;
             border-radius: 4px;
         }
+
+/* In your /resources/css/staff.css file */
+
+/* Ensure the main row aligns its columns to the top */
+.container-fluid > .row {
+    align-items: flex-start !important;
+}
+
+/* Optional: If needed, you can also try setting align-self for the content column */
+/* This is usually not necessary if align-items on row is flex-start */
+.col-sm.dark-bg { /* Targeting your main content column more specifically */
+    align-self: flex-start !important;
+}

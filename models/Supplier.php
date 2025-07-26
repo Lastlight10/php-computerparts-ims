@@ -19,15 +19,12 @@ class Supplier extends Model
         'supplier_type',
         'company_name',
         // CORRECTED: Column names to match schema
-        'contact_person_first_name',
-        'contact_person_last_name',
+        'contact_first_name',
+        'contact_middle_name',
+        'contact_last_name',
         'email',
         'phone_number',
-        'address_street',
-        'address_city',
-        'address_state_province',
-        'address_zip_code',
-        'notes', 
+        'address',
   ];
 
   // --- Relationships ---

@@ -33,8 +33,9 @@ class StaffCustomerController extends Controller {
         // 1. Retrieve Input Data
         $customer_type             = $this->input('customer_type');
         $company_name              = $this->input('company_name');
-        $contact_person_first_name = $this->input('contact_person_first_name');
-        $contact_person_last_name  = $this->input('contact_person_last_name');
+        $contact_first_name        = $this->input('contact_first_name'); // Corrected name
+        $contact_middle_name       = $this->input('contact_middle_name'); // ADDED: Retrieve middle name
+        $contact_last_name         = $this->input('contact_last_name');  // Corrected name
         $email                     = $this->input('email');
         $phone_number              = $this->input('phone_number');
         $address                   = $this->input('address');
@@ -45,10 +46,11 @@ class StaffCustomerController extends Controller {
         if (empty($customer_type)) {
             $errors[] = 'Customer Type is required.';
         }
-        if (empty($contact_person_first_name)) {
+        if (empty($contact_first_name)) {
             $errors[] = 'Contact Person First Name is required.';
         }
-        if (empty($contact_person_last_name)) {
+        // Middle name is optional, so no 'required' validation for it here
+        if (empty($contact_last_name)) {
             $errors[] = 'Contact Person Last Name is required.';
         }
         if (empty($email)) {
@@ -65,7 +67,6 @@ class StaffCustomerController extends Controller {
         if (empty($phone_number)) {
             $errors[] = 'Phone Number is required.';
         }
-        // Optional: Add more specific phone number validation (regex, length)
 
         if (!empty($errors)) {
             Logger::log("CUSTOMER_STORE_FAILED: Validation errors: " . implode(', ', $errors));
@@ -75,8 +76,9 @@ class StaffCustomerController extends Controller {
                 'customer' => (object)[ // Create a dummy object for form repopulation
                     'customer_type' => $customer_type,
                     'company_name' => $company_name,
-                    'contact_person_first_name' => $contact_person_first_name,
-                    'contact_person_last_name' => $contact_person_last_name,
+                    'contact_first_name' => $contact_first_name,
+                    'contact_middle_name' => $contact_middle_name, // ADDED: For repopulation
+                    'contact_last_name' => $contact_last_name,
                     'email' => $email,
                     'phone_number' => $phone_number,
                     'address' => $address,
@@ -90,15 +92,16 @@ class StaffCustomerController extends Controller {
             $customer = new Customer();
             $customer->customer_type             = $customer_type;
             $customer->company_name              = !empty($company_name) ? $company_name : null;
-            $customer->contact_person_first_name = $contact_person_first_name;
-            $customer->contact_person_last_name  = $contact_person_last_name;
+            $customer->contact_first_name        = $contact_first_name;
+            $customer->contact_middle_name       = !empty($contact_middle_name) ? $contact_middle_name : null; // ADDED: Assign middle name
+            $customer->contact_last_name         = $contact_last_name;
             $customer->email                     = $email;
             $customer->phone_number              = $phone_number;
             $customer->address                   = !empty($address) ? $address : null;
 
             $customer->save();
 
-            Logger::log("CUSTOMER_STORE_SUCCESS: New customer '{$customer->contact_person_first_name} {$customer->contact_person_last_name}' (ID: {$customer->id}) added successfully.");
+            Logger::log("CUSTOMER_STORE_SUCCESS: New customer '{$customer->contact_first_name} {$customer->contact_last_name}' (ID: {$customer->id}) added successfully.");
             header('Location: /staff/customers_list?success_message=' . urlencode('Customer added successfully!'));
             exit();
 
@@ -109,8 +112,9 @@ class StaffCustomerController extends Controller {
                 'customer' => (object)[ // Re-populate form with submitted data
                     'customer_type' => $customer_type,
                     'company_name' => $company_name,
-                    'contact_person_first_name' => $contact_person_first_name,
-                    'contact_person_last_name' => $contact_person_last_name,
+                    'contact_first_name' => $contact_first_name,
+                    'contact_middle_name' => $contact_middle_name, // ADDED: For repopulation
+                    'contact_last_name' => $contact_last_name,
                     'email' => $email,
                     'phone_number' => $phone_number,
                     'address' => $address,
@@ -137,7 +141,7 @@ class StaffCustomerController extends Controller {
             return $this->view('errors/404', ['message' => 'Customer not found.'], 'staff');
         }
 
-        Logger::log("CUSTOMER_EDIT_SUCCESS: Displaying edit form for customer ID: $id - {$customer->contact_person_first_name} {$customer->contact_person_last_name}");
+        Logger::log("CUSTOMER_EDIT_SUCCESS: Displaying edit form for customer ID: $id - {$customer->contact_first_name} {$customer->contact_last_name}");
         $this->view('staff/customers/edit', [
             'customer' => $customer
         ],'staff');
@@ -153,11 +157,12 @@ class StaffCustomerController extends Controller {
         Logger::log('CUSTOMER_UPDATE: Attempting to update customer.');
 
         // 1. Retrieve Input Data
-        $id                        = $this->input('id'); // Hidden field for customer ID
+        $id                        = $this->input('id');
         $customer_type             = $this->input('customer_type');
         $company_name              = $this->input('company_name');
-        $contact_person_first_name = $this->input('contact_person_first_name');
-        $contact_person_last_name  = $this->input('contact_person_last_name');
+        $contact_first_name        = $this->input('contact_first_name'); // Corrected name
+        $contact_middle_name       = $this->input('contact_middle_name'); // ADDED: Retrieve middle name
+        $contact_last_name         = $this->input('contact_last_name');  // Corrected name
         $email                     = $this->input('email');
         $phone_number              = $this->input('phone_number');
         $address                   = $this->input('address');
@@ -176,10 +181,11 @@ class StaffCustomerController extends Controller {
         if (empty($customer_type)) {
             $errors[] = 'Customer Type is required.';
         }
-        if (empty($contact_person_first_name)) {
+        if (empty($contact_first_name)) {
             $errors[] = 'Contact Person First Name is required.';
         }
-        if (empty($contact_person_last_name)) {
+        // Middle name is optional, so no 'required' validation for it here
+        if (empty($contact_last_name)) {
             $errors[] = 'Contact Person Last Name is required.';
         }
         if (empty($email)) {
@@ -196,13 +202,22 @@ class StaffCustomerController extends Controller {
         if (empty($phone_number)) {
             $errors[] = 'Phone Number is required.';
         }
-        // Optional: Add more specific phone number validation (regex, length)
 
         if (!empty($errors)) {
             Logger::log("CUSTOMER_UPDATE_FAILED: Validation errors for Customer ID $id: " . implode(', ', $errors));
+            // Pass the original customer object back, but update with submitted values for repopulation
+            $customer->customer_type = $customer_type;
+            $customer->company_name = $company_name;
+            $customer->contact_first_name = $contact_first_name;
+            $customer->contact_middle_name = $contact_middle_name; // ADDED: For repopulation
+            $customer->contact_last_name = $contact_last_name;
+            $customer->email = $email;
+            $customer->phone_number = $phone_number;
+            $customer->address = $address;
+
             $this->view('staff/customers/edit', [
                 'error' => implode('<br>', $errors),
-                'customer' => $customer, // Pass the original customer object back
+                'customer' => $customer,
             ],'staff');
             return;
         }
@@ -210,8 +225,9 @@ class StaffCustomerController extends Controller {
         // 4. Assign new values and check for changes
         $customer->customer_type             = $customer_type;
         $customer->company_name              = !empty($company_name) ? $company_name : null;
-        $customer->contact_person_first_name = $contact_person_first_name;
-        $customer->contact_person_last_name  = $contact_person_last_name;
+        $customer->contact_first_name        = $contact_first_name;
+        $customer->contact_middle_name       = !empty($contact_middle_name) ? $contact_middle_name : null; // ADDED: Assign middle name
+        $customer->contact_last_name         = $contact_last_name;
         $customer->email                     = $email;
         $customer->phone_number              = $phone_number;
         $customer->address                   = !empty($address) ? $address : null;
@@ -228,17 +244,41 @@ class StaffCustomerController extends Controller {
         // 5. Save Changes
         try {
             $customer->save();
-            Logger::log("CUSTOMER_UPDATE_SUCCESS: Customer '{$customer->contact_person_first_name} {$customer->contact_person_last_name}' (ID: {$customer->id}) updated successfully.");
+            Logger::log("CUSTOMER_UPDATE_SUCCESS: Customer '{$customer->contact_first_name} {$customer->contact_last_name}' (ID: {$customer->id}) updated successfully.");
             header('Location: /staff/customers_list?success_message=' . urlencode('Customer updated successfully!'));
             exit();
         } catch (\Exception $e) {
             Logger::log("CUSTOMER_UPDATE_DB_ERROR: Failed to update customer ID $id - " . $e->getMessage());
             $this->view('staff/customers/edit', [
                 'error' => 'An error occurred while updating the customer. Please try again. ' . $e->getMessage(),
-                'customer' => $customer, // Pass the customer object back
+                'customer' => $customer,
             ],'staff');
             return;
         }
+    }
+
+    /**
+     * Displays the list of all customers.
+     * Accessible via /staff/customers_list
+     *
+     * @return void
+     */
+    public function customers_list() {
+        Logger::log('Reached List of Customers');
+        $customers_info = Customer::select(
+            'id',
+            'customer_type',
+            'company_name',
+            'contact_first_name',
+            'contact_middle_name', // ADDED: select middle name
+            'contact_last_name',
+            'email',
+            'phone_number',
+            'address',
+            'created_at', // ADDED: select created_at
+            'updated_at'  // ADDED: select updated_at
+        )->get();
+        $this->view('staff/customers_list', ['customers_info' => $customers_info],'staff');
     }
 
     /**
@@ -260,21 +300,8 @@ class StaffCustomerController extends Controller {
         }
 
         try {
-            // IMPORTANT: Foreign Key Constraints Check!
-            // If you have transactions or other data linked to this customer, deleting the customer
-            // will cause a foreign key constraint violation error unless:
-            // 1. Your database's foreign key is set to ON DELETE CASCADE (might not be desired for customer history).
-            // 2. You manually dissociate or delete related records first (e.g., set customer_id to null in transactions).
-            // 3. You prevent deletion if related records exist.
-            //    Example of preventing deletion if transactions exist (assuming 'transactions' relationship in Customer model):
-            //    if ($customer->transactions()->count() > 0) { // requires 'transactions' relationship in Customer model
-            //        Logger::log("CUSTOMER_DELETE_FAILED: Customer ID $id has associated transactions and cannot be deleted.");
-            //        header('Location: /staff/customers_list?error=' . urlencode('Cannot delete customer because they have associated transactions. Please reassign or delete transactions first.'));
-            //        exit();
-            //    }
-
             $customer->delete();
-            Logger::log("CUSTOMER_DELETE_SUCCESS: Customer '{$customer->contact_person_first_name} {$customer->contact_person_last_name}' (ID: {$customer->id}) deleted successfully.");
+            Logger::log("CUSTOMER_DELETE_SUCCESS: Customer '{$customer->contact_first_name} {$customer->contact_last_name}' (ID: {$customer->id}) deleted successfully.");
             header('Location: /staff/customers_list?success_message=' . urlencode('Customer deleted successfully!'));
             exit();
         } catch (\Exception $e) {

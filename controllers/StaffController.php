@@ -56,8 +56,11 @@ class StaffController extends Controller {
 
   public function transactions_list() {
     Logger::log('Reached List of Transactions');
-    $transaction_info = Transaction::select(
-      'id',
+
+    // Eager load customer and supplier relationships to prevent "attempt to read property of null" errors
+    // when accessing $transaction->customer->name or $transaction->supplier->name in the view.
+    $transactions_info = Transaction::select(
+        'id',
         'transaction_type',
         'customer_id',
         'supplier_id',
@@ -69,33 +72,31 @@ class StaffController extends Controller {
         'created_by_user_id',
         'updated_by_user_id',
         'created_at',
-        'updated_at',
-        )->get(); 
-    $this->view('staff/transactions_list', ['transactions_info' => $transaction_info],'staff');
-  }
+        'updated_at'
+    )
+    ->with(['customer', 'supplier', 'createdBy', 'updatedBy']) // Added createdBy, updatedBy here for full consistency with view
+    ->get();
+
+    // Add this line to log the count of retrieved transactions
+    Logger::log('DEBUG: Number of transactions retrieved in transactions_list: ' . $transactions_info->count());
+
+    // Although Transaction::get() should always return a Collection (even an empty one),
+    // this check provides an extra layer of robustness in case of unexpected scenarios
+    // where it might somehow result in null before reaching the view.
+    // However, Eloquent's get() method always returns a Collection, so is_null is unlikely to be true.
+    // It's more common to check ->isEmpty() or ->count() directly on the collection.
+    if (is_null($transactions_info)) {
+        $transactions_info = collect([]); // Initialize an empty Eloquent Collection
+    }
+
+    $this->view('staff/transactions_list', ['transactions_info' => $transactions_info], 'staff');
+}
 
   public function customers_list() {
     Logger::log(message: 'Reached List of Customers');
     $customers_info = Customer::select(
       'id',
         'customer_type',
-        'company_name',
-        'contact_person_first_name',
-        'contact_person_last_name',
-        'email',
-        'phone_number',
-        'address',
-        'created_at',
-        'updated_at',
-        )->get(); 
-    $this->view('staff/customers_list', ['customers_info' => $customers_info],'staff');
-  }
-
-  public function suppliers_list() {
-    Logger::log(message: 'Reached List of Suppliers');
-    $suppliers_info = Supplier::select(
-      'id',
-        'supplier_type',
         'company_name',
         'contact_first_name',
         'contact_middle_name',
@@ -106,8 +107,31 @@ class StaffController extends Controller {
         'created_at',
         'updated_at',
         )->get(); 
-    $this->view('staff/suppliers_list', ['suppliers_info' => $suppliers_info],'staff');
+    $this->view('staff/customers_list', ['customers_info' => $customers_info],'staff');
   }
+
+  public function suppliers_list() {
+        Logger::log('Reached List of Suppliers'); // Changed named parameter for broader compatibility
+
+        // Ensure all relevant columns are selected, including contact_middle_name
+        $suppliers_info = Supplier::select(
+            'id',
+            'supplier_type',
+            'company_name',
+            'contact_first_name',
+            'contact_middle_name', // Included contact_middle_name
+            'contact_last_name',
+            'email',
+            'phone_number',
+            'address',           // Single address field
+            'created_at',
+            'updated_at'
+        )->get();
+
+        $this->view('staff/suppliers_list', [
+            'suppliers_info' => $suppliers_info
+        ], 'staff');
+    }
   public function categories_list() {
     Logger::log(message: 'Reached List of Categories');
     $category_info = Category::select(

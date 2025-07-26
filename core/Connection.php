@@ -4,7 +4,7 @@ namespace App\Core; // <-- Define the namespace for this class
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Dotenv\Dotenv; // Use the Dotenv class directly
-
+use Illuminate\Database\Capsule\Manager as DB; // Ensure this is aliased as DB
 // IMPORTANT: Remove require_once 'core/Logger.php'; here
 // because Logger is now also namespaced and will be autoloaded.
 // Also, remove require_once 'vendor/autoload.php'; if it's already in your index.php.
@@ -25,6 +25,7 @@ class Connection
      */
     public static function init(): void
     {
+        
         // Prevent multiple initializations
         if (static::$capsule !== null) {
             Logger::log("DB_INFO: Database connection already initialized. Skipping.");

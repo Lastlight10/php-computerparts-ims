@@ -15,6 +15,9 @@ if (isset($_GET['error']) && !empty($_GET['error'])) {
     echo '<div class="alert alert-danger text-center mb-3" role="alert">' . $error_message . '</div>';
 }
 ?>
+<div class="d-flex justify-content-end mb-3">
+  <a href="/staff/products/add" class="btn btn-primary">Add New Product</a>
+</div>
 
   <h1 class="text-white mb-4">Product List</h1>
   <div class="table-responsive">
@@ -32,7 +35,7 @@ if (isset($_GET['error']) && !empty($_GET['error'])) {
           <th>CURRENT STOCK</th>
           <th>REORDER LEVEL</th>
           <th>SERIALIZED?</th>
-          <th>ACTIVE?</th>
+          <th class="hidden-header">ACTIVE?</th>
           <th class="hidden-header">AISLE</th>
           <th class="hidden-header">BIN</th>
           <th>CREATION DATE</th>
@@ -44,7 +47,7 @@ if (isset($_GET['error']) && !empty($_GET['error'])) {
             <?php foreach ($products_info as $product): ?>
                 <tr>
                     <td class="hidden-column"><?= htmlspecialchars($product->id) ?></td>
-                    <td><?= htmlspecialchars($product->sku ?? 'N/A') ?></td>
+                    <td class="wrap-long"><?= htmlspecialchars($product->sku ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($product->name ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($product->description ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($product->category->name ?? 'N/A') ?></td>
@@ -58,7 +61,7 @@ if (isset($_GET['error']) && !empty($_GET['error'])) {
                     <td>
                         <?= htmlspecialchars(($product->is_serialized ? 'Yes' : 'No')) ?>
                     </td>
-                    <td>
+                    <td class="hidden-column">
                         <?= htmlspecialchars(($product->is_active ? 'Yes' : 'No')) ?>
                     </td>
                     <td class="hidden-column"><?= htmlspecialchars($product->location_aisle ?? 'N/A') ?></td>
@@ -66,6 +69,7 @@ if (isset($_GET['error']) && !empty($_GET['error'])) {
                     <td><?= htmlspecialchars($product->created_at ?? 'N/A') ?></td>
                     <td>
                         <a href="/staff/products/edit/<?= htmlspecialchars($product->id) ?>" class="btn btn-sm btn-info me-1">Edit</a>
+                        <a href="/staff/products/show/<?= htmlspecialchars($product->id) ?>" class="btn btn-sm btn-info me-1">Show</a>
                         <a href="/staff/products/delete/<?= htmlspecialchars($product->id) ?>" class="btn btn-sm btn-danger"  onclick="return confirm('Are you sure you want to delete this category? This action cannot be undone.');">Delete</a>
                     </td>
                 </tr>

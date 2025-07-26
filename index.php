@@ -1,81 +1,93 @@
 <?php
-
+use App\Core\Connection;
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-// 2. Load Composer's autoloader FIRST
-// This loads all your namespaced classes (Controllers, Models, App\Core)
+
+// 1. Load Composer's autoloader FIRST
 require_once __DIR__ . '/vendor/autoload.php';
 
-// 3. Remove the custom autoloader - it's conflicting with Composer
-// spl_autoload_register(function ($class) {
-//     foreach (['controllers', 'models'] as $folder) {
-//         $path = "$folder/$class.php";
-//         if (file_exists($path)) require $path;
-//     }
-// });
-
-// 4. Start the session (if not already done)
+// 2. Start the session (if not already done)
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// 5. Import necessary classes using their namespaces
-// These 'use' statements make it so you don't have to write \App\Core\Router everywhere
+// 3. Import necessary classes using their namespaces
 use App\Core\Router;
 use App\Core\Logger;
-use App\Core\Connection; // <--- YOU ARE MISSING THIS! You need to call Connection::init()
-// use App\Core\Controller; // You typically don't 'use' the base Controller class here in index.php unless you instantiate it directly
+use Illuminate\Database\Capsule\Manager as DB; // Add this if you want to use DB facade for diagnostic
 
-
-// 6. Initialize the database connection
-// This call is crucial for your application to connect to the database
+// *** CRITICAL: Call Connection::init() here, early in the script ***
 try {
-    Connection::init();
-    Logger::log("DB_INFO: Database connection initialized successfully in index.php.");
+    Connection::init(); // This now handles Eloquent bootstrapping
+    Logger::log("APP_INIT: Database and Eloquent initialized successfully.");
 } catch (\Exception $e) {
-    Logger::log("DB_FATAL_ERROR: Could not initialize database connection in index.php: " . $e->getMessage());
+    Logger::log("APP_FATAL_ERROR: Application failed to initialize database/Eloquent: " . $e->getMessage());
     http_response_code(500);
-    echo "<h1>Error: Database Connection Failed</h1>";
-    echo "<p>Please check your configuration and logs.</p>";
-    exit(1); // Exit if the database connection fails, as the app won't work
+    echo "<h1>Error: Application Startup Failed</h1>";
+    echo "<p>A critical error occurred during database initialization. Please check logs.</p>";
+    exit(1);
 }
 
+// --- MORE VERBOSE DIAGNOSTIC CODE (NOW AFTER Connection::init()) ---
+try {
+    Logger::log("DIAGNOSTIC: Attempting to get Capsule instance...");
+    $capsuleInstance = Connection::getCapsule();
 
-// 7. Get URL for routing
-$url = $_GET['url'] ?? ''; // This seems like an old way of handling URLs (e.g., index.php?url=...)
+    if ($capsuleInstance === null) {
+        Logger::log("DIAGNOSTIC_ERROR: Connection::getCapsule() returned NULL. Capsule was not properly initialized.");
+        // This is the root cause if this log appears after successful APP_INIT.
+    } else {
+        Logger::log("DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: " . get_class($capsuleInstance));
+
+        Logger::log("DIAGNOSTIC: Attempting to get Connection object...");
+        $connectionObject = $capsuleInstance->getConnection(); // This is line 19 or similar
+        Logger::log("DIAGNOSTIC: getConnection() returned a Connection object. Type: " . get_class($connectionObject));
+
+        Logger::log("DIAGNOSTIC: Attempting to get PDO object...");
+        $pdo = $connectionObject->getPdo();
+        Logger::log("DIAGNOSTIC: getPdo() returned a PDO object. Type: " . get_class($pdo));
+
+        if ($pdo->inTransaction()) {
+            Logger::log("DIAGNOSTIC: PDO transaction is ALREADY ACTIVE before routing.");
+            // If this log appears, it means something else is starting a transaction.
+            // Consider if $pdo->rollBack(); is appropriate here.
+        } else {
+            Logger::log("DIAGNOSTIC: PDO transaction is NOT active before routing.");
+        }
+    }
+} catch (\Exception $e) {
+    // This catch block will now specifically log errors from the diagnostic steps themselves
+    Logger::log("DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: " . $e->getMessage() . " on line " . $e->getLine() . " in " . $e->getFile());
+    // The previous error trace pinpointed line 19. This detailed log will help confirm.
+}
+// --- END DIAGNOSTIC CODE ---
+
+
+// 4. Get URL for routing
+$url = $_GET['url'] ?? '';
 if (empty($url)) {
     $url = $_SERVER['REQUEST_URI'] ?? '/';
-    $url = str_replace('/index.php', '', $url); // Remove /index.php if it's in the URL
-    $url = ltrim($url, '/'); // Remove leading slash
-    $url = strtok($url, '?'); // Remove query string (e.g., ?success=true)
+    $url = str_replace('/index.php', '', $url);
+    $url = ltrim($url, '/');
+    $url = strtok($url, '?');
 }
-
-// Fallback for empty URL or root path
-// Your Router currently handles '/' by itself, so 'login/login' might be redundant or conflicting
-// If your router handles '/' -> LoginController@login, then $url = $url ?: 'login'; might be enough.
-// Let's stick with a simple empty fallback for now.
-$url = $url ?: ''; // This will be an empty string for the root URL '/'
-
+$url = $url ?: '';
 
 Logger::log("📥 Incoming request: " . $url);
 
 try {
-    // 8. Instantiate and dispatch the router
+    // 5. Instantiate and dispatch the router
     $router = new Router();
-    // Your Router's route method now expects just the $url, not the HTTP method as a separate arg
-    // However, your Router.php code snippet only showed public function route($url), not $url, $method
-    // If your router's route() method expects the HTTP method, you need to pass it:
-    // $router->route($url, $_SERVER['REQUEST_METHOD']);
-    $router->route($url); // Assuming route() only takes $url
+    $router->route($url);
 
     Logger::log("ROUTING (index.php): Dispatched to $url");
 
-} catch (\Throwable $e) { // Use \Throwable to catch both Errors and Exceptions
+} catch (\Throwable $e) {
     Logger::log(message: "❌ FATAL EXCEPTION/ERROR: " . $e->getMessage() . " on line " . $e->getLine() . " in " . $e->getFile());
     http_response_code(500);
     echo "<h1>Internal Server Error</h1>";
     echo "<p>An unexpected error occurred. Please check the logs for details.</p>";
-    // Optionally, for development, display full error:
-    // echo "<pre>" . $e->getMessage() . "\n" . $e->getTraceAsString() . "</pre>";
 }
+
+?>

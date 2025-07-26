@@ -1,24 +1,43 @@
 <?php
 // Place all 'use' statements here, at the very top of the PHP file
-// (Already present from your combined snippet, good!)
 use App\Core\Logger;
 
-// Check for success message in URL query parameters (keeping your existing code)
+// Initialize variables to hold messages
+$success_message = '';
+$error_message = '';
+
+// Check for success message in URL query parameters
 if (isset($_GET['success_message']) && !empty($_GET['success_message'])) {
     $success_message = htmlspecialchars($_GET['success_message']);
-    echo '<div class="alert alert-success text-center mb-3" role="alert">' . $success_message . '</div>';
 }
 
-// Check for error message in URL query parameters (keeping your existing code)
+// Check for error message in URL query parameters
 if (isset($_GET['error']) && !empty($_GET['error'])) {
     $error_message = htmlspecialchars($_GET['error']);
-    echo '<div class="alert alert-danger text-center mb-3" role="alert">' . $error_message . '</div>';
+}
+
+// Ensure $customers_info is an object with an isEmpty method to prevent errors
+if (!isset($customers_info)) {
+    $customers_info = new \Illuminate\Database\Eloquent\Collection();
 }
 ?>
 <div class="d-flex justify-content-end mb-3">
   <a href="/staff/customers/add" class="btn btn-primary">Add New Customer</a>
 </div>
-<h1 class="text-white mb-4">Customers List</h1>
+<h1 class="text-white mb-4">Customer List</h1>
+
+<?php if (!empty($success_message)): ?>
+  <div class="alert alert-success text-center mb-3" role="alert">
+    <?= $success_message ?>
+  </div>
+<?php endif; ?>
+
+<?php if (!empty($error_message)): ?>
+  <div class="alert alert-danger text-center mb-3" role="alert">
+    <?= $error_message ?>
+  </div>
+<?php endif; ?>
+
 <div class="table-responsive">
     <table class="table table-dark table-striped table-hover">
       <thead>
@@ -27,7 +46,7 @@ if (isset($_GET['error']) && !empty($_GET['error'])) {
           <th>TYPE</th>
           <th>COMPANY NAME</th>
           <th>CONTACT (First Name)</th>
-          <th>CONTACT (Last Name)</th>
+          <th>CONTACT (Middle Name)</th> <th>CONTACT (Last Name)</th>
           <th>EMAIL</th>
           <th>PHONE</th>
           <th>ADDRESS</th>
@@ -37,14 +56,14 @@ if (isset($_GET['error']) && !empty($_GET['error'])) {
         </tr>
       </thead>
       <tbody>
-        <?php if (!$customers_info->isEmpty()): // Changed !empty($customers) to !$customers->isEmpty() ?>
+        <?php if (!$customers_info->isEmpty()): ?>
             <?php foreach ($customers_info as $customer): ?>
                 <tr>
                     <td class="hidden-column"><?= htmlspecialchars($customer->id) ?></td>
                     <td><?= htmlspecialchars($customer->customer_type ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($customer->company_name ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($customer->contact_person_first_name ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($customer->contact_person_last_name ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars($customer->contact_first_name ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars($customer->contact_middle_name ?? 'N/A') ?></td> <td><?= htmlspecialchars($customer->contact_last_name ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($customer->email ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($customer->phone_number ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($customer->address ?? 'N/A') ?></td>
@@ -57,14 +76,16 @@ if (isset($_GET['error']) && !empty($_GET['error'])) {
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
-            <?php Logger::log('DEBUG: Customers list ELSE block was executed (empty case)!'); ?>
+            <?php Logger::log('DEBUG: Customer list ELSE block was executed (empty case)!'); ?>
             <tr>
-                <td colspan="11" class="text-center">No customers found.</td> </tr>
+                <?php $colspan = 11; // 11 columns in the table: ID, TYPE, COMPANY, First, Middle, Last, Email, Phone, Address, Creation, Update, Actions ?>
+                <td colspan="<?= $colspan ?>" class="text-center">No customers found.</td>
+            </tr>
         <?php endif; ?>
       </tbody>
     </table>
   </div>
 
 <?php
-Logger::log('UI: On customers_list.php'); // Your existing logger call
+Logger::log('UI: On customers_list.php');
 ?>

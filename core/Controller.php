@@ -15,7 +15,7 @@ class Controller {
     {
         extract($data);
 
-        $viewPath = __DIR__ . "/../views/{$name}.php";
+        $viewPath =  "views/{$name}.php";
 
         if (!file_exists($viewPath)) {
             Logger::log("VIEW ERROR: View file not found: " . $viewPath);

@@ -26,41 +26,54 @@ class LoginController extends Controller {
     public function login_acc() {
         Logger::log("LOGIN_ACC: Method called");
 
-
         $user_username = $this->input('username');
         $user_password = $this->input('password');
 
         if (!$user_username || !$user_password) {
-            $this->view('login/login', ['error' => 'Username and password are required.']);
+            $this->view('login/login', ['error' => 'Username and password are required.'], 'default'); // Ensure default layout
             Logger::log("LOGIN FAILED: Username and password are required.");
             return;
         }
 
-        $user = User::where('username', $user_username)->first(); 
+        $user = User::where('username', $user_username)->first();
         Logger::log("INPUT: Username = $user_username");
         if (!$user) {
             Logger::log("DB: User not found for $user_username");
         }
 
         if (!$user || !password_verify($user_password, $user->password)) {
-            $this->view('login/login', ['error' => 'Invalid credentials.'],'default');
+            $this->view('login/login', ['error' => 'Invalid credentials.'], 'default'); // Ensure default layout
             Logger::log("LOGIN FAILED: Invalid credentials for $user_username");
-            return;   
+            return;
         }
-        
-        // Store user in session
+
+        // Store user in session - FIX IS HERE
+        $_SESSION['user_id'] = $user->id; // Store directly in 'user_id' key
+        $_SESSION['username'] = $user->username; // Optional, but consistent with your usage
+        $_SESSION['user_type'] = strtolower($user->type); // Optional, if you need user type directly
+
+        // You can still keep the nested 'user' array if other parts of your app use it,
+        // but for getCurrentUserId, 'user_id' is what's needed.
         $_SESSION['user'] = [
             'id' => $user->id,
             'username' => $user->username,
             'type' => strtolower($user->type)
         ];
+
+
         $first_data = $this->getUserInfoAndCount();
         $second_data = $this->getProductAndTransactionCount();
 
         $data = array_merge($first_data, $second_data);
 
         Logger::log("LOGIN SUCCESS: Redirecting to staff/dashboard");
-        $this->view('staff/dashboard', $data,'staff');
+        // For a successful login, a redirect (header('Location: ...')) is typically preferred
+        // over rendering a view directly, as it gives a clean URL and prevents form resubmission issues.
+        header('Location: /staff/dashboard'); // Assuming /staff/dashboard is your dashboard route
+        exit(); // Important to exit after header redirect
+
+        // If you absolutely must render a view directly, then the line below is correct:
+        // $this->view('staff/dashboard', $data,'staff');
     }
 
     public function logout()

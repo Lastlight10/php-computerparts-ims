@@ -1,79 +1,77 @@
 <?php
-
 namespace Models;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-// Don't forget to import related models (Product, Transaction, ProductInstance)
-// Assuming they are all in the 'Models' namespace as per your setup.
-use Models\Product;
-use Models\Transaction;
-use Models\ProductInstance;
-
-class TransactionItem extends Model
-{
+class TransactionItem extends Model {
     protected $table = 'transaction_items';
-    public $timestamps = true;
-
+    protected $primaryKey = 'id';
     protected $fillable = [
-        'transaction_id',
-        'product_id',
-        'quantity',
-        'unit_price_at_transaction',
-        'line_total',
-        'is_returned_item',
-        'notes',
+        'transaction_id', 'product_id', 'quantity',
+        'unit_price_at_transaction', 'line_total',
+        'created_by_user_id', 'updated_by_user_id'
     ];
 
-    protected $casts = [
-        'quantity' => 'integer',
-        'unit_price_at_transaction' => 'decimal:2',
-        'line_total' => 'decimal:2',
-        'is_returned_item' => 'boolean',
-    ];
-
-    /**
-     * Get the transaction that this item belongs to.
-     */
-    public function transaction(): BelongsTo
+    // Define relationship with Transaction (many-to-one)
+    public function transaction(): BelongsTo // Added return type hint
     {
         return $this->belongsTo(Transaction::class, 'transaction_id');
     }
 
-    /**
-     * Get the product type for this transaction item.
-     */
-    public function product(): BelongsTo
+    // Define relationship with Product (many-to-one)
+    public function product(): BelongsTo // Added return type hint
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
 
-    /**
-     * Get the individual serialized instances related to this transaction item when it was PURCHASED.
-     */
-    public function purchasedInstances(): HasMany // CORRECTED: Renamed for clarity
+    // Define relationship with the User who created this item
+    public function createdBy(): BelongsTo // Added return type hint
+    {
+        return $this->belongsTo(User::class, 'created_by_user_id');
+    }
+
+    // Define relationship with the User who last updated this item
+    public function updatedBy(): BelongsTo // Added return type hint
+    {
+        return $this->belongsTo(User::class, 'updated_by_user_id');
+    }
+
+    // Define relationship with ProductInstances (one-to-many)
+
+    // A TransactionItem for a PURCHASE can have many ProductInstances
+    public function purchasedInstances(): HasMany // Added return type hint
     {
         return $this->hasMany(ProductInstance::class, 'purchase_transaction_item_id');
     }
 
-    /**
-     * Get the individual serialized instances related to this transaction item when it was SOLD.
-     */
-    public function soldInstances(): HasMany // CORRECTED: Renamed for clarity
+    // A TransactionItem for a SALE can have many ProductInstances
+    public function soldInstances(): HasMany // Added return type hint
     {
         return $this->hasMany(ProductInstance::class, 'sale_transaction_item_id');
     }
 
-    // You might also add an accessor to get all instances based on transaction type if needed
-    // public function getAllRelatedInstancesAttribute()
-    // {
-    //     if ($this->transaction->transaction_type === 'Purchase') {
-    //         return $this->purchasedInstances;
-    //     } elseif ($this->transaction->transaction_type === 'Sale') {
-    //         return $this->soldInstances;
-    //     }
-    //     return collect(); // Return empty collection for other types or if transaction type is missing
-    // }
+    // NEW: A TransactionItem for a CUSTOMER RETURN can have many ProductInstances
+    public function returnedFromCustomerInstances(): HasMany // Added return type hint
+    {
+        return $this->hasMany(ProductInstance::class, 'returned_from_customer_transaction_item_id');
+    }
+
+    // NEW: A TransactionItem for a SUPPLIER RETURN can have many ProductInstances
+    public function returnedToSupplierInstances(): HasMany // Added return type hint
+    {
+        return $this->hasMany(ProductInstance::class, 'returned_to_supplier_transaction_item_id');
+    }
+
+    // NEW: A TransactionItem for an ADJUSTMENT INFLOW can have many ProductInstances
+    public function adjustedInInstances(): HasMany // Added return type hint
+    {
+        return $this->hasMany(ProductInstance::class, 'adjusted_in_transaction_item_id');
+    }
+
+    // NEW: A TransactionItem for an ADJUSTMENT OUTFLOW can have many ProductInstances
+    public function adjustedOutInstances(): HasMany // Added return type hint
+    {
+        return $this->hasMany(ProductInstance::class, 'adjusted_out_transaction_item_id');
+    }
 }

@@ -10,7 +10,6 @@ $display_error_message = '';
 if (isset($_GET['success_message']) && !empty($_GET['success_message'])) {
     $display_success_message = htmlspecialchars($_GET['success_message']);
 } elseif (isset($success_message) && !empty($success_message)) {
-    // This catches messages passed directly from the controller via $this->view()
     $display_success_message = htmlspecialchars($success_message);
 }
 
@@ -18,8 +17,16 @@ if (isset($_GET['success_message']) && !empty($_GET['success_message'])) {
 if (isset($_GET['error']) && !empty($_GET['error'])) {
     $display_error_message = htmlspecialchars($_GET['error']);
 } elseif (isset($error) && !empty($error)) {
-    // This catches messages passed directly from the controller via $this->view()
     $display_error_message = htmlspecialchars($error);
+}
+
+// Ensure $customer is defined for form use
+$customer = $customer ?? null; // Should be passed from controller for edit view
+
+if (!$customer) {
+    echo '<div class="alert alert-danger text-center mt-5">Customer data not available for editing.</div>';
+    // Optionally, log or redirect here
+    return; // Stop execution if no customer data
 }
 ?>
 
@@ -28,7 +35,7 @@ if (isset($_GET['error']) && !empty($_GET['error'])) {
     <div class="row justify-content-center">
       <div class="col-12 col-md-8 col-lg-6">
         <div class="card lighterdark-bg p-4 shadow-sm">
-          <h3 class="text-white text-center mb-4">Edit Customer</h3>
+          <h3 class="text-white text-center mb-4">Edit Customer: <?= htmlspecialchars($customer->company_name ?? $customer->contact_first_name . ' ' . $customer->contact_last_name) ?></h3>
 
           <?php if (!empty($display_success_message)): ?>
             <div class="alert alert-success text-center mb-3" role="alert">
@@ -43,14 +50,14 @@ if (isset($_GET['error']) && !empty($_GET['error'])) {
           <?php endif; ?>
 
           <form action="/staff/customers/update" method="POST">
-            <input type="hidden" name="id" value="<?= htmlspecialchars($customer->id ?? '') ?>">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($customer->id) ?>">
 
             <div class="mb-3">
               <label for="customer_type" class="form-label light-txt">Customer Type</label>
               <select class="form-select form-select-lg dark-txt light-bg" id="customer_type" name="customer_type" required>
                 <option value="">Select Type</option>
-                <option value="Individual" <?= (isset($customer->customer_type) && $customer->customer_type == 'Individual') ? 'selected' : '' ?>>Individual</option>
-                <option value="Company" <?= (isset($customer->customer_type) && $customer->customer_type == 'Company') ? 'selected' : '' ?>>Company</option>
+                <option value="Individual" <?= ($customer->customer_type == 'Individual') ? 'selected' : '' ?>>Individual</option>
+                <option value="Company" <?= ($customer->customer_type == 'Company') ? 'selected' : '' ?>>Company</option>
               </select>
             </div>
 
@@ -61,15 +68,21 @@ if (isset($_GET['error']) && !empty($_GET['error'])) {
             </div>
 
             <div class="mb-3">
-              <label for="contact_person_first_name" class="form-label light-txt">Contact Person First Name</label>
-              <input type="text" class="form-control form-control-lg dark-txt light-bg" id="contact_person_first_name" name="contact_person_first_name"
-                     value="<?php echo htmlspecialchars($customer->contact_person_first_name ?? ''); ?>" required maxlength="100">
+              <label for="contact_first_name" class="form-label light-txt">Contact Person First Name</label>
+              <input type="text" class="form-control form-control-lg dark-txt light-bg" id="contact_first_name" name="contact_first_name"
+                     value="<?php echo htmlspecialchars($customer->contact_first_name ?? ''); ?>" required maxlength="100">
             </div>
 
             <div class="mb-3">
-              <label for="contact_person_last_name" class="form-label light-txt">Contact Person Last Name</label>
-              <input type="text" class="form-control form-control-lg dark-txt light-bg" id="contact_person_last_name" name="contact_person_last_name"
-                     value="<?php echo htmlspecialchars($customer->contact_person_last_name ?? ''); ?>" required maxlength="100">
+              <label for="contact_middle_name" class="form-label light-txt">Contact Person Middle Name (Optional)</label>
+              <input type="text" class="form-control form-control-lg dark-txt light-bg" id="contact_middle_name" name="contact_middle_name"
+                     value="<?php echo htmlspecialchars($customer->contact_middle_name ?? ''); ?>" maxlength="100">
+            </div>
+
+            <div class="mb-3">
+              <label for="contact_last_name" class="form-label light-txt">Contact Person Last Name</label>
+              <input type="text" class="form-control form-control-lg dark-txt light-bg" id="contact_last_name" name="contact_last_name"
+                     value="<?php echo htmlspecialchars($customer->contact_last_name ?? ''); ?>" required maxlength="100">
             </div>
 
             <div class="mb-3">

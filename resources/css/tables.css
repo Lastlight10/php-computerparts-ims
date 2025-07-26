@@ -2,3 +2,8 @@
   .hidden-header { /* Apply display: none to both classes */
       display: none;
   }
+
+.wrap-long{
+   word-break: break-all;
+   font-size:12;
+}
