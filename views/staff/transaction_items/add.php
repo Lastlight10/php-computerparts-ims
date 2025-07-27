@@ -68,22 +68,26 @@ if ($transaction_id) {
 
             <div class="mb-3">
               <label for="product_id" class="form-label light-txt">Product</label>
-              <select class="form-select form-select-lg dark-txt light-bg" id="product_id" name="product_id" required>
-                <option value="">Select Product</option>
-                <?php foreach ($products as $product): ?>
-                  <option value="<?= htmlspecialchars($product->id) ?>"
-                    <?= ($transaction_item->product_id == $product->id) ? 'selected' : '' ?>
-                    data-unit-price="<?= htmlspecialchars((string)$product->unit_price) ?>">
-                    <?= htmlspecialchars($product->name) ?> (<?= htmlspecialchars($product->sku) ?>)
-                  </option>
-                <?php endforeach; ?>
+              <select data-live-search="true" class="form-select form-select-lg dark-txt light-bg selectpicker" id="product_id" name="product_id" required maxlength="50">
+                  <option value="">Select Product</option>
+                  <?php foreach ($products as $product): ?>
+                      <option value="<?= htmlspecialchars($product->id) ?>"
+                          <?= ($transaction_item->product_id == $product->id) ? 'selected' : '' ?>
+                          data-unit-price="<?= htmlspecialchars((string)$product->unit_price) ?>">
+                          <?= htmlspecialchars($product->name) ?> (<?= htmlspecialchars($product->sku) ?>)
+                      </option>
+                  <?php endforeach; ?>
               </select>
-            </div>
+          </div>
 
             <div class="mb-3">
               <label for="quantity" class="form-label light-txt">Quantity</label>
               <input type="number" class="form-control form-control-lg dark-txt light-bg" id="quantity" name="quantity"
-                     value="<?= htmlspecialchars((string)$transaction_item->quantity) ?>" min="1" required>
+                     value="<?= htmlspecialchars((string)$transaction_item->quantity) ?>" min="1" required
+                     maxlength="4"
+                     pattern="[0-9]*\.?[0-9]*"
+                     oninput="this.value=this.value.slice(0,this.maxLength)"
+                     >
             </div>
 
             <div class="mb-3">
@@ -110,6 +114,7 @@ if ($transaction_id) {
 </section>
 
 <script>
+  
 document.addEventListener('DOMContentLoaded', function() {
     const productSelect = document.getElementById('product_id');
     const quantityInput = document.getElementById('quantity');
@@ -122,7 +127,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const total = quantity * unitPrice;
         itemTotalInput.value = total.toFixed(2);
     }
+    $('#product_id').selectpicker();
 
+    // After initialization, find the dynamically created search input
+    // and apply the maxlength attribute to it.
+    // The search input usually has a class like 'bs-searchbox' and contains an 'input' tag.
+    $('#product_id').on('loaded.bs.select', function (e) {
+        // Find the search input within the dropdown's container
+        const searchInput = $(this).closest('.bootstrap-select').find('.bs-searchbox input');
+        if (searchInput.length) {
+            // Set the maxlength attribute
+            searchInput.attr('maxlength', '50'); // You can change '50' to your desired length
+            console.log('Applied maxlength to product_id selectpicker search input.');
+        }
+    });
     // Event listener to update unit price when product is selected
     productSelect.addEventListener('change', function() {
         const selectedOption = productSelect.options[productSelect.selectedIndex];

@@ -3,7 +3,8 @@ namespace Controllers;
 use App\Core\Controller;
 use App\Core\Logger;
 use App\Core\Connection;
-
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Models\Product;
 use Models\Category;
 use Models\Brand;
@@ -27,35 +28,82 @@ class StaffProductController extends Controller {
     {
         Logger::log("PRODUCT_SHOW: Attempting to show product ID: {$id}");
 
+        // Retrieve search, filter, and sort parameters for product instances
+        $instance_search_query = $this->input('instance_search_query');
+        $instance_filter_status = $this->input('instance_filter_status');
+        $instance_sort_by = $this->input('instance_sort_by') ?: 'serial_number'; // Default sort for instances
+        $instance_sort_order = $this->input('instance_sort_order') ?: 'asc';     // Default sort order for instances
+
         // Find the product by its ID and eager load related data
-        // Ensure that the relationships defined in your Product and ProductInstance models are correct.
-        // For ProductInstance relationships, they should link to TransactionItem model.
         $product = Product::with([
-            'category', // Assuming product has a category relationship
-            'productInstances' => function($query) {
+            'category',
+            'brand',
+            'productInstances' => function($query) use ($instance_search_query, $instance_filter_status, $instance_sort_by, $instance_sort_order) {
+                // Apply search filter for instances
+                if (!empty($instance_search_query)) {
+                    $query->where('serial_number', 'LIKE', '%' . $instance_search_query . '%');
+                    Logger::log("DEBUG: Applied instance search query: '{$instance_search_query}'");
+                }
+
+                // Apply status filter for instances
+                if (!empty($instance_filter_status)) {
+                    $query->where('status', $instance_filter_status);
+                    Logger::log("DEBUG: Applied instance status filter: '{$instance_filter_status}'");
+                }
+
+                // Apply sorting for instances
+                $allowed_instance_sort_columns = [
+                    'id', 'serial_number', 'status', 'cost_at_receipt',
+                    'warranty_expires_at', 'created_at', 'updated_at'
+                ];
+                if (!in_array($instance_sort_by, $allowed_instance_sort_columns)) {
+                    $instance_sort_by = 'serial_number'; // Fallback
+                }
+                if (!in_array(strtolower($instance_sort_order), ['asc', 'desc'])) {
+                    $instance_sort_order = 'asc'; // Fallback
+                }
+                $query->orderBy($instance_sort_by, $instance_sort_order);
+                Logger::log("DEBUG: Applied instance sorting: '{$instance_sort_by}' {$instance_sort_order}");
+
+                // Eager load transaction items and their transactions for dates
                 $query->with([
-                    // Assuming ProductInstance has these relationships defined
-                    // These names should match the function names in ProductInstance model
-                    'purchaseTransactionItem',
-                    'saleTransactionItem',
-                    'returnedFromCustomerTransactionItem',
-                    'returnedToSupplierTransactionItem',
-                    'adjustedInTransactionItem',
-                    'adjustedOutTransactionItem'
+                    'purchaseTransactionItem.transaction',
+                    'saleTransactionItem.transaction'
                 ]);
             }
         ])->find($id);
 
         if (!$product) {
             Logger::log("PRODUCT_SHOW_ERROR: Product not found. ID: {$id}");
-            // Use session for error messages and redirect back
             $_SESSION['error_message'] = "Product with ID {$id} not found.";
             header('Location: /staff/products_list?error=' . urlencode($_SESSION['error_message']));
             exit();
         }
 
+        // Get all possible ProductInstance statuses for the filter dropdown
+        // This list should ideally come from a constant or database schema reflection
+        // For now, hardcoding based on your schema:
+        $product_instance_statuses = [
+            'In Stock',
+            'Sold',
+            'Returned - Resalable',
+            'Returned - Defective',
+            'Repairing',
+            'Scrapped',
+            'Pending Stock',
+            'Adjusted Out',
+            'Removed'
+        ];
+
         Logger::log("PRODUCT_SHOW_SUCCESS: Displaying product details for ID: {$id}");
-        $this->view('staff/products/show', ['product' => $product]);
+        $this->view('staff/products/show', [
+            'product' => $product,
+            'instance_search_query' => $instance_search_query,
+            'instance_filter_status' => $instance_filter_status,
+            'instance_sort_by' => $instance_sort_by,
+            'instance_sort_order' => $instance_sort_order,
+            'product_instance_statuses' => $product_instance_statuses, // Pass statuses to view
+        ], 'staff'); // Pass 'staff' layout
     }
 
     /**
@@ -88,18 +136,18 @@ class StaffProductController extends Controller {
         Logger::log('PRODUCT_STORE: Attempting to store new product.');
 
         // 1. Retrieve Input Data (SKU and current_stock are no longer from input)
-        $name            = $this->input('name');
-        $description     = $this->input('description');
-        $category_id     = $this->input('category_id');
-        $brand_id        = $this->input('brand_id');
-        $unit_price      = $this->input('unit_price');
-        $cost_price      = $this->input('cost_price');
+        $name            = trim($this->input('name'));
+        $description     = trim($this->input('description'));
+        $category_id     = trim($this->input('category_id'));
+        $brand_id        = trim($this->input('brand_id'));
+        $unit_price      = trim($this->input('unit_price'));
+        $cost_price      = trim($this->input('cost_price'));
         // $current_stock is NOT taken from input
-        $reorder_level   = $this->input('reorder_level');
-        $is_serialized   = $this->input('is_serialized') === 'on' ? true : false;
-        $is_active       = $this->input('is_active') === 'on' ? true : false;
-        $location_aisle  = $this->input('location_aisle');
-        $location_bin    = $this->input('location_bin');
+        $reorder_level   = trim($this->input('reorder_level'));
+        $is_serialized   = trim($this->input('is_serialized')) === 'on' ? true : false;
+        $is_active       = trim($this->input('is_active')) === 'on' ? true : false;
+        $location_aisle  = trim($this->input('location_aisle'));
+        $location_bin    = trim($this->input('location_bin'));
 
         // 2. Validation
         $errors = [];
@@ -242,20 +290,20 @@ class StaffProductController extends Controller {
     Logger::log('PRODUCT_UPDATE: Attempting to update product.');
 
     // 1. Retrieve Input Data
-    $id              = $this->input('id');
+    $id              = trim($this->input('id'));
     // SKU is removed from input retrieval as it's not editable
-    $name            = $this->input('name');
-    $description     = $this->input('description');
-    $category_id     = $this->input('category_id');
-    $brand_id        = $this->input('brand_id');
-    $unit_price      = $this->input('unit_price');
-    $cost_price      = $this->input('cost_price');
+    $name            = trim($this->input('name'));
+    $description     = trim($this->input('description'));
+    $category_id     = trim($this->input('category_id'));
+    $brand_id        = trim($this->input('brand_id'));
+    $unit_price      = trim($this->input('unit_price'));
+    $cost_price      = trim($this->input('cost_price'));
     // REMOVED: $current_stock = $this->input('current_stock'); // Not user input
-    $reorder_level   = $this->input('reorder_level');
-    $is_serialized   = $this->input('is_serialized') === 'on' ? true : false;
-    $is_active       = $this->input('is_active') === 'on' ? true : false;
-    $location_aisle  = $this->input('location_aisle');
-    $location_bin    = $this->input('location_bin');
+    $reorder_level   = trim($this->input('reorder_level'));
+    $is_serialized   = trim($this->input('is_serialized')) === 'on' ? true : false;
+    $is_active       = trim($this->input('is_active')) === 'on' ? true : false;
+    $location_aisle  = trim($this->input('location_aisle'));
+    $location_bin    = trim($this->input('location_bin'));
 
     $product = Product::find($id);
 
@@ -411,5 +459,290 @@ class StaffProductController extends Controller {
             header('Location: /staff/products_list?error=' . urlencode('An error occurred while deleting the product: ' . $e->getMessage()));
             exit();
         }
+    }
+    public function printProductsList() {
+        Logger::log("PRINT_PRODUCTS_LIST: Attempting to generate PDF for products list.");
+        date_default_timezone_set('Asia/Manila');
+        // Retrieve search, filter, and sort parameters from GET request
+        $search_query = trim($this->input('search_query'));
+        $filter_category_id = trim($this->input('filter_category_id'));
+        $filter_brand_id = trim($this->input('filter_brand_id'));
+        $filter_is_serialized = trim($this->input('filter_is_serialized'));
+        $filter_is_active = trim($this->input('filter_is_active'));
+        $sort_by = trim($this->input('sort_by')) ?: 'name';
+        $sort_order = trim($this->input('sort_order')) ?: 'asc';
+
+        $products_query = Product::with(['category', 'brand']);
+
+        // Apply search query
+        if (!empty($search_query)) {
+            $products_query->where(function($query) use ($search_query) {
+                $query->where('sku', 'like', '%' . $search_query . '%')
+                      ->orWhere('name', 'like', '%' . $search_query . '%')
+                      ->orWhere('description', 'like', '%' . $search_query . '%')
+                      ->orWhereHas('category', function($q) use ($search_query) {
+                          $q->where('name', 'like', '%' . $search_query . '%');
+                      })
+                      ->orWhereHas('brand', function($q) use ($search_query) {
+                          $q->where('name', 'like', '%' . $search_query . '%');
+                      });
+            });
+        }
+
+        // Apply filters
+        if (!empty($filter_category_id)) {
+            $products_query->where('category_id', $filter_category_id);
+        }
+        if (!empty($filter_brand_id)) {
+            $products_query->where('brand_id', $filter_brand_id);
+        }
+        if ($filter_is_serialized !== '') { // Check for empty string specifically, as '0' is a valid value
+            $products_query->where('is_serialized', $filter_is_serialized === 'Yes' ? 1 : 0);
+        }
+        if ($filter_is_active !== '') { // Check for empty string specifically
+            $products_query->where('is_active', $filter_is_active === 'Yes' ? 1 : 0);
+        }
+
+        // Apply sorting
+        $products = $products_query->orderBy($sort_by, $sort_order)->get();
+
+        if ($products->isEmpty()) {
+            Logger::log("PRINT_PRODUCTS_LIST_FAILED: No products found matching criteria for printing.");
+            // Redirect back to the list page with an error message
+            header('Location: /staff/products_list?error_message=' . urlencode('No products found matching your criteria for printing.'));
+            exit();
+        }
+
+        // Configure Dompdf options
+        $options = new Options();
+        $options->set('defaultFont', 'DejaVu Sans');
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($options);
+
+        // Build the HTML content for the PDF list
+        $html = '
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Products List Report</title>
+            <style>
+                body { font-family: "DejaVu Sans", sans-serif; font-size: 10px; line-height: 1.4; color: #333; }
+                .container { width: 95%; margin: 0 auto; padding: 15px; }
+                .header { text-align: center; margin-bottom: 20px; }
+                .header h1 { margin: 0; padding: 0; color: #0056b3; font-size: 20px; }
+                .filters-info { margin-bottom: 20px; font-size: 10px; }
+                .filters-info strong { display: inline-block; width: 80px; }
+                .items-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+                .items-table th, .items-table td { border: 1px solid #ddd; padding: 6px; text-align: left; }
+                .items-table th { background-color: #f2f2f2; font-weight: bold; }
+                .footer { text-align: center; margin-top: 30px; font-size: 8px; color: #777; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>Products List Report</h1>
+                    <p>Generated on: ' . date('F j, Y, h:i A') . '</p>
+                </div>
+
+                <div class="filters-info">
+                    <p><strong>Search:</strong> ' . htmlspecialchars($search_query ?: 'N/A') . '</p>
+                    <p><strong>Category Filter:</strong> ' . htmlspecialchars(Category::find($filter_category_id)->name ?? 'All Categories') . '</p>
+                    <p><strong>Brand Filter:</strong> ' . htmlspecialchars(Brand::find($filter_brand_id)->name ?? 'All Brands') . '</p>
+                    <p><strong>Serialized Filter:</strong> ' . htmlspecialchars($filter_is_serialized ?: 'All') . '</p>
+                    <p><strong>Active Filter:</strong> ' . htmlspecialchars($filter_is_active ?: 'All') . '</p>
+                    <p><strong>Sort By:</strong> ' . htmlspecialchars(ucwords(str_replace('_', ' ', $sort_by))) . ' (' . htmlspecialchars(ucfirst($sort_order)) . ')</p>
+                </div>
+
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Brand</th>
+                            <th>Unit Price (₱)</th>
+                            <th>Cost Price (₱)</th>
+                            <th>Stock</th>
+                            <th>Serialized?</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+        
+        foreach ($products as $product) {
+            $html .= '
+                        <tr>
+                            <td>' . htmlspecialchars($product->sku ?? 'N/A') . '</td>
+                            <td>' . htmlspecialchars($product->name ?? 'N/A') . '</td>
+                            <td>' . htmlspecialchars($product->category->name ?? 'N/A') . '</td>
+                            <td>' . htmlspecialchars($product->brand->name ?? 'N/A') . '</td>
+                            <td>₱' . number_format($product->unit_price ?? 0.00, 2) . '</td>
+                            <td>₱' . number_format($product->cost_price ?? 0.00, 2) . '</td>
+                            <td>' . htmlspecialchars($product->current_stock ?? 'N/A') . '</td>
+                            <td>' . htmlspecialchars(($product->is_serialized ? 'Yes' : 'No')) . '</td>
+                        </tr>';
+        }
+
+        $html .= '
+                    </tbody>
+                </table>
+
+                <div class="footer">
+                    <p>Report generated by Computer IMS.</p>
+                </div>
+            </div>
+        </body>
+        </html>';
+
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('letter', 'portrait'); // Landscape for wider table
+        $dompdf->render();
+
+        $dompdf->stream("Products_List_Report_" . date('Ymd_His') . ".pdf", ["Attachment" => false]);
+        Logger::log("PRINT_PRODUCTS_LIST_SUCCESS: PDF list generated and streamed.");
+        exit();
+    }
+    public function printProductDetails($id) {
+        Logger::log("PRINT_PRODUCT_DETAILS: Attempting to generate PDF for product ID: $id.");
+        date_default_timezone_set('Asia/Manila');
+        $product = Product::with([
+            'category',
+            'brand',
+            'productInstances.purchaseTransactionItem.transaction',
+            'productInstances.saleTransactionItem.transaction',
+            'productInstances.returnedFromCustomerTransactionItem.transaction',
+            'productInstances.returnedToSupplierTransactionItem.transaction',
+            'productInstances.adjustedInTransactionItem.transaction',
+            'productInstances.adjustedOutTransactionItem.transaction',
+            'createdBy',
+            'updatedBy'
+        ])->find($id);
+
+        if (!$product) {
+            Logger::log("PRINT_PRODUCT_DETAILS_FAILED: Product ID $id not found for printing.");
+            header('Location: /staff/products/show/' . $id . '?error_message=' . urlencode('Product not found for printing.'));
+            exit();
+        }
+
+        // Configure Dompdf options
+        $options = new Options();
+        $options->set('defaultFont', 'DejaVu Sans');
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($options);
+
+        // Build the HTML content for the PDF
+        $html = '
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Product Details: ' . htmlspecialchars($product->name) . '</title>
+            <style>
+                body { font-family: "DejaVu Sans", sans-serif; font-size: 12px; line-height: 1.6; color: #333; }
+                .container { width: 90%; margin: 0 auto; padding: 20px; border: 1px solid #eee; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+                .header { text-align: center; margin-bottom: 30px; }
+                .header h1 { margin: 0; padding: 0; color: #0056b3; }
+                .details-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                .details-table td { padding: 8px; border-bottom: 1px solid #eee; }
+                .details-table strong { display: inline-block; width: 150px; }
+                .instances-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                .instances-table th, .instances-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                .instances-table th { background-color: #f2f2f2; }
+                .notes { margin-top: 20px; padding: 10px; border: 1px solid #eee; background-color: #f9f9f9; }
+                .footer { text-align: center; margin-top: 50px; font-size: 10px; color: #777; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>Product Details Report</h1>
+                    <h2>' . htmlspecialchars($product->name) . ' (SKU: ' . htmlspecialchars($product->sku) . ')</h2>
+                </div>
+
+                <table class="details-table">
+                    <tr><td><strong>Category:</strong></td><td>' . htmlspecialchars($product->category->name ?? 'N/A') . '</td></tr>
+                    <tr><td><strong>Brand:</strong></td><td>' . htmlspecialchars($product->brand->name ?? 'N/A') . '</td></tr>
+                    <tr><td><strong>Unit Price:</strong></td><td>₱' . number_format($product->unit_price ?? 0, 2) . '</td></tr>
+                    <tr><td><strong>Cost Price:</strong></td><td>₱' . number_format($product->cost_price ?? 0, 2) . '</td></tr>
+                    <tr><td><strong>Current Stock:</strong></td><td>' . htmlspecialchars($product->current_stock ?? 'N/A') . '</td></tr>
+                    <tr><td><strong>Reorder Level:</strong></td><td>' . htmlspecialchars($product->reorder_level ?? 'N/A') . '</td></tr>
+                    <tr><td><strong>Serialized:</strong></td><td>' . (($product->is_serialized ?? false) ? 'Yes' : 'No') . '</td></tr>
+                    <tr><td><strong>Active:</strong></td><td>' . (($product->is_active ?? false) ? 'Yes' : 'No') . '</td></tr>
+                    <tr><td><strong>Location:</strong></td><td>' . htmlspecialchars($product->location_aisle ?? 'N/A') . ' / ' . htmlspecialchars($product->location_bin ?? 'N/A') . '</td></tr>
+                    <tr><td><strong>Created By:</strong></td><td>' . htmlspecialchars($product->createdBy->username ?? 'N/A') . '</td></tr>
+                    <tr><td><strong>Created At:</strong></td><td>' . htmlspecialchars($product->created_at ? date('Y-m-d H:i', strtotime($product->created_at)) : 'N/A') . '</td></tr>
+                    <tr><td><strong>Updated By:</strong></td><td>' . htmlspecialchars($product->updatedBy->username ?? 'N/A') . '</td></tr>
+                    <tr><td><strong>Updated At:</strong></td><td>' . htmlspecialchars($product->updated_at ? date('Y-m-d H:i', strtotime($product->updated_at)) : 'N/A') . '</td></tr>
+                </table>
+
+                <div class="notes">
+                    <strong>Description:</strong><br>' . nl2br(htmlspecialchars($product->description ?? 'No description provided.')) . '
+                </div>';
+
+        if ($product->is_serialized && $product->productInstances->isNotEmpty()) {
+            $html .= '
+                <h3>Individual Units</h3>
+                <table class="instances-table">
+                    <thead>
+                        <tr>
+                            <th>Serial Number</th>
+                            <th>Status</th>
+                            <th>Cost at Receipt</th>
+                            <th>Warranty Expiration</th>
+                            <th>Purchase Date</th>
+                            <th>Sold Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+            foreach ($product->productInstances as $instance) {
+                $purchase_date = 'N/A';
+                if (isset($instance->purchaseTransactionItem->transaction->transaction_date)) {
+                    $purchase_date = date('Y-m-d', strtotime($instance->purchaseTransactionItem->transaction->transaction_date));
+                }
+
+                $sold_date = 'N/A';
+                if (isset($instance->saleTransactionItem->transaction->transaction_date)) {
+                    $sold_date = date('Y-m-d', strtotime($instance->saleTransactionItem->transaction->transaction_date));
+                }
+
+                $html .= '
+                        <tr>
+                            <td>' . htmlspecialchars($instance->serial_number ?? 'N/A') . '</td>
+                            <td>' . htmlspecialchars($instance->status ?? 'N/A') . '</td>
+                            <td>₱' . number_format((float)$instance->cost_at_receipt ?? 0, 2) . '</td>
+                            <td>' . htmlspecialchars($instance->warranty_expires_at ? date('Y-m-d', strtotime($instance->warranty_expires_at)) : 'N/A') . '</td>
+                            <td>' . htmlspecialchars($purchase_date) . '</td>
+                            <td>' . htmlspecialchars($sold_date) . '</td>
+                        </tr>';
+            }
+            $html .= '
+                    </tbody>
+                </table>';
+        } elseif ($product->is_serialized && $product->productInstances->isEmpty()) {
+            $html .= '<p>No individual units tracked yet for this serialized product.</p>';
+        } else {
+            $html .= '<p>This product is not serialized, so individual units are not tracked.</p>';
+        }
+
+        $html .= '
+                <div class="footer">
+                    <p>Generated by Computer IMS on ' . date('F j, Y, h:i A') . '</p>
+                </div>
+            </div>
+        </body>
+        </html>';
+
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('letter', 'portrait');
+        $dompdf->render();
+
+        $dompdf->stream("Product_Details_" . htmlspecialchars($product->sku) . ".pdf", ["Attachment" => false]);
+        Logger::log("PRINT_PRODUCT_DETAILS_SUCCESS: PDF generated and streamed for product ID: $id.");
+        exit();
     }
 }

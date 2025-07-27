@@ -12,24 +12,35 @@ $customers = $customers ?? [];
 $suppliers = $suppliers ?? [];
 
 // Error and success messages passed from the controller via session or GET
-$error_data = $_SESSION['error_data'] ?? [];
-$error_message = $_SESSION['error_message'] ?? null;
-$success_messa = $_SESSION['success_message'] ?? null;
-unset($_SESSION['error_data']);
+// Renamed to clarify origin from session
+$session_error_message = $_SESSION['error_message'] ?? null;
+$session_success_message = $_SESSION['success_message'] ?? null;
+
+// Unset session variables after retrieving them
+unset($_SESSION['error_data']); // Assuming error_data is handled separately if needed
 unset($_SESSION['error_message']);
 unset($_SESSION['success_message']);
-// Check for success message (from redirect OR direct view render)
+
+// Initialize display variables to null
+$display_success_message = null;
+$display_error_message = null;
+
+// Check for success message (from GET parameter, then view variable, then session)
 if (isset($_GET['success_message']) && !empty($_GET['success_message'])) {
     $display_success_message = htmlspecialchars($_GET['success_message']);
-} elseif (isset($success_message) && !empty($success_message)) {
+} elseif (isset($success_message) && !empty($success_message)) { // $success_message from controller's $this->view()
     $display_success_message = htmlspecialchars($success_message);
+} elseif (isset($session_success_message) && !empty($session_success_message)) { // From session
+    $display_success_message = htmlspecialchars($session_success_message);
 }
 
-// Check for error message (from redirect OR direct view render)
+// Check for error message (from GET parameter, then view variable, then session)
 if (isset($_GET['error']) && !empty($_GET['error'])) {
     $display_error_message = htmlspecialchars($_GET['error']);
-} elseif (isset($error) && !empty($error)) {
+} elseif (isset($error) && !empty($error)) { // $error from controller's $this->view()
     $display_error_message = htmlspecialchars($error);
+} elseif (isset($session_error_message) && !empty($session_error_message)) { // From session
+    $display_error_message = htmlspecialchars($session_error_message);
 }
 
 // Ensure $transaction is passed. If not, this page can't function.
@@ -152,6 +163,8 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                 <?php endforeach; ?>
               </select>
             </div>
+            
+
             <div class="row mb-3">
                 <label for="total_amount" class="form-label light-txt">Total Amount</label>
                 <div class="col-sm-10">
@@ -159,18 +172,50 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                         value="<?= htmlspecialchars($transaction->total_amount ?? '') ?>" readonly>
                 </div>
             </div>
+            <?php
+            // Determine if the amount_received field should be displayed
+            $show_amount_received_input = in_array($transaction->transaction_type, ['Sale', 'Purchase', 'Customer Return', 'Supplier Return']);
+            ?>
+            <?php if ($show_amount_received_input): ?>
+                <div class="row mb-3"> <label for="amount_received" class="form-label light-txt">
+                        <?php
+                        if ($transaction->transaction_type === 'Sale') {
+                            echo 'Amount Received from Customer:';
+                        } elseif ($transaction->transaction_type === 'Purchase') {
+                            echo 'Amount Paid to Supplier:';
+                        } elseif ($transaction->transaction_type === 'Customer Return') {
+                            echo 'Amount Refunded to Customer:';
+                        } elseif ($transaction->transaction_type === 'Supplier Return') {
+                            echo 'Amount Received from Supplier (Refund):';
+                        }
+                        ?>
+                    </label>
+                    <div class="col-sm-10"> <input type="number" step="0.01" class="form-control form-control-lg dark-txt light-bg"
+                               id="amount_received" name="amount_received"
+                               value="<?= htmlspecialchars($transaction->amount_received ?? '') ?>"
+                               placeholder="Enter amount"
+                               oninput="this.value=this.value.slice(0,this.maxLength)"
+                               maxlength="11"
+                               required 
+                               pattern="[0-9]*\.?[0-9]*"
+                               title="Please enter a valid number (e.g., 123.45)">
+                    </div>
+                </div>
+            <?php endif; ?>
+
             <div class="mb-3">
               <label for="transaction_date" class="form-label light-txt">Transaction Date</label>
               <input type="date" class="form-control form-control-lg dark-txt light-bg" id="transaction_date" name="transaction_date"
                      value="<?= $transaction_date_value ?>" required <?= $initial_is_form_readonly ? 'disabled' : '' ?>>
             </div>
+            
 
             <div class="mb-3">
               <label for="status" class="form-label light-txt">Status</label>
               <select class="form-select form-select-lg dark-txt light-bg" id="status" name="status" required>
-                <option value="Draft" <?= ($transaction->status == 'Draft') ? 'selected' : '' ?> <?= $initial_is_form_readonly ? 'disabled' : '' ?>>Draft</option>
+                <!-- <option value="Draft" <?= ($transaction->status == 'Draft') ? 'selected' : '' ?> <?= $initial_is_form_readonly ? 'disabled' : '' ?>>Draft</option> -->
                 <option value="Pending" <?= ($transaction->status == 'Pending') ? 'selected' : '' ?> <?= $initial_is_form_readonly ? 'disabled' : '' ?>>Pending</option>
-                <option value="Confirmed" <?= ($transaction->status == 'Confirmed') ? 'selected' : '' ?> <?= $initial_is_form_readonly ? 'disabled' : '' ?>>Confirmed</option>
+                <!-- <option value="Confirmed" <?= ($transaction->status == 'Confirmed') ? 'selected' : '' ?> <?= $initial_is_form_readonly ? 'disabled' : '' ?>>Confirmed</option> -->
                 <option value="Completed" <?= ($transaction->status == 'Completed') ? 'selected' : '' ?>>Completed</option>
                 <option value="Cancelled" <?= ($transaction->status == 'Cancelled') ? 'selected' : '' ?>>Cancelled</option>
               </select>
@@ -184,27 +229,88 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                         $error_data = $_SESSION['error_data'] ?? [];
                         unset($_SESSION['error_data']); // Clear it after use
                         foreach ($transaction->items as $index => $item): ?>
+                        <?php
+                        
+                        $is_serialized_product = ($item->product->is_serialized ?? false);
+                        // Add this debug line:
+                        Logger::log("DEBUG: Item Product ID: " . $item->product->id . ", Transaction Type: " . $transaction->transaction_type);
+                            ?>
+                            
                         <div class="card lighterdark-bg mb-3 p-3 shadow-sm" data-product-id="<?= htmlspecialchars($item->product->id); ?>" data-is-serialized="<?= htmlspecialchars((int)$item->product->is_serialized); ?>" data-quantity="<?= htmlspecialchars($item->quantity); ?>">
                             <div class="card-body">
-                                <h5 class="card-title text-white"><?= htmlspecialchars($item->product->name ?? 'N/A') ?> (SKU: <?= htmlspecialchars($item->product->sku ?? 'N/A') ?>)</h5>
-                                <p class="card-text light-txt">
-                                    Quantity: <?= htmlspecialchars($item->quantity) ?><br>
-                                    Unit Price: $<?= number_format($item->product->unit_price, 2) ?><br>
-                                    Line Total: $<?= number_format($item->line_total, 2) ?>
-                                </p>
-
+                                <h5 class="card-title text-white"><?= htmlspecialchars(string: $item->product->name ?? 'N/A') ?> (SKU: <?= htmlspecialchars($item->product->sku ?? 'N/A') ?>)</h5>
                                 <input type="hidden" name="items[<?= $index ?>][id]" value="<?= htmlspecialchars($item->id) ?>">
-                                <input type="hidden" name="items[<?= $index ?>][product_id]" value="<?= htmlspecialchars($item->product_id) ?>">
+                                <input type="hidden" name="items[<?= $index ?>][product_id]" value="<?= htmlspecialchars($item->product->id) ?>">
                                 <input type="hidden" name="items[<?= $index ?>][quantity]" value="<?= htmlspecialchars($item->quantity) ?>">
-                                <input type="number" step="0.01" name="items[<?= $index ?>][unit_price]" value="<?= htmlspecialchars($item->unit_price ?? '') ?>">
-                                <input type="hidden" name="items[<?= $index ?>][line_total]" value="<?= htmlspecialchars($item->line_total) ?>">
+                                <?php
+                                // Only show "Cost at Receipt" for Purchase transactions
+                                if ($transaction->transaction_type === 'Purchase'):
+                                    $default_purchase_cost = '';
+                                    if (isset($item->purchase_cost) && $item->purchase_cost !== null) {
+                                        $default_purchase_cost = $item->purchase_cost; // Use saved value if exists
+                                    } else {
+                                        // For new purchase items, default to product's cost
+                                        $default_purchase_cost = $item->product->unit_price ?? ''; // Assuming product has a default cost
+                                    }
+                                ?>
+                                
+                                    <div class="mb-3">
+                                        <label for="item_cost_<?= $index ?>" class="form-label light-txt">Cost at Receipt (price for customer):</label>
+                                        <input type="number" step="0.01" class="form-control form-control-sm dark-txt light-bg"
+                                               id="item_cost_<?= $index ?>"
+                                               name="items[<?= $index ?>][purchase_cost]"
+                                               value="<?= htmlspecialchars($default_purchase_cost) ?>"
+                                               placeholder="Enter cost for this unit" required readonly>
+                                            </div>
+                                <?php
+                                endif;
+                                ?>
+                                <?php
+                                // Determine if unit_price should be editable.
+                                // It's editable for Sales, and potentially Customer Returns (for refund value).
+                                // For Purchase, it's typically fixed by the purchase_cost, or perhaps auto-calculated.
+                                // For Stock Adjustment/Supplier Return, it's usually not relevant as an editable input here.
+                                $is_unit_price_editable = in_array($transaction->transaction_type, ['Sale', 'Customer Return']);
+
+                                // Determine the default value for the unit_price input
+                                $default_unit_price = '';
+                                if (isset($item->unit_price) && $item->unit_price !== null) {
+                                    $default_unit_price = $item->unit_price; // Always use saved value if exists
+                                } elseif ($transaction->transaction_type === 'Sale') {
+                                    // For new sale items, default to product's selling price (your products.unit_price)
+                                    $default_unit_price = $item->product->cost_price ?? '';
+                                } elseif ($transaction->transaction_type === 'Purchase') {
+                                    // For new purchase items, default to product's cost (your products.cost_price)
+                                    $default_unit_price = $item->product->unit_price ?? '';
+                                }
+                                ?>
+                                <div class="mb-3">
+                                    <label for="item_unit_price_<?= $index ?>" class="form-label light-txt">
+                                        <?php
+                                        if ($transaction->transaction_type === 'Sale') {
+                                            echo 'Selling Price (price for Customer):';
+                                        } elseif ($transaction->transaction_type === 'Customer Return') {
+                                            echo 'Return Value (per unit):';
+                                        } else {
+                                            echo 'Unit Price (for customer):'; // Default label if not Sale/Return
+                                        }
+                                        ?>
+                                    </label>
+                                    <input type="number" step="0.01"
+                                           class="form-control form-control-sm dark-txt light-bg"
+                                           id="item_unit_price_<?= $index ?>"
+                                           name="items[<?= $index ?>][unit_price]"
+                                           readonly
+                                           value="<?= htmlspecialchars($default_unit_price) ?>"
+                                           <?= $is_unit_price_editable ? 'required' : 'readonly' ?> >
+                                </div>
 
                                 <?php
                                 // Common flags for serial number sections
                                 $is_serialized_product = ($item->product->is_serialized ?? false);
                                 // The initial_allow_serial_number_interaction is no longer used to control disabled state of serials
                                 ?>
-
+                                
                                 <?php if ($is_serialized_product && $transaction->transaction_type === 'Purchase'): ?>
                                     <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="purchase" data-item-id="<?= htmlspecialchars($item->id); ?>">
                                         <h6 class="text-white">Serial Numbers (Purchase - Qty: <?= htmlspecialchars($item->quantity) ?>)</h6>
@@ -267,7 +373,10 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                                        value="<?= htmlspecialchars($serial_value); ?>"
                                                        data-product-id="<?= htmlspecialchars($item->product->id); ?>"
                                                        data-item-id="<?= htmlspecialchars($item->id); ?>"
-                                                       required>
+                                                       required
+                                                       maxlength="50"
+                                                       pattern="^[a-zA-Z0-9-]*$"
+                                                       >
                                             </div>
                                         <?php endforeach; ?>
                                     </div>
@@ -613,7 +722,9 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                                            value="<?= htmlspecialchars($serial_value); ?>"
                                                            data-product-id="<?= htmlspecialchars($item->product->id); ?>"
                                                            data-item-id="<?= htmlspecialchars($item->id); ?>"
-                                                           required>
+                                                           required
+                                                           pattern="^[a-zA-Z0-9-]*$"
+                                                           maxlength="50">
                                                 </div>
                                             <?php endforeach; ?>
                                         </div>
@@ -658,7 +769,9 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                                                    id="adjusted_in_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
                                                                    name="adjusted_in_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
                                                                    value="<?= htmlspecialchars($current_adjusted_in_serials[$i] ?? ''); ?>"
-                                                                   required>
+                                                                   required
+                                                                   maxlength="50"
+                                                                   pattern="^[a-zA-Z0-9-]*$">
                                                         </div>
                                                     <?php endfor; ?>
                                                 </div>
@@ -759,7 +872,51 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
     </div>
   </div>
 </section>
+<script>
+    // This script should be placed in the HTML file where your numeric input field is located.
+// For example, at the bottom of the <body> tag or in a separate JS file.
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Select all input fields that have type="number" and a data-maxlength attribute
+    const numberInputs = document.querySelectorAll('input[type="number"][data-maxlength]');
+
+    numberInputs.forEach(input => {
+        const maxLength = parseInt(input.getAttribute('data-maxlength'), 10);
+
+        // Add an input event listener to restrict the length
+        input.oninput = function() {
+            if (this.value.length > maxLength) {
+                this.value = this.value.slice(0, maxLength);
+            }
+        };
+
+        // Add a paste event listener to restrict pasted content length
+        input.onpaste = function(event) {
+            const pastedData = event.clipboardData.getData('text/plain');
+            if (pastedData.length > maxLength) {
+                event.preventDefault(); // Prevent default paste behavior
+                this.value = pastedData.slice(0, maxLength); // Manually set truncated value
+            }
+        };
+
+        // Optional: Add a keypress/keydown listener for more immediate feedback
+        // This can prevent the user from even typing beyond the limit
+        input.onkeydown = function(event) {
+            // Allow backspace, delete, tab, escape, enter, and arrow keys
+            if ([8, 46, 9, 27, 13, 37, 38, 39, 40].indexOf(event.keyCode) !== -1 ||
+                // Allow Ctrl/Cmd+A, Ctrl/Cmd+C, Ctrl/Cmd+V, Ctrl/Cmd+X
+                ((event.ctrlKey || event.metaKey) && ['a', 'c', 'v', 'x'].includes(event.key.toLowerCase()))) {
+                return; // Let it happen
+            }
+            // Restrict input if current value length is already at max and it's not a control key
+            if (this.value.length >= maxLength && event.key.length === 1 && !event.ctrlKey && !event.metaKey) {
+                event.preventDefault();
+            }
+        };
+    });
+});
+
+</script>
 <script>
     const formControls = document.querySelectorAll(
     '#transactionForm input:not(#invoice_bill_number):not(.serial-number-input):not([name="id"]), ' + // <-- ADDED :not([name="id"])

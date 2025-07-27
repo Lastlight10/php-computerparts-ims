@@ -54,10 +54,10 @@ class StaffTransactionItemController extends Controller {
     public function store() {
         Logger::log('TRANSACTION_ITEM_STORE: Attempting to store new transaction item.');
 
-        $transaction_id = $this->input('transaction_id');
-        $product_id     = $this->input('product_id');
-        $quantity       = $this->input('quantity');
-        $unit_price     = $this->input('unit_price'); // This is the input value from the form
+        $transaction_id = trim($this->input('transaction_id'));
+        $product_id     = trim($this->input('product_id'));
+        $quantity       = trim($this->input('quantity'));
+        $unit_price     = trim($this->input('unit_price')); // This is the input value from the form
         $current_user_id = $this->getCurrentUserId();
 
         $errors = [];
@@ -236,11 +236,11 @@ class StaffTransactionItemController extends Controller {
     public function update() {
         Logger::log('TRANSACTION_ITEM_UPDATE: Attempting to update transaction item.');
 
-        $id             = $this->input('id');
-        $transaction_id = $this->input('transaction_id');
-        $product_id     = $this->input('product_id');
-        $quantity       = $this->input('quantity');
-        $unit_price     = $this->input('unit_price'); // This is the input value from the form
+        $id             = trim($this->input('id'));
+        $transaction_id = trim($this->input('transaction_id'));
+        $product_id     = trim($this->input('product_id'));
+        $quantity       = trim($this->input('quantity'));
+        $unit_price     = trim($this->input('unit_price')); // This is the input value from the form
         $current_user_id = $this->getCurrentUserId();
 
         $transactionItem = TransactionItem::find($id);

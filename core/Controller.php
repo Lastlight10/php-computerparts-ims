@@ -56,11 +56,21 @@ class Controller {
             'transaction_count' => Transaction::count('id')
         ];
     }
-    protected function input($key) {
-        // Example: Retrieve input from $_POST or $_GET, with basic sanitization
-        return $_POST[$key] ?? null; // Assuming POST for form submissions
-    }
-    public function update_user_password()
+    protected function input(string $key, $default = null)
+    {
+        // Check POST first
+        if (isset($_POST[$key])) {
+            return $_POST[$key];
+        }
+
+        // Then check GET
+        if (isset($_GET[$key])) {
+            return $_GET[$key];
+        }
+
+        // Return default if not found in either
+        return $default;
+    }    public function update_user_password()
     {
         Logger::log('Attempting to update user password via self-edit form.');
 

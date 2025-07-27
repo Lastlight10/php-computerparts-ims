@@ -1,6 +1,35 @@
 <?php
-
 use App\Core\Logger;
+
+// Initialize display variables to null
+$display_success_message = null;
+$display_error_message = null;
+
+// Retrieve messages from session first (as controllers often use session for redirects)
+$session_success_message = $_SESSION['success_message'] ?? null;
+$session_error_message = $_SESSION['error_message'] ?? null;
+
+// Unset session messages immediately after retrieving them to prevent them from showing again on refresh
+unset($_SESSION['success_message']);
+unset($_SESSION['error_message']);
+
+// Check for success message (prioritize GET, then direct variable, then session)
+if (isset($_GET['success_message']) && !empty($_GET['success_message'])) {
+    $display_success_message = htmlspecialchars($_GET['success_message']);
+} elseif (isset($success_message) && !empty($success_message)) { // $success_message from controller's $this->view()
+    $display_success_message = htmlspecialchars($success_message);
+} elseif (isset($session_success_message) && !empty($session_success_message)) { // From session
+    $display_success_message = htmlspecialchars($session_success_message);
+}
+
+// Check for error message (prioritize GET, then direct variable, then session)
+if (isset($_GET['error']) && !empty($_GET['error'])) {
+    $display_error_message = htmlspecialchars($_GET['error']);
+} elseif (isset($error) && !empty($error)) { // $error from controller's $this->view()
+    $display_error_message = htmlspecialchars($error);
+} elseif (isset($session_error_message) && !empty($session_error_message)) { // From session
+    $display_error_message = htmlspecialchars($session_error_message);
+}
 
 // Ensure $product is defined
 $product = $product ?? null;
@@ -9,9 +38,7 @@ if (!$product) {
     // This case should ideally be handled by the controller redirecting to a 404
     // but as a fallback for the view, we can display a message
     echo '<div class="alert alert-danger text-center mt-5">Product data not available.</div>';
-    $content = ob_get_clean();
-    require_once 'staff_layout.php';
-    exit;
+    exit; // Stop further execution of the view
 }
 ?>
 
@@ -19,6 +46,22 @@ if (!$product) {
     <div class="container-fluid page-content">
         <div class="card lighterdark-bg p-4 shadow-sm mb-4">
             <h3 class="text-white text-center mb-4">Product Details: <?= htmlspecialchars($product->name ?? 'N/A') ?></h3>
+
+            <!-- Message Display Area -->
+            <?php if ($display_success_message): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?= $display_success_message ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($display_error_message): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?= $display_error_message ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+            <!-- End Message Display Area -->
 
             <div class="row mb-3">
                 <div class="col-md-6">
@@ -44,12 +87,64 @@ if (!$product) {
 
             <div class="text-center mt-3">
                 <a href="/staff/products/edit/<?= htmlspecialchars($product->id) ?>" class="btn btn-primary lightgreen-bg me-2">Edit Product</a>
+                <!-- New Print Details Button -->
+                <a href="/staff/products/print/<?= htmlspecialchars($product->id) ?>" class="btn btn-info me-2" target="_blank">Print Details</a>
                 <a href="/staff/products_list" class="btn btn-secondary">Back to List</a>
             </div>
         </div>
 
         <?php if ($product->is_serialized): // Only show instances table if product is serialized ?>
             <h2 class="text-white mb-3 mt-5">Individual Units (Serialized)</h2>
+
+            <form method="GET" action="/staff/products/show/<?= htmlspecialchars($product->id) ?>" class="mb-4 p-3 rounded shadow-sm light-bg-card">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-4">
+                        <label for="instance_search_query" class="form-label light-txt">Search Serial Number</label>
+                        <input type="text" class="form-control dark-txt light-bg" id="instance_search_query" name="instance_search_query" placeholder="Enter serial number" value="<?= htmlspecialchars($instance_search_query ?? '') ?>">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="instance_filter_status" class="form-label light-txt">Filter by Status</label>
+                        <select class="form-select dark-txt light-bg" id="instance_filter_status" name="instance_filter_status">
+                            <option value="">All Statuses</option>
+                            <?php foreach ($product_instance_statuses ?? [] as $status): ?>
+                                <option value="<?= htmlspecialchars($status) ?>" <?= (($instance_filter_status ?? '') === $status) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($status) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-info w-100">Apply Filters</button>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="/staff/products/show/<?= htmlspecialchars($product->id) ?>" class="btn btn-secondary w-100">Clear Filters & Sort</a>
+                    </div>
+                </div>
+                <div class="row g-3 align-items-end mt-2">
+                    <div class="col-md-4">
+                        <label for="instance_sort_by" class="form-label light-txt">Sort By</label>
+                        <select class="form-select dark-txt light-bg" id="instance_sort_by" name="instance_sort_by">
+                            <option value="serial_number" <?= (($instance_sort_by ?? '') === 'serial_number') ? 'selected' : '' ?>>Serial Number</option>
+                            <option value="status" <?= (($instance_sort_by ?? '') === 'status') ? 'selected' : '' ?>>Status</option>
+                            <!-- <option value="cost_at_receipt" <?= (($instance_sort_by ?? '') === 'cost_at_receipt') ? 'selected' : '' ?>>Cost at Receipt</option> -->
+                            <option value="warranty_expires_at" <?= (($instance_sort_by ?? '') === 'warranty_expires_at') ? 'selected' : '' ?>>Warranty Expiration</option>
+                            <option value="created_at" <?= (($instance_sort_by ?? '') === 'created_at') ? 'selected' : '' ?>>Purchase Date</option>
+                            <!-- Note: Sold Date is derived from sale_transaction_item, direct sorting might be complex without a dedicated column -->
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="instance_sort_order" class="form-label light-txt">Sort Order</label>
+                        <select class="form-select dark-txt light-bg" id="instance_sort_order" name="instance_sort_order">
+                            <option value="asc" <?= (($instance_sort_order ?? '') === 'asc') ? 'selected' : '' ?>>Ascending</option>
+                            <option value="desc" <?= (($instance_sort_order ?? '') === 'desc') ? 'selected' : '' ?>>Descending</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-info w-100">Apply Sort</button>
+                    </div>
+                </div>
+            </form>
+
             <div class="table-responsive">
                 <table class="table table-dark table-striped table-hover">
                     <thead>
@@ -65,21 +160,19 @@ if (!$product) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (!empty($product->instances)): ?>
-                            <?php foreach ($product->instances as $instance): ?>
+                        <?php if (!empty($product->productInstances) && $product->productInstances->isNotEmpty()): ?>
+                            <?php foreach ($product->productInstances as $instance): ?>
                                 <tr>
                                     <td><?= htmlspecialchars($instance->id) ?></td>
                                     <td><?= htmlspecialchars($instance->serial_number ?? 'N/A') ?></td>
                                     <td><?= htmlspecialchars($instance->status ?? 'N/A') ?></td>
                                     <td>₱<?= htmlspecialchars(number_format((float)$instance->cost_at_receipt ?? 0, 2)) ?></td>
-                                    <td><?= htmlspecialchars($instance->warranty_expires_at ?? 'N/A') ?></td>
+                                    <td><?= htmlspecialchars($instance->warranty_expires_at ? date('Y-m-d', strtotime($instance->warranty_expires_at)) : 'N/A') ?></td>
                                     <td>
                                         <?php
                                         // Display purchase transaction date if available
-                                        // Check if purchaseTransactionItem exists, AND if its transaction exists
                                         if (isset($instance->purchaseTransactionItem->transaction->transaction_date)) {
-                                            // Format the Carbon date object
-                                            echo htmlspecialchars($instance->purchaseTransactionItem->transaction->transaction_date->format('Y-m-d'));
+                                            echo htmlspecialchars(date('Y-m-d', strtotime($instance->purchaseTransactionItem->transaction->transaction_date)));
                                         } else {
                                             echo 'N/A';
                                         }
@@ -88,23 +181,21 @@ if (!$product) {
                                     <td>
                                         <?php
                                         // Display sale transaction date if available
-                                        // Check if saleTransactionItem exists, AND if its transaction exists
                                         if (isset($instance->saleTransactionItem->transaction->transaction_date)) {
-                                            // Format the Carbon date object
-                                            echo htmlspecialchars($instance->saleTransactionItem->transaction->transaction_date->format('Y-m-d'));
+                                            echo htmlspecialchars(date('Y-m-d', strtotime($instance->saleTransactionItem->transaction->transaction_date)));
                                         } else {
                                             echo 'N/A';
                                         }
                                         ?>
                                     </td>
                                     <td>
-                                        <a href="/staff/product-instances/edit/<?= htmlspecialchars($instance->id) ?>" class="btn btn-sm btn-outline-info me-1">Manage Unit</a>
+                                        <a href="/staff/product_instances/edit/<?= htmlspecialchars($instance->id) ?>" class="btn btn-sm btn-outline-info me-1">Manage Unit</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="8" class="text-center">No individual units found for this product.</td>
+                                <td colspan="8" class="text-center">No individual units found matching your criteria.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

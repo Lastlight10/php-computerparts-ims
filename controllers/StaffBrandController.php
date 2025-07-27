@@ -34,9 +34,9 @@ class StaffBrandController extends Controller {
         Logger::log('BRAND_STORE: Attempting to store new brand.');
 
         // 1. Retrieve Input Data
-        $name = $this->input('name');
-        $website = $this->input('website');         // NEW: Retrieve website
-        $contact_email = $this->input('contact_email'); // NEW: Retrieve contact_email
+        $name = trim($this->input('name'));
+        $website = trim($this->input('website'));         // NEW: Retrieve website
+        $contact_email = trim($this->input('contact_email')); // NEW: Retrieve contact_email
 
         // 2. Validation
         $errors = [];
@@ -127,10 +127,10 @@ class StaffBrandController extends Controller {
         Logger::log('BRAND_UPDATE: Attempting to update brand.');
 
         // 1. Retrieve Input Data
-        $id = $this->input('id'); // Hidden field for brand ID
-        $name = $this->input('name');
-        $website = $this->input('website');         // NEW: Retrieve website
-        $contact_email = $this->input('contact_email'); // NEW: Retrieve contact_email
+        $id = trim($this->input('id')); // Hidden field for brand ID
+        $name = trim($this->input('name'));
+        $website = trim($this->input('website'));         // NEW: Retrieve website
+        $contact_email = trim($this->input('contact_email')); // NEW: Retrieve contact_email
 
         // 2. Retrieve the Brand Model instance
         $brand = Brand::find($id);

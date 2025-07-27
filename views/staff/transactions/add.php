@@ -171,16 +171,15 @@ $default_status = $transaction->status ?? 'Pending'; // Default to Pending
               <label for="status" class="form-label light-txt">Status</label>
               <select class="form-select form-select-lg dark-txt light-bg" id="status" name="status" required>
                 <option value="Pending" <?= ($default_status == 'Pending') ? 'selected' : '' ?>>Pending</option>
-                <option value="Confirmed" <?= ($default_status == 'Confirmed') ? 'selected' : '' ?>>Confirmed</option>
-                <option value="Completed" <?= ($default_status == 'Completed') ? 'selected' : '' ?>>Completed</option>
-                <option value="Cancelled" <?= ($default_status == 'Cancelled') ? 'selected' : '' ?>>Cancelled</option>
+                <!-- <option value="Completed" <?= ($default_status == 'Completed') ? 'selected' : '' ?>>Completed</option>
+                <option value="Cancelled" <?= ($default_status == 'Cancelled') ? 'selected' : '' ?>>Cancelled</option> -->
               </select>
             </div>
 
             <div class="mb-3">
               <label for="notes" class="form-label light-txt">Notes (Optional)</label>
               <textarea class="form-control form-control-lg dark-txt light-bg" id="notes" name="notes" rows="3"
-                        maxlength="500"><?= htmlspecialchars($transaction->notes ?? '') ?></textarea>
+                        maxlength="100"><?= htmlspecialchars($transaction->notes ?? '') ?></textarea>
             </div>
 
             <div class="d-grid gap-2 mt-4">

@@ -31,8 +31,12 @@ if (isset($_GET['error']) && !empty($_GET['error'])) {
           <form action="/staff/categories/store" method="POST">
             <div class="mb-3">
               <label for="name" class="form-label light-txt">Category Name</label>
-              <input type="text" class="form-control form-control-lg dark-txt light-bg" id="name" name="name"
-                     value="<?php echo htmlspecialchars($category->name ?? ''); ?>" required maxlength="20">
+              <input type="text" class="form-control form-control-lg dark-txt light-bg"
+              id="name"
+              name="name"
+              value="<?php echo htmlspecialchars($category->name ?? ''); ?>"
+              required
+              maxlength="20">
             </div>
 
             <div class="mb-3">
@@ -42,7 +46,10 @@ if (isset($_GET['error']) && !empty($_GET['error'])) {
             </div>
 
             <div class="d-grid gap-2 mt-4">
-              <button type="submit" class="btn btn-primary btn-lg lightgreen-bg">Add Category</button>
+              <button type="submit"
+              class="btn btn-primary btn-lg lightgreen-bg"
+                onclick="return confirm('Are you sure you want to add the category?');"
+                >Add Category</button>
               <a href="/staff/categories_list" class="btn btn-secondary btn-lg">Cancel</a>
             </div>
           </form>

@@ -57,43 +57,43 @@ $supplier = $supplier ?? new Supplier(); // Use the Models\Supplier class explic
             <div class="mb-3">
               <label for="company_name" class="form-label light-txt">Company Name (Optional)</label>
               <input type="text" class="form-control form-control-lg dark-txt light-bg" id="company_name" name="company_name"
-                     value="<?php echo htmlspecialchars($supplier->company_name ?? ''); ?>" maxlength="255">
+                     value="<?php echo htmlspecialchars($supplier->company_name ?? ''); ?>" maxlength="50">
             </div>
 
             <div class="mb-3">
               <label for="contact_first_name" class="form-label light-txt">Contact Person First Name</label>
               <input type="text" class="form-control form-control-lg dark-txt light-bg" id="contact_first_name" name="contact_first_name"
-                     value="<?php echo htmlspecialchars($supplier->contact_first_name ?? ''); ?>" required maxlength="100">
+                     value="<?php echo htmlspecialchars($supplier->contact_first_name ?? ''); ?>" required maxlength="50">
             </div>
 
             <div class="mb-3">
               <label for="contact_middle_name" class="form-label light-txt">Contact Person Middle Name (Optional)</label>
               <input type="text" class="form-control form-control-lg dark-txt light-bg" id="contact_middle_name" name="contact_middle_name"
-                     value="<?php echo htmlspecialchars($supplier->contact_middle_name ?? ''); ?>" maxlength="100">
+                     value="<?php echo htmlspecialchars($supplier->contact_middle_name ?? ''); ?>" maxlength="50">
             </div>
 
             <div class="mb-3">
               <label for="contact_last_name" class="form-label light-txt">Contact Person Last Name</label>
               <input type="text" class="form-control form-control-lg dark-txt light-bg" id="contact_last_name" name="contact_last_name"
-                     value="<?php echo htmlspecialchars($supplier->contact_last_name ?? ''); ?>" required maxlength="100">
+                     value="<?php echo htmlspecialchars($supplier->contact_last_name ?? ''); ?>" required maxlength="50">
             </div>
 
             <div class="mb-3">
               <label for="email" class="form-label light-txt">Email</label>
               <input type="email" class="form-control form-control-lg dark-txt light-bg" id="email" name="email"
-                     value="<?php echo htmlspecialchars($supplier->email ?? ''); ?>" required maxlength="255">
+                     value="<?php echo htmlspecialchars($supplier->email ?? ''); ?>" required maxlength="50">
             </div>
 
             <div class="mb-3">
               <label for="phone_number" class="form-label light-txt">Phone Number</label>
               <input type="tel" class="form-control form-control-lg dark-txt light-bg" id="phone_number" name="phone_number"
-                     value="<?php echo htmlspecialchars($supplier->phone_number ?? ''); ?>" required maxlength="20">
+                     value="<?php echo htmlspecialchars($supplier->phone_number ?? ''); ?>" required data-maxlength="11">
             </div>
 
             <div class="mb-3">
               <label for="address" class="form-label light-txt">Full Address</label>
               <textarea class="form-control form-control-lg dark-txt light-bg" id="address" name="address"
-                        rows="3" maxlength="500"><?php echo htmlspecialchars($supplier->address ?? ''); ?></textarea>
+                        rows="3" maxlength="100"><?php echo htmlspecialchars($supplier->address ?? ''); ?></textarea>
             </div>
 
             <div class="d-grid gap-2 mt-4">
@@ -106,7 +106,35 @@ $supplier = $supplier ?? new Supplier(); // Use the Models\Supplier class explic
     </div>
   </div>
 </section>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("JavaScript for phone number input validation is running!");
 
+        // This function will specifically handle phone number validation
+        function enforcePhoneNumberRules(event) {
+            const input = event.target;
+            let value = input.value;
+            const maxLength = parseInt(input.getAttribute('data-maxlength'), 10);
+
+            // 1. Strip non-numeric characters (only digits allowed for phone number)
+            value = value.replace(/[^0-9]/g, '');
+
+            // 2. Enforce maxlength
+            if (!isNaN(maxLength) && value.length > maxLength) {
+                value = value.slice(0, maxLength);
+            }
+
+            // Update the input value
+            input.value = value;
+        }
+
+        const phoneNumberInput = document.getElementById('phone_number');
+
+        if (phoneNumberInput) {
+            phoneNumberInput.addEventListener('input', enforcePhoneNumberRules);
+        }
+    });
+</script>
 <?php
 Logger::log('UI: On staff/suppliers/add.php');
 ?>

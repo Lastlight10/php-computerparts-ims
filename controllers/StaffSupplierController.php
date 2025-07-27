@@ -31,14 +31,14 @@ class StaffSupplierController extends Controller {
         Logger::log('SUPPLIER_STORE: Attempting to store new supplier.');
 
         // 1. Retrieve Input Data
-        $supplier_type             = $this->input('supplier_type');
-        $company_name              = $this->input('company_name');
-        $contact_first_name        = $this->input('contact_first_name');
-        $contact_middle_name       = $this->input('contact_middle_name'); // ADDED: Retrieve middle name
-        $contact_last_name         = $this->input('contact_last_name');
-        $email                     = $this->input('email');
-        $phone_number              = $this->input('phone_number');
-        $address                   = $this->input('address');
+        $supplier_type             = trim($this->input('supplier_type'));
+        $company_name              = trim($this->input('company_name'));
+        $contact_first_name        = trim($this->input('contact_first_name'));
+        $contact_middle_name       = trim($this->input('contact_middle_name')); // ADDED: Retrieve middle name
+        $contact_last_name         = trim($this->input('contact_last_name'));
+        $email                     = trim($this->input('email'));
+        $phone_number              = trim($this->input('phone_number'));
+        $address                   = trim($this->input('address'));
 
         // 2. Validation
         $errors = [];
@@ -155,15 +155,15 @@ class StaffSupplierController extends Controller {
         Logger::log('SUPPLIER_UPDATE: Attempting to update supplier.');
 
         // 1. Retrieve Input Data
-        $id                        = $this->input('id');
-        $supplier_type             = $this->input('supplier_type');
-        $company_name              = $this->input('company_name');
-        $contact_first_name        = $this->input('contact_first_name');
-        $contact_middle_name       = $this->input('contact_middle_name'); // ADDED: Retrieve middle name
-        $contact_last_name         = $this->input('contact_last_name');
-        $email                     = $this->input('email');
-        $phone_number              = $this->input('phone_number');
-        $address                   = $this->input('address');
+        $id                        = trim($this->input('id'));
+        $supplier_type             = trim($this->input('supplier_type'));
+        $company_name              = trim($this->input('company_name'));
+        $contact_first_name        = trim($this->input('contact_first_name'));
+        $contact_middle_name       = trim($this->input('contact_middle_name')); // ADDED: Retrieve middle name
+        $contact_last_name         = trim($this->input('contact_last_name'));
+        $email                     = trim($this->input('email'));
+        $phone_number              = trim($this->input('phone_number'));
+        $address                   = trim($this->input('address'));
 
         // 2. Retrieve the Supplier Model instance
         $supplier = Supplier::find($id);

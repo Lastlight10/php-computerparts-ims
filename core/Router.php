@@ -27,9 +27,9 @@ class Router {
                 $method = $parts[1];
             } else { // This block handles /staff/brands/add, /staff/products/edit/123, /staff/transaction_items/add/1 etc.
                 $area = ucfirst($parts[0]);         // e.g., 'Staff'
-                $resourcePlural = $parts[1];        // e.g., 'transaction_items'
-                $action = $parts[2] ?? 'index';     // e.g., 'add'
-                $params = array_slice($parts, 3);   // e.g., ['1']
+                $resourcePlural = $parts[1];        // e.g., 'transactions'
+                $action = $parts[2] ?? 'index';     // e.g., 'print'
+                $params = array_slice($parts, 3);   // e.g., ['21']
 
                 $singularResource = $resourcePlural;
 
@@ -42,16 +42,37 @@ class Router {
                     $singularResource = rtrim($resourcePlural, 's');
                 }
                 
-                // --- FIX STARTS HERE ---
                 // Convert snake_case to PascalCase for the resource name
                 // 'transaction_item' -> 'TransactionItem'
                 $pascalCaseResource = str_replace('_', '', ucwords($singularResource, '_'));
                 
                 // Construct the full controller name
                 $controllerName = $area . $pascalCaseResource . 'Controller';
-                // --- FIX ENDS HERE ---
-
-                $method = $action;
+                
+                // --- START OF NEW LOGIC FOR SPECIFIC ACTION MAPPING ---
+                // If the resource is 'transactions' and the action is 'print',
+                // map it to the 'printTransaction' method in the controller.
+                if ($resourcePlural === 'transactions') {
+                    if ($action === 'print') {
+                        $method = 'printTransaction'; // For single transaction PDF
+                    } elseif ($action === 'print_list') {
+                        $method = 'printTransactionsList'; // For list of transactions PDF
+                    } else {
+                        $method = $action; // Default mapping for other actions
+                    }
+                } elseif ($resourcePlural === 'products') {
+                    if ($action === 'print') { // ADD THIS NEW CONDITION FOR SINGLE PRODUCT PRINT
+                        $method = 'printProductDetails'; 
+                    } elseif ($action === 'print_list') {
+                        $method = 'printProductsList'; // For list of products PDF
+                    } else {
+                        $method = $action; // Default mapping for other actions
+                    }
+                }
+                else {
+                    $method = $action; // Default mapping for other resources
+                }
+                // --- END OF NEW LOGIC ---
             }
 
             Logger::log("ROUTING: Attempting to call $controllerName@$method for URL: $url");

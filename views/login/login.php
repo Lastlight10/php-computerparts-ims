@@ -1,5 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Link to your external favicon.ico file -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+  <!-- MDBootstrap CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
 
+  <!-- Your custom CSS -->
+  <link href="/resources/css/login.css" rel="stylesheet">
+
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- MDBootstrap JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"></script>
+  <?php
+  // Initialize variables to hold messages
+  $success_message = '';
+  $error_message = '';
+
+  // Check for success message in URL query parameters
+  if (isset($_GET['success_message']) && !empty($_GET['success_message'])) {
+      $success_message = htmlspecialchars($_GET['success_message']);
+  }
+
+  // Check for error message in URL query parameters
+  if (isset($_GET['error']) && !empty($_GET['error'])) {
+      $error_message = htmlspecialchars($_GET['error']);
+  }
+  // If your controller also passes $error/$success directly when rendering,
+  // you might need to add checks like:
+  // if (isset($error) && !empty($error)) { $error_message = htmlspecialchars($error); }
+  // if (isset($success_message_from_controller) && !empty($success_message_from_controller)) { $success_message = htmlspecialchars($success_message_from_controller); }
+  // Ensure $suppliers_info is an object with an isEmpty method to prevent errors (if this view is used elsewhere)
+  if (!isset($suppliers_info)) {
+      $suppliers_info = new \Illuminate\Database\Eloquent\Collection();
+  }
+  ?>
 <section class="page-wrapper dark-bg">
   <div class="container-fluid page-content">
     <div class="row w-100 justify-content-center align-items-center">
@@ -13,9 +56,15 @@
           <h3 class="text-white">COMPUTER IMS</h3>
         </div>
 
-        <?php if (isset($error) && !empty($error)): ?>
+        <?php if (!empty($success_message)): ?>
+          <div class="alert alert-success text-center mb-3" role="alert">
+            <?= $success_message ?>
+          </div>
+        <?php endif; ?>
+
+        <?php if (!empty($error_message)): ?>
           <div class="alert alert-danger text-center mb-3" role="alert">
-            <?php echo htmlspecialchars($error); // Use htmlspecialchars to prevent XSS ?>
+            <?= $error_message ?>
           </div>
         <?php endif; ?>
 
@@ -59,7 +108,9 @@ function togglePassword() {
 }
 </script>
 
-<?php 
+<?php
 use App\Core\Logger;
 Logger::log('UI: On login.php')
 ?>
+</body>
+</html>

@@ -1,42 +1,43 @@
-<section class="page-wrapper dark-bg">
-  <!-- Content -->
-  <div class="container-fluid page-content">
-    <div class="row w-100 justify-content-center align-items-center">
-      <div class="col-12 col-md-4">
-        <div class="login-header text-center mb-4">
-          <h3 class="text-white">CHANGE PASSWORD</h3>
-        </div>
-
-        <div class="form-wrapper">
-
-          <form method="POST" action="send_code">
-            <div class="mb-4">
-              <label class="form-label light-txt">Email</label>
-              <input type="email" name="email" class="form-control form-control-lg dark-txt light-bg" required maxlength="50" />
-            </div>
-            <div class="mb-4">
-              <button type="submit" class="btn btn-primary btn-lg w-100">SEND CODE</button>
-            </div>
-          </form>
-
-          <form method="POST" action="verify_code">
-            <div class="mb-4">
-              <label class="form-label light-txt">Code</label>
-              <input type="text" name="code" class="form-control form-control-lg dark-txt light-bg" required maxlength="50" />
-            </div>
-            <div>
-              <button type="submit" class="btn btn-primary btn-lg w-100">VERIFY</button>
-            </div>
-          </form>
-        </div>
-
-        
-      </div>
-    </div>
-  </div>
-</section>
-
-<?php 
+<?php
 use App\Core\Logger;
-Logger::log('UI: On forgotpass.php')
+// Display success or error message if available
+$display_success_message = $_SESSION['success_message'] ?? null;
+$display_error_message = $_SESSION['error_message'] ?? null;
+
+unset($_SESSION['success_message']);
+unset($_SESSION['error_message']);
+?>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card p-4 shadow-lg light-bg-card" style="width: 100%; max-width: 400px; border-radius: 15px;">
+        <h2 class="text-center mb-4 dark-txt">Forgot Password</h2>
+
+        <?php if ($display_success_message): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?= htmlspecialchars($display_success_message) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($display_error_message): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= htmlspecialchars($display_error_message) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
+        <form action="/login/send_reset_code" method="POST">
+            <div class="mb-3">
+                <label for="email" class="form-label dark-txt">Enter your email address:</label>
+                <input type="email" class="form-control light-bg dark-txt" id="email" name="email" required placeholder="your.email@example.com" maxlength="50">
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-lg">Send Reset Code</button>
+                <a href="/login/login" class="btn btn-secondary btn-lg">Back to Login</a>
+            </div>
+        </form>
+    </div>
+</div>
+<? 
+Logger::log("UI: On login/forgotpass.php");
 ?>

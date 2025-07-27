@@ -98,12 +98,12 @@ $brands = $brands ?? [];
                 <div class="col-md-6 mb-3">
                     <label for="unit_price" class="form-label light-txt">Unit Price</label>
                     <input type="number" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="unit_price" name="unit_price"
-                           value="<?= htmlspecialchars($product->unit_price ?? ''); ?>" required min="0">
+                        value="<?= htmlspecialchars($product->unit_price ?? ''); ?>" required min="0" data-maxlength="9">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="cost_price" class="form-label light-txt">Cost Price (Optional)</label>
                     <input type="number" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="cost_price" name="cost_price"
-                           value="<?= htmlspecialchars($product->cost_price ?? ''); ?>" min="0">
+                        value="<?= htmlspecialchars($product->cost_price ?? ''); ?>" min="0" data-maxlength="9">
                 </div>
             </div>
 
@@ -159,7 +159,54 @@ $brands = $brands ?? [];
     </div>
   </div>
 </section>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("JavaScript for input validation is running!");
 
+        function enforceNumericInputRules(event) {
+            const input = event.target;
+            let value = input.value;
+            const maxLength = parseInt(input.getAttribute('data-maxlength'), 10); // This line dynamically reads the data-maxlength
+
+            // 1. Strip non-numeric characters
+            if (input.id === 'reorder_level') {
+                value = value.replace(/[^0-9]/g, ''); // Only digits for reorder_level
+            } else {
+                // For prices, allow one decimal point
+                value = value.replace(/[^0-9.]/g, '');
+                const parts = value.split('.');
+                if (parts.length > 2) {
+                    value = parts.shift() + '.' + parts.join('');
+                }
+                if (value.indexOf('.') !== value.lastIndexOf('.')) {
+                    value = value.substring(0, value.lastIndexOf('.'));
+                }
+            }
+
+            // 2. Enforce maxlength
+            if (!isNaN(maxLength) && value.length > maxLength) {
+                value = value.slice(0, maxLength);
+            }
+
+            // Update the input value
+            input.value = value;
+        }
+
+        const unitPriceInput = document.getElementById('unit_price');
+        const costPriceInput = document.getElementById('cost_price');
+        const reorderLevelInput = document.getElementById('reorder_level');
+
+        if (unitPriceInput) {
+            unitPriceInput.addEventListener('input', enforceNumericInputRules);
+        }
+        if (costPriceInput) {
+            costPriceInput.addEventListener('input', enforceNumericInputRules);
+        }
+        if (reorderLevelInput) {
+            reorderLevelInput.addEventListener('input', enforceNumericInputRules);
+        }
+    });
+</script>
 <?php
 Logger::log('UI: On staff/products/edit.php');
 ?>

@@ -6,61 +6,89 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-use Models\Category; // Assuming you have a Category model
-use Models\Brand;    // Assuming you have a Brand model
-use Models\TransactionItem;
-use Models\ProductInstance;
-
 class Product extends Model
 {
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'products';
-    public $timestamps = true;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'sku',
-        'name', // CHANGED: from 'product_name' to 'name'
+        'name',
         'description',
         'category_id',
         'brand_id',
         'unit_price',
         'cost_price',
         'current_stock',
-        'reorder_level', // CHANGED: from 'reorder_point' to 'reorder_level'
+        'reorder_level',
         'is_serialized',
         'is_active',
         'location_aisle',
         'location_bin',
+        'created_by_user_id',
+        'updated_by_user_id',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
     protected $casts = [
-        'unit_price' => 'decimal:2',
-        'cost_price' => 'decimal:2',
+        'unit_price' => 'float',
+        'cost_price' => 'float',
         'current_stock' => 'integer',
         'reorder_level' => 'integer',
         'is_serialized' => 'boolean',
         'is_active' => 'boolean',
     ];
-    public function instances() {
-        return $this->hasMany(ProductInstance::class, 'product_id');
-    }
-    // Relationships (assuming Category and Brand models exist)
+
+    /**
+     * Get the category that owns the product.
+     */
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Category::class);
     }
 
+    /**
+     * Get the brand that owns the product.
+     */
     public function brand(): BelongsTo
     {
-        return $this->belongsTo(Brand::class, 'brand_id');
+        return $this->belongsTo(Brand::class);
     }
 
-    public function transactionItems(): HasMany
-    {
-        return $this->hasMany(TransactionItem::class, 'product_id');
-    }
-
+    /**
+     * Get the product instances for the product (if serialized).
+     */
     public function productInstances(): HasMany
     {
-        return $this->hasMany(ProductInstance::class, 'product_id');
+        return $this->hasMany(ProductInstance::class);
+    }
+
+    /**
+     * Get the user who created the product.
+     */
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by_user_id');
+    }
+
+    /**
+     * Get the user who last updated the product.
+     */
+    public function updatedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by_user_id');
     }
 }

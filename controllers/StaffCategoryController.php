@@ -31,8 +31,8 @@ class StaffCategoryController extends Controller {
         Logger::log('CATEGORY_STORE: Attempting to store new category.');
 
         // 1. Retrieve Input Data
-        $name = $this->input('name');
-        $description = $this->input('description'); // NEW: Retrieve description
+        $name = trim($this->input('name'));
+        $description = trim($this->input('description')); // NEW: Retrieve description
 
         // 2. Validation
         $errors = [];
@@ -122,9 +122,9 @@ class StaffCategoryController extends Controller {
         Logger::log('CATEGORY_UPDATE: Attempting to update category.');
 
         // 1. Retrieve Input Data
-        $id = $this->input('id'); // Hidden field for category ID
-        $name = $this->input('name');
-        $description = $this->input('description'); // NEW: Retrieve description
+        $id = trim($this->input('id')); // Hidden field for category ID
+        $name = trim($this->input('name'));
+        $description = trim($this->input('description')); // NEW: Retrieve description
 
         // 2. Retrieve the Category Model instance
         $category = Category::find($id);

@@ -50,7 +50,7 @@ if ($transaction->transaction_type === 'Sale' && $transaction->customer) {
         $party_name = htmlspecialchars($transaction->customer->company_name ?? $transaction->customer->contact_first_name . ' ' . $transaction->customer->contact_last_name);
     } elseif ($transaction->supplier) {
         $party_type = 'Supplier (Return To)';
-        $party_name = htmlspecialchars($transaction->supplier->company_name ?? $transaction->supplier->contact_first_name . ' ' . $transaction->supplier->contact_last_name); // Fixed: $supplier->contact_last_name to $transaction->supplier->contact_last_name
+        $party_name = htmlspecialchars($transaction->supplier->company_name ?? $transaction->supplier->contact_first_name . ' ' . $transaction->supplier->contact_last_name);
     } else {
         $party_type = 'N/A (Return)';
         $party_name = 'N/A';
@@ -90,6 +90,29 @@ $can_add_items = ($transaction->status !== 'Completed' && $transaction->status !
                         <div class="col-md-6 mb-2"><strong><?= $party_type ?>:</strong> <?= $party_name ?></div>
                         <div class="col-md-6 mb-2"><strong>Status:</strong> <?= htmlspecialchars($transaction->status) ?></div>
                         <div class="col-md-6 mb-2"><strong>Total Amount:</strong> ₱<?= number_format($transaction->total_amount, 2) ?></div>
+                        <?php
+                        $display_amount_received = false;
+                        $amount_label = '';
+                        if ($transaction->transaction_type === 'Sale') {
+                            $display_amount_received = true;
+                            $amount_label = 'Amount Received:';
+                        } elseif ($transaction->transaction_type === 'Purchase') {
+                            $display_amount_received = true;
+                            $amount_label = 'Amount Paid:';
+                        } elseif ($transaction->transaction_type === 'Customer Return') {
+                            $display_amount_received = true;
+                            $amount_label = 'Amount Refunded:';
+                        } elseif ($transaction->transaction_type === 'Supplier Return') {
+                            $display_amount_received = true;
+                            $amount_label = 'Amount Received (Refund):';
+                        }
+                        ?>
+                        <?php if ($display_amount_received): ?>
+                            <div class="col-md-6 mb-2">
+                                <strong><?= $amount_label ?></strong> 
+                                ₱<?= number_format($transaction->amount_received !== null ? (float)$transaction->amount_received : 0.00, 2) ?>
+                            </div>
+                        <?php endif; ?>
                         <div class="col-md-6 mb-2"><strong>Created By:</strong> <?= htmlspecialchars($transaction->createdBy->username ?? 'N/A') ?></div>
                         <div class="col-md-6 mb-2"><strong>Created At:</strong> <?= $created_at_formatted ?></div>
                         <div class="col-md-6 mb-2"><strong>Updated By:</strong> <?= htmlspecialchars($transaction->updatedBy->username ?? 'N/A') ?></div>
@@ -99,6 +122,7 @@ $can_add_items = ($transaction->status !== 'Completed' && $transaction->status !
 
                     <div class="d-flex justify-content-center flex-wrap gap-2 mt-3">
                         <a href="/staff/transactions/edit/<?= htmlspecialchars($transaction->id) ?>" class="btn btn-warning">Edit Transaction Details</a>
+                        <a href="/staff/transactions/print/<?= htmlspecialchars($transaction->id) ?>" class="btn btn-info" target="_blank">Print Transaction</a>
                         <a href="/staff/transactions_list" class="btn btn-secondary">Back to List</a>
                     </div>
                 </div>

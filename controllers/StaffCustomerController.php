@@ -31,14 +31,14 @@ class StaffCustomerController extends Controller {
         Logger::log('CUSTOMER_STORE: Attempting to store new customer.');
 
         // 1. Retrieve Input Data
-        $customer_type             = $this->input('customer_type');
-        $company_name              = $this->input('company_name');
-        $contact_first_name        = $this->input('contact_first_name'); // Corrected name
-        $contact_middle_name       = $this->input('contact_middle_name'); // ADDED: Retrieve middle name
-        $contact_last_name         = $this->input('contact_last_name');  // Corrected name
-        $email                     = $this->input('email');
-        $phone_number              = $this->input('phone_number');
-        $address                   = $this->input('address');
+        $customer_type             = trim($this->input('customer_type'));
+        $company_name              = trim($this->input('company_name'));
+        $contact_first_name        = trim($this->input('contact_first_name')); // Corrected name
+        $contact_middle_name       = trim($this->input('contact_middle_name')); // ADDED: Retrieve middle name
+        $contact_last_name         = trim($this->input('contact_last_name'));  // Corrected name
+        $email                     = trim($this->input('email'));
+        $phone_number              = trim($this->input('phone_number'));
+        $address                   = trim($this->input('address'));
 
         // 2. Validation
         $errors = [];
@@ -157,15 +157,15 @@ class StaffCustomerController extends Controller {
         Logger::log('CUSTOMER_UPDATE: Attempting to update customer.');
 
         // 1. Retrieve Input Data
-        $id                        = $this->input('id');
-        $customer_type             = $this->input('customer_type');
-        $company_name              = $this->input('company_name');
-        $contact_first_name        = $this->input('contact_first_name'); // Corrected name
-        $contact_middle_name       = $this->input('contact_middle_name'); // ADDED: Retrieve middle name
-        $contact_last_name         = $this->input('contact_last_name');  // Corrected name
-        $email                     = $this->input('email');
-        $phone_number              = $this->input('phone_number');
-        $address                   = $this->input('address');
+        $id                        = trim($this->input('id'));
+        $customer_type             = trim($this->input('customer_type'));
+        $company_name              = trim($this->input('company_name'));
+        $contact_first_name        = trim($this->input('contact_first_name')); // Corrected name
+        $contact_middle_name       = trim($this->input('contact_middle_name')); // ADDED: Retrieve middle name
+        $contact_last_name         = trim($this->input('contact_last_name'));  // Corrected name
+        $email                     = trim($this->input('email'));
+        $phone_number              = trim($this->input('phone_number'));
+        $address                   = trim($this->input('address'));
 
         // 2. Retrieve the Customer Model instance
         $customer = Customer::find($id);
