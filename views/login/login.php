@@ -97,7 +97,7 @@
   </div>
 
   <footer class="bg-primary text-white text-center py-3 mt-auto">
-    <div>&copy; 2020. All rights reserved.</div>
+    <div>&copy; 2025. All rights reserved.</div>
   </footer>
 </section>
 <script>
