@@ -36,7 +36,7 @@
     <div class="row">
         <div class="col-sm-auto bg-light sticky-top">
             <div class="d-flex flex-sm-column flex-row flex-nowrap bg-light align-items-center" >
-                <a href="#" class="nav-link py-1 px-2" data-bs-toggle="tooltip" title="Home">
+                <a href="/staff/home" class="nav-link py-1 px-2" data-bs-toggle="tooltip" title="Home">
                     <i class="bi bi-house-door-fill fs-2"></i>
                 </a>
 

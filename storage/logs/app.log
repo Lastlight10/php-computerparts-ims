@@ -45979,3 +45979,979 @@
 [2025-07-27 21:20:56] UI: On products_list.php
 [2025-07-27 21:20:56] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
 [2025-07-27 21:20:56] ROUTING (index.php): Dispatched to staff/products_list
+[2025-07-27 23:07:22] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:07:22] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:07:22] DB_INFO: Database connection already initialized. Skipping.
+[2025-07-27 23:07:22] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:07:22] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:07:22] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:07:22] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\MySqlConnection
+[2025-07-27 23:07:22] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:07:23] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql307.infinityfree.com failed: Name or service not known on line 66 in /home/ayen/PHP/LaravelTest/comp_parts_ims/vendor/illuminate/database/Connectors/Connector.php
+[2025-07-27 23:07:23] URL_DEBUG: Raw REQUEST_URI: /
+[2025-07-27 23:07:23] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:07:23] URL_DEBUG: Path after strtok: /
+[2025-07-27 23:07:23] URL_DEBUG: Path after /index.php removal: /
+[2025-07-27 23:07:23] URL_DEBUG: Final URL after trimming: 
+[2025-07-27 23:07:23] 📥 Incoming request parsed as: homepage
+[2025-07-27 23:07:23] ROUTING: Attempting to call LoginController@login for URL: 
+[2025-07-27 23:07:23] DEBUG: Entered LoginController@login method.
+[2025-07-27 23:07:23] UI: On login.php
+[2025-07-27 23:07:23] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-27 23:07:23] ROUTING (index.php): Dispatched to homepage
+[2025-07-27 23:07:28] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:07:28] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:07:28] DB_INFO: Database connection already initialized. Skipping.
+[2025-07-27 23:07:28] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:07:28] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:07:28] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:07:28] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\MySqlConnection
+[2025-07-27 23:07:28] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:07:28] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql307.infinityfree.com failed: Name or service not known on line 66 in /home/ayen/PHP/LaravelTest/comp_parts_ims/vendor/illuminate/database/Connectors/Connector.php
+[2025-07-27 23:07:28] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-27 23:07:28] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:07:28] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-27 23:07:28] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-27 23:07:28] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-27 23:07:28] 📥 Incoming request parsed as: login/login_acc
+[2025-07-27 23:07:28] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-27 23:07:28] LOGIN_ACC: Method called
+[2025-07-27 23:07:28] ROUTING EXCEPTION: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql307.infinityfree.com failed: Name or service not known (Connection: default, SQL: select * from `users` where `username` = admin limit 1)
+[2025-07-27 23:07:28] ROUTING ERROR: 404 Not Found for login/login_acc
+[2025-07-27 23:07:28] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-27 23:07:32] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:07:32] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:07:32] DB_INFO: Database connection already initialized. Skipping.
+[2025-07-27 23:07:32] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:07:32] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:07:32] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:07:32] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\MySqlConnection
+[2025-07-27 23:07:32] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:07:32] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql307.infinityfree.com failed: Name or service not known on line 66 in /home/ayen/PHP/LaravelTest/comp_parts_ims/vendor/illuminate/database/Connectors/Connector.php
+[2025-07-27 23:07:32] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-27 23:07:32] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:07:32] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-27 23:07:32] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-27 23:07:32] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-27 23:07:32] 📥 Incoming request parsed as: login/login_acc
+[2025-07-27 23:07:32] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-27 23:07:32] LOGIN_ACC: Method called
+[2025-07-27 23:07:32] ROUTING EXCEPTION: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql307.infinityfree.com failed: Name or service not known (Connection: default, SQL: select * from `users` where `username` = admin limit 1)
+[2025-07-27 23:07:32] ROUTING ERROR: 404 Not Found for login/login_acc
+[2025-07-27 23:07:32] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-27 23:07:34] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:07:34] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:07:34] DB_INFO: Database connection already initialized. Skipping.
+[2025-07-27 23:07:34] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:07:34] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:07:34] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:07:34] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\MySqlConnection
+[2025-07-27 23:07:34] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:07:34] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql307.infinityfree.com failed: Name or service not known on line 66 in /home/ayen/PHP/LaravelTest/comp_parts_ims/vendor/illuminate/database/Connectors/Connector.php
+[2025-07-27 23:07:34] URL_DEBUG: Raw REQUEST_URI: /
+[2025-07-27 23:07:34] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:07:34] URL_DEBUG: Path after strtok: /
+[2025-07-27 23:07:34] URL_DEBUG: Path after /index.php removal: /
+[2025-07-27 23:07:34] URL_DEBUG: Final URL after trimming: 
+[2025-07-27 23:07:34] 📥 Incoming request parsed as: homepage
+[2025-07-27 23:07:34] ROUTING: Attempting to call LoginController@login for URL: 
+[2025-07-27 23:07:34] DEBUG: Entered LoginController@login method.
+[2025-07-27 23:07:34] UI: On login.php
+[2025-07-27 23:07:34] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-27 23:07:34] ROUTING (index.php): Dispatched to homepage
+[2025-07-27 23:07:37] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:07:37] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:07:37] DB_INFO: Database connection already initialized. Skipping.
+[2025-07-27 23:07:37] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:07:37] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:07:37] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:07:37] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\MySqlConnection
+[2025-07-27 23:07:37] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:07:37] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql307.infinityfree.com failed: Name or service not known on line 66 in /home/ayen/PHP/LaravelTest/comp_parts_ims/vendor/illuminate/database/Connectors/Connector.php
+[2025-07-27 23:07:37] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-27 23:07:37] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:07:37] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-27 23:07:37] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-27 23:07:37] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-27 23:07:37] 📥 Incoming request parsed as: login/login_acc
+[2025-07-27 23:07:37] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-27 23:07:37] LOGIN_ACC: Method called
+[2025-07-27 23:07:37] ROUTING EXCEPTION: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql307.infinityfree.com failed: Name or service not known (Connection: default, SQL: select * from `users` where `username` = admin limit 1)
+[2025-07-27 23:07:37] ROUTING ERROR: 404 Not Found for login/login_acc
+[2025-07-27 23:07:37] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-27 23:07:54] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:07:54] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:07:54] DB_INFO: Database connection already initialized. Skipping.
+[2025-07-27 23:07:54] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:07:54] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:07:54] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:07:54] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\MySqlConnection
+[2025-07-27 23:07:54] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:07:54] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql307.infinityfree.com failed: Name or service not known on line 66 in /home/ayen/PHP/LaravelTest/comp_parts_ims/vendor/illuminate/database/Connectors/Connector.php
+[2025-07-27 23:07:54] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-27 23:07:54] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:07:54] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-27 23:07:54] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-27 23:07:54] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-27 23:07:54] 📥 Incoming request parsed as: login/login_acc
+[2025-07-27 23:07:54] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-27 23:07:54] LOGIN_ACC: Method called
+[2025-07-27 23:07:54] ROUTING EXCEPTION: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql307.infinityfree.com failed: Name or service not known (Connection: default, SQL: select * from `users` where `username` = admin limit 1)
+[2025-07-27 23:07:54] ROUTING ERROR: 404 Not Found for login/login_acc
+[2025-07-27 23:07:54] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-27 23:07:55] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:07:55] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:07:55] DB_INFO: Database connection already initialized. Skipping.
+[2025-07-27 23:07:55] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:07:55] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:07:55] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:07:55] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\MySqlConnection
+[2025-07-27 23:07:55] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:07:55] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql307.infinityfree.com failed: Name or service not known on line 66 in /home/ayen/PHP/LaravelTest/comp_parts_ims/vendor/illuminate/database/Connectors/Connector.php
+[2025-07-27 23:07:55] URL_DEBUG: Raw REQUEST_URI: /
+[2025-07-27 23:07:55] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:07:55] URL_DEBUG: Path after strtok: /
+[2025-07-27 23:07:55] URL_DEBUG: Path after /index.php removal: /
+[2025-07-27 23:07:55] URL_DEBUG: Final URL after trimming: 
+[2025-07-27 23:07:55] 📥 Incoming request parsed as: homepage
+[2025-07-27 23:07:55] ROUTING: Attempting to call LoginController@login for URL: 
+[2025-07-27 23:07:55] DEBUG: Entered LoginController@login method.
+[2025-07-27 23:07:55] UI: On login.php
+[2025-07-27 23:07:55] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-27 23:07:55] ROUTING (index.php): Dispatched to homepage
+[2025-07-27 23:07:58] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:07:58] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:07:58] DB_INFO: Database connection already initialized. Skipping.
+[2025-07-27 23:07:58] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:07:58] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:07:58] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:07:58] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\MySqlConnection
+[2025-07-27 23:07:58] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:07:58] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql307.infinityfree.com failed: Name or service not known on line 66 in /home/ayen/PHP/LaravelTest/comp_parts_ims/vendor/illuminate/database/Connectors/Connector.php
+[2025-07-27 23:07:58] URL_DEBUG: Raw REQUEST_URI: /
+[2025-07-27 23:07:58] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:07:58] URL_DEBUG: Path after strtok: /
+[2025-07-27 23:07:58] URL_DEBUG: Path after /index.php removal: /
+[2025-07-27 23:07:58] URL_DEBUG: Final URL after trimming: 
+[2025-07-27 23:07:58] 📥 Incoming request parsed as: homepage
+[2025-07-27 23:07:58] ROUTING: Attempting to call LoginController@login for URL: 
+[2025-07-27 23:07:58] DEBUG: Entered LoginController@login method.
+[2025-07-27 23:07:58] UI: On login.php
+[2025-07-27 23:07:58] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-27 23:07:58] ROUTING (index.php): Dispatched to homepage
+[2025-07-27 23:08:02] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:08:02] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:08:02] DB_INFO: Database connection already initialized. Skipping.
+[2025-07-27 23:08:02] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:08:02] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:08:02] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:08:02] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\MySqlConnection
+[2025-07-27 23:08:02] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:08:02] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql307.infinityfree.com failed: Name or service not known on line 66 in /home/ayen/PHP/LaravelTest/comp_parts_ims/vendor/illuminate/database/Connectors/Connector.php
+[2025-07-27 23:08:02] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-27 23:08:02] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:08:02] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-27 23:08:02] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-27 23:08:02] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-27 23:08:02] 📥 Incoming request parsed as: login/login_acc
+[2025-07-27 23:08:02] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-27 23:08:02] LOGIN_ACC: Method called
+[2025-07-27 23:08:02] ROUTING EXCEPTION: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql307.infinityfree.com failed: Name or service not known (Connection: default, SQL: select * from `users` where `username` = admin limit 1)
+[2025-07-27 23:08:02] ROUTING ERROR: 404 Not Found for login/login_acc
+[2025-07-27 23:08:02] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-27 23:08:53] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:08:53] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:08:53] DB_INFO: .env file loaded.
+[2025-07-27 23:08:53] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:08:53] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:08:53] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:08:53] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:08:53] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:08:53] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:08:53] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:08:53] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:08:53] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-27 23:08:53] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:08:53] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-27 23:08:53] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-27 23:08:53] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-27 23:08:53] 📥 Incoming request parsed as: login/login_acc
+[2025-07-27 23:08:53] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-27 23:08:53] LOGIN_ACC: Method called
+[2025-07-27 23:08:53] INPUT: Username = admin
+[2025-07-27 23:08:53] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-27 23:08:53] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:08:53] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:08:53] DB_INFO: .env file loaded.
+[2025-07-27 23:08:53] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:08:53] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:08:53] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:08:53] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:08:53] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:08:53] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:08:53] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:08:53] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:08:53] URL_DEBUG: Raw REQUEST_URI: /staff/dashboard
+[2025-07-27 23:08:53] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:08:53] URL_DEBUG: Path after strtok: /staff/dashboard
+[2025-07-27 23:08:53] URL_DEBUG: Path after /index.php removal: /staff/dashboard
+[2025-07-27 23:08:53] URL_DEBUG: Final URL after trimming: staff/dashboard
+[2025-07-27 23:08:53] 📥 Incoming request parsed as: staff/dashboard
+[2025-07-27 23:08:53] ROUTING: Attempting to call StaffController@dashboard for URL: staff/dashboard
+[2025-07-27 23:08:53] Reached Dashboard.
+[2025-07-27 23:08:53] UI: On dashboard.php
+[2025-07-27 23:08:53] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:08:53] ROUTING (index.php): Dispatched to staff/dashboard
+[2025-07-27 23:10:17] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:10:17] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:10:17] DB_INFO: .env file loaded.
+[2025-07-27 23:10:17] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:10:17] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:10:17] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:10:17] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:10:17] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:10:17] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:10:17] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:10:17] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:10:17] URL_DEBUG: Raw REQUEST_URI: /staff/dashboard
+[2025-07-27 23:10:17] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:10:17] URL_DEBUG: Path after strtok: /staff/dashboard
+[2025-07-27 23:10:17] URL_DEBUG: Path after /index.php removal: /staff/dashboard
+[2025-07-27 23:10:17] URL_DEBUG: Final URL after trimming: staff/dashboard
+[2025-07-27 23:10:17] 📥 Incoming request parsed as: staff/dashboard
+[2025-07-27 23:10:17] ROUTING: Attempting to call StaffController@dashboard for URL: staff/dashboard
+[2025-07-27 23:10:17] Reached Dashboard.
+[2025-07-27 23:10:17] UI: On dashboard.php
+[2025-07-27 23:10:17] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:10:17] ROUTING (index.php): Dispatched to staff/dashboard
+[2025-07-27 23:10:37] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:10:37] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:10:37] DB_INFO: .env file loaded.
+[2025-07-27 23:10:37] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:10:37] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:10:37] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:10:37] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:10:37] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:10:37] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:10:37] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:10:37] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:10:37] URL_DEBUG: Raw REQUEST_URI: /staff/dashboard
+[2025-07-27 23:10:37] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:10:37] URL_DEBUG: Path after strtok: /staff/dashboard
+[2025-07-27 23:10:37] URL_DEBUG: Path after /index.php removal: /staff/dashboard
+[2025-07-27 23:10:37] URL_DEBUG: Final URL after trimming: staff/dashboard
+[2025-07-27 23:10:37] 📥 Incoming request parsed as: staff/dashboard
+[2025-07-27 23:10:37] ROUTING: Attempting to call StaffController@dashboard for URL: staff/dashboard
+[2025-07-27 23:10:37] Reached Dashboard.
+[2025-07-27 23:10:37] UI: On dashboard.php
+[2025-07-27 23:10:37] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:10:37] ROUTING (index.php): Dispatched to staff/dashboard
+[2025-07-27 23:10:37] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:10:37] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:10:37] DB_INFO: .env file loaded.
+[2025-07-27 23:10:37] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:10:37] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:10:37] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:10:37] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:10:37] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:10:37] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:10:37] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:10:37] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:10:37] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:10:37] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:10:37] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:10:37] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:10:37] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:10:37] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:10:37] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:10:37] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:10:37] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:11:54] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:11:54] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:11:54] DB_INFO: .env file loaded.
+[2025-07-27 23:11:54] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:11:54] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:11:54] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:11:54] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:11:54] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:11:54] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:11:54] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:11:54] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:11:54] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:11:54] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:11:54] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:11:54] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:11:54] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:11:54] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:11:54] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:11:54] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:11:54] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:12:04] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:12:04] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:12:04] DB_INFO: .env file loaded.
+[2025-07-27 23:12:04] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:12:04] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:12:04] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:12:04] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:12:04] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:12:04] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:12:04] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:12:04] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:12:04] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:12:04] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:12:04] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:12:04] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:12:04] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:12:04] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:12:04] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:12:04] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:12:04] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:12:06] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:12:06] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:12:06] DB_INFO: .env file loaded.
+[2025-07-27 23:12:06] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:12:06] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:12:06] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:12:06] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:12:06] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:12:06] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:12:06] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:12:06] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:12:06] URL_DEBUG: Raw REQUEST_URI: /staff/brands_list
+[2025-07-27 23:12:06] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:12:06] URL_DEBUG: Path after strtok: /staff/brands_list
+[2025-07-27 23:12:06] URL_DEBUG: Path after /index.php removal: /staff/brands_list
+[2025-07-27 23:12:06] URL_DEBUG: Final URL after trimming: staff/brands_list
+[2025-07-27 23:12:06] 📥 Incoming request parsed as: staff/brands_list
+[2025-07-27 23:12:06] ROUTING: Attempting to call StaffController@brands_list for URL: staff/brands_list
+[2025-07-27 23:12:06] Reached List of Brands
+[2025-07-27 23:12:06] UI: On brands_list.php
+[2025-07-27 23:12:06] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:12:06] ROUTING (index.php): Dispatched to staff/brands_list
+[2025-07-27 23:12:07] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:12:07] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:12:07] DB_INFO: .env file loaded.
+[2025-07-27 23:12:07] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:12:07] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:12:07] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:12:07] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:12:07] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:12:07] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:12:07] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:12:07] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:12:07] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:12:07] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:12:07] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:12:07] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:12:07] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:12:07] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:12:07] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:12:07] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:12:07] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:12:30] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:12:30] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:12:30] DB_INFO: .env file loaded.
+[2025-07-27 23:12:30] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:12:30] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:12:30] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:12:30] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:12:30] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:12:30] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:12:30] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:12:30] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:12:30] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:12:30] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:12:30] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:12:30] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:12:30] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:12:30] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:12:30] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:12:30] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:12:30] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:12:47] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:12:47] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:12:47] DB_INFO: .env file loaded.
+[2025-07-27 23:12:47] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:12:47] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:12:47] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:12:47] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:12:47] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:12:47] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:12:47] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:12:47] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:12:47] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:12:47] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:12:47] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:12:47] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:12:47] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:12:47] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:12:47] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:12:47] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:12:47] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:16:59] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:16:59] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:16:59] DB_INFO: .env file loaded.
+[2025-07-27 23:16:59] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:16:59] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:16:59] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:16:59] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:16:59] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:16:59] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:16:59] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:16:59] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:16:59] URL_DEBUG: Raw REQUEST_URI: /
+[2025-07-27 23:16:59] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:16:59] URL_DEBUG: Path after strtok: /
+[2025-07-27 23:16:59] URL_DEBUG: Path after /index.php removal: /
+[2025-07-27 23:16:59] URL_DEBUG: Final URL after trimming: 
+[2025-07-27 23:16:59] 📥 Incoming request parsed as: homepage
+[2025-07-27 23:16:59] ROUTING: Attempting to call LoginController@login for URL: 
+[2025-07-27 23:16:59] DEBUG: Entered LoginController@login method.
+[2025-07-27 23:16:59] UI: On login.php
+[2025-07-27 23:16:59] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-27 23:16:59] ROUTING (index.php): Dispatched to homepage
+[2025-07-27 23:17:03] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:17:03] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:17:03] DB_INFO: .env file loaded.
+[2025-07-27 23:17:03] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:17:03] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:17:03] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:17:03] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:17:03] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:17:03] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:17:03] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:17:03] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:17:03] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-27 23:17:03] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:17:03] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-27 23:17:03] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-27 23:17:03] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-27 23:17:03] 📥 Incoming request parsed as: login/login_acc
+[2025-07-27 23:17:03] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-27 23:17:03] LOGIN_ACC: Method called
+[2025-07-27 23:17:03] INPUT: Username = admin
+[2025-07-27 23:17:03] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-27 23:17:03] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:17:03] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:17:03] DB_INFO: .env file loaded.
+[2025-07-27 23:17:03] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:17:03] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:17:03] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:17:03] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:17:03] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:17:03] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:17:03] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:17:03] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:17:03] URL_DEBUG: Raw REQUEST_URI: /staff/dashboard
+[2025-07-27 23:17:03] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:17:03] URL_DEBUG: Path after strtok: /staff/dashboard
+[2025-07-27 23:17:03] URL_DEBUG: Path after /index.php removal: /staff/dashboard
+[2025-07-27 23:17:03] URL_DEBUG: Final URL after trimming: staff/dashboard
+[2025-07-27 23:17:03] 📥 Incoming request parsed as: staff/dashboard
+[2025-07-27 23:17:03] ROUTING: Attempting to call StaffController@dashboard for URL: staff/dashboard
+[2025-07-27 23:17:03] Reached Dashboard.
+[2025-07-27 23:17:03] UI: On dashboard.php
+[2025-07-27 23:17:03] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:17:03] ROUTING (index.php): Dispatched to staff/dashboard
+[2025-07-27 23:17:05] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:17:05] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:17:05] DB_INFO: .env file loaded.
+[2025-07-27 23:17:05] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:17:05] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:17:05] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:17:05] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:17:05] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:17:05] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:17:05] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:17:05] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:17:05] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:17:05] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:17:05] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:17:05] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:17:05] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:17:05] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:17:05] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:17:05] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:17:05] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:17:27] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:17:27] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:17:27] DB_INFO: .env file loaded.
+[2025-07-27 23:17:27] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:17:27] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:17:27] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:17:27] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:17:27] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:17:27] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:17:27] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:17:27] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:17:27] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:17:27] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:17:27] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:17:27] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:17:27] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:17:27] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:17:27] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:17:27] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:17:27] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:17:41] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:17:41] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:17:41] DB_INFO: .env file loaded.
+[2025-07-27 23:17:41] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:17:41] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:17:41] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:17:41] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:17:41] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:17:41] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:17:41] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:17:41] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:17:41] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:17:41] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:17:41] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:17:41] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:17:41] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:17:41] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:17:41] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:17:41] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:17:41] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:18:07] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:18:07] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:18:07] DB_INFO: .env file loaded.
+[2025-07-27 23:18:07] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:18:07] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:18:07] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:18:07] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:18:07] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:18:07] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:18:07] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:18:07] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:18:07] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:18:07] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:18:07] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:18:07] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:18:07] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:18:07] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:18:07] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:18:07] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:18:07] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:18:08] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:18:08] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:18:08] DB_INFO: .env file loaded.
+[2025-07-27 23:18:08] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:18:08] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:18:08] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:18:08] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:18:08] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:18:08] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:18:08] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:18:08] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:18:08] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:18:08] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:18:08] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:18:08] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:18:08] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:18:08] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:18:08] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:18:08] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:18:08] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:18:54] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:18:54] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:18:54] DB_INFO: .env file loaded.
+[2025-07-27 23:18:54] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:18:54] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:18:54] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:18:54] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:18:54] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:18:54] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:18:54] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:18:54] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:18:54] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:18:54] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:18:54] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:18:54] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:18:54] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:18:54] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:18:54] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:18:54] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:18:54] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:19:01] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:19:01] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:19:01] DB_INFO: .env file loaded.
+[2025-07-27 23:19:01] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:19:01] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:19:01] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:19:01] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:19:01] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:19:01] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:19:01] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:19:01] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:19:01] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:19:01] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:19:01] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:19:01] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:19:01] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:19:01] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:19:01] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:19:01] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:19:01] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:19:06] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:19:06] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:19:06] DB_INFO: .env file loaded.
+[2025-07-27 23:19:06] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:19:06] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:19:06] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:19:06] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:19:06] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:19:06] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:19:06] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:19:06] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:19:06] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:19:06] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:19:06] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:19:06] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:19:06] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:19:06] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:19:06] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:19:06] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:19:06] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:19:13] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:19:13] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:19:13] DB_INFO: .env file loaded.
+[2025-07-27 23:19:13] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:19:13] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:19:13] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:19:13] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:19:13] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:19:13] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:19:13] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:19:13] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:19:13] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:19:13] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:19:13] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:19:13] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:19:13] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:19:13] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:19:13] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:19:13] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:19:13] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:19:40] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:19:40] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:19:40] DB_INFO: .env file loaded.
+[2025-07-27 23:19:40] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:19:40] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:19:40] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:19:40] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:19:40] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:19:40] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:19:40] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:19:40] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:19:40] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:19:40] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:19:40] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:19:40] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:19:40] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:19:40] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:19:40] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:19:40] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:19:40] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:19:52] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:19:52] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:19:52] DB_INFO: .env file loaded.
+[2025-07-27 23:19:52] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:19:52] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:19:52] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:19:52] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:19:52] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:19:52] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:19:52] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:19:52] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:19:52] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:19:52] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:19:52] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:19:52] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:19:52] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:19:52] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:19:52] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:19:52] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:19:52] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:20:22] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:20:22] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:20:22] DB_INFO: .env file loaded.
+[2025-07-27 23:20:22] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:20:22] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:20:22] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:20:22] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:20:22] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:20:22] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:20:22] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:20:22] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:20:22] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:20:22] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:20:22] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:20:22] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:20:22] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:20:22] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:20:22] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:20:22] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:20:22] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:20:32] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:20:32] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:20:32] DB_INFO: .env file loaded.
+[2025-07-27 23:20:32] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:20:32] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:20:32] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:20:32] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:20:32] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:20:32] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:20:32] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:20:32] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:20:32] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:20:32] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:20:32] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:20:32] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:20:32] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:20:32] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:20:32] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:20:32] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:20:32] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:20:46] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:20:46] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:20:46] DB_INFO: .env file loaded.
+[2025-07-27 23:20:46] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:20:46] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:20:46] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:20:46] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:20:46] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:20:46] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:20:46] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:20:46] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:20:46] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:20:46] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:20:46] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:20:46] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:20:46] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:20:46] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:20:46] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:20:46] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:20:46] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:21:10] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:21:10] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:21:10] DB_INFO: .env file loaded.
+[2025-07-27 23:21:10] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:21:10] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:21:10] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:21:10] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:21:10] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:21:10] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:21:10] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:21:10] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:21:10] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:21:10] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:21:10] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:21:10] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:21:10] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:21:10] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:21:10] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:21:10] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:21:10] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:21:21] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:21:21] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:21:21] DB_INFO: .env file loaded.
+[2025-07-27 23:21:21] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:21:21] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:21:21] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:21:21] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:21:21] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:21:21] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:21:21] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:21:21] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:21:21] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:21:21] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:21:21] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:21:21] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:21:21] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:21:21] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:21:21] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:21:21] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:21:21] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:21:30] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:21:30] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:21:30] DB_INFO: .env file loaded.
+[2025-07-27 23:21:30] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:21:30] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:21:30] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:21:30] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:21:30] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:21:30] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:21:30] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:21:30] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:21:30] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:21:30] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:21:30] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:21:30] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:21:30] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:21:30] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:21:30] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:21:30] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:21:30] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:22:08] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:22:08] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:22:08] DB_INFO: .env file loaded.
+[2025-07-27 23:22:08] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:22:08] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:22:08] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:22:08] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:22:08] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:22:08] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:22:08] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:22:08] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:22:08] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:22:08] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:22:08] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:22:08] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:22:08] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:22:08] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:22:08] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:22:08] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:22:08] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:22:40] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:22:40] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:22:40] DB_INFO: .env file loaded.
+[2025-07-27 23:22:40] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:22:40] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:22:40] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:22:40] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:22:40] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:22:40] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:22:40] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:22:40] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:22:40] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:22:40] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:22:40] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:22:40] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:22:40] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:22:40] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:22:40] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:22:40] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:22:40] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:23:20] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:23:20] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:23:20] DB_INFO: .env file loaded.
+[2025-07-27 23:23:20] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:23:20] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:23:20] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:23:20] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:23:20] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:23:20] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:23:20] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:23:20] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:23:20] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:23:20] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:23:20] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:23:20] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:23:20] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:23:20] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:23:20] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:23:20] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:23:20] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:23:37] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:23:37] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:23:37] DB_INFO: .env file loaded.
+[2025-07-27 23:23:37] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:23:37] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:23:37] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:23:37] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:23:37] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:23:37] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:23:37] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:23:37] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:23:37] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:23:37] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:23:37] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:23:37] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:23:37] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:23:37] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:23:37] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:23:37] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:23:37] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:24:29] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:24:29] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:24:29] DB_INFO: .env file loaded.
+[2025-07-27 23:24:29] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:24:29] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:24:29] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:24:29] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:24:29] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:24:29] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:24:29] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:24:29] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:24:29] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:24:29] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:24:29] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:24:29] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:24:29] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:24:29] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:24:29] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:24:29] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:24:29] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:24:47] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:24:47] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:24:47] DB_INFO: .env file loaded.
+[2025-07-27 23:24:47] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:24:47] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:24:47] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:24:47] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:24:47] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:24:47] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:24:47] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:24:47] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:24:47] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:24:47] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:24:47] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:24:47] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:24:47] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:24:47] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:24:47] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:24:47] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:24:47] ROUTING (index.php): Dispatched to staff/home
+[2025-07-27 23:24:56] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:24:56] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:24:56] DB_INFO: .env file loaded.
+[2025-07-27 23:24:56] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:24:56] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:24:56] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:24:56] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:24:56] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:24:56] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:24:56] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:24:56] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:24:56] URL_DEBUG: Raw REQUEST_URI: /staff/dashboard
+[2025-07-27 23:24:56] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:24:56] URL_DEBUG: Path after strtok: /staff/dashboard
+[2025-07-27 23:24:56] URL_DEBUG: Path after /index.php removal: /staff/dashboard
+[2025-07-27 23:24:56] URL_DEBUG: Final URL after trimming: staff/dashboard
+[2025-07-27 23:24:56] 📥 Incoming request parsed as: staff/dashboard
+[2025-07-27 23:24:56] ROUTING: Attempting to call StaffController@dashboard for URL: staff/dashboard
+[2025-07-27 23:24:56] Reached Dashboard.
+[2025-07-27 23:24:56] UI: On dashboard.php
+[2025-07-27 23:24:56] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:24:56] ROUTING (index.php): Dispatched to staff/dashboard
+[2025-07-27 23:24:57] DB_INFO: Attempting to set up database connection...
+[2025-07-27 23:24:57] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-27 23:24:57] DB_INFO: .env file loaded.
+[2025-07-27 23:24:57] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-27 23:24:57] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-27 23:24:57] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-27 23:24:57] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-27 23:24:57] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-27 23:24:57] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-27 23:24:57] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-27 23:24:57] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-27 23:24:57] URL_DEBUG: Raw REQUEST_URI: /staff/home
+[2025-07-27 23:24:57] URL_DEBUG: Raw _GET array: []
+[2025-07-27 23:24:57] URL_DEBUG: Path after strtok: /staff/home
+[2025-07-27 23:24:57] URL_DEBUG: Path after /index.php removal: /staff/home
+[2025-07-27 23:24:57] URL_DEBUG: Final URL after trimming: staff/home
+[2025-07-27 23:24:57] 📥 Incoming request parsed as: staff/home
+[2025-07-27 23:24:57] ROUTING: Attempting to call StaffController@home for URL: staff/home
+[2025-07-27 23:24:57] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-27 23:24:57] ROUTING (index.php): Dispatched to staff/home

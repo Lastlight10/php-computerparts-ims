@@ -19,6 +19,9 @@ require_once 'vendor/autoload.php';
 
 class StaffController extends Controller {
 
+    public function home() {
+        $this->view('staff/home', [],'staff');
+    }
 
   public function dashboard() {
     Logger::log("Reached Dashboard.");

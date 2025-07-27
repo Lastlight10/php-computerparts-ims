@@ -1,47 +1,50 @@
 <?php
-use App\Core\Connection;
+// htdocs/index.php
+
+// Set up error reporting for debugging.
+// IMPORTANT: Turn display_errors OFF and error_reporting to 0 in production!
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
-// 1. Load Composer's autoloader FIRST
-require_once __DIR__ . '/vendor/autoload.php';
-
-// 2. Start the session (if not already done)
+use App\Core\Connection;
+// Start session if not already started
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// 3. Import necessary classes using their namespaces
+// Adjust path to Composer's autoloader based on your actual project structure.
+// If your vendor folder is one level above htdocs (recommended for security):
+require_once __DIR__ . '/vendor/autoload.php';
+// If your vendor folder is inside htdocs (less secure, but sometimes necessary):
+// require_once __DIR__ . '/vendor/autoload.php';
+
+// Adjust path to your App/Core/Connection.php based on your actual project structure.
+// If App/Core/ is one level above htdocs:
+
+// If App/Core/ is inside htdocs:
+// require_once __DIR__ . '/App/Core/Connection.php';
+
+
+// Initialize database connection
+\App\Core\Connection::init();
+
 use App\Core\Router;
 use App\Core\Logger;
 use Illuminate\Database\Capsule\Manager as DB; // Add this if you want to use DB facade for diagnostic
 
-// *** CRITICAL: Call Connection::init() here, early in the script ***
-try {
-    Connection::init(); // This now handles Eloquent bootstrapping
-    Logger::log("APP_INIT: Database and Eloquent initialized successfully.");
-} catch (\Exception $e) {
-    Logger::log("APP_FATAL_ERROR: Application failed to initialize database/Eloquent: " . $e->getMessage());
-    http_response_code(500);
-    echo "<h1>Error: Application Startup Failed</h1>";
-    echo "<p>A critical error occurred during database initialization. Please check logs.</p>";
-    exit(1);
-}
-
 // --- MORE VERBOSE DIAGNOSTIC CODE (NOW AFTER Connection::init()) ---
+// This block is for diagnosing database connection, not URL parsing.
 try {
     Logger::log("DIAGNOSTIC: Attempting to get Capsule instance...");
     $capsuleInstance = Connection::getCapsule();
 
     if ($capsuleInstance === null) {
         Logger::log("DIAGNOSTIC_ERROR: Connection::getCapsule() returned NULL. Capsule was not properly initialized.");
-        // This is the root cause if this log appears after successful APP_INIT.
     } else {
         Logger::log("DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: " . get_class($capsuleInstance));
 
         Logger::log("DIAGNOSTIC: Attempting to get Connection object...");
-        $connectionObject = $capsuleInstance->getConnection(); // This is line 19 or similar
+        $connectionObject = $capsuleInstance->getConnection();
         Logger::log("DIAGNOSTIC: getConnection() returned a Connection object. Type: " . get_class($connectionObject));
 
         Logger::log("DIAGNOSTIC: Attempting to get PDO object...");
@@ -50,38 +53,56 @@ try {
 
         if ($pdo->inTransaction()) {
             Logger::log("DIAGNOSTIC: PDO transaction is ALREADY ACTIVE before routing.");
-            // If this log appears, it means something else is starting a transaction.
-            // Consider if $pdo->rollBack(); is appropriate here.
         } else {
             Logger::log("DIAGNOSTIC: PDO transaction is NOT active before routing.");
         }
     }
 } catch (\Exception $e) {
-    // This catch block will now specifically log errors from the diagnostic steps themselves
     Logger::log("DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: " . $e->getMessage() . " on line " . $e->getLine() . " in " . $e->getFile());
-    // The previous error trace pinpointed line 19. This detailed log will help confirm.
 }
 // --- END DIAGNOSTIC CODE ---
 
 
-// 4. Get URL for routing
-$url = $_GET['url'] ?? '';
-if (empty($url)) {
-    $url = $_SERVER['REQUEST_URI'] ?? '/';
-    $url = str_replace('/index.php', '', $url);
-    $url = ltrim($url, '/');
-    $url = strtok($url, '?');
+// 4. Get URL for routing - REFINED LOGIC
+$url = '';
+$requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+
+Logger::log("URL_DEBUG: Raw REQUEST_URI: " . $requestUri);
+Logger::log("URL_DEBUG: Raw _GET array: " . json_encode($_GET));
+
+// Priority 1: Check if .htaccess passed a 'url' GET parameter (clean URL)
+if (isset($_GET['url'])) {
+    $url = $_GET['url'];
+    Logger::log("URL_DEBUG: URL obtained from \$_GET['url']: " . $url);
+} else {
+    // Priority 2: If not, parse from REQUEST_URI.
+    // This handles cases where .htaccess might not be active or direct access.
+
+    // Remove query string from REQUEST_URI
+    $path = strtok($requestUri, '?');
+    Logger::log("URL_DEBUG: Path after strtok: " . $path);
+
+    // Remove /index.php if it's explicitly in the path (e.g., /index.php/route)
+    // This is important for direct access without .htaccess or if .htaccess is configured differently.
+    $path = str_replace('/index.php', '', $path);
+    Logger::log("URL_DEBUG: Path after /index.php removal: " . $path);
+
+    // Trim leading/trailing slashes
+    $url = trim($path, '/');
+    Logger::log("URL_DEBUG: Final URL after trimming: " . $url);
 }
+
+// Ensure $url is never empty, default to homepage route
 $url = $url ?: '';
 
-Logger::log("📥 Incoming request: " . $url);
+Logger::log("📥 Incoming request parsed as: " . ($url ?: 'homepage'));
 
 try {
     // 5. Instantiate and dispatch the router
     $router = new Router();
     $router->route($url);
 
-    Logger::log("ROUTING (index.php): Dispatched to $url");
+    Logger::log("ROUTING (index.php): Dispatched to " . ($url ?: 'homepage'));
 
 } catch (\Throwable $e) {
     Logger::log(message: "❌ FATAL EXCEPTION/ERROR: " . $e->getMessage() . " on line " . $e->getLine() . " in " . $e->getFile());

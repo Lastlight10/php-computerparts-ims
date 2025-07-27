@@ -140,7 +140,7 @@ class Transaction extends Model {
                              Logger::log("STOCK_UPDATE: Item {$item->id} (Adjustment Out). Quantity change: {$quantityChange}.");
                         } else {
                             Logger::log("STOCK_UPDATE: Warning - Stock Adjustment item {$item->id} has no linked instances. No quantity change for product.");
-                            continue;
+                            continue 2;
                         }
                         break;
                     default:
