@@ -31,11 +31,11 @@
   }
 
   // Check for error message in URL query parameters
-  if (isset($_GET['error']) && !empty($_GET['error'])) {
-      $error_message = htmlspecialchars($_GET['error']);
+  if (isset($_GET['error_message']) && !empty($_GET['error_message'])) {
+      $error_message = htmlspecialchars($_GET['error_message']);
   }
   // If your controller also passes $error/$success directly when rendering,
-  // you might need to add checks like:
+  // you might need to add checks like:~
   // if (isset($error) && !empty($error)) { $error_message = htmlspecialchars($error); }
   // if (isset($success_message_from_controller) && !empty($success_message_from_controller)) { $success_message = htmlspecialchars($success_message_from_controller); }
   // Ensure $suppliers_info is an object with an isEmpty method to prevent errors (if this view is used elsewhere)

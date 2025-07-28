@@ -60,7 +60,7 @@ class Connection
             // Use SQLite connection as per your current setup
             static::$capsule->addConnection([
                 'driver'   => 'sqlite',
-                'database' => __DIR__ . '/../database.sqlite', // Path to your sqlite file
+                'database' => __DIR__ . '/../database.sqlite',
                 'prefix'   => '',
             ]);
 

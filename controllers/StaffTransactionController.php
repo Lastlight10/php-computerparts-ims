@@ -421,11 +421,11 @@ class StaffTransactionController extends Controller {
 
             // Get submitted serial numbers for each item from the form
             // Ensure these input names match your frontend form structure
-            $submitted_purchase_serials = trim($this->input('serial_numbers')) ?? [];
-            $submitted_sale_serials = trim($this->input('selected_serial_numbers')) ?? [];
-            $submitted_customer_return_serials = trim($this->input('returned_serial_numbers')) ?? [];
-            $submitted_supplier_return_serials = trim($this->input('supplier_returned_serial_numbers')) ?? [];
-            $submitted_adjustment_serials = trim($this->input('adjustment_serial_numbers')) ?? [];
+            $submitted_purchase_serials = $this->input('serial_numbers') ?? [];
+            $submitted_sale_serials = $this->input('selected_serial_numbers') ?? [];
+            $submitted_customer_return_serials = $this->input('returned_serial_numbers') ?? [];
+            $submitted_supplier_return_serials = $this->input('supplier_returned_serial_numbers') ?? [];
+            $submitted_adjustment_serials = $this->input('adjustment_serial_numbers') ?? [];
             $submitted_adjustment_directions = [];
             // For stock adjustments, the direction is per item, so retrieve correctly
             foreach ($items_data as $idx => $item_data) {

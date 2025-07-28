@@ -249,7 +249,7 @@ class LoginController extends Controller {
         if (!empty($errors)) {
             Logger::log("PROCESS_CHANGE_PASSWORD_FAILED: Validation errors for user ID {$user_id}: " . implode(', ', $errors));
             $_SESSION['error_message'] = 'Please correct the following issues: ' . implode('<br>', $errors);
-            header('Location: /login/change_password');
+            header('Location: /login/change_password?error_message='.urlencode($_SESSION['error_message']));
             exit();
         }
 
@@ -258,7 +258,7 @@ class LoginController extends Controller {
         if (!$user) {
             Logger::log("PROCESS_CHANGE_PASSWORD_ERROR: User ID {$user_id} not found in DB during password change.");
             $_SESSION['error_message'] = 'An error occurred. User not found.';
-            header('Location: /login/forgotpass');
+            header('Location: /login/forgotpass?error_message='.urlencode($_SESSION['error_message']));
             exit();
         }
 
@@ -275,7 +275,7 @@ class LoginController extends Controller {
         } catch (Exception $e) {
             Logger::log("PROCESS_CHANGE_PASSWORD_DB_ERROR: Failed to update password for user ID {$user_id}. Exception: " . $e->getMessage());
             $_SESSION['error_message'] = 'An error occurred while changing your password. Please try again.';
-            header('Location: /login/change_password');
+            header('Location: /login/change_password?error_message=');
             exit();
         }
     }
@@ -300,7 +300,9 @@ class LoginController extends Controller {
         }
 
         if (!$user || !password_verify($user_password, $user->password)) {
-            $this->view('login/login', ['error' => 'Invalid credentials.'], 'default'); // Ensure default layout
+            //$this->view('login/login', ['error' => 'Invalid credentials.'], 'default'); // Ensure default layout
+            $_SESSION['error_message'] = 'Invalid credentials for ' . $user_username;
+            header('Location:/login/login?error_message='.urlencode($_SESSION['error_message']));
             Logger::log("LOGIN FAILED: Invalid credentials for $user_username");
             return;
         }
@@ -328,7 +330,8 @@ class LoginController extends Controller {
         $data = array_merge($first_data, $second_data);
 
         Logger::log("LOGIN SUCCESS: Redirecting to staff/dashboard");
-        header('Location: /staff/dashboard');
+        $_SESSION['success_message'] = 'Logged in Successfully';
+        header('Location: /staff/dashboard?success_message='.urlencode($_SESSION['success_message']));
         exit();
     }
 

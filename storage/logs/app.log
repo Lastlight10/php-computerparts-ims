@@ -46955,3 +46955,1651 @@
 [2025-07-27 23:24:57] ROUTING: Attempting to call StaffController@home for URL: staff/home
 [2025-07-27 23:24:57] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
 [2025-07-27 23:24:57] ROUTING (index.php): Dispatched to staff/home
+[2025-07-28 10:16:28] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:16:28] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:16:28] DB_ERROR: DATABASE SETUP FAILED: Unable to read any of the environment file(s) at [C:\Users\Clarenz\Desktop\PHP\computerparts\core/../\.env].
+[2025-07-28 10:17:02] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:17:02] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:17:02] DB_ERROR: DATABASE SETUP FAILED: Unable to read any of the environment file(s) at [C:\Users\Clarenz\Desktop\PHP\computerparts\core/../\.env].
+[2025-07-28 10:17:24] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:17:24] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:17:24] DB_INFO: .env file loaded.
+[2025-07-28 10:17:25] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:17:25] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:17:25] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:17:25] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:17:25] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:17:25] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:17:44] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:17:44] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:17:44] DB_ERROR: DATABASE SETUP FAILED: Unable to read any of the environment file(s) at [C:\Users\Clarenz\Desktop\PHP\computerparts\core/../\.env].
+[2025-07-28 10:17:56] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:17:56] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:17:56] DB_ERROR: DATABASE SETUP FAILED: Unable to read any of the environment file(s) at [C:\Users\Clarenz\Desktop\PHP\computerparts\core/../\.env].
+[2025-07-28 10:18:16] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:18:16] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:18:16] DB_ERROR: DATABASE SETUP FAILED: Unable to read any of the environment file(s) at [C:\Users\Clarenz\Desktop\PHP\computerparts\core\.env].
+[2025-07-28 10:18:24] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:18:24] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:18:24] DB_ERROR: DATABASE SETUP FAILED: Unable to read any of the environment file(s) at [\.env].
+[2025-07-28 10:18:40] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:18:40] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:18:40] DB_ERROR: DATABASE SETUP FAILED: Unable to read any of the environment file(s) at [\.env].
+[2025-07-28 10:19:24] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:19:24] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:19:24] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:19:24] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:19:24] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:19:24] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:19:24] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:19:24] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:19:50] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:19:50] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:19:50] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:19:50] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:19:50] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:19:50] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:19:50] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:19:50] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:20:34] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:20:34] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:20:34] DB_ERROR: DATABASE SETUP FAILED: Unable to read any of the environment file(s) at [/\.env].
+[2025-07-28 10:20:45] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:20:45] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:20:45] DB_ERROR: DATABASE SETUP FAILED: Unable to read any of the environment file(s) at [\.env].
+[2025-07-28 10:22:09] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:22:09] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:22:09] DB_ERROR: DATABASE SETUP FAILED: Unable to read any of the environment file(s) at [\.env].
+[2025-07-28 10:23:40] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:23:40] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:23:40] DB_ERROR: DATABASE SETUP FAILED: Unable to read any of the environment file(s) at [C:\Users\Clarenz\Desktop\PHP\computerparts\core\.env].
+[2025-07-28 10:23:52] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:23:52] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:23:52] DB_ERROR: DATABASE SETUP FAILED: Unable to read any of the environment file(s) at [\.env].
+[2025-07-28 10:24:15] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:24:15] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:24:15] DB_ERROR: DATABASE SETUP FAILED: Unable to read any of the environment file(s) at [/.env\.env].
+[2025-07-28 10:25:18] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:25:18] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:25:18] DB_ERROR: DATABASE SETUP FAILED: Unable to read any of the environment file(s) at [C:\Users\Clarenz\Desktop\PHP\computerparts\core\.env].
+[2025-07-28 10:26:07] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:26:07] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:26:07] DB_INFO: .env file loaded.
+[2025-07-28 10:26:07] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:26:07] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:26:07] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:26:07] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:26:07] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:26:07] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:26:50] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:26:50] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:26:50] DB_INFO: .env file loaded.
+[2025-07-28 10:26:50] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:26:50] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:26:50] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:26:50] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:26:50] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:26:50] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:26:50] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: could not find driver on line 66 in C:\Users\Clarenz\Desktop\PHP\computerparts\vendor\illuminate\database\Connectors\Connector.php
+[2025-07-28 10:26:50] URL_DEBUG: Raw REQUEST_URI: /
+[2025-07-28 10:26:50] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:26:50] URL_DEBUG: Path after strtok: /
+[2025-07-28 10:26:50] URL_DEBUG: Path after /index.php removal: /
+[2025-07-28 10:26:50] URL_DEBUG: Final URL after trimming: 
+[2025-07-28 10:26:50] 📥 Incoming request parsed as: homepage
+[2025-07-28 10:26:50] ROUTING: Attempting to call LoginController@login for URL: 
+[2025-07-28 10:26:50] DEBUG: Entered LoginController@login method.
+[2025-07-28 10:26:50] UI: On login.php
+[2025-07-28 10:26:50] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:26:50] ROUTING (index.php): Dispatched to homepage
+[2025-07-28 10:26:56] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:26:56] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:26:56] DB_INFO: .env file loaded.
+[2025-07-28 10:26:56] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:26:56] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:26:56] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:26:56] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:26:56] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:26:56] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:26:56] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: could not find driver on line 66 in C:\Users\Clarenz\Desktop\PHP\computerparts\vendor\illuminate\database\Connectors\Connector.php
+[2025-07-28 10:26:56] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:26:56] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:26:56] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:26:56] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:26:56] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:26:56] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:26:56] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:26:56] LOGIN_ACC: Method called
+[2025-07-28 10:26:56] ROUTING EXCEPTION: could not find driver (Connection: default, SQL: select * from "users" where "username" = admin limit 1)
+[2025-07-28 10:26:56] ROUTING ERROR: 404 Not Found for login/login_acc
+[2025-07-28 10:26:56] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:26:59] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:26:59] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:26:59] DB_INFO: .env file loaded.
+[2025-07-28 10:26:59] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:26:59] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:26:59] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:26:59] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:26:59] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:26:59] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:26:59] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: could not find driver on line 66 in C:\Users\Clarenz\Desktop\PHP\computerparts\vendor\illuminate\database\Connectors\Connector.php
+[2025-07-28 10:26:59] URL_DEBUG: Raw REQUEST_URI: /
+[2025-07-28 10:26:59] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:26:59] URL_DEBUG: Path after strtok: /
+[2025-07-28 10:26:59] URL_DEBUG: Path after /index.php removal: /
+[2025-07-28 10:26:59] URL_DEBUG: Final URL after trimming: 
+[2025-07-28 10:26:59] 📥 Incoming request parsed as: homepage
+[2025-07-28 10:26:59] ROUTING: Attempting to call LoginController@login for URL: 
+[2025-07-28 10:26:59] DEBUG: Entered LoginController@login method.
+[2025-07-28 10:26:59] UI: On login.php
+[2025-07-28 10:26:59] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:26:59] ROUTING (index.php): Dispatched to homepage
+[2025-07-28 10:27:13] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:27:13] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:27:13] DB_INFO: .env file loaded.
+[2025-07-28 10:27:13] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:27:13] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:27:13] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:27:13] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:27:13] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:27:13] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:27:13] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: could not find driver on line 66 in C:\Users\Clarenz\Desktop\PHP\computerparts\vendor\illuminate\database\Connectors\Connector.php
+[2025-07-28 10:27:13] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:27:13] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:27:13] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:27:13] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:27:13] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:27:13] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:27:13] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:27:13] LOGIN_ACC: Method called
+[2025-07-28 10:27:13] ROUTING EXCEPTION: could not find driver (Connection: default, SQL: select * from "users" where "username" = dsd limit 1)
+[2025-07-28 10:27:13] ROUTING ERROR: 404 Not Found for login/login_acc
+[2025-07-28 10:27:13] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:27:15] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:27:15] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:27:15] DB_INFO: .env file loaded.
+[2025-07-28 10:27:16] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:27:16] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:27:16] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:27:16] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:27:16] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:27:16] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:27:16] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: could not find driver on line 66 in C:\Users\Clarenz\Desktop\PHP\computerparts\vendor\illuminate\database\Connectors\Connector.php
+[2025-07-28 10:27:16] URL_DEBUG: Raw REQUEST_URI: /
+[2025-07-28 10:27:16] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:27:16] URL_DEBUG: Path after strtok: /
+[2025-07-28 10:27:16] URL_DEBUG: Path after /index.php removal: /
+[2025-07-28 10:27:16] URL_DEBUG: Final URL after trimming: 
+[2025-07-28 10:27:16] 📥 Incoming request parsed as: homepage
+[2025-07-28 10:27:16] ROUTING: Attempting to call LoginController@login for URL: 
+[2025-07-28 10:27:16] DEBUG: Entered LoginController@login method.
+[2025-07-28 10:27:16] UI: On login.php
+[2025-07-28 10:27:16] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:27:16] ROUTING (index.php): Dispatched to homepage
+[2025-07-28 10:27:29] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:27:29] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:27:29] DB_INFO: .env file loaded.
+[2025-07-28 10:27:29] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:27:29] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:27:29] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:27:29] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:27:29] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:27:29] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:27:29] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: could not find driver on line 66 in C:\Users\Clarenz\Desktop\PHP\computerparts\vendor\illuminate\database\Connectors\Connector.php
+[2025-07-28 10:27:29] URL_DEBUG: Raw REQUEST_URI: /
+[2025-07-28 10:27:29] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:27:29] URL_DEBUG: Path after strtok: /
+[2025-07-28 10:27:29] URL_DEBUG: Path after /index.php removal: /
+[2025-07-28 10:27:29] URL_DEBUG: Final URL after trimming: 
+[2025-07-28 10:27:29] 📥 Incoming request parsed as: homepage
+[2025-07-28 10:27:29] ROUTING: Attempting to call LoginController@login for URL: 
+[2025-07-28 10:27:29] DEBUG: Entered LoginController@login method.
+[2025-07-28 10:27:29] UI: On login.php
+[2025-07-28 10:27:29] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:27:29] ROUTING (index.php): Dispatched to homepage
+[2025-07-28 10:27:31] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:27:31] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:27:31] DB_INFO: .env file loaded.
+[2025-07-28 10:27:31] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:27:31] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:27:31] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:27:31] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:27:31] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:27:31] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:27:31] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: could not find driver on line 66 in C:\Users\Clarenz\Desktop\PHP\computerparts\vendor\illuminate\database\Connectors\Connector.php
+[2025-07-28 10:27:31] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:27:31] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:27:31] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:27:31] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:27:31] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:27:31] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:27:31] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:27:31] LOGIN_ACC: Method called
+[2025-07-28 10:27:31] ROUTING EXCEPTION: could not find driver (Connection: default, SQL: select * from "users" where "username" = asd limit 1)
+[2025-07-28 10:27:31] ROUTING ERROR: 404 Not Found for login/login_acc
+[2025-07-28 10:27:31] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:27:34] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:27:34] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:27:34] DB_INFO: .env file loaded.
+[2025-07-28 10:27:34] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:27:34] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:27:34] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:27:34] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:27:34] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:27:34] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:27:34] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: could not find driver on line 66 in C:\Users\Clarenz\Desktop\PHP\computerparts\vendor\illuminate\database\Connectors\Connector.php
+[2025-07-28 10:27:34] URL_DEBUG: Raw REQUEST_URI: /
+[2025-07-28 10:27:34] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:27:34] URL_DEBUG: Path after strtok: /
+[2025-07-28 10:27:34] URL_DEBUG: Path after /index.php removal: /
+[2025-07-28 10:27:34] URL_DEBUG: Final URL after trimming: 
+[2025-07-28 10:27:34] 📥 Incoming request parsed as: homepage
+[2025-07-28 10:27:34] ROUTING: Attempting to call LoginController@login for URL: 
+[2025-07-28 10:27:34] DEBUG: Entered LoginController@login method.
+[2025-07-28 10:27:34] UI: On login.php
+[2025-07-28 10:27:34] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:27:34] ROUTING (index.php): Dispatched to homepage
+[2025-07-28 10:29:23] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:29:23] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:29:23] DB_INFO: .env file loaded.
+[2025-07-28 10:29:23] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:29:23] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:29:23] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:29:23] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:29:23] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:29:23] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:29:23] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: could not find driver on line 66 in C:\Users\Clarenz\Desktop\PHP\computerparts\vendor\illuminate\database\Connectors\Connector.php
+[2025-07-28 10:29:23] URL_DEBUG: Raw REQUEST_URI: /
+[2025-07-28 10:29:23] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:29:23] URL_DEBUG: Path after strtok: /
+[2025-07-28 10:29:23] URL_DEBUG: Path after /index.php removal: /
+[2025-07-28 10:29:23] URL_DEBUG: Final URL after trimming: 
+[2025-07-28 10:29:23] 📥 Incoming request parsed as: homepage
+[2025-07-28 10:29:23] ROUTING: Attempting to call LoginController@login for URL: 
+[2025-07-28 10:29:23] DEBUG: Entered LoginController@login method.
+[2025-07-28 10:29:23] UI: On login.php
+[2025-07-28 10:29:23] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:29:23] ROUTING (index.php): Dispatched to homepage
+[2025-07-28 10:29:26] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:29:26] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:29:26] DB_INFO: .env file loaded.
+[2025-07-28 10:29:26] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:29:26] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:29:26] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:29:26] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:29:26] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:29:26] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:29:26] DIAGNOSTIC_ERROR: An error occurred during PDO transaction status check: could not find driver on line 66 in C:\Users\Clarenz\Desktop\PHP\computerparts\vendor\illuminate\database\Connectors\Connector.php
+[2025-07-28 10:29:26] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:29:26] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:29:26] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:29:26] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:29:26] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:29:26] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:29:26] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:29:26] LOGIN_ACC: Method called
+[2025-07-28 10:29:26] ROUTING EXCEPTION: could not find driver (Connection: default, SQL: select * from "users" where "username" = asd limit 1)
+[2025-07-28 10:29:26] ROUTING ERROR: 404 Not Found for login/login_acc
+[2025-07-28 10:29:26] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:30:40] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:30:40] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:30:40] DB_INFO: .env file loaded.
+[2025-07-28 10:30:40] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:30:40] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:30:40] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:30:40] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:30:40] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:30:40] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:30:40] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:30:40] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:30:40] URL_DEBUG: Raw REQUEST_URI: /
+[2025-07-28 10:30:40] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:30:40] URL_DEBUG: Path after strtok: /
+[2025-07-28 10:30:40] URL_DEBUG: Path after /index.php removal: /
+[2025-07-28 10:30:40] URL_DEBUG: Final URL after trimming: 
+[2025-07-28 10:30:40] 📥 Incoming request parsed as: homepage
+[2025-07-28 10:30:40] ROUTING: Attempting to call LoginController@login for URL: 
+[2025-07-28 10:30:40] DEBUG: Entered LoginController@login method.
+[2025-07-28 10:30:40] UI: On login.php
+[2025-07-28 10:30:40] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:30:40] ROUTING (index.php): Dispatched to homepage
+[2025-07-28 10:30:42] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:30:42] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:30:42] DB_INFO: .env file loaded.
+[2025-07-28 10:30:42] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:30:42] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:30:42] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:30:42] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:30:43] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:30:43] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:30:43] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:30:43] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:30:43] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:30:43] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:30:43] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:30:43] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:30:43] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:30:43] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:30:43] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:30:43] LOGIN_ACC: Method called
+[2025-07-28 10:30:43] INPUT: Username = asd
+[2025-07-28 10:30:43] DB: User not found for asd
+[2025-07-28 10:30:43] UI: On login.php
+[2025-07-28 10:30:43] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:30:43] LOGIN FAILED: Invalid credentials for asd
+[2025-07-28 10:30:43] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:30:46] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:30:46] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:30:46] DB_INFO: .env file loaded.
+[2025-07-28 10:30:46] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:30:46] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:30:46] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:30:46] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:30:46] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:30:46] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:30:46] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:30:46] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:30:46] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:30:46] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:30:46] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:30:46] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:30:46] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:30:46] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:30:46] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:30:46] LOGIN_ACC: Method called
+[2025-07-28 10:30:46] INPUT: Username = admin
+[2025-07-28 10:30:46] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-28 10:30:46] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:30:46] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:30:46] DB_INFO: .env file loaded.
+[2025-07-28 10:30:46] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:30:46] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:30:46] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:30:46] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:30:46] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:30:46] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:30:46] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:30:46] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:30:46] URL_DEBUG: Raw REQUEST_URI: /staff/dashboard?error=
+[2025-07-28 10:30:46] URL_DEBUG: Raw _GET array: {"error":""}
+[2025-07-28 10:30:46] URL_DEBUG: Path after strtok: /staff/dashboard
+[2025-07-28 10:30:46] URL_DEBUG: Path after /index.php removal: /staff/dashboard
+[2025-07-28 10:30:46] URL_DEBUG: Final URL after trimming: staff/dashboard
+[2025-07-28 10:30:46] 📥 Incoming request parsed as: staff/dashboard
+[2025-07-28 10:30:46] ROUTING: Attempting to call StaffController@dashboard for URL: staff/dashboard
+[2025-07-28 10:30:46] Reached Dashboard.
+[2025-07-28 10:30:46] UI: On dashboard.php
+[2025-07-28 10:30:46] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-28 10:30:46] ROUTING (index.php): Dispatched to staff/dashboard
+[2025-07-28 10:30:58] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:30:58] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:30:58] DB_INFO: .env file loaded.
+[2025-07-28 10:30:58] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:30:58] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:30:58] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:30:58] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:30:58] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:30:58] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:30:58] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:30:58] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:30:58] URL_DEBUG: Raw REQUEST_URI: /login/logout
+[2025-07-28 10:30:58] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:30:58] URL_DEBUG: Path after strtok: /login/logout
+[2025-07-28 10:30:58] URL_DEBUG: Path after /index.php removal: /login/logout
+[2025-07-28 10:30:58] URL_DEBUG: Final URL after trimming: login/logout
+[2025-07-28 10:30:58] 📥 Incoming request parsed as: login/logout
+[2025-07-28 10:30:58] ROUTING: Attempting to call LoginController@logout for URL: login/logout
+[2025-07-28 10:30:58] LOGOUT: User attempting to log out.
+[2025-07-28 10:30:58] LOGOUT_SUCCESS: User ID 7 logged out.
+[2025-07-28 10:30:58] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:30:58] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:30:58] DB_INFO: .env file loaded.
+[2025-07-28 10:30:58] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:30:58] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:30:58] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:30:58] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:30:58] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:30:58] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:30:58] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:30:58] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:30:58] URL_DEBUG: Raw REQUEST_URI: /login/login
+[2025-07-28 10:30:58] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:30:58] URL_DEBUG: Path after strtok: /login/login
+[2025-07-28 10:30:58] URL_DEBUG: Path after /index.php removal: /login/login
+[2025-07-28 10:30:58] URL_DEBUG: Final URL after trimming: login/login
+[2025-07-28 10:30:58] 📥 Incoming request parsed as: login/login
+[2025-07-28 10:30:58] ROUTING: Attempting to call LoginController@login for URL: login/login
+[2025-07-28 10:30:58] DEBUG: Entered LoginController@login method.
+[2025-07-28 10:30:59] UI: On login.php
+[2025-07-28 10:30:59] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:30:59] ROUTING (index.php): Dispatched to login/login
+[2025-07-28 10:36:32] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:36:32] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:36:32] DB_INFO: .env file loaded.
+[2025-07-28 10:36:32] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:36:32] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:36:32] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:36:32] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:36:32] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:36:32] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:36:32] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:36:32] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:36:32] URL_DEBUG: Raw REQUEST_URI: /login/login
+[2025-07-28 10:36:32] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:36:32] URL_DEBUG: Path after strtok: /login/login
+[2025-07-28 10:36:32] URL_DEBUG: Path after /index.php removal: /login/login
+[2025-07-28 10:36:32] URL_DEBUG: Final URL after trimming: login/login
+[2025-07-28 10:36:32] 📥 Incoming request parsed as: login/login
+[2025-07-28 10:36:32] ROUTING: Attempting to call LoginController@login for URL: login/login
+[2025-07-28 10:36:32] DEBUG: Entered LoginController@login method.
+[2025-07-28 10:36:32] UI: On login.php
+[2025-07-28 10:36:32] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:36:32] ROUTING (index.php): Dispatched to login/login
+[2025-07-28 10:36:34] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:36:34] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:36:34] DB_INFO: .env file loaded.
+[2025-07-28 10:36:34] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:36:34] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:36:34] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:36:34] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:36:34] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:36:34] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:36:34] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:36:34] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:36:34] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:36:34] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:36:34] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:36:34] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:36:34] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:36:34] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:36:34] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:36:34] LOGIN_ACC: Method called
+[2025-07-28 10:36:34] INPUT: Username = dasd
+[2025-07-28 10:36:34] DB: User not found for dasd
+[2025-07-28 10:36:34] UI: On login.php
+[2025-07-28 10:36:34] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:36:34] LOGIN FAILED: Invalid credentials for dasd
+[2025-07-28 10:36:34] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:37:37] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:37:37] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:37:37] DB_INFO: .env file loaded.
+[2025-07-28 10:37:37] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:37:37] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:37:37] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:37:37] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:37:37] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:37:37] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:37:37] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:37:37] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:37:37] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:37:37] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:37:37] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:37:37] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:37:37] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:37:37] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:37:37] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:37:37] LOGIN_ACC: Method called
+[2025-07-28 10:37:37] INPUT: Username = dsad
+[2025-07-28 10:37:37] DB: User not found for dsad
+[2025-07-28 10:37:37] UI: On login.php
+[2025-07-28 10:37:37] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:37:37] LOGIN FAILED: Invalid credentials for dsad
+[2025-07-28 10:37:37] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:37:49] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:37:49] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:37:49] DB_INFO: .env file loaded.
+[2025-07-28 10:37:49] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:37:49] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:37:49] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:37:49] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:37:49] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:37:49] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:37:49] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:37:49] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:37:49] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:37:49] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:37:49] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:37:49] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:37:49] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:37:49] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:37:49] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:37:49] LOGIN_ACC: Method called
+[2025-07-28 10:37:49] INPUT: Username = vdf
+[2025-07-28 10:37:49] DB: User not found for vdf
+[2025-07-28 10:37:49] UI: On login.php
+[2025-07-28 10:37:49] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:37:49] LOGIN FAILED: Invalid credentials for vdf
+[2025-07-28 10:37:49] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:38:51] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:38:51] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:38:51] DB_INFO: .env file loaded.
+[2025-07-28 10:38:51] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:38:51] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:38:51] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:38:51] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:38:51] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:38:51] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:38:51] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:38:51] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:38:51] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:38:51] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:38:51] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:38:51] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:38:51] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:38:51] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:38:51] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:38:51] LOGIN_ACC: Method called
+[2025-07-28 10:38:51] INPUT: Username = vdf
+[2025-07-28 10:38:51] DB: User not found for vdf
+[2025-07-28 10:38:51] UI: On login.php
+[2025-07-28 10:38:51] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:38:51] LOGIN FAILED: Invalid credentials for vdf
+[2025-07-28 10:38:51] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:38:53] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:38:53] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:38:53] DB_INFO: .env file loaded.
+[2025-07-28 10:38:53] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:38:53] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:38:53] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:38:53] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:38:53] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:38:53] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:38:53] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:38:53] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:38:53] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:38:53] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:38:53] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:38:53] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:38:53] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:38:53] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:38:53] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:38:53] LOGIN_ACC: Method called
+[2025-07-28 10:38:53] INPUT: Username = asd
+[2025-07-28 10:38:53] DB: User not found for asd
+[2025-07-28 10:38:53] UI: On login.php
+[2025-07-28 10:38:53] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:38:53] LOGIN FAILED: Invalid credentials for asd
+[2025-07-28 10:38:53] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:39:21] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:39:21] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:39:21] DB_INFO: .env file loaded.
+[2025-07-28 10:39:21] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:39:21] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:39:21] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:39:21] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:39:21] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:39:21] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:39:21] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:39:21] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:39:21] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:39:21] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:39:21] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:39:21] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:39:21] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:39:21] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:39:21] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:39:21] LOGIN_ACC: Method called
+[2025-07-28 10:39:21] INPUT: Username = ads
+[2025-07-28 10:39:21] DB: User not found for ads
+[2025-07-28 10:39:21] UI: On login.php
+[2025-07-28 10:39:21] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:39:21] LOGIN FAILED: Invalid credentials for ads
+[2025-07-28 10:39:21] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:43:25] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:43:25] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:43:25] DB_INFO: .env file loaded.
+[2025-07-28 10:43:25] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:43:25] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:43:25] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:43:25] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:43:25] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:43:25] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:43:25] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:43:25] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:43:25] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:43:25] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:43:25] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:43:25] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:43:25] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:43:25] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:43:25] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:43:25] LOGIN_ACC: Method called
+[2025-07-28 10:43:25] INPUT: Username = ads
+[2025-07-28 10:43:25] DB: User not found for ads
+[2025-07-28 10:43:26] UI: On login.php
+[2025-07-28 10:43:26] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:43:26] LOGIN FAILED: Invalid credentials for ads
+[2025-07-28 10:43:26] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:43:30] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:43:30] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:43:30] DB_INFO: .env file loaded.
+[2025-07-28 10:43:30] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:43:30] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:43:30] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:43:30] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:43:30] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:43:30] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:43:30] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:43:30] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:43:30] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:43:30] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:43:30] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:43:30] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:43:30] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:43:30] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:43:30] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:43:30] LOGIN_ACC: Method called
+[2025-07-28 10:43:30] INPUT: Username = asd
+[2025-07-28 10:43:30] DB: User not found for asd
+[2025-07-28 10:43:30] UI: On login.php
+[2025-07-28 10:43:30] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:43:30] LOGIN FAILED: Invalid credentials for asd
+[2025-07-28 10:43:30] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:44:18] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:44:18] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:44:18] DB_INFO: .env file loaded.
+[2025-07-28 10:44:18] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:44:18] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:44:18] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:44:18] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:44:18] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:44:18] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:44:18] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:44:18] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:44:18] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:44:18] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:44:18] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:44:18] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:44:18] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:44:18] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:44:18] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:44:18] LOGIN_ACC: Method called
+[2025-07-28 10:44:18] INPUT: Username = asd
+[2025-07-28 10:44:18] DB: User not found for asd
+[2025-07-28 10:44:18] UI: On login.php
+[2025-07-28 10:44:18] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:44:18] LOGIN FAILED: Invalid credentials for asd
+[2025-07-28 10:44:18] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:44:22] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:44:22] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:44:22] DB_INFO: .env file loaded.
+[2025-07-28 10:44:22] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:44:22] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:44:22] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:44:22] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:44:22] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:44:22] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:44:22] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:44:22] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:44:22] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:44:22] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:44:22] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:44:22] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:44:22] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:44:22] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:44:22] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:44:22] LOGIN_ACC: Method called
+[2025-07-28 10:44:22] INPUT: Username = asdasd
+[2025-07-28 10:44:22] DB: User not found for asdasd
+[2025-07-28 10:44:22] UI: On login.php
+[2025-07-28 10:44:22] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:44:22] LOGIN FAILED: Invalid credentials for asdasd
+[2025-07-28 10:44:22] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:50:22] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:50:22] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:50:24] DB_INFO: .env file loaded.
+[2025-07-28 10:50:25] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:50:25] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:50:25] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:50:25] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:50:25] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:50:25] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:50:25] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:50:25] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:50:25] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:50:25] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:50:25] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:50:25] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:50:25] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:50:25] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:50:25] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:50:26] LOGIN_ACC: Method called
+[2025-07-28 10:50:26] INPUT: Username = asdasd
+[2025-07-28 10:50:26] DB: User not found for asdasd
+[2025-07-28 10:50:26] UI: On login.php
+[2025-07-28 10:50:26] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:50:26] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:50:26] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:50:26] DB_INFO: .env file loaded.
+[2025-07-28 10:50:26] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:50:26] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:50:26] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:50:26] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:50:26] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:50:26] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:50:26] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:50:26] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:50:26] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:50:26] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:50:26] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:50:26] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:50:26] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:50:26] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:50:26] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:50:26] LOGIN_ACC: Method called
+[2025-07-28 10:50:26] INPUT: Username = mn,m
+[2025-07-28 10:50:26] DB: User not found for mn,m
+[2025-07-28 10:50:26] UI: On login.php
+[2025-07-28 10:50:26] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:50:26] LOGIN FAILED: Invalid credentials for mn,m
+[2025-07-28 10:50:26] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:51:05] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:51:05] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:51:05] DB_INFO: .env file loaded.
+[2025-07-28 10:51:05] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:51:05] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:51:05] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:51:05] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:51:05] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:51:05] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:51:05] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:51:05] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:51:05] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:51:05] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:51:05] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:51:05] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:51:05] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:51:05] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:51:05] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:51:05] LOGIN_ACC: Method called
+[2025-07-28 10:51:05] INPUT: Username = ljnkj
+[2025-07-28 10:51:05] DB: User not found for ljnkj
+[2025-07-28 10:51:05] UI: On login.php
+[2025-07-28 10:51:05] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 10:51:05] LOGIN FAILED: Invalid credentials for ljnkj
+[2025-07-28 10:51:05] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:52:59] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:52:59] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:52:59] DB_INFO: .env file loaded.
+[2025-07-28 10:52:59] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:52:59] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:52:59] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:52:59] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:52:59] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:52:59] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:52:59] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:52:59] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:52:59] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:52:59] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:52:59] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:52:59] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:52:59] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:52:59] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:52:59] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:52:59] LOGIN_ACC: Method called
+[2025-07-28 10:52:59] INPUT: Username = ljnkj
+[2025-07-28 10:52:59] DB: User not found for ljnkj
+[2025-07-28 10:52:59] ❌ FATAL EXCEPTION/ERROR: extract(): Argument #1 ($array) must be of type array, string given on line 16 in C:\Users\Clarenz\Desktop\PHP\computerparts\core\Controller.php
+[2025-07-28 10:53:02] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:53:02] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:53:02] DB_INFO: .env file loaded.
+[2025-07-28 10:53:02] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:53:02] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:53:02] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:53:02] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:53:02] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:53:02] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:53:02] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:53:02] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:53:02] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:53:02] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:53:02] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:53:02] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:53:02] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:53:03] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:53:03] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:53:03] LOGIN_ACC: Method called
+[2025-07-28 10:53:03] INPUT: Username = ljnkj
+[2025-07-28 10:53:03] DB: User not found for ljnkj
+[2025-07-28 10:53:03] ❌ FATAL EXCEPTION/ERROR: extract(): Argument #1 ($array) must be of type array, string given on line 16 in C:\Users\Clarenz\Desktop\PHP\computerparts\core\Controller.php
+[2025-07-28 10:53:19] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:53:19] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:53:19] DB_INFO: .env file loaded.
+[2025-07-28 10:53:19] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:53:19] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:53:19] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:53:19] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:53:19] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:53:19] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:53:19] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:53:19] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:53:19] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:53:19] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:53:19] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:53:19] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:53:19] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:53:19] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:53:19] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:53:19] LOGIN_ACC: Method called
+[2025-07-28 10:53:19] INPUT: Username = ljnkj
+[2025-07-28 10:53:19] DB: User not found for ljnkj
+[2025-07-28 10:53:19] ❌ FATAL EXCEPTION/ERROR: extract(): Argument #1 ($array) must be of type array, string given on line 16 in C:\Users\Clarenz\Desktop\PHP\computerparts\core\Controller.php
+[2025-07-28 10:54:31] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:54:31] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:54:31] DB_INFO: .env file loaded.
+[2025-07-28 10:54:31] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:54:31] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:54:31] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:54:31] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:54:31] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:54:31] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:54:31] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:54:31] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:54:31] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:54:31] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:54:31] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:54:31] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:54:31] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:54:31] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:54:31] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:54:31] LOGIN_ACC: Method called
+[2025-07-28 10:54:31] INPUT: Username = ljnkj
+[2025-07-28 10:54:31] DB: User not found for ljnkj
+[2025-07-28 10:54:31] VIEW ERROR: View file not found: views/login/loginInvalid+credentials.php
+[2025-07-28 10:54:31] ROUTING EXCEPTION: View not found: login/loginInvalid+credentials
+[2025-07-28 10:54:31] ROUTING ERROR: 404 Not Found for login/login_acc
+[2025-07-28 10:54:31] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 10:57:03] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:57:03] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:57:03] DB_INFO: .env file loaded.
+[2025-07-28 10:57:04] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:57:04] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:57:04] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:57:04] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:57:04] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:57:04] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:57:04] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:57:04] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:57:04] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 10:57:04] URL_DEBUG: Raw _GET array: []
+[2025-07-28 10:57:04] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 10:57:04] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 10:57:04] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 10:57:04] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 10:57:04] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 10:57:04] LOGIN_ACC: Method called
+[2025-07-28 10:57:04] INPUT: Username = ljnkj
+[2025-07-28 10:57:04] DB: User not found for ljnkj
+[2025-07-28 10:57:04] LOGIN FAILED: Invalid credentials for ljnkj
+[2025-07-28 10:57:04] DB_INFO: Attempting to set up database connection...
+[2025-07-28 10:57:04] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 10:57:04] DB_INFO: .env file loaded.
+[2025-07-28 10:57:04] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 10:57:04] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 10:57:04] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 10:57:04] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 10:57:04] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 10:57:04] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 10:57:04] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 10:57:04] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 10:57:04] URL_DEBUG: Raw REQUEST_URI: /login/change_password?error_message=Invalid+credentials
+[2025-07-28 10:57:04] URL_DEBUG: Raw _GET array: {"error_message":"Invalid credentials"}
+[2025-07-28 10:57:04] URL_DEBUG: Path after strtok: /login/change_password
+[2025-07-28 10:57:04] URL_DEBUG: Path after /index.php removal: /login/change_password
+[2025-07-28 10:57:04] URL_DEBUG: Final URL after trimming: login/change_password
+[2025-07-28 10:57:04] 📥 Incoming request parsed as: login/change_password
+[2025-07-28 10:57:04] ROUTING: Attempting to call LoginController@change_password for URL: login/change_password
+[2025-07-28 10:57:04] CHANGE_PASSWORD: Method called (display form).
+[2025-07-28 10:57:04] CHANGE_PASSWORD_FAILED: Direct access without verification.
+[2025-07-28 11:00:21] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:00:21] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:00:21] DB_INFO: .env file loaded.
+[2025-07-28 11:00:21] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:00:21] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:00:21] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:00:21] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:00:21] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:00:21] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:00:21] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:00:21] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:00:21] URL_DEBUG: Raw REQUEST_URI: /
+[2025-07-28 11:00:21] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:00:21] URL_DEBUG: Path after strtok: /
+[2025-07-28 11:00:21] URL_DEBUG: Path after /index.php removal: /
+[2025-07-28 11:00:21] URL_DEBUG: Final URL after trimming: 
+[2025-07-28 11:00:21] 📥 Incoming request parsed as: homepage
+[2025-07-28 11:00:21] ROUTING: Attempting to call LoginController@login for URL: 
+[2025-07-28 11:00:22] DEBUG: Entered LoginController@login method.
+[2025-07-28 11:00:22] UI: On login.php
+[2025-07-28 11:00:22] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 11:00:22] ROUTING (index.php): Dispatched to homepage
+[2025-07-28 11:00:27] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:00:27] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:00:27] DB_INFO: .env file loaded.
+[2025-07-28 11:00:27] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:00:27] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:00:27] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:00:27] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:00:27] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:00:27] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:00:27] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:00:27] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:00:27] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 11:00:27] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:00:27] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 11:00:27] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 11:00:27] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 11:00:27] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 11:00:27] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 11:00:27] LOGIN_ACC: Method called
+[2025-07-28 11:00:27] INPUT: Username = qas
+[2025-07-28 11:00:27] DB: User not found for qas
+[2025-07-28 11:00:27] LOGIN FAILED: Invalid credentials for qas
+[2025-07-28 11:00:27] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:00:27] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:00:27] DB_INFO: .env file loaded.
+[2025-07-28 11:00:27] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:00:27] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:00:27] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:00:27] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:00:27] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:00:27] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:00:27] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:00:27] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:00:27] URL_DEBUG: Raw REQUEST_URI: /login/changepass?error_message=Invalid+credentials
+[2025-07-28 11:00:27] URL_DEBUG: Raw _GET array: {"error_message":"Invalid credentials"}
+[2025-07-28 11:00:27] URL_DEBUG: Path after strtok: /login/changepass
+[2025-07-28 11:00:27] URL_DEBUG: Path after /index.php removal: /login/changepass
+[2025-07-28 11:00:27] URL_DEBUG: Final URL after trimming: login/changepass
+[2025-07-28 11:00:27] 📥 Incoming request parsed as: login/changepass
+[2025-07-28 11:00:27] ROUTING: Attempting to call LoginController@changepass for URL: login/changepass
+[2025-07-28 11:00:27] ROUTING ERROR: Method 'changepass' not found in controller 'LoginController'.
+[2025-07-28 11:00:27] ROUTING EXCEPTION: Method changepass not found in LoginController.
+[2025-07-28 11:00:27] ROUTING ERROR: 404 Not Found for login/changepass
+[2025-07-28 11:00:27] ROUTING (index.php): Dispatched to login/changepass
+[2025-07-28 11:01:23] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:01:23] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:01:23] DB_INFO: .env file loaded.
+[2025-07-28 11:01:23] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:01:23] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:01:23] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:01:23] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:01:23] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:01:23] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:01:23] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:01:23] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:01:23] URL_DEBUG: Raw REQUEST_URI: /login/changepass?error_message=Invalid+credentials
+[2025-07-28 11:01:23] URL_DEBUG: Raw _GET array: {"error_message":"Invalid credentials"}
+[2025-07-28 11:01:23] URL_DEBUG: Path after strtok: /login/changepass
+[2025-07-28 11:01:23] URL_DEBUG: Path after /index.php removal: /login/changepass
+[2025-07-28 11:01:23] URL_DEBUG: Final URL after trimming: login/changepass
+[2025-07-28 11:01:23] 📥 Incoming request parsed as: login/changepass
+[2025-07-28 11:01:23] ROUTING: Attempting to call LoginController@changepass for URL: login/changepass
+[2025-07-28 11:01:23] ROUTING ERROR: Method 'changepass' not found in controller 'LoginController'.
+[2025-07-28 11:01:23] ROUTING EXCEPTION: Method changepass not found in LoginController.
+[2025-07-28 11:01:23] ROUTING ERROR: 404 Not Found for login/changepass
+[2025-07-28 11:01:23] ROUTING (index.php): Dispatched to login/changepass
+[2025-07-28 11:01:25] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:01:25] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:01:25] DB_INFO: .env file loaded.
+[2025-07-28 11:01:25] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:01:25] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:01:25] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:01:25] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:01:25] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:01:25] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:01:25] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:01:25] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:01:25] URL_DEBUG: Raw REQUEST_URI: /login/changepass?error_message=Invalid+credentials
+[2025-07-28 11:01:25] URL_DEBUG: Raw _GET array: {"error_message":"Invalid credentials"}
+[2025-07-28 11:01:25] URL_DEBUG: Path after strtok: /login/changepass
+[2025-07-28 11:01:25] URL_DEBUG: Path after /index.php removal: /login/changepass
+[2025-07-28 11:01:25] URL_DEBUG: Final URL after trimming: login/changepass
+[2025-07-28 11:01:25] 📥 Incoming request parsed as: login/changepass
+[2025-07-28 11:01:25] ROUTING: Attempting to call LoginController@changepass for URL: login/changepass
+[2025-07-28 11:01:25] ROUTING ERROR: Method 'changepass' not found in controller 'LoginController'.
+[2025-07-28 11:01:25] ROUTING EXCEPTION: Method changepass not found in LoginController.
+[2025-07-28 11:01:25] ROUTING ERROR: 404 Not Found for login/changepass
+[2025-07-28 11:01:25] ROUTING (index.php): Dispatched to login/changepass
+[2025-07-28 11:01:29] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:01:29] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:01:29] DB_INFO: .env file loaded.
+[2025-07-28 11:01:29] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:01:29] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:01:29] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:01:29] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:01:29] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:01:29] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:01:29] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:01:29] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:01:29] URL_DEBUG: Raw REQUEST_URI: /
+[2025-07-28 11:01:29] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:01:29] URL_DEBUG: Path after strtok: /
+[2025-07-28 11:01:29] URL_DEBUG: Path after /index.php removal: /
+[2025-07-28 11:01:29] URL_DEBUG: Final URL after trimming: 
+[2025-07-28 11:01:29] 📥 Incoming request parsed as: homepage
+[2025-07-28 11:01:29] ROUTING: Attempting to call LoginController@login for URL: 
+[2025-07-28 11:01:29] DEBUG: Entered LoginController@login method.
+[2025-07-28 11:01:29] UI: On login.php
+[2025-07-28 11:01:29] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 11:01:29] ROUTING (index.php): Dispatched to homepage
+[2025-07-28 11:01:31] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:01:31] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:01:31] DB_INFO: .env file loaded.
+[2025-07-28 11:01:31] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:01:31] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:01:31] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:01:31] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:01:31] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:01:31] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:01:31] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:01:31] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:01:31] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 11:01:31] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:01:31] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 11:01:31] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 11:01:31] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 11:01:31] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 11:01:31] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 11:01:31] LOGIN_ACC: Method called
+[2025-07-28 11:01:31] INPUT: Username = asd
+[2025-07-28 11:01:31] DB: User not found for asd
+[2025-07-28 11:01:31] LOGIN FAILED: Invalid credentials for asd
+[2025-07-28 11:01:31] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:01:31] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:01:32] DB_INFO: .env file loaded.
+[2025-07-28 11:01:32] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:01:32] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:01:32] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:01:32] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:01:32] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:01:32] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:01:32] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:01:32] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:01:32] URL_DEBUG: Raw REQUEST_URI: /login/login?error_message=Invalid+credentials
+[2025-07-28 11:01:32] URL_DEBUG: Raw _GET array: {"error_message":"Invalid credentials"}
+[2025-07-28 11:01:32] URL_DEBUG: Path after strtok: /login/login
+[2025-07-28 11:01:32] URL_DEBUG: Path after /index.php removal: /login/login
+[2025-07-28 11:01:32] URL_DEBUG: Final URL after trimming: login/login
+[2025-07-28 11:01:32] 📥 Incoming request parsed as: login/login
+[2025-07-28 11:01:32] ROUTING: Attempting to call LoginController@login for URL: login/login
+[2025-07-28 11:01:32] DEBUG: Entered LoginController@login method.
+[2025-07-28 11:01:32] UI: On login.php
+[2025-07-28 11:01:32] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 11:01:32] ROUTING (index.php): Dispatched to login/login
+[2025-07-28 11:01:42] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:01:42] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:01:42] DB_INFO: .env file loaded.
+[2025-07-28 11:01:42] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:01:42] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:01:42] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:01:42] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:01:42] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:01:42] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:01:42] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:01:42] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:01:42] URL_DEBUG: Raw REQUEST_URI: /login/forgotpass
+[2025-07-28 11:01:42] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:01:42] URL_DEBUG: Path after strtok: /login/forgotpass
+[2025-07-28 11:01:42] URL_DEBUG: Path after /index.php removal: /login/forgotpass
+[2025-07-28 11:01:42] URL_DEBUG: Final URL after trimming: login/forgotpass
+[2025-07-28 11:01:42] 📥 Incoming request parsed as: login/forgotpass
+[2025-07-28 11:01:42] ROUTING: Attempting to call LoginController@forgotpass for URL: login/forgotpass
+[2025-07-28 11:01:42] FORGOTPASS: Reached method (display form).
+[2025-07-28 11:01:42] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 11:01:42] ROUTING (index.php): Dispatched to login/forgotpass
+[2025-07-28 11:01:50] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:01:50] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:01:50] DB_INFO: .env file loaded.
+[2025-07-28 11:01:50] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:01:50] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:01:50] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:01:50] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:01:50] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:01:50] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:01:50] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:01:50] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:01:50] URL_DEBUG: Raw REQUEST_URI: /login/send_reset_code
+[2025-07-28 11:01:50] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:01:50] URL_DEBUG: Path after strtok: /login/send_reset_code
+[2025-07-28 11:01:50] URL_DEBUG: Path after /index.php removal: /login/send_reset_code
+[2025-07-28 11:01:50] URL_DEBUG: Final URL after trimming: login/send_reset_code
+[2025-07-28 11:01:50] 📥 Incoming request parsed as: login/send_reset_code
+[2025-07-28 11:01:50] ROUTING: Attempting to call LoginController@send_reset_code for URL: login/send_reset_code
+[2025-07-28 11:01:50] SEND_RESET_CODE: Method called.
+[2025-07-28 11:01:56] SEND_RESET_CODE_SUCCESS: Reset code sent to root.ayen0810@gmail.com.
+[2025-07-28 11:01:56] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:01:56] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:01:56] DB_INFO: .env file loaded.
+[2025-07-28 11:01:56] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:01:56] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:01:56] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:01:56] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:01:56] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:01:56] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:01:56] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:01:56] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:01:56] URL_DEBUG: Raw REQUEST_URI: /login/verify_code
+[2025-07-28 11:01:56] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:01:56] URL_DEBUG: Path after strtok: /login/verify_code
+[2025-07-28 11:01:56] URL_DEBUG: Path after /index.php removal: /login/verify_code
+[2025-07-28 11:01:56] URL_DEBUG: Final URL after trimming: login/verify_code
+[2025-07-28 11:01:56] 📥 Incoming request parsed as: login/verify_code
+[2025-07-28 11:01:56] ROUTING: Attempting to call LoginController@verify_code for URL: login/verify_code
+[2025-07-28 11:01:56] VERIFY_CODE: Method called (display form).
+[2025-07-28 11:01:56] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 11:01:56] ROUTING (index.php): Dispatched to login/verify_code
+[2025-07-28 11:02:11] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:02:11] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:02:12] DB_INFO: .env file loaded.
+[2025-07-28 11:02:12] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:02:12] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:02:12] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:02:12] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:02:12] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:02:12] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:02:12] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:02:12] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:02:12] URL_DEBUG: Raw REQUEST_URI: /login/process_verify_code
+[2025-07-28 11:02:12] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:02:12] URL_DEBUG: Path after strtok: /login/process_verify_code
+[2025-07-28 11:02:12] URL_DEBUG: Path after /index.php removal: /login/process_verify_code
+[2025-07-28 11:02:12] URL_DEBUG: Final URL after trimming: login/process_verify_code
+[2025-07-28 11:02:12] 📥 Incoming request parsed as: login/process_verify_code
+[2025-07-28 11:02:12] ROUTING: Attempting to call LoginController@process_verify_code for URL: login/process_verify_code
+[2025-07-28 11:02:12] PROCESS_VERIFY_CODE: Method called.
+[2025-07-28 11:02:12] PROCESS_VERIFY_CODE_SUCCESS: Code verified for user ID: 8
+[2025-07-28 11:02:20] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:02:20] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:02:20] DB_INFO: .env file loaded.
+[2025-07-28 11:02:20] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:02:20] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:02:20] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:02:20] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:02:20] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:02:20] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:02:20] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:02:20] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:02:20] URL_DEBUG: Raw REQUEST_URI: /login/verify_code
+[2025-07-28 11:02:20] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:02:20] URL_DEBUG: Path after strtok: /login/verify_code
+[2025-07-28 11:02:20] URL_DEBUG: Path after /index.php removal: /login/verify_code
+[2025-07-28 11:02:20] URL_DEBUG: Final URL after trimming: login/verify_code
+[2025-07-28 11:02:20] 📥 Incoming request parsed as: login/verify_code
+[2025-07-28 11:02:20] ROUTING: Attempting to call LoginController@verify_code for URL: login/verify_code
+[2025-07-28 11:02:20] VERIFY_CODE: Method called (display form).
+[2025-07-28 11:02:20] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 11:02:20] ROUTING (index.php): Dispatched to login/verify_code
+[2025-07-28 11:02:51] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:02:51] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:02:51] DB_INFO: .env file loaded.
+[2025-07-28 11:02:51] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:02:51] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:02:51] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:02:51] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:02:51] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:02:51] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:02:51] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:02:51] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:02:51] URL_DEBUG: Raw REQUEST_URI: /login/process_verify_code
+[2025-07-28 11:02:51] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:02:51] URL_DEBUG: Path after strtok: /login/process_verify_code
+[2025-07-28 11:02:51] URL_DEBUG: Path after /index.php removal: /login/process_verify_code
+[2025-07-28 11:02:51] URL_DEBUG: Final URL after trimming: login/process_verify_code
+[2025-07-28 11:02:51] 📥 Incoming request parsed as: login/process_verify_code
+[2025-07-28 11:02:51] ROUTING: Attempting to call LoginController@process_verify_code for URL: login/process_verify_code
+[2025-07-28 11:02:52] PROCESS_VERIFY_CODE: Method called.
+[2025-07-28 11:02:52] PROCESS_VERIFY_CODE_SUCCESS: Code verified for user ID: 8
+[2025-07-28 11:02:52] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:02:52] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:02:52] DB_INFO: .env file loaded.
+[2025-07-28 11:02:52] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:02:52] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:02:52] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:02:52] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:02:52] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:02:52] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:02:52] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:02:52] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:02:52] URL_DEBUG: Raw REQUEST_URI: /login/changepass?success_message=Code+verified+successfully.+You+can+now+set+your+new+password.
+[2025-07-28 11:02:52] URL_DEBUG: Raw _GET array: {"success_message":"Code verified successfully. You can now set your new password."}
+[2025-07-28 11:02:52] URL_DEBUG: Path after strtok: /login/changepass
+[2025-07-28 11:02:52] URL_DEBUG: Path after /index.php removal: /login/changepass
+[2025-07-28 11:02:52] URL_DEBUG: Final URL after trimming: login/changepass
+[2025-07-28 11:02:52] 📥 Incoming request parsed as: login/changepass
+[2025-07-28 11:02:52] ROUTING: Attempting to call LoginController@changepass for URL: login/changepass
+[2025-07-28 11:02:52] ROUTING ERROR: Method 'changepass' not found in controller 'LoginController'.
+[2025-07-28 11:02:52] ROUTING EXCEPTION: Method changepass not found in LoginController.
+[2025-07-28 11:02:52] ROUTING ERROR: 404 Not Found for login/changepass
+[2025-07-28 11:02:52] ROUTING (index.php): Dispatched to login/changepass
+[2025-07-28 11:05:03] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:05:03] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:05:03] DB_INFO: .env file loaded.
+[2025-07-28 11:05:03] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:05:03] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:05:03] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:05:03] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:05:03] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:05:03] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:05:03] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:05:03] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:05:03] URL_DEBUG: Raw REQUEST_URI: /login/verify_code
+[2025-07-28 11:05:03] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:05:03] URL_DEBUG: Path after strtok: /login/verify_code
+[2025-07-28 11:05:03] URL_DEBUG: Path after /index.php removal: /login/verify_code
+[2025-07-28 11:05:03] URL_DEBUG: Final URL after trimming: login/verify_code
+[2025-07-28 11:05:03] 📥 Incoming request parsed as: login/verify_code
+[2025-07-28 11:05:03] ROUTING: Attempting to call LoginController@verify_code for URL: login/verify_code
+[2025-07-28 11:05:03] VERIFY_CODE: Method called (display form).
+[2025-07-28 11:05:03] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 11:05:03] ROUTING (index.php): Dispatched to login/verify_code
+[2025-07-28 11:05:07] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:05:07] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:05:07] DB_INFO: .env file loaded.
+[2025-07-28 11:05:07] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:05:07] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:05:07] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:05:07] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:05:07] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:05:07] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:05:07] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:05:07] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:05:07] URL_DEBUG: Raw REQUEST_URI: /login/process_verify_code
+[2025-07-28 11:05:07] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:05:07] URL_DEBUG: Path after strtok: /login/process_verify_code
+[2025-07-28 11:05:07] URL_DEBUG: Path after /index.php removal: /login/process_verify_code
+[2025-07-28 11:05:07] URL_DEBUG: Final URL after trimming: login/process_verify_code
+[2025-07-28 11:05:07] 📥 Incoming request parsed as: login/process_verify_code
+[2025-07-28 11:05:07] ROUTING: Attempting to call LoginController@process_verify_code for URL: login/process_verify_code
+[2025-07-28 11:05:07] PROCESS_VERIFY_CODE: Method called.
+[2025-07-28 11:05:07] PROCESS_VERIFY_CODE_SUCCESS: Code verified for user ID: 8
+[2025-07-28 11:05:07] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:05:07] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:05:07] DB_INFO: .env file loaded.
+[2025-07-28 11:05:07] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:05:07] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:05:07] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:05:07] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:05:07] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:05:07] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:05:07] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:05:07] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:05:07] URL_DEBUG: Raw REQUEST_URI: /login/change_password?success_message=Code+verified+successfully.+You+can+now+set+your+new+password.
+[2025-07-28 11:05:07] URL_DEBUG: Raw _GET array: {"success_message":"Code verified successfully. You can now set your new password."}
+[2025-07-28 11:05:07] URL_DEBUG: Path after strtok: /login/change_password
+[2025-07-28 11:05:07] URL_DEBUG: Path after /index.php removal: /login/change_password
+[2025-07-28 11:05:07] URL_DEBUG: Final URL after trimming: login/change_password
+[2025-07-28 11:05:07] 📥 Incoming request parsed as: login/change_password
+[2025-07-28 11:05:07] ROUTING: Attempting to call LoginController@change_password for URL: login/change_password
+[2025-07-28 11:05:07] CHANGE_PASSWORD: Method called (display form).
+[2025-07-28 11:05:07] VIEW ERROR: View file not found: views/login/change_password.php
+[2025-07-28 11:05:07] ROUTING EXCEPTION: View not found: login/change_password
+[2025-07-28 11:05:07] ROUTING ERROR: 404 Not Found for login/change_password
+[2025-07-28 11:05:07] ROUTING (index.php): Dispatched to login/change_password
+[2025-07-28 11:05:47] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:05:47] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:05:47] DB_INFO: .env file loaded.
+[2025-07-28 11:05:47] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:05:47] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:05:47] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:05:47] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:05:47] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:05:47] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:05:47] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:05:47] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:05:47] URL_DEBUG: Raw REQUEST_URI: /login/verify_code
+[2025-07-28 11:05:47] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:05:47] URL_DEBUG: Path after strtok: /login/verify_code
+[2025-07-28 11:05:47] URL_DEBUG: Path after /index.php removal: /login/verify_code
+[2025-07-28 11:05:47] URL_DEBUG: Final URL after trimming: login/verify_code
+[2025-07-28 11:05:47] 📥 Incoming request parsed as: login/verify_code
+[2025-07-28 11:05:47] ROUTING: Attempting to call LoginController@verify_code for URL: login/verify_code
+[2025-07-28 11:05:47] VERIFY_CODE: Method called (display form).
+[2025-07-28 11:05:47] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 11:05:47] ROUTING (index.php): Dispatched to login/verify_code
+[2025-07-28 11:05:51] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:05:51] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:05:51] DB_INFO: .env file loaded.
+[2025-07-28 11:05:52] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:05:52] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:05:52] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:05:52] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:05:52] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:05:52] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:05:52] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:05:52] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:05:52] URL_DEBUG: Raw REQUEST_URI: /login/process_verify_code
+[2025-07-28 11:05:52] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:05:52] URL_DEBUG: Path after strtok: /login/process_verify_code
+[2025-07-28 11:05:52] URL_DEBUG: Path after /index.php removal: /login/process_verify_code
+[2025-07-28 11:05:52] URL_DEBUG: Final URL after trimming: login/process_verify_code
+[2025-07-28 11:05:52] 📥 Incoming request parsed as: login/process_verify_code
+[2025-07-28 11:05:52] ROUTING: Attempting to call LoginController@process_verify_code for URL: login/process_verify_code
+[2025-07-28 11:05:52] PROCESS_VERIFY_CODE: Method called.
+[2025-07-28 11:05:52] PROCESS_VERIFY_CODE_SUCCESS: Code verified for user ID: 8
+[2025-07-28 11:05:52] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:05:52] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:05:52] DB_INFO: .env file loaded.
+[2025-07-28 11:05:52] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:05:52] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:05:52] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:05:52] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:05:52] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:05:52] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:05:52] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:05:52] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:05:52] URL_DEBUG: Raw REQUEST_URI: /login/changepass?success_message=Code+verified+successfully.+You+can+now+set+your+new+password.
+[2025-07-28 11:05:52] URL_DEBUG: Raw _GET array: {"success_message":"Code verified successfully. You can now set your new password."}
+[2025-07-28 11:05:52] URL_DEBUG: Path after strtok: /login/changepass
+[2025-07-28 11:05:52] URL_DEBUG: Path after /index.php removal: /login/changepass
+[2025-07-28 11:05:52] URL_DEBUG: Final URL after trimming: login/changepass
+[2025-07-28 11:05:52] 📥 Incoming request parsed as: login/changepass
+[2025-07-28 11:05:52] ROUTING: Attempting to call LoginController@changepass for URL: login/changepass
+[2025-07-28 11:05:52] ROUTING ERROR: Method 'changepass' not found in controller 'LoginController'.
+[2025-07-28 11:05:52] ROUTING EXCEPTION: Method changepass not found in LoginController.
+[2025-07-28 11:05:52] ROUTING ERROR: 404 Not Found for login/changepass
+[2025-07-28 11:05:52] ROUTING (index.php): Dispatched to login/changepass
+[2025-07-28 11:06:09] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:06:09] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:06:09] DB_INFO: .env file loaded.
+[2025-07-28 11:06:09] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:06:09] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:06:09] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:06:09] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:06:09] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:06:09] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:06:09] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:06:09] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:06:09] URL_DEBUG: Raw REQUEST_URI: /login/verify_code
+[2025-07-28 11:06:09] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:06:09] URL_DEBUG: Path after strtok: /login/verify_code
+[2025-07-28 11:06:09] URL_DEBUG: Path after /index.php removal: /login/verify_code
+[2025-07-28 11:06:09] URL_DEBUG: Final URL after trimming: login/verify_code
+[2025-07-28 11:06:09] 📥 Incoming request parsed as: login/verify_code
+[2025-07-28 11:06:09] ROUTING: Attempting to call LoginController@verify_code for URL: login/verify_code
+[2025-07-28 11:06:09] VERIFY_CODE: Method called (display form).
+[2025-07-28 11:06:09] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 11:06:09] ROUTING (index.php): Dispatched to login/verify_code
+[2025-07-28 11:06:14] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:06:14] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:06:14] DB_INFO: .env file loaded.
+[2025-07-28 11:06:14] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:06:14] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:06:14] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:06:14] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:06:14] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:06:14] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:06:14] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:06:14] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:06:14] URL_DEBUG: Raw REQUEST_URI: /login/process_verify_code
+[2025-07-28 11:06:14] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:06:14] URL_DEBUG: Path after strtok: /login/process_verify_code
+[2025-07-28 11:06:14] URL_DEBUG: Path after /index.php removal: /login/process_verify_code
+[2025-07-28 11:06:14] URL_DEBUG: Final URL after trimming: login/process_verify_code
+[2025-07-28 11:06:14] 📥 Incoming request parsed as: login/process_verify_code
+[2025-07-28 11:06:14] ROUTING: Attempting to call LoginController@process_verify_code for URL: login/process_verify_code
+[2025-07-28 11:06:14] PROCESS_VERIFY_CODE: Method called.
+[2025-07-28 11:06:14] PROCESS_VERIFY_CODE_SUCCESS: Code verified for user ID: 8
+[2025-07-28 11:06:14] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:06:14] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:06:14] DB_INFO: .env file loaded.
+[2025-07-28 11:06:14] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:06:14] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:06:14] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:06:14] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:06:14] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:06:14] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:06:14] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:06:14] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:06:14] URL_DEBUG: Raw REQUEST_URI: /login/change_password
+[2025-07-28 11:06:14] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:06:14] URL_DEBUG: Path after strtok: /login/change_password
+[2025-07-28 11:06:14] URL_DEBUG: Path after /index.php removal: /login/change_password
+[2025-07-28 11:06:14] URL_DEBUG: Final URL after trimming: login/change_password
+[2025-07-28 11:06:14] 📥 Incoming request parsed as: login/change_password
+[2025-07-28 11:06:14] ROUTING: Attempting to call LoginController@change_password for URL: login/change_password
+[2025-07-28 11:06:14] CHANGE_PASSWORD: Method called (display form).
+[2025-07-28 11:06:14] UI: On login/changepass.php
+[2025-07-28 11:06:14] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 11:06:14] ROUTING (index.php): Dispatched to login/change_password
+[2025-07-28 11:06:22] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:06:22] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:06:22] DB_INFO: .env file loaded.
+[2025-07-28 11:06:22] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:06:22] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:06:22] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:06:22] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:06:22] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:06:22] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:06:22] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:06:22] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:06:22] URL_DEBUG: Raw REQUEST_URI: /login/process_change_password
+[2025-07-28 11:06:22] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:06:22] URL_DEBUG: Path after strtok: /login/process_change_password
+[2025-07-28 11:06:22] URL_DEBUG: Path after /index.php removal: /login/process_change_password
+[2025-07-28 11:06:22] URL_DEBUG: Final URL after trimming: login/process_change_password
+[2025-07-28 11:06:22] 📥 Incoming request parsed as: login/process_change_password
+[2025-07-28 11:06:22] ROUTING: Attempting to call LoginController@process_change_password for URL: login/process_change_password
+[2025-07-28 11:06:22] PROCESS_CHANGE_PASSWORD: Method called.
+[2025-07-28 11:06:25] PROCESS_CHANGE_PASSWORD_SUCCESS: Password updated for user ID: 8.
+[2025-07-28 11:06:25] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:06:25] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:06:25] DB_INFO: .env file loaded.
+[2025-07-28 11:06:25] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:06:25] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:06:25] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:06:25] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:06:25] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:06:25] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:06:25] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:06:25] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:06:25] URL_DEBUG: Raw REQUEST_URI: /login/login?success_message=Your+password+has+been+successfully+changed.+Please+log+in+with+your+new+password.
+[2025-07-28 11:06:25] URL_DEBUG: Raw _GET array: {"success_message":"Your password has been successfully changed. Please log in with your new password."}
+[2025-07-28 11:06:25] URL_DEBUG: Path after strtok: /login/login
+[2025-07-28 11:06:25] URL_DEBUG: Path after /index.php removal: /login/login
+[2025-07-28 11:06:25] URL_DEBUG: Final URL after trimming: login/login
+[2025-07-28 11:06:25] 📥 Incoming request parsed as: login/login
+[2025-07-28 11:06:25] ROUTING: Attempting to call LoginController@login for URL: login/login
+[2025-07-28 11:06:25] DEBUG: Entered LoginController@login method.
+[2025-07-28 11:06:25] UI: On login.php
+[2025-07-28 11:06:25] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 11:06:25] ROUTING (index.php): Dispatched to login/login
+[2025-07-28 11:07:36] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:07:36] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:07:36] DB_INFO: .env file loaded.
+[2025-07-28 11:07:36] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:07:36] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:07:36] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:07:36] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:07:36] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:07:36] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:07:36] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:07:36] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:07:36] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 11:07:36] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:07:36] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 11:07:36] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 11:07:36] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 11:07:36] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 11:07:36] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 11:07:36] LOGIN_ACC: Method called
+[2025-07-28 11:07:36] INPUT: Username = asdads
+[2025-07-28 11:07:36] DB: User not found for asdads
+[2025-07-28 11:07:36] UI: On login.php
+[2025-07-28 11:07:36] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 11:07:36] LOGIN FAILED: Invalid credentials for asdads
+[2025-07-28 11:07:36] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 11:09:34] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:09:34] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:09:34] DB_INFO: .env file loaded.
+[2025-07-28 11:09:34] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:09:34] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:09:34] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:09:34] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:09:34] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:09:34] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:09:34] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:09:34] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:09:34] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 11:09:34] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:09:34] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 11:09:34] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 11:09:34] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 11:09:34] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 11:09:34] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 11:09:34] LOGIN_ACC: Method called
+[2025-07-28 11:09:34] INPUT: Username = dasd
+[2025-07-28 11:09:34] DB: User not found for dasd
+[2025-07-28 11:09:34] LOGIN FAILED: Invalid credentials for dasd
+[2025-07-28 11:09:34] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 11:09:34] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:09:34] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:09:34] DB_INFO: .env file loaded.
+[2025-07-28 11:09:34] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:09:34] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:09:34] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:09:34] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:09:34] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:09:34] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:09:34] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:09:34] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:09:34] URL_DEBUG: Raw REQUEST_URI: /login/login?error_message=Invalid+credentials+for+dasd
+[2025-07-28 11:09:34] URL_DEBUG: Raw _GET array: {"error_message":"Invalid credentials for dasd"}
+[2025-07-28 11:09:34] URL_DEBUG: Path after strtok: /login/login
+[2025-07-28 11:09:34] URL_DEBUG: Path after /index.php removal: /login/login
+[2025-07-28 11:09:34] URL_DEBUG: Final URL after trimming: login/login
+[2025-07-28 11:09:34] 📥 Incoming request parsed as: login/login
+[2025-07-28 11:09:34] ROUTING: Attempting to call LoginController@login for URL: login/login
+[2025-07-28 11:09:34] DEBUG: Entered LoginController@login method.
+[2025-07-28 11:09:34] UI: On login.php
+[2025-07-28 11:09:34] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 11:09:34] ROUTING (index.php): Dispatched to login/login
+[2025-07-28 11:11:05] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:11:05] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:11:05] DB_INFO: .env file loaded.
+[2025-07-28 11:11:05] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:11:05] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:11:05] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:11:05] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:11:05] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:11:05] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:11:05] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:11:05] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:11:05] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 11:11:05] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:11:05] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 11:11:05] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 11:11:05] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 11:11:05] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 11:11:05] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 11:11:05] LOGIN_ACC: Method called
+[2025-07-28 11:11:05] INPUT: Username = admin
+[2025-07-28 11:11:05] LOGIN FAILED: Invalid credentials for admin
+[2025-07-28 11:11:05] ROUTING (index.php): Dispatched to login/login_acc
+[2025-07-28 11:11:05] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:11:05] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:11:05] DB_INFO: .env file loaded.
+[2025-07-28 11:11:05] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:11:05] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:11:05] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:11:05] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:11:05] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:11:05] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:11:05] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:11:05] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:11:05] URL_DEBUG: Raw REQUEST_URI: /login/login?error_message=Invalid+credentials+for+admin
+[2025-07-28 11:11:05] URL_DEBUG: Raw _GET array: {"error_message":"Invalid credentials for admin"}
+[2025-07-28 11:11:05] URL_DEBUG: Path after strtok: /login/login
+[2025-07-28 11:11:05] URL_DEBUG: Path after /index.php removal: /login/login
+[2025-07-28 11:11:05] URL_DEBUG: Final URL after trimming: login/login
+[2025-07-28 11:11:05] 📥 Incoming request parsed as: login/login
+[2025-07-28 11:11:05] ROUTING: Attempting to call LoginController@login for URL: login/login
+[2025-07-28 11:11:05] DEBUG: Entered LoginController@login method.
+[2025-07-28 11:11:05] UI: On login.php
+[2025-07-28 11:11:05] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 11:11:05] ROUTING (index.php): Dispatched to login/login
+[2025-07-28 11:11:09] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:11:09] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:11:09] DB_INFO: .env file loaded.
+[2025-07-28 11:11:09] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:11:09] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:11:09] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:11:09] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:11:09] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:11:09] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:11:09] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:11:09] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:11:09] URL_DEBUG: Raw REQUEST_URI: /login/login_acc
+[2025-07-28 11:11:09] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:11:09] URL_DEBUG: Path after strtok: /login/login_acc
+[2025-07-28 11:11:09] URL_DEBUG: Path after /index.php removal: /login/login_acc
+[2025-07-28 11:11:09] URL_DEBUG: Final URL after trimming: login/login_acc
+[2025-07-28 11:11:09] 📥 Incoming request parsed as: login/login_acc
+[2025-07-28 11:11:09] ROUTING: Attempting to call LoginController@login_acc for URL: login/login_acc
+[2025-07-28 11:11:09] LOGIN_ACC: Method called
+[2025-07-28 11:11:09] INPUT: Username = admin
+[2025-07-28 11:11:10] LOGIN SUCCESS: Redirecting to staff/dashboard
+[2025-07-28 11:11:10] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:11:10] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:11:10] DB_INFO: .env file loaded.
+[2025-07-28 11:11:10] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:11:10] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:11:10] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:11:10] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:11:10] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:11:10] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:11:10] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:11:10] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:11:10] URL_DEBUG: Raw REQUEST_URI: /staff/dashboard?success_message=Logged+in+Successfully
+[2025-07-28 11:11:10] URL_DEBUG: Raw _GET array: {"success_message":"Logged in Successfully"}
+[2025-07-28 11:11:10] URL_DEBUG: Path after strtok: /staff/dashboard
+[2025-07-28 11:11:10] URL_DEBUG: Path after /index.php removal: /staff/dashboard
+[2025-07-28 11:11:10] URL_DEBUG: Final URL after trimming: staff/dashboard
+[2025-07-28 11:11:10] 📥 Incoming request parsed as: staff/dashboard
+[2025-07-28 11:11:10] ROUTING: Attempting to call StaffController@dashboard for URL: staff/dashboard
+[2025-07-28 11:11:10] Reached Dashboard.
+[2025-07-28 11:11:10] UI: On dashboard.php
+[2025-07-28 11:11:10] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-07-28 11:11:10] ROUTING (index.php): Dispatched to staff/dashboard
+[2025-07-28 11:11:15] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:11:15] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:11:15] DB_INFO: .env file loaded.
+[2025-07-28 11:11:15] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:11:15] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:11:15] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:11:15] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:11:15] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:11:15] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:11:15] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:11:15] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:11:15] URL_DEBUG: Raw REQUEST_URI: /login/logout
+[2025-07-28 11:11:15] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:11:15] URL_DEBUG: Path after strtok: /login/logout
+[2025-07-28 11:11:15] URL_DEBUG: Path after /index.php removal: /login/logout
+[2025-07-28 11:11:15] URL_DEBUG: Final URL after trimming: login/logout
+[2025-07-28 11:11:15] 📥 Incoming request parsed as: login/logout
+[2025-07-28 11:11:15] ROUTING: Attempting to call LoginController@logout for URL: login/logout
+[2025-07-28 11:11:15] LOGOUT: User attempting to log out.
+[2025-07-28 11:11:15] LOGOUT_SUCCESS: User ID 7 logged out.
+[2025-07-28 11:11:15] DB_INFO: Attempting to set up database connection...
+[2025-07-28 11:11:15] DB_INFO: Composer autoloader loaded (if not already).
+[2025-07-28 11:11:15] DB_INFO: .env file loaded.
+[2025-07-28 11:11:15] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-07-28 11:11:15] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-07-28 11:11:15] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-07-28 11:11:15] DIAGNOSTIC: Attempting to get Connection object...
+[2025-07-28 11:11:15] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-07-28 11:11:15] DIAGNOSTIC: Attempting to get PDO object...
+[2025-07-28 11:11:15] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-07-28 11:11:15] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-07-28 11:11:15] URL_DEBUG: Raw REQUEST_URI: /login/login
+[2025-07-28 11:11:15] URL_DEBUG: Raw _GET array: []
+[2025-07-28 11:11:15] URL_DEBUG: Path after strtok: /login/login
+[2025-07-28 11:11:15] URL_DEBUG: Path after /index.php removal: /login/login
+[2025-07-28 11:11:15] URL_DEBUG: Final URL after trimming: login/login
+[2025-07-28 11:11:15] 📥 Incoming request parsed as: login/login
+[2025-07-28 11:11:15] ROUTING: Attempting to call LoginController@login for URL: login/login
+[2025-07-28 11:11:15] DEBUG: Entered LoginController@login method.
+[2025-07-28 11:11:15] UI: On login.php
+[2025-07-28 11:11:15] VIEW LAYOUT: Layout file found: views/login/layout.php
+[2025-07-28 11:11:15] ROUTING (index.php): Dispatched to login/login
