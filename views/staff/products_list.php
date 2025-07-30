@@ -2,18 +2,37 @@
 // Display success message if available
 use App\Core\Logger; // Ensure Logger is used if needed here
 
-if (isset($success_message) && !empty($success_message)) {
-    echo '<div class="alert alert-success alert-dismissible fade show" role="alert">' . htmlspecialchars($success_message) . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-}
-
-// Display error message if available
-if (isset($error_message) && !empty($error_message)) {
-    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">' . htmlspecialchars($error_message) . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-}
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
   <h1 class="text-white mb-0">Product List</h1>
+    <?php
+          if (isset($_SESSION['success_message'])) {
+              echo '
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['success_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['success_message']); // fix: previously unsetting error instead
+          }
+          if (isset($_SESSION['warning_message'])) {
+              echo '
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['warning_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['warning_message']);
+          }
+
+          if (isset($_SESSION['error_message'])) {
+              echo '
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['error_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['error_message']);
+          }
+    ?>
   <div>
     <a href="/staff/products/add" class="btn btn-primary me-2">Add New Product</a>
     <!-- New Print List Button -->

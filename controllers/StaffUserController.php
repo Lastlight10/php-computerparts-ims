@@ -102,7 +102,6 @@ class StaffUserController extends Controller {
                     'type' => $type,
                 ],
                 'user_types' => $allowed_types,
-                'error' => $_SESSION['error_message'] // Pass error message directly to view
             ], 'staff');
             exit();
         }
@@ -141,7 +140,6 @@ class StaffUserController extends Controller {
                     'type' => $type,
                 ],
                 'user_types' => $allowed_types,
-                'error' => $_SESSION['error_message'] // Pass error message directly to view
             ], 'staff');
             exit();
         }
@@ -285,12 +283,14 @@ class StaffUserController extends Controller {
         try {
             $user->save();
             Logger::log("USER_UPDATE_SUCCESS: User '{$user->username}' (ID: {$user->id}) updated successfully.");
+
             $_SESSION['success_message'] = 'User updated successfully!';
             header('Location: /staff/user_list');
             exit();
         } catch (\Exception $e) {
             Logger::log("USER_UPDATE_DB_ERROR: Failed to update user ID $id - " . $e->getMessage());
             $_SESSION['error_message'] = 'An error occurred while updating the user. Please try again. ' . $e->getMessage();
+
             $this->view('staff/users/edit', [
                 'user' => (object)[ // Re-populate form with submitted data
                     'id' => $id,
@@ -303,7 +303,6 @@ class StaffUserController extends Controller {
                     'type' => $type,
                 ],
                 'user_types' => $allowed_types,
-                'error' => $_SESSION['error_message'] // Pass error message directly to view
             ], 'staff');
             exit();
         }

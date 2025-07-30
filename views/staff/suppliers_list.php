@@ -2,24 +2,6 @@
 // Place all 'use' statements here, at the very top of the PHP file
 use App\Core\Logger;
 
-// Initialize variables to hold messages (for direct view rendering)
-$success_message = ''; // Renamed from $display_success_message for consistency with query param check
-$error_message = '';   // Renamed from $display_error_message for consistency with query param check
-
-// Check for success message in URL query parameters
-if (isset($_GET['success_message']) && !empty($_GET['success_message'])) {
-    $success_message = htmlspecialchars($_GET['success_message']);
-}
-// Note: Removed the `elseif (isset($success_message))` part as controller redirects
-// typically set these via GET params. If your controller also passes $success_message
-// directly when rendering, you can re-add that 'elseif'.
-
-// Check for error message in URL query parameters
-if (isset($_GET['error']) && !empty($_GET['error'])) {
-    $error_message = htmlspecialchars($_GET['error']);
-}
-// Note: Same as above for error messages.
-
 // Ensure $suppliers_info is an object with an isEmpty method to prevent errors
 if (!isset($suppliers_info)) {
     $suppliers_info = new \Illuminate\Database\Eloquent\Collection();
@@ -31,17 +13,33 @@ if (!isset($suppliers_info)) {
 </div>
 <h1 class="text-white mb-4">Supplier List</h1>
 
-<?php if (!empty($success_message)): ?>
-  <div class="alert alert-success text-center mb-3" role="alert">
-    <?= $success_message ?>
-  </div>
-<?php endif; ?>
+<?php
+          if (isset($_SESSION['success_message'])) {
+              echo '
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['success_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['success_message']); // fix: previously unsetting error instead
+          }
+          if (isset($_SESSION['warning_message'])) {
+              echo '
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['warning_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['warning_message']);
+          }
 
-<?php if (!empty($error_message)): ?>
-  <div class="alert alert-danger text-center mb-3" role="alert">
-    <?= $error_message ?>
-  </div>
-<?php endif; ?>
+          if (isset($_SESSION['error_message'])) {
+              echo '
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['error_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['error_message']);
+          }
+          ?>
 
 <div class="table-responsive">
     <table class="table table-dark table-striped table-hover">

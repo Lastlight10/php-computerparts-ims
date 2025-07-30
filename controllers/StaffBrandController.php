@@ -4,7 +4,7 @@ use App\Core\Controller;
 use App\Core\Logger;
 use App\Core\Connection;
 use Models\Brand;    // Make sure this path is correct for your Brand model
-
+use Models\Products;
 require_once 'vendor/autoload.php';
 require_once 'core/Connection.php'; // Assuming this sets up Eloquent Capsule
 
@@ -61,9 +61,8 @@ class StaffBrandController extends Controller {
         if (!empty($errors)) {
             Logger::log("BRAND_STORE_FAILED: Validation errors: " . implode(', ', $errors));
             // Pass back input data to re-populate form fields
+            $_SESSION['error_message']="ERRORS: ". implode("<br>", $errors);
             $this->view('staff/brands/add', [
-                'error' => implode('<br>', $errors),
-                // NEW: Include website and contact_email in the dummy object for repopulation
                 'brand' => (object)['name' => $name, 'website' => $website, 'contact_email' => $contact_email]
             ],'staff');
             return;
@@ -79,15 +78,14 @@ class StaffBrandController extends Controller {
             $brand->save();
 
             Logger::log("BRAND_STORE_SUCCESS: New brand '{$brand->name}' (ID: {$brand->id}) added successfully.");
-            // Redirect to brand list
-            header('Location: /staff/brands_list?success_message=' . urlencode('Brand added successfully!'));
+            $_SESSION['success_message']="New brand " . $brand->name ." has been added.";
+            header('Location: /staff/brands_list');
             exit();
 
         } catch (\Exception $e) {
             Logger::log("BRAND_STORE_DB_ERROR: Failed to add brand - " . $e->getMessage());
+            $_SESSION['error_message']= 'Failed to add a new brand. See: '. $e->getMessage();
             $this->view('staff/brands/add', [
-                'error' => 'An error occurred while adding the brand. Please try again. ' . $e->getMessage(),
-                // NEW: Re-populate form with submitted data
                 'brand' => (object)['name' => $name, 'website' => $website, 'contact_email' => $contact_email]
             ],'staff');
             return;
@@ -108,7 +106,8 @@ class StaffBrandController extends Controller {
 
         if (!$brand) {
             Logger::log("BRAND_EDIT_FAILED: Brand ID $id not found for editing.");
-            return $this->view('errors/404', ['message' => 'Brand not found.'],'staff'); // Ensure staff layout here too
+            $_SESSION['error_message']="Brand not found.";
+            return $this->view('staff/brands_list', ['message' => 'Brand not found.'],'staff'); // Ensure staff layout here too
         }
 
         Logger::log("BRAND_EDIT_SUCCESS: Displaying edit form for brand ID: $id - {$brand->name}");
@@ -137,7 +136,8 @@ class StaffBrandController extends Controller {
 
         if (!$brand) {
             Logger::log("BRAND_UPDATE_FAILED: Brand ID $id not found for update.");
-            return $this->view('errors/404', ['message' => 'Brand not found.'],'staff');
+            $_SESSION['error_message']="Brand not found.";
+            return $this->view('staff/brands_list', ['message' => 'Brand not found.'],'staff');
         }
 
         // 3. Validation
@@ -163,8 +163,8 @@ class StaffBrandController extends Controller {
 
         if (!empty($errors)) {
             Logger::log("BRAND_UPDATE_FAILED: Validation errors for Brand ID $id: " . implode(', ', $errors));
+            $_SESSION['error_message']="Error: ". implode('<br>', $errors);
             $this->view('staff/brands/edit', [
-                'error' => implode('<br>', $errors),
                 'brand' => $brand, // Pass the original brand object back (it already has correct website/email if from DB)
             ],'staff');
             return;
@@ -177,8 +177,8 @@ class StaffBrandController extends Controller {
 
         if (!$brand->isDirty()) {
             Logger::log("BRAND_UPDATE_INFO: Brand ID $id submitted form with no changes.");
+            $_SESSION['warning_message']="No changes were made on " . $brand->name . ".";
             $this->view('staff/brands/edit', [
-                'success_message' => 'No changes were made to the brand.',
                 'brand' => $brand,
             ],'staff');
             return;
@@ -188,12 +188,15 @@ class StaffBrandController extends Controller {
         try {
             $brand->save();
             Logger::log("BRAND_UPDATE_SUCCESS: Brand '{$brand->name}' (ID: {$brand->id}) updated successfully.");
-            header('Location: /staff/brands_list?success_message=' . urlencode('Brand updated successfully!'));
+            $_SESSION['success_message']="Updated " . $brand->name . " successfully.";
+            header('Location: /staff/brands_list');
             exit();
         } catch (\Exception $e) {
             Logger::log("BRAND_UPDATE_DB_ERROR: Failed to update brand ID $id - " . $e->getMessage());
+
+            $_SESSION['error_message']= "Failed to updated brand ". $brand->name . ".";
+
             $this->view('staff/brands/edit', [
-                'error' => 'An error occurred while updating the brand. Please try again. ' . $e->getMessage(),
                 'brand' => $brand, // Pass the brand object back
             ],'staff');
             return;
@@ -214,31 +217,22 @@ class StaffBrandController extends Controller {
 
         if (!$brand) {
             Logger::log("BRAND_DELETE_FAILED: Brand ID $id not found for deletion.");
-            header('Location: /staff/brands_list?error=' . urlencode('Brand not found for deletion.'));
+            $_SESSION['error_message']="Brand " . $brand->name . " not found.";
+            header('Location: /staff/brands_list');
             exit();
         }
 
         try {
-            // IMPORTANT: Foreign Key Constraints Check! (Keep this important comment for future reference)
-            // If you have products linked to this brand, deleting the brand
-            // will cause a foreign key constraint violation error unless:
-            // 1. Your database's foreign key is set to ON DELETE CASCADE (unlikely desired).
-            // 2. You manually dissociate or delete related products first (e.g., Product::where('brand_id', $id)->update(['brand_id' => null]);).
-            // 3. You prevent deletion if related products exist.
-            //    Example of preventing deletion if products exist (assuming 'products' relationship in Brand model):
-            //    if ($brand->products()->count() > 0) {
-            //        Logger::log("BRAND_DELETE_FAILED: Brand ID $id has associated products and cannot be deleted.");
-            //        header('Location: /staff/brands_list?error=' . urlencode('Cannot delete brand because it has associated products. Please reassign products first.'));
-            //        exit();
-            //    }
 
             $brand->delete();
             Logger::log("BRAND_DELETE_SUCCESS: Brand '{$brand->name}' (ID: {$brand->id}) deleted successfully.");
-            header('Location: /staff/brands_list?success_message=' . urlencode('Brand deleted successfully!'));
+            $_SESSION['success_message']= "Successfuly deleted ". $brand->name . ".";
+            header('Location: /staff/brands_list');
             exit();
         } catch (\Exception $e) {
             Logger::log("BRAND_DELETE_DB_ERROR: Failed to delete brand ID $id - " . $e->getMessage());
-            header('Location: /staff/brands_list?error=' . urlencode('An error occurred while deleting the brand: ' . $e->getMessage()));
+            $_SESSION['error_message']="Failed to deleted " . $brand->name . ".";
+            header('Location: /staff/brands_list');
             exit();
         }
     }

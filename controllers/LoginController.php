@@ -270,7 +270,7 @@ class LoginController extends Controller {
             unset($_SESSION['password_reset']);
             Logger::log("PROCESS_CHANGE_PASSWORD_SUCCESS: Password updated for user ID: {$user_id}.");
             $_SESSION['success_message'] = 'Your password has been successfully changed. Please log in with your new password.';
-            header('Location: /login/login?success_message=' . urlencode('Your password has been successfully changed. Please log in with your new password.'));
+            header('Location: /login/login');
             exit(); // Always call exit() after a header redirect
         } catch (Exception $e) {
             Logger::log("PROCESS_CHANGE_PASSWORD_DB_ERROR: Failed to update password for user ID {$user_id}. Exception: " . $e->getMessage());
@@ -288,9 +288,11 @@ class LoginController extends Controller {
         $user_password = $this->input('password');
 
         if (!$user_username || !$user_password) {
-            $this->view('login/login', ['error' => 'Username and password are required.'], 'default'); // Ensure default layout
+
             Logger::log("LOGIN FAILED: Username and password are required.");
-            return;
+            $_SESSION['error_message'] = "Username and password are required";
+            header('Location: /login/login');
+            exit();
         }
 
         $user = User::where('username', $user_username)->first();
@@ -300,9 +302,10 @@ class LoginController extends Controller {
         }
 
         if (!$user || !password_verify($user_password, $user->password)) {
-            $this->view('login/login', ['error' => 'Invalid credentials.'], 'default'); // Ensure default layout
             Logger::log("LOGIN FAILED: Invalid credentials for $user_username");
-            return;
+            $_SESSION['error_message'] = "Invalid Credentials for ". $user_username;
+            header('Location: /login/login');
+            exit();
         }
 
         // Store user in session - FIX IS HERE
@@ -328,6 +331,7 @@ class LoginController extends Controller {
         $data = array_merge($first_data, $second_data);
 
         Logger::log("LOGIN SUCCESS: Redirecting to staff/dashboard");
+        $_SESSION['success_message']="Successfully logged in as ".$user->username;
         header('Location: /staff/dashboard');
         exit();
     }
@@ -343,6 +347,9 @@ class LoginController extends Controller {
             Logger::log("LOGOUT_SUCCESS: User ID {$userId} logged out.");
         } else {
             Logger::log("LOGOUT_INFO: Attempted logout without an active user session.");
+            $_SESSION['error_message']="Attempted to Login without an active session. Please login again.";
+            header('Location: login/login');
+            exit();
         }
 
         // 1. Unset all of the session variables.
@@ -362,6 +369,7 @@ class LoginController extends Controller {
         session_destroy();
 
         // 4. Redirect to the login page
+        $_SESSION['success_message']="Successfully logged in.";
         header('Location: /login/login'); // Redirect to your login route
         exit(); // Important to exit after a header redirect
     }

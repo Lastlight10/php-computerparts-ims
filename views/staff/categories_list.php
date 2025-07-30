@@ -3,23 +3,40 @@
 // (Already present from your combined snippet, good!)
 use App\Core\Logger;
 
-// Check for success message in URL query parameters (keeping your existing code)
-if (isset($_GET['success_message']) && !empty($_GET['success_message'])) {
-    $success_message = htmlspecialchars($_GET['success_message']);
-    echo '<div class="alert alert-success text-center mb-3" role="alert">' . $success_message . '</div>';
-}
-
-// Check for error message in URL query parameters (keeping your existing code)
-if (isset($_GET['error']) && !empty($_GET['error'])) {
-    $error_message = htmlspecialchars($_GET['error']);
-    echo '<div class="alert alert-danger text-center mb-3" role="alert">' . $error_message . '</div>';
-}
 ?>
 
 <div class="d-flex justify-content-end mb-3">
   <a href="/staff/categories/add" class="btn btn-primary">Add New Category</a>
 </div>
 <h1 class="text-white mb-4">Categories List</h1>
+
+<?php 
+  if (isset($_SESSION['success_message'])) {
+    echo '
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        ' . htmlspecialchars($_SESSION['success_message']) . '
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>';
+              unset($_SESSION['success_message']); // fix: previously unsetting error instead
+  }
+  if (isset($_SESSION['warning_message'])) {
+    echo '
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        ' . htmlspecialchars($_SESSION['warning_message']) . '
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>';
+    unset($_SESSION['warning_message']);
+  }
+  if (isset($_SESSION['error_message'])) {
+    echo '
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        ' . htmlspecialchars($_SESSION['error_message']) . '
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>';
+    unset($_SESSION['error_message']);
+  }
+  ?>
+
 <div class="table-responsive">
     <table class="table table-dark table-striped table-hover">
       <thead>
@@ -39,8 +56,8 @@ if (isset($_GET['error']) && !empty($_GET['error'])) {
                     <td class="hidden-column"><?= htmlspecialchars($category->id) ?></td>
                     <td><?= htmlspecialchars($category->name ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($category->description ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($category->created_at ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($category->updated_at ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars(date('Y-m-d', strtotime($category->created_at)) ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars(date('Y-m-d', strtotime($category->updated_at)) ?? 'N/A') ?></td>
                     <td>
                         <a href="/staff/categories/edit/<?= htmlspecialchars($category->id) ?>" class="btn btn-sm btn-info me-1">Edit</a>
                         <a href="/staff/categories/delete/<?= htmlspecialchars($category->id) ?>" class="btn btn-sm btn-danger"  onclick="return confirm('Are you sure you want to delete this category? This action cannot be undone.');">Delete</a>

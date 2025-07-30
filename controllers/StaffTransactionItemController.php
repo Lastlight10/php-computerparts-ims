@@ -25,14 +25,16 @@ class StaffTransactionItemController extends Controller {
         $transaction = Transaction::find($transaction_id);
         if (!$transaction) {
             Logger::log("TRANSACTION_ITEM_ADD_FAILED: Transaction ID $transaction_id not found.");
-            header('Location: /staff/transactions_list?error=' . urlencode('Parent transaction not found.'));
+
+            $_SESSION['error_message']="Transaction not found for " . $transaction_id;
+            header('Location: /staff/transactions_list');
             exit();
         }
 
         // Only allow adding items to Pending or Confirmed transactions
         if (!in_array($transaction->status, ['Pending', 'Confirmed'])) {
             Logger::log("TRANSACTION_ITEM_ADD_PREVENTED: Cannot add items to transaction ID $transaction_id with status {$transaction->status}.");
-            header('Location: /staff/transactions/show/' . $transaction_id . '?error=' . urlencode('Cannot add items to a ' . $transaction->status . ' transaction.'));
+            header('Location: /staff/transactions/show/' . $transaction_id );
             exit();
         }
 
@@ -112,12 +114,13 @@ class StaffTransactionItemController extends Controller {
         // 2. Handle Validation Errors (re-render form with errors)
         if (!empty($errors)) {
             Logger::log("TRANSACTION_ITEM_STORE_FAILED: Validation errors: " . implode(', ', $errors));
+
+            $_SESSION['error_message']="Error: ".implode('<br>', $errors); 
             $products = Product::all(); // Re-fetch products for the dropdown
             $this->view('staff/transaction_items/add', [
                 'transaction_id' => $transaction_id,
                 'transaction' => $transaction, // Pass transaction back for consistent view rendering
                 'products' => $products,
-                'error' => implode('<br>', $errors),
                 'transaction_item' => (object)[ // Repopulate form fields with submitted data
                     'product_id' => $product_id,
                     'quantity' => $quantity,
@@ -163,17 +166,18 @@ class StaffTransactionItemController extends Controller {
             }
 
             Logger::log("TRANSACTION_ITEM_STORE_SUCCESS: New item (Product ID: {$product_id}, Qty: {$quantity}) added to Transaction ID: {$transaction_id}.");
-            header('Location: /staff/transactions/show/' . $transaction_id . '?success_message=' . urlencode('Item added successfully!'));
+            header('Location: /staff/transactions/show/' . $transaction_id);
             exit();
 
         } catch (\Exception $e) {
             Logger::log("TRANSACTION_ITEM_STORE_DB_ERROR: Failed to add transaction item - " . $e->getMessage());
             $products = Product::all(); // Re-fetch products for the dropdown
+
+            $_SESSION['error_message']="Failed to add transaction. " . $e->getMessage();
             $this->view('staff/transaction_items/add', [
                 'transaction_id' => $transaction_id,
                 'transaction' => $transaction,
                 'products' => $products,
-                'error' => 'An error occurred while adding the item: ' . $e->getMessage(),
                 'transaction_item' => (object)[
                     'product_id' => $product_id,
                     'quantity' => $quantity,
@@ -198,7 +202,9 @@ class StaffTransactionItemController extends Controller {
 
         if (!$transactionItem) {
             Logger::log("TRANSACTION_ITEM_EDIT_FAILED: Item ID $id not found for editing.");
-            header('Location: /staff/transactions_list?error=' . urlencode('Transaction item not found.'));
+
+            $_SESSION['error_message']="Item not found.";
+            header('Location: /staff/transactions_list');
             exit();
         }
 
@@ -206,20 +212,26 @@ class StaffTransactionItemController extends Controller {
 
         if (!$transaction) {
             Logger::log("TRANSACTION_ITEM_EDIT_FAILED: Parent transaction for item ID $id not found.");
-            header('Location: /staff/transactions_list?error=' . urlencode('Parent transaction for item not found.'));
+
+            $_SESSION['error_message']="Parent transaction not found.";
+            header('Location: /staff/transactions_list');
             exit();
         }
 
         // Prevent editing item if parent transaction status doesn't allow it
         if (!in_array($transaction->status, ['Pending', 'Confirmed'])) {
             Logger::log("TRANSACTION_ITEM_EDIT_PREVENTED: Cannot edit item ID $id in transaction with status {$transaction->status}.");
-            header('Location: /staff/transactions/show/' . $transaction->id . '?error=' . urlencode('Cannot edit items in a ' . $transaction->status . ' transaction.'));
+
+            $_SESSION['error_message'] = "Cannot edit item with transaction status of " . $transaction->status;
+            header('Location: /staff/transactions/show/' . $transaction->id);
             exit();
         }
 
         $products = Product::all(); // Fetch all products for the dropdown
 
         Logger::log("TRANSACTION_ITEM_EDIT_SUCCESS: Displaying edit form for item ID: $id (Transaction ID: {$transaction->id}).");
+
+        $_SESSION['success_message']="Successfully edited item.";
         $this->view('staff/transaction_items/edit', [
             'transaction_item' => $transactionItem, // Pass the existing item for form population
             'transaction' => $transaction,         // Pass parent transaction for context
@@ -248,21 +260,28 @@ class StaffTransactionItemController extends Controller {
         // 1. Initial Checks
         if (!$transactionItem) {
             Logger::log("TRANSACTION_ITEM_UPDATE_FAILED: Item ID $id not found for update.");
-            header('Location: /staff/transactions/show/' . $transaction_id . '?error=' . urlencode('Transaction item not found.'));
+
+            $_SESSION['error_message']="Transaction item not found to edit.";
+            header('Location: /staff/transactions/show/' . $transaction_id);
             exit();
         }
 
         $transaction = Transaction::find($transaction_id);
         if (!$transaction) {
             Logger::log("TRANSACTION_ITEM_UPDATE_FAILED: Parent transaction ID $transaction_id not found for item $id.");
-            header('Location: /staff/transactions_list?error=' . urlencode('Parent transaction not found for item.'));
+
+            $_SESSION['error_message']="Parent transaction not found.";
+            header('Location: /staff/transactions_list');
             exit();
         }
 
         // Prevent updating item if parent transaction status doesn't allow it
         if (!in_array($transaction->status, ['Pending', 'Confirmed'])) {
             Logger::log("TRANSACTION_ITEM_UPDATE_PREVENTED: Cannot update item ID $id in transaction with status {$transaction->status}.");
-            header('Location: /staff/transactions/show/' . $transaction->id . '?error=' . urlencode('Cannot update items in a ' . $transaction->status . ' transaction.'));
+
+            $_SESSION['error_message']= "Cannot update transaction item with transaction status: " .$transaction->status;
+
+            header('Location: /staff/transactions/show/' . $transaction->id);
             exit();
         }
 
@@ -298,6 +317,7 @@ class StaffTransactionItemController extends Controller {
         // 3. Handle Validation Errors (re-render form with errors)
         if (!empty($errors)) {
             Logger::log("TRANSACTION_ITEM_UPDATE_FAILED: Validation errors for Item ID $id: " . implode(', ', $errors));
+
             $products = Product::all(); // Re-fetch products for the dropdown
             // Re-populate the transactionItem object with submitted data for form display
             $transactionItem->product_id = $product_id;
@@ -305,8 +325,9 @@ class StaffTransactionItemController extends Controller {
             $transactionItem->unit_price_at_transaction = $unit_price; // This is the input value (temporarily for view)
             $transactionItem->line_total = (float)$quantity * (float)$unit_price; // Calculated for form display
 
+            $_SESSION['error_message']="Error: " . implode('<br>', $errors);
+
             $this->view('staff/transaction_items/edit', [
-                'error' => implode('<br>', $errors),
                 'transaction_item' => $transactionItem,
                 'transaction' => $transaction,
                 'products' => $products,
@@ -328,6 +349,9 @@ class StaffTransactionItemController extends Controller {
         if (!$transactionItem->isDirty()) {
             Logger::log("TRANSACTION_ITEM_UPDATE_INFO: Item ID $id submitted form with no changes.");
             $products = Product::all(); // Re-fetch products
+
+            $_SESSION['warning_message']="No changes were made on items.";
+            
             $this->view('staff/transaction_items/edit', [
                 'success_message' => 'No changes were made to the transaction item.',
                 'transaction_item' => $transactionItem,
@@ -357,13 +381,17 @@ class StaffTransactionItemController extends Controller {
             }
 
             Logger::log("TRANSACTION_ITEM_UPDATE_SUCCESS: Transaction Item (ID: {$transactionItem->id}) updated successfully for Transaction ID: {$transaction_id}.");
-            header('Location: /staff/transactions/show/' . $transaction_id . '?success_message=' . urlencode('Item updated successfully!'));
+
+            $_SESSION['success_message']="Item updated successfully";
+            header('Location: /staff/transactions/show/' . $transaction_id);
             exit();
         } catch (\Exception $e) {
             Logger::log("TRANSACTION_ITEM_UPDATE_DB_ERROR: Failed to update transaction item ID $id - " . $e->getMessage());
             $products = Product::all(); // Re-fetch products
+
+            $_SESSION['error_message']='An error occurred while updating the item. Please try again. ' . $e->getMessage();
+
             $this->view('staff/transaction_items/edit', [
-                'error' => 'An error occurred while updating the item. Please try again. ' . $e->getMessage(),
                 'transaction_item' => $transactionItem,
                 'transaction' => $transaction,
                 'products' => $products,
@@ -387,7 +415,9 @@ class StaffTransactionItemController extends Controller {
         // 1. Initial Checks
         if (!$transactionItem) {
             Logger::log("TRANSACTION_ITEM_DELETE_FAILED: Item ID $id not found for deletion.");
-            header('Location: /staff/transactions_list?error=' . urlencode('Transaction item not found for deletion.'));
+
+            $_SESSION['error_message']="Item to delete not found.";
+            header('Location: /staff/transactions_list');
             exit();
         }
 
@@ -398,14 +428,18 @@ class StaffTransactionItemController extends Controller {
             Logger::log("TRANSACTION_ITEM_DELETE_FAILED: Parent transaction ID $transaction_id not found for item $id.");
             // This might happen if parent transaction was deleted, but items remained (e.g., no cascade delete or bug)
             // Redirect to a more general list, as the transaction it belonged to doesn't exist.
-            header('Location: /staff/transactions_list?error=' . urlencode('Parent transaction not found for item deletion.'));
+            $_SESSION['error_message']="Parent transaction not found";
+
+            header('Location: /staff/transactions_list');
             exit();
         }
 
         // Prevent deletion if parent transaction status doesn't allow it
         if (!in_array($transaction->status, ['Pending', 'Confirmed'])) {
             Logger::log("TRANSACTION_ITEM_DELETE_PREVENTED: Cannot delete item ID $id from transaction with status {$transaction->status}.");
-            header('Location: /staff/transactions/show/' . $transaction->id . '?error=' . urlencode('Cannot delete items from a ' . $transaction->status . ' transaction.'));
+
+            $_SESSION['error_message']="Cannot delete item with transaction status: " . $transaction->status;
+            header('Location: /staff/transactions/show/' . $transaction->id);
             exit();
         }
 
@@ -429,11 +463,14 @@ class StaffTransactionItemController extends Controller {
                 $transaction->save();
             }
 
-            header('Location: /staff/transactions/show/' . $transaction_id . '?success_message=' . urlencode('Item deleted successfully!'));
+            $_SESSION['success_message']="Item successfully deleted";
+            header('Location: /staff/transactions/show/' . $transaction_id);
             exit();
         } catch (\Exception $e) {
             Logger::log("TRANSACTION_ITEM_DELETE_DB_ERROR: Failed to delete transaction item ID $id - " . $e->getMessage());
-            header('Location: /staff/transactions/show/' . $transaction_id . '?error=' . urlencode('An error occurred while deleting the item: ' . $e->getMessage()));
+
+            $_SESSION['error_message']= "Failed to delete item. " .$e->getMessage();
+            header('Location: /staff/transactions/show/' . $transaction_id);
             exit();
         }
     }

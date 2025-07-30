@@ -116,7 +116,7 @@ class StaffProductInstanceController extends Controller {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             Logger::log("PRODUCT_INSTANCE_UPDATE_ERROR: Invalid request method. Must be POST.");
             $_SESSION['error_message'] = 'Invalid request method.';
-            header('Location: /staff/products_list', $_SESSION['error_message']);
+            header('Location: /staff/products_list');
             exit();
         }
 
@@ -129,7 +129,7 @@ class StaffProductInstanceController extends Controller {
         if (!$instance) {
             Logger::log("PRODUCT_INSTANCE_UPDATE_ERROR: Product instance ID {$instanceId} not found for update.");
             $_SESSION['error_message'] = "Product instance not found for update.";
-            header('Location: /staff/products_list', $_SESSION['error_message']);
+            header('Location: /staff/products_list');
             exit();
         }
 
@@ -152,8 +152,8 @@ class StaffProductInstanceController extends Controller {
 
         if (!empty($errors)) {
             Logger::log("PRODUCT_INSTANCE_UPDATE_FAILED: Validation errors for instance ID {$instanceId}: " . implode(', ', $errors));
-            $_SESSION['error_message'] = 'Validation error: ' . implode(', ', $errors);
-            header('Location: /staff/product_instances/edit/' . $instanceId,$_SESSION['error_message'] ); // Changed path
+            $_SESSION['error_message'] = 'Validation error: ' . implode('<br>', $errors);
+            header('Location: /staff/product_instances/edit/'.$instanceId); // Changed path
             exit();
         }
 
@@ -166,7 +166,7 @@ class StaffProductInstanceController extends Controller {
         if (!$instance->isDirty()) {
             Logger::log("PRODUCT_INSTANCE_UPDATE_INFO: Instance ID {$instanceId} submitted form with no changes.");
             $_SESSION['success_message'] = 'No changes were made to the product unit.';
-            header('Location: /staff/products/show/' . $productId, $_SESSION['success_message']); // Redirect back to product details
+            header('Location: /staff/products/show/'.$instanceId); // Redirect back to product details
             exit();
         }
 
@@ -191,13 +191,16 @@ class StaffProductInstanceController extends Controller {
         try {
             $instance->save();
             Logger::log("PRODUCT_INSTANCE_UPDATE_SUCCESS: Product instance ID {$instanceId} updated successfully. Status changed from '{$originalStatus}' to '{$newStatus}'.");
+            
             $_SESSION['success_message'] = 'Product unit updated successfully!';
-            header('Location: /staff/products/show/' . $productId,$_SESSION['success_message']); // Redirect back to product details
+            header('Location: /staff/products/show/'.$instanceId); // Redirect back to product details
             exit();
+
         } catch (\Exception $e) {
             Logger::log("PRODUCT_INSTANCE_UPDATE_DB_ERROR: Failed to update product instance ID {$instanceId} - " . $e->getMessage());
+            
             $_SESSION['error_message'] = 'An error occurred while updating the product unit: ' . $e->getMessage();
-            header('Location: /staff/product_instances/edit/' . $instanceId, $_SESSION['error_message']); // Changed path
+            header('Location: /staff/product_instances/edit/'.$instanceId); // Changed path
             exit();
         }
     }
@@ -217,7 +220,7 @@ class StaffProductInstanceController extends Controller {
         if (!$instance) {
             Logger::log("PRODUCT_INSTANCE_DELETE_FAILED: Product instance ID $id not found for deletion.");
             $_SESSION['error_message'] = 'Product instance not found for deletion.';
-            header('Location: /staff/products_list', $_SESSION['error_message']); // Redirect to products list or appropriate page
+            header('Location: /staff/products_list'); // Redirect to products list or appropriate page
             exit();
         }
 
@@ -229,8 +232,9 @@ class StaffProductInstanceController extends Controller {
             // This prevents accidental deletion of active inventory.
             if ($originalStatus === 'In Stock') {
                 Logger::log("PRODUCT_INSTANCE_DELETE_FAILED: Product instance ID $id cannot be deleted because its status is 'In Stock'.");
+                
                 $_SESSION['error_message'] = 'Product unit cannot be deleted while its status is "In Stock". Change its status first (e.g., to "Removed" or "Scrapped").';
-                header('Location: /staff/product_instances/edit/' . $id, $_SESSION['error_message']); // Changed path
+                header('Location: /staff/product_instances/edit/'.$id); // Changed path
                 exit();
             }
 
@@ -250,7 +254,7 @@ class StaffProductInstanceController extends Controller {
             $instance->delete();
             Logger::log("PRODUCT_INSTANCE_DELETE_SUCCESS: Product instance ID {$id} deleted successfully.");
             $_SESSION['success_message'] = 'Product unit deleted successfully!';
-            header('Location: /staff/products/show/' . $productId, $_SESSION['success_message']); // Redirect back to parent product details
+            header('Location: /staff/products/show/'.$id); // Redirect back to parent product details
             exit();
         } catch (\Exception $e) {
             Logger::log("PRODUCT_INSTANCE_DELETE_DB_ERROR: Failed to delete product instance ID $id - " . $e->getMessage());

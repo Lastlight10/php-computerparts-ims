@@ -2,41 +2,39 @@
 // Place all 'use' statements here, at the very top of the PHP file
 use App\Core\Logger;
 
-// Initialize display variables for messages
-$display_success_message = null;
-$display_error_message = null;
-
-// Retrieve messages from session first (as controllers often use session for redirects)
-$session_success_message = $_SESSION['success_message'] ?? null;
-$session_error_message = $_SESSION['error_message'] ?? null;
-
-// Unset session messages immediately after retrieving them to prevent them from showing again on refresh
-unset($_SESSION['success_message']);
-unset($_SESSION['error_message']);
-
-// Check for success message (prioritize GET, then direct variable, then session)
-if (isset($_GET['success_message']) && !empty($_GET['success_message'])) {
-    $display_success_message = htmlspecialchars($_GET['success_message']);
-} elseif (isset($success_message) && !empty($success_message)) { // $success_message from controller's $this->view()
-    $display_success_message = htmlspecialchars($success_message);
-} elseif (isset($session_success_message) && !empty($session_success_message)) { // From session
-    $display_success_message = htmlspecialchars($session_success_message);
-}
-
-// Check for error message (prioritize GET, then direct variable, then session)
-if (isset($_GET['error']) && !empty($_GET['error'])) {
-    $display_error_message = htmlspecialchars($_GET['error']);
-} elseif (isset($error) && !empty($error)) { // $error from controller's $this->view()
-    $display_error_message = htmlspecialchars($error);
-} elseif (isset($session_error_message) && !empty($session_error_message)) { // From session
-    $display_error_message = htmlspecialchars($session_error_message);
-}
 ?>
 
 <div class="d-flex justify-content-end mb-3">
   <a href="/staff/users/add" class="btn btn-primary">Add New User</a>
 </div>
   <h1 class="text-white mb-4">User List</h1>
+  <?php
+          if (isset($_SESSION['success_message'])) {
+              echo '
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['success_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['success_message']); // fix: previously unsetting error instead
+          }
+          if (isset($_SESSION['warning_message'])) {
+              echo '
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['warning_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['warning_message']);
+          }
+
+          if (isset($_SESSION['error_message'])) {
+              echo '
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['error_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['error_message']);
+          }
+    ?>
 
   <!-- Message Display Area -->
   <?php if ($display_success_message): ?>

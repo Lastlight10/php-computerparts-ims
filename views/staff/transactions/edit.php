@@ -11,38 +11,6 @@ $transaction = $transaction ?? [];
 $customers = $customers ?? [];
 $suppliers = $suppliers ?? [];
 
-// Error and success messages passed from the controller via session or GET
-// Renamed to clarify origin from session
-$session_error_message = $_SESSION['error_message'] ?? null;
-$session_success_message = $_SESSION['success_message'] ?? null;
-
-// Unset session variables after retrieving them
-unset($_SESSION['error_data']); // Assuming error_data is handled separately if needed
-unset($_SESSION['error_message']);
-unset($_SESSION['success_message']);
-
-// Initialize display variables to null
-$display_success_message = null;
-$display_error_message = null;
-
-// Check for success message (from GET parameter, then view variable, then session)
-if (isset($_GET['success_message']) && !empty($_GET['success_message'])) {
-    $display_success_message = htmlspecialchars($_GET['success_message']);
-} elseif (isset($success_message) && !empty($success_message)) { // $success_message from controller's $this->view()
-    $display_success_message = htmlspecialchars($success_message);
-} elseif (isset($session_success_message) && !empty($session_success_message)) { // From session
-    $display_success_message = htmlspecialchars($session_success_message);
-}
-
-// Check for error message (from GET parameter, then view variable, then session)
-if (isset($_GET['error']) && !empty($_GET['error'])) {
-    $display_error_message = htmlspecialchars($_GET['error']);
-} elseif (isset($error) && !empty($error)) { // $error from controller's $this->view()
-    $display_error_message = htmlspecialchars($error);
-} elseif (isset($session_error_message) && !empty($session_error_message)) { // From session
-    $display_error_message = htmlspecialchars($session_error_message);
-}
-
 // Ensure $transaction is passed. If not, this page can't function.
 if (!isset($transaction) || !$transaction) {
     echo '<div class="alert alert-danger text-center mt-5">Transaction data not available for editing.</div>';
@@ -90,18 +58,33 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
         <div class="card lighterdark-bg p-4 shadow-sm">
           <h3 class="text-white text-center mb-4">Edit Transaction: #<?= htmlspecialchars($transaction->invoice_bill_number ?? 'N/A') ?></h3>
 
-          <?php if (!empty($display_success_message)): ?>
-            <div class="alert alert-success text-center mb-3" role="alert">
-              <?= $display_success_message ?>
-            </div>
-          <?php endif; ?>
+          <?php
+          if (isset($_SESSION['success_message'])) {
+              echo '
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['success_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['success_message']); // fix: previously unsetting error instead
+          }
+          if (isset($_SESSION['warning_message'])) {
+              echo '
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['warning_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['warning_message']);
+          }
 
-          <?php if (!empty($display_error_message)): ?>
-            <div class="alert alert-danger text-center mb-3" role="alert">
-              <?= $display_error_message ?>
-            </div>
-          <?php endif; ?>
-
+          if (isset($_SESSION['error_message'])) {
+              echo '
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['error_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['error_message']);
+          }
+    ?>
           <form action="/staff/transactions/update" method="POST" id="transactionForm">
             <input type="hidden" name="id" value="<?= htmlspecialchars($transaction->id ?? 'N/A') ?>">
             <input type="hidden" id="initialStatus" value="<?= htmlspecialchars($transaction->status) ?>">

@@ -70,9 +70,9 @@ class StaffCustomerController extends Controller {
 
         if (!empty($errors)) {
             Logger::log("CUSTOMER_STORE_FAILED: Validation errors: " . implode(', ', $errors));
-            // Pass back input data to re-populate form fields
+            
+            $_SESSION['error_message'] = "Failed to add Customer: " . implode('<br>', $errors);
             $this->view('staff/customers/add', [
-                'error' => implode('<br>', $errors),
                 'customer' => (object)[ // Create a dummy object for form repopulation
                     'customer_type' => $customer_type,
                     'company_name' => $company_name,
@@ -102,13 +102,16 @@ class StaffCustomerController extends Controller {
             $customer->save();
 
             Logger::log("CUSTOMER_STORE_SUCCESS: New customer '{$customer->contact_first_name} {$customer->contact_last_name}' (ID: {$customer->id}) added successfully.");
-            header('Location: /staff/customers_list?success_message=' . urlencode('Customer added successfully!'));
+
+            $_SESSION['success_message'] = "Successfully added customer " . $customer->company_name;
+            header('Location: /staff/customers_list?');
             exit();
 
         } catch (\Exception $e) {
             Logger::log("CUSTOMER_STORE_DB_ERROR: Failed to add customer - " . $e->getMessage());
+
+            $_SESSION['error_message'] = "Failed to add customer ". $e->getMessage();
             $this->view('staff/customers/add', [
-                'error' => 'An error occurred while adding the customer. Please try again. ' . $e->getMessage(),
                 'customer' => (object)[ // Re-populate form with submitted data
                     'customer_type' => $customer_type,
                     'company_name' => $company_name,
@@ -138,7 +141,9 @@ class StaffCustomerController extends Controller {
 
         if (!$customer) {
             Logger::log("CUSTOMER_EDIT_FAILED: Customer ID $id not found for editing.");
-            return $this->view('errors/404', ['message' => 'Customer not found.'], 'staff');
+
+            $_SESSION['error_message']="Customer not found.";
+            return $this->view('staff/customers/edit', ['message' => 'Customer not found.'], 'staff');
         }
 
         Logger::log("CUSTOMER_EDIT_SUCCESS: Displaying edit form for customer ID: $id - {$customer->contact_first_name} {$customer->contact_last_name}");
@@ -172,7 +177,9 @@ class StaffCustomerController extends Controller {
 
         if (!$customer) {
             Logger::log("CUSTOMER_UPDATE_FAILED: Customer ID $id not found for update.");
-            return $this->view('errors/404', ['message' => 'Customer not found.'], 'staff');
+
+            $_SESSION['error_message']="Customer not found.";
+            return $this->view('staff/customer/edit', ['message' => 'Customer not found.'], 'staff');
         }
 
         // 3. Validation
@@ -215,8 +222,9 @@ class StaffCustomerController extends Controller {
             $customer->phone_number = $phone_number;
             $customer->address = $address;
 
+            $_SESSION['error_message']= "Can't update customer: " . implode('<br>', $errors);
+   
             $this->view('staff/customers/edit', [
-                'error' => implode('<br>', $errors),
                 'customer' => $customer,
             ],'staff');
             return;
@@ -234,8 +242,8 @@ class StaffCustomerController extends Controller {
 
         if (!$customer->isDirty()) {
             Logger::log("CUSTOMER_UPDATE_INFO: Customer ID $id submitted form with no changes.");
+            $_SESSION['warning_message']= "No Changes made.";
             $this->view('staff/customers/edit', [
-                'success_message' => 'No changes were made to the customer.',
                 'customer' => $customer,
             ],'staff');
             return;
@@ -245,12 +253,15 @@ class StaffCustomerController extends Controller {
         try {
             $customer->save();
             Logger::log("CUSTOMER_UPDATE_SUCCESS: Customer '{$customer->contact_first_name} {$customer->contact_last_name}' (ID: {$customer->id}) updated successfully.");
-            header('Location: /staff/customers_list?success_message=' . urlencode('Customer updated successfully!'));
+
+            $_SESSION['success_message']="Successfully updated customer ". $customer->company_name;
+            header('Location: /staff/customers_list?');
             exit();
         } catch (\Exception $e) {
             Logger::log("CUSTOMER_UPDATE_DB_ERROR: Failed to update customer ID $id - " . $e->getMessage());
+
+            $_SESSION['error_message']="Failed to update customer.";
             $this->view('staff/customers/edit', [
-                'error' => 'An error occurred while updating the customer. Please try again. ' . $e->getMessage(),
                 'customer' => $customer,
             ],'staff');
             return;
@@ -295,18 +306,24 @@ class StaffCustomerController extends Controller {
 
         if (!$customer) {
             Logger::log("CUSTOMER_DELETE_FAILED: Customer ID $id not found for deletion.");
-            header('Location: /staff/customers_list?error=' . urlencode('Customer not found for deletion.'));
+
+            $_SESSION['error_message']="Customer not found.";
+            header('Location: /staff/customers_list');
             exit();
         }
 
         try {
             $customer->delete();
             Logger::log("CUSTOMER_DELETE_SUCCESS: Customer '{$customer->contact_first_name} {$customer->contact_last_name}' (ID: {$customer->id}) deleted successfully.");
-            header('Location: /staff/customers_list?success_message=' . urlencode('Customer deleted successfully!'));
+
+            $_SESSION['success_message']="Customer successfully deleted.";
+            header('Location: /staff/customers_list');
             exit();
         } catch (\Exception $e) {
             Logger::log("CUSTOMER_DELETE_DB_ERROR: Failed to delete customer ID $id - " . $e->getMessage());
-            header('Location: /staff/customers_list?error=' . urlencode('An error occurred while deleting the customer: ' . $e->getMessage()));
+
+            $_SESSION['error_message']="Failed to delete customer";
+            header('Location: /staff/customers_list');
             exit();
         }
     }

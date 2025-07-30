@@ -231,14 +231,6 @@ class StaffController extends Controller {
 
     Logger::log('DEBUG: Number of transactions retrieved in transactions_list: ' . $transactions_info->count());
 
-    // Retrieve messages from session
-    $success_message = $_SESSION['success_message'] ?? null;
-    $error_message = $_SESSION['error_message'] ?? null;
-
-    // Unset session variables after retrieving them
-    unset($_SESSION['success_message']);
-    unset($_SESSION['error_message']);
-
     // Ensure transactions_info is an iterable collection even if empty
     if (is_null($transactions_info)) {
         $transactions_info = collect([]);
@@ -246,8 +238,6 @@ class StaffController extends Controller {
 
     $this->view('staff/transactions_list', [
         'transactions_info' => $transactions_info,
-        'success_message' => $success_message,
-        'error_message' => $error_message,
         'search_query' => $search_query, // Pass back to view
         'filter_type' => $filter_type,   // Pass back to view
         'filter_status' => $filter_status, // Pass back to view
@@ -350,8 +340,9 @@ class StaffController extends Controller {
     if (!$user_account) {
         Logger::log("USER_EDIT_ACCOUNT_FAILED: User ID $currentUserId not found in database.");
         session_destroy();
-        $this->view('login/login', ['error' => 'Your session is invalid. Please log in again.'],'default');
-        return;
+        $_SESSION['error_message']="Your session is invalid. Please login again.";
+        header('Location: /login/login');
+        exit();;
     }
 
     Logger::log("USER_EDIT_ACCOUNT_SUCCESS: Retrieved account info for user ID $currentUserId.");
@@ -364,8 +355,9 @@ class StaffController extends Controller {
         // 1. Basic Security & Session Check
         if (!isset($_SESSION['user']['id'])) {
             Logger::log('UPDATE_FAILED: No user ID in session. Redirecting to login.');
-            $this->view('login/login', ['error' => 'Your session has expired. Please log in again.'], 'default'); // Consider 'default' layout for login
-            return;
+            $_SESSION['error_message']="Your session has expired. Please login again.";
+            header('Location: /login/login');
+            exit();
         }
 
         $currentUserId = $_SESSION['user']['id'];
@@ -382,11 +374,9 @@ class StaffController extends Controller {
         if ($currentUserId != $submittedUserId) {
             Logger::log("SECURITY_ALERT: User ID $currentUserId attempted to update account ID $submittedUserId.");
             // Re-fetch current user data for display in case of unauthorized access attempt
-            $this->view('staff/edit_user_account', [
-                'error' => 'You are not authorized to perform this action.',
-                'user_account' => User::find($currentUserId)
-            ], 'staff');
-            return;
+            $_SESSION['error_message']="You are not authorized for this action.";
+            header('Location: /staff/edit_user_account');
+            exit();
         }
 
         // 4. Retrieve the User Model instance
@@ -395,8 +385,8 @@ class StaffController extends Controller {
         if (!$user) {
             Logger::log("UPDATE_FAILED: User ID $currentUserId not found in database for update.");
             session_destroy();
-            $this->view('login/login', ['error' => 'User account not found. Please log in again.'], 'default'); // Consider 'default' layout
-            return;
+            $_SESSION['error_message']="Please login again.";
+            exit();
         }
 
         // 5. Input Validation
@@ -427,12 +417,23 @@ class StaffController extends Controller {
 
         if (!empty($errors)) {
             Logger::log("UPDATE_FAILED: Validation errors for User ID $currentUserId: " . implode(', ', $errors));
-            $this->view('staff/edit_user_account', [
-                'error' => implode('<br>', $errors),
-                'user_account' => $user // Pass the current user object back to re-populate the form
-            ], 'staff');
-            return;
+
+            // Store error messages in session
+            $_SESSION['error_message'] = implode('<br>', $errors);
+
+            // Optionally: store old form data too (e.g., for repopulating fields)
+            $_SESSION['old_input'] = [
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'email' => $email,
+                // Add other fields as needed
+            ];
+
+            // Redirect back to the form
+            header('Location: /edit_user_account?id=' . urlencode($currentUserId));
+            exit;
         }
+
 
         // --- REVISED LOGIC STARTS HERE ---
 
@@ -449,8 +450,8 @@ class StaffController extends Controller {
         //    This method compares the current state of the model with its original state.
         if (!$user->isDirty()) {
             Logger::log("UPDATE_INFO: User ID $currentUserId submitted form with no changes.");
+            $_SESSION['warning_message']="No changes were made.";
             $this->view('staff/edit_user_account', [
-                'success_message' => 'No changes were made to your account.', // Use success_message for info
                 'user_account' => $user // Pass the current user object back (it has the same values)
             ], 'staff');
             return; // Exit as no update is needed
@@ -460,16 +461,18 @@ class StaffController extends Controller {
             // 8. Save Changes (only if isDirty() was true)
             $user->save();
             Logger::log("UPDATE_SUCCESS: User ID $currentUserId account updated successfully.");
+            $_SESSION['success_message']="Successfully updated user info.";
             $this->view('staff/edit_user_account', [
-                'success_message' => 'Account information updated successfully!',
                 'user_account' => $user // Pass the updated user object back
             ], 'staff');
+            return;
         } catch (\Exception $e) {
             Logger::log("UPDATE_DB_ERROR: User ID $currentUserId - " . $e->getMessage());
+            $_SESSION['error_message']="Cannot update user info:" . $e->getMessage();
             $this->view('staff/edit_user_account', [
-                'error' => 'An error occurred while updating your account. Please try again.',
                 'user_account' => $user // Pass the user object back
             ], 'staff');
+            return;
         }
     }
 }

@@ -3,24 +3,6 @@
 use App\Core\Logger;
 use Models\Supplier; // Added this use statement for the new Models\Supplier() instance
 
-// Initialize variables to hold messages (for direct view rendering)
-$display_success_message = '';
-$display_error_message = '';
-
-// Check for success message (from redirect OR direct view render)
-if (isset($_GET['success_message']) && !empty($_GET['success_message'])) {
-    $display_success_message = htmlspecialchars($_GET['success_message']);
-} elseif (isset($success_message) && !empty($success_message)) {
-    $display_success_message = htmlspecialchars($success_message);
-}
-
-// Check for error message (from redirect OR direct view render)
-if (isset($_GET['error']) && !empty($_GET['error'])) {
-    $display_error_message = htmlspecialchars($_GET['error']);
-} elseif (isset($error) && !empty($error)) {
-    $display_error_message = htmlspecialchars($error);
-}
-
 // Ensure $supplier is defined for form use
 $supplier = $supplier ?? new Supplier(); // Use the Models\Supplier class explicitly
 ?>
@@ -32,17 +14,33 @@ $supplier = $supplier ?? new Supplier(); // Use the Models\Supplier class explic
         <div class="card lighterdark-bg p-4 shadow-sm">
           <h3 class="text-white text-center mb-4">Add New Supplier</h3>
 
-          <?php if (!empty($display_success_message)): ?>
-            <div class="alert alert-success text-center mb-3" role="alert">
-              <?= $display_success_message ?>
-            </div>
-          <?php endif; ?>
+          <?php
+          if (isset($_SESSION['success_message'])) {
+              echo '
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['success_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['success_message']); // fix: previously unsetting error instead
+          }
+          if (isset($_SESSION['warning_message'])) {
+              echo '
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['warning_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['warning_message']);
+          }
 
-          <?php if (!empty($display_error_message)): ?>
-            <div class="alert alert-danger text-center mb-3" role="alert">
-              <?= $display_error_message ?>
-            </div>
-          <?php endif; ?>
+          if (isset($_SESSION['error_message'])) {
+              echo '
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['error_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['error_message']);
+          }
+          ?>
 
           <form action="/staff/suppliers/store" method="POST">
             <div class="mb-3">

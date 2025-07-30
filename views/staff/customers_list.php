@@ -2,20 +2,6 @@
 // Place all 'use' statements here, at the very top of the PHP file
 use App\Core\Logger;
 
-// Initialize variables to hold messages
-$success_message = '';
-$error_message = '';
-
-// Check for success message in URL query parameters
-if (isset($_GET['success_message']) && !empty($_GET['success_message'])) {
-    $success_message = htmlspecialchars($_GET['success_message']);
-}
-
-// Check for error message in URL query parameters
-if (isset($_GET['error']) && !empty($_GET['error'])) {
-    $error_message = htmlspecialchars($_GET['error']);
-}
-
 // Ensure $customers_info is an object with an isEmpty method to prevent errors
 if (!isset($customers_info)) {
     $customers_info = new \Illuminate\Database\Eloquent\Collection();
@@ -25,19 +11,33 @@ if (!isset($customers_info)) {
   <a href="/staff/customers/add" class="btn btn-primary">Add New Customer</a>
 </div>
 <h1 class="text-white mb-4">Customer List</h1>
+<?php
+          if (isset($_SESSION['success_message'])) {
+              echo '
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['success_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['success_message']); // fix: previously unsetting error instead
+          }
+          if (isset($_SESSION['warning_message'])) {
+              echo '
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['warning_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['warning_message']);
+          }
 
-<?php if (!empty($success_message)): ?>
-  <div class="alert alert-success text-center mb-3" role="alert">
-    <?= $success_message ?>
-  </div>
-<?php endif; ?>
-
-<?php if (!empty($error_message)): ?>
-  <div class="alert alert-danger text-center mb-3" role="alert">
-    <?= $error_message ?>
-  </div>
-<?php endif; ?>
-
+          if (isset($_SESSION['error_message'])) {
+              echo '
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['error_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['error_message']);
+          }
+          ?>
 <div class="table-responsive">
     <table class="table table-dark table-striped table-hover">
       <thead>
@@ -67,8 +67,8 @@ if (!isset($customers_info)) {
                     <td><?= htmlspecialchars($customer->email ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($customer->phone_number ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($customer->address ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($customer->created_at ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($customer->updated_at ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars(date('Y-m-d', strtotime($customer->created_at)) ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars(date('Y-m-d',strtotime($customer->updated_at)) ?? 'N/A') ?></td>
                     <td>
                         <a href="/staff/customers/edit/<?= htmlspecialchars($customer->id) ?>" class="btn btn-sm btn-info me-1">Edit</a>
                         <a href="/staff/customers/delete/<?= htmlspecialchars($customer->id) ?>" class="btn btn-sm btn-danger"  onclick="return confirm('Are you sure you want to delete this customer? This action cannot be undone.');">Delete</a>
@@ -87,5 +87,5 @@ if (!isset($customers_info)) {
   </div>
 
 <?php
-Logger::log('UI: On customers_list.php');
+  Logger::log('UI: On customers_list.php');
 ?>

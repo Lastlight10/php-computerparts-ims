@@ -69,8 +69,9 @@ class StaffSupplierController extends Controller {
 
         if (!empty($errors)) {
             Logger::log("SUPPLIER_STORE_FAILED: Validation errors: " . implode(', ', $errors));
+            
+            $_SESSION['error_message']="Validation Error: " . implode('<br>', $errors);
             $this->view('staff/suppliers/add', [
-                'error' => implode('<br>', $errors),
                 'supplier' => (object)[
                     'supplier_type' => $supplier_type,
                     'company_name' => $company_name,
@@ -100,13 +101,16 @@ class StaffSupplierController extends Controller {
             $supplier->save();
 
             Logger::log("SUPPLIER_STORE_SUCCESS: New supplier '{$supplier->contact_first_name} {$supplier->contact_last_name}' (ID: {$supplier->id}) added successfully.");
-            header('Location: /staff/suppliers_list?success_message=' . urlencode('Supplier added successfully!'));
+
+            $_SESSION['success_message']="New Supplier " . $supplier->company_name . " added successfully.";
+            header('Location: /staff/suppliers_list');
             exit();
 
         } catch (\Exception $e) {
             Logger::log("SUPPLIER_STORE_DB_ERROR: Failed to add supplier - " . $e->getMessage());
+
+            $_SESSION['error_message']="An error occurred. Please try again";
             $this->view('staff/suppliers/add', [
-                'error' => 'An error occurred while adding the supplier. Please try again. ' . $e->getMessage(),
                 'supplier' => (object)[
                     'supplier_type' => $supplier_type,
                     'company_name' => $company_name,
@@ -136,10 +140,13 @@ class StaffSupplierController extends Controller {
 
         if (!$supplier) {
             Logger::log("SUPPLIER_EDIT_FAILED: Supplier ID $id not found for editing.");
-            return $this->view('errors/404', ['message' => 'Supplier not found.'], 'staff');
+
+            $_SESSION['error_message']="Supplier not found.";
+            return $this->view('staff/suppliers_list', ['message' => 'Supplier not found.'], 'staff');
         }
 
         Logger::log("SUPPLIER_EDIT_SUCCESS: Displaying edit form for supplier ID: $id - {$supplier->contact_first_name} {$supplier->contact_last_name}");
+        
         $this->view('staff/suppliers/edit', [
             'supplier' => $supplier
         ],'staff');
@@ -170,7 +177,9 @@ class StaffSupplierController extends Controller {
 
         if (!$supplier) {
             Logger::log("SUPPLIER_UPDATE_FAILED: Supplier ID $id not found for update.");
-            return $this->view('errors/404', ['message' => 'Supplier not found.'], 'staff');
+
+            $_SESSION['error_message']= "Cannot update. Supplier not found.";
+            return $this->view('staff/suppliers_list', ['message' => 'Supplier not found.'], 'staff');
         }
 
         // 3. Validation
@@ -211,8 +220,8 @@ class StaffSupplierController extends Controller {
             $supplier->phone_number = $phone_number;
             $supplier->address = $address;
 
+            $_SESSION['error_message']="Error: " . implode('<br>', $errors);
             $this->view('staff/suppliers/edit', [
-                'error' => implode('<br>', $errors),
                 'supplier' => $supplier,
             ],'staff');
             return;
@@ -230,8 +239,9 @@ class StaffSupplierController extends Controller {
 
         if (!$supplier->isDirty()) {
             Logger::log("SUPPLIER_UPDATE_INFO: Supplier ID $id submitted form with no changes.");
+
+            $_SESSION['warning_message']="No changes made.";
             $this->view('staff/suppliers/edit', [
-                'success_message' => 'No changes were made to the supplier.',
                 'supplier' => $supplier,
             ],'staff');
             return;
@@ -241,12 +251,16 @@ class StaffSupplierController extends Controller {
         try {
             $supplier->save();
             Logger::log("SUPPLIER_UPDATE_SUCCESS: Supplier '{$supplier->contact_first_name} {$supplier->contact_last_name}' (ID: {$supplier->id}) updated successfully.");
-            header('Location: /staff/suppliers_list?success_message=' . urlencode('Supplier updated successfully!'));
+
+            $_SESSION['success_message']="Successfully updated supplier " . $supplier->company_name .".";
+            header('Location: /staff/suppliers_list');
             exit();
+
         } catch (\Exception $e) {
             Logger::log("SUPPLIER_UPDATE_DB_ERROR: Failed to update supplier ID $id - " . $e->getMessage());
+
+            $_SESSION['error_message']= "Failed to update supplier. " . $e->getMessage();
             $this->view('staff/suppliers/edit', [
-                'error' => 'An error occurred while updating the supplier. Please try again. ' . $e->getMessage(),
                 'supplier' => $supplier,
             ],'staff');
             return;

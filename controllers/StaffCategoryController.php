@@ -4,7 +4,7 @@ use App\Core\Controller;
 use App\Core\Logger;
 use App\Core\Connection;
 use Models\Category;
-
+use Models\Products;
 require_once 'vendor/autoload.php';
 
 class StaffCategoryController extends Controller {
@@ -54,9 +54,9 @@ class StaffCategoryController extends Controller {
 
         if (!empty($errors)) {
             Logger::log("CATEGORY_STORE_FAILED: Validation errors: " . implode(', ', $errors));
+            $_SESSION['error_message']="Error: ".implode("<br>", $errors);
             // Pass back input data to re-populate form fields
             $this->view('staff/categories/add', [
-                'error' => implode('<br>', $errors),
                 // NEW: Include description in the dummy object for repopulation
                 'category' => (object)['name' => $name, 'description' => $description]
             ],'staff');
@@ -73,14 +73,16 @@ class StaffCategoryController extends Controller {
             $category->save();
 
             Logger::log("CATEGORY_STORE_SUCCESS: New category '{$category->name}' (ID: {$category->id}) added successfully.");
+
+            $_SESSION['success_message']="New category ".$category->name . " added.";
             // Redirect to category list, which you indicated is handled by StaffController
-            header('Location: /staff/categories_list?success_message=' . urlencode('Category added successfully!'));
+            header('Location: /staff/categories_list');
             exit();
 
         } catch (\Exception $e) {
             Logger::log("CATEGORY_STORE_DB_ERROR: Failed to add category - " . $e->getMessage());
+            $_SESSION['error_message']= "Error: ". $e->getMessage();
             $this->view('staff/categories/add', [
-                'error' => 'An error occurred while adding the category. Please try again. ' . $e->getMessage(),
                 // NEW: Re-populate form with submitted data
                 'category' => (object)['name' => $name, 'description' => $description]
             ],'staff');
@@ -102,7 +104,8 @@ class StaffCategoryController extends Controller {
 
         if (!$category) {
             Logger::log("CATEGORY_EDIT_FAILED: Category ID $id not found for editing.");
-            return $this->view('errors/404', ['message' => 'Category not found.']);
+            $_SESSION['error_message']= "Can't fint catergory " . $category->name .".";
+            return $this->view('staff/categories_list', ['message' => 'Category not found.']);
         }
 
         Logger::log("CATEGORY_EDIT_SUCCESS: Displaying edit form for category ID: $id - {$category->name}");
@@ -131,7 +134,8 @@ class StaffCategoryController extends Controller {
 
         if (!$category) {
             Logger::log("CATEGORY_UPDATE_FAILED: Category ID $id not found for update.");
-            return $this->view('errors/404', ['message' => 'Category not found.']);
+            $_SESSION['error_message']= "Catagory not found.";
+            return $this->view('staff/categories/edit', ['message' => 'Category not found.']);
         }
 
         // 3. Validation
@@ -154,8 +158,8 @@ class StaffCategoryController extends Controller {
 
         if (!empty($errors)) {
             Logger::log("CATEGORY_UPDATE_FAILED: Validation errors for Category ID $id: " . implode(', ', $errors));
+            $_SESSION['error_message']= "ERROR: " . implode('<br>',$errors) ;
             $this->view('staff/categories/edit', [
-                'error' => implode('<br>', $errors),
                 'category' => $category, // Pass the original category object back
             ], 'staff'); // Ensure 'staff' layout is applied here too
             return;
@@ -167,8 +171,9 @@ class StaffCategoryController extends Controller {
 
         if (!$category->isDirty()) {
             Logger::log("CATEGORY_UPDATE_INFO: Category ID $id submitted form with no changes.");
+
+            $_SESSION['warning_message']="No changes were made.";
             $this->view('staff/categories/edit', [
-                'success_message' => 'No changes were made to the category.',
                 'category' => $category,
             ], 'staff'); // Ensure 'staff' layout is applied here too
             return;
@@ -178,12 +183,14 @@ class StaffCategoryController extends Controller {
         try {
             $category->save();
             Logger::log("CATEGORY_UPDATE_SUCCESS: Category '{$category->name}' (ID: {$category->id}) updated successfully.");
-            header('Location: /staff/categories_list?success_message=' . urlencode('Category updated successfully!'));
+
+            $_SESSION['success_message']= "Successfully updated " . $category->name .".";
+
+            header('Location: /staff/categories_list');
             exit();
         } catch (\Exception $e) {
             Logger::log("CATEGORY_UPDATE_DB_ERROR: Failed to update category ID $id - " . $e->getMessage());
             $this->view('staff/categories/edit', [
-                'error' => 'An error occurred while updating the category. Please try again. ' . $e->getMessage(),
                 'category' => $category, // Pass the category object back
             ], 'staff'); // Ensure 'staff' layout is applied here too
             return;
@@ -204,31 +211,24 @@ class StaffCategoryController extends Controller {
 
         if (!$category) {
             Logger::log("CATEGORY_DELETE_FAILED: Category ID $id not found for deletion.");
-            header('Location: /staff/categories_list?error=' . urlencode('Category not found for deletion.'));
+            $_SESSION['error_message'] = "Category not found.";
+            header('Location: /staff/categories_list');
             exit();
         }
 
         try {
-            // IMPORTANT: Foreign Key Constraints Check! (Keep this important comment for future reference)
-            // If you have products linked to this category, deleting the category
-            // will cause a foreign key constraint violation error unless:
-            // 1. Your database's foreign key is set to ON DELETE CASCADE (unlikely desired for categories).
-            // 2. You manually dissociate or delete related products first (e.g., Product::where('category_id', $id)->update(['category_id' => null]);).
-            // 3. You prevent deletion if related products exist.
-            //    Example of preventing deletion if products exist (assuming 'products' relationship in Category model):
-            //    if ($category->products()->count() > 0) { // requires 'products' relationship in Category model
-            //        Logger::log("CATEGORY_DELETE_FAILED: Category ID $id has associated products and cannot be deleted.");
-            //        header('Location: /staff/categories_list?error=' . urlencode('Cannot delete category because it has associated products. Please reassign products first.'));
-            //        exit();
-            //    }
-
             $category->delete();
             Logger::log("CATEGORY_DELETE_SUCCESS: Category '{$category->name}' (ID: {$category->id}) deleted successfully.");
-            header('Location: /staff/categories_list?success_message=' . urlencode('Category deleted successfully!'));
+
+            $_SESSION['success_message']="Category successfully deleted.";
+            header('Location: /staff/categories_list');
             exit();
         } catch (\Exception $e) {
             Logger::log("CATEGORY_DELETE_DB_ERROR: Failed to delete category ID $id - " . $e->getMessage());
-            header('Location: /staff/categories_list?error=' . urlencode('An error occurred while deleting the category: ' . $e->getMessage()));
+
+            $_SESSION['error_message']="Failed to delete category." . " " . $e->getMessage();
+
+            header('Location: /staff/categories_list');
             exit();
         }
     }

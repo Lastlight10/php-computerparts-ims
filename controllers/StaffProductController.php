@@ -76,7 +76,9 @@ class StaffProductController extends Controller {
         if (!$product) {
             Logger::log("PRODUCT_SHOW_ERROR: Product not found. ID: {$id}");
             $_SESSION['error_message'] = "Product with ID {$id} not found.";
-            header('Location: /staff/products_list?error=' . urlencode($_SESSION['error_message']));
+
+
+            header('Location: /staff/products_list');
             exit();
         }
 
@@ -173,12 +175,12 @@ class StaffProductController extends Controller {
 
         if (!empty($errors)) {
             Logger::log("PRODUCT_STORE_FAILED: Validation errors: " . implode(', ', $errors));
-            // Re-fetch categories and brands to repopulate the form
+            
             $categories = Category::all();
             $brands = Brand::all();
-            // Pass back input data to re-populate form fields
+            
+            $_SESSION['error_message']="Error: " . implode('<br>', $errors);
             $this->view('staff/products/add', [
-                'error' => implode('<br>', $errors),
                 'categories' => $categories,
                 'brands' => $brands,
                 'product' => (object)[ // Create a dummy object to mimic Eloquent model for form repopulation
@@ -221,15 +223,19 @@ class StaffProductController extends Controller {
             $product->save();
 
             Logger::log("PRODUCT_STORE_SUCCESS: New product '{$product->name}' (ID: {$product->id}, SKU: {$product->sku}) added successfully.");
-            header('Location: /staff/products_list?success_message=' . urlencode('Product added successfully!'));
+
+            $_SESSION['success_message']="New product " . $product->name . " added successfully.";
+            header('Location: /staff/products_list');
             exit();
 
         } catch (\Exception $e) {
             Logger::log("PRODUCT_STORE_DB_ERROR: Failed to add product - " . $e->getMessage());
             $categories = Category::all();
             $brands = Brand::all();
+
+            $_SESSION['error_message']="Failed to add product. " . $e->getMessage();
+
             $this->view('staff/products/add', [
-                'error' => 'An error occurred while adding the product. Please try again. ' . $e->getMessage(),
                 'categories' => $categories,
                 'brands' => $brands,
                 'product' => (object)[ // Re-populate form with submitted data (SKU and current_stock excluded)
@@ -265,7 +271,10 @@ class StaffProductController extends Controller {
 
         if (!$product) {
             Logger::log("PRODUCT_EDIT_FAILED: Product ID $id not found for editing.");
-            return $this->view('errors/404', ['message' => 'Product not found.'],'staff');
+
+            $_SESSION['error_message']="Product not found.";
+
+            return $this->view('staff/products_list', [],'staff');
         }
 
         // Fetch categories and brands for dropdowns
@@ -309,7 +318,8 @@ class StaffProductController extends Controller {
 
     if (!$product) {
         Logger::log("PRODUCT_UPDATE_FAILED: Product ID $id not found for update.");
-        return $this->view('errors/404', ['message' => 'Product not found.'], 'staff');
+        $_SESSION['error_message']="Product not found.";
+        return $this->view('staff/products_list', [], 'staff');
     }
 
     // 2. Validation
@@ -353,8 +363,9 @@ class StaffProductController extends Controller {
         $categories = Category::all();
         $brands = Brand::all();
 
+
+        $_SESSION['error_message']="Error: ". implode('<br>',$errors); 
         $this->view('staff/products/edit', [
-            'error' => implode('<br>', $errors),
             'product' => $product,
             'categories' => $categories,
             'brands' => $brands,
@@ -381,8 +392,9 @@ class StaffProductController extends Controller {
         Logger::log("PRODUCT_UPDATE_INFO: Product ID $id submitted form with no changes.");
         $categories = Category::all();
         $brands = Brand::all();
+
+        $_SESSION['warning_message']="No changes made.";
         $this->view('staff/products/edit', [
-            'success_message' => 'No changes were made to the product.',
             'product' => $product,
             'categories' => $categories,
             'brands' => $brands
@@ -393,14 +405,17 @@ class StaffProductController extends Controller {
     try {
         $product->save();
         Logger::log("PRODUCT_UPDATE_SUCCESS: Product '{$product->name}' (ID: {$product->id}) updated successfully.");
-        header('Location: /staff/products_list?success_message=' . urlencode('Product updated successfully!'));
+
+        $_SESSION['success_message']="Successfully updated product.";
+        header('Location: /staff/products_list');
         exit();
     } catch (\Exception $e) {
         Logger::log("PRODUCT_UPDATE_DB_ERROR: Failed to update product ID $id - " . $e->getMessage());
         $categories = Category::all();
         $brands = Brand::all();
+
+        $_SESSION['error_message']="Failed to update product. " . $e->getMessage();
         $this->view('staff/products/edit', [
-            'error' => 'An error occurred while updating the product. Please try again. ' . $e->getMessage(),
             'product' => $product,
             'categories' => $categories,
             'brands' => $brands
@@ -423,7 +438,9 @@ class StaffProductController extends Controller {
 
         if (!$product) {
             Logger::log("PRODUCT_DELETE_FAILED: Product ID $id not found for deletion.");
-            header('Location: /staff/products_list?error=' . urlencode('Product not found for deletion.'));
+
+            $_SESSION['error_message']="Product not found.";
+            header('Location: /staff/products_list?');
             exit();
         }
 
@@ -438,7 +455,9 @@ class StaffProductController extends Controller {
             // If current_stock should prevent deletion, add a check here:
             if ($product->current_stock > 0) {
                  Logger::log("PRODUCT_DELETE_FAILED: Product ID $id cannot be deleted because current_stock is greater than 0.");
-                 header('Location: /staff/products_list?error=' . urlencode('Product cannot be deleted while it has stock remaining.'));
+
+                 $_SESSION['error_message']="Product can't be deleted because current_stock is greater than 0";
+                 header('Location: /staff/products_list');
                  exit();
             }
 
@@ -452,11 +471,15 @@ class StaffProductController extends Controller {
 
             $product->delete();
             Logger::log("PRODUCT_DELETE_SUCCESS: Product '{$product->name}' (ID: {$product->id}) deleted successfully.");
-            header('Location: /staff/products_list?success_message=' . urlencode('Product deleted successfully!'));
+
+            $_SESSION['success_message']="Successfully deleted product: " . $product->name;
+            header('Location: /staff/products_list');
             exit();
         } catch (\Exception $e) {
             Logger::log("PRODUCT_DELETE_DB_ERROR: Failed to delete product ID $id - " . $e->getMessage());
-            header('Location: /staff/products_list?error=' . urlencode('An error occurred while deleting the product: ' . $e->getMessage()));
+
+            $_SESSION['error_message']="Failed to delete product. " . $e->getMessage();
+            header('Location: /staff/products_list');
             exit();
         }
     }
@@ -509,7 +532,9 @@ class StaffProductController extends Controller {
         if ($products->isEmpty()) {
             Logger::log("PRINT_PRODUCTS_LIST_FAILED: No products found matching criteria for printing.");
             // Redirect back to the list page with an error message
-            header('Location: /staff/products_list?error_message=' . urlencode('No products found matching your criteria for printing.'));
+
+            $_SESSION['error_message']="No products found to print.";
+            header('Location: /staff/products_list');
             exit();
         }
 
@@ -602,7 +627,11 @@ class StaffProductController extends Controller {
         $dompdf->render();
 
         $dompdf->stream("Products_List_Report_" . date('Ymd_His') . ".pdf", ["Attachment" => false]);
+
+        $_SESSION['success_message']="Product successfully printed as a pdf.";
         Logger::log("PRINT_PRODUCTS_LIST_SUCCESS: PDF list generated and streamed.");
+
+        header('Location: /staff/products_list');
         exit();
     }
     public function printProductDetails($id) {
@@ -623,7 +652,9 @@ class StaffProductController extends Controller {
 
         if (!$product) {
             Logger::log("PRINT_PRODUCT_DETAILS_FAILED: Product ID $id not found for printing.");
-            header('Location: /staff/products/show/' . $id . '?error_message=' . urlencode('Product not found for printing.'));
+
+            $_SESSION['error_messaeg']="Product not found for printing.";
+            header('Location: /staff/products/show/');
             exit();
         }
 
@@ -743,6 +774,8 @@ class StaffProductController extends Controller {
 
         $dompdf->stream("Product_Details_" . htmlspecialchars($product->sku) . ".pdf", ["Attachment" => false]);
         Logger::log("PRINT_PRODUCT_DETAILS_SUCCESS: PDF generated and streamed for product ID: $id.");
+
+        header('Location: /staff/products/show');
         exit();
     }
 }

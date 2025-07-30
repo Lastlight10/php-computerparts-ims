@@ -27,61 +27,6 @@ class StaffTransactionController extends Controller {
     private function getCurrentUserId(): ?int {
         return $_SESSION['user_id'] ?? null;
     }
-
-    /**
-     * Displays a list of all transactions.
-     * Accessible via /staff/transactions_list
-     *
-     * @return void
-     */
-    // This method is commented out as per your clarification that transactions_list() is in StaffController.
-    // public function transactions_list() {
-    //     Logger::log('Reached List of Transactions');
-
-    //     $transactions_info = Transaction::select(
-    //         'id',
-    //         'transaction_type',
-    //         'customer_id',
-    //         'supplier_id',
-    //         'transaction_date',
-    //         'invoice_bill_number',
-    //         'total_amount',
-    //         'status',
-    //         'notes',
-    //         'created_by_user_id',
-    //         'updated_by_user_id',
-    //         'created_at',
-    //         'updated_at'
-    //     )
-    //     ->with(['customer', 'supplier', 'createdBy', 'updatedBy'])
-    //     ->get();
-
-    //     Logger::log('DEBUG: Number of transactions retrieved in transactions_list: ' . $transactions_info->count());
-
-    //     $success_message = $_SESSION['success_message'] ?? null;
-    //     $error_message = $_SESSION['error_message'] ?? null;
-
-    //     unset($_SESSION['success_message']);
-    //     unset($_SESSION['error_message']);
-
-    //     if (is_null($transactions_info)) {
-    //         $transactions_info = collect([]);
-    //     }
-
-    //     $this->view('staff/transactions_list', [
-    //         'transactions_info' => $transactions_info,
-    //         'success_message' => $success_message, // Pass to view
-    //         'error_message' => $error_message,     // Pass to view
-    //     ], 'staff');
-    // }
-
-    /**
-     * Displays a single transaction's details, including its items.
-     * Accessible via /staff/transactions/show/{id}
-     *
-     * @param int $id The ID of the transaction to show.
-     * @return void
-     */
     public function show($id) {
         Logger::log("STAFF_TRANSACTIONS_SHOW: Attempting to display transaction ID: $id.");
 
@@ -95,7 +40,9 @@ class StaffTransactionController extends Controller {
 
         if (!$transaction) {
             Logger::log("STAFF_TRANSACTIONS_SHOW_FAILED: Transaction ID $id not found.");
-            $this->view('staff/transactions_list', ['error' => 'Transaction not found.'], 'staff');
+
+            $_SESSION['error_message']="Transaction not found.";
+            $this->view('staff/transactions_list', [], 'staff');
             return;
         }
 
@@ -106,8 +53,6 @@ class StaffTransactionController extends Controller {
 
         $this->view('staff/transactions/show', [
             'transaction' => $transaction,
-            'success_message' => $success_message,
-            'error' => $error_message,
         ], 'staff');
     }
 
@@ -147,6 +92,7 @@ class StaffTransactionController extends Controller {
         $status                = trim($this->input('status'));
         $notes                 = trim($this->input('notes'));
         $current_user_id       = $this->getCurrentUserId();
+
         Logger::log(message: 'DEBUG: Value of $current_user_id from getCurrentUserId(): ' . var_export($current_user_id, true));
         $errors = [];
 
@@ -182,8 +128,9 @@ class StaffTransactionController extends Controller {
             Logger::log("TRANSACTION_STORE_FAILED: Validation errors: " . implode(', ', $errors));
             $customers = Customer::all()->toArray();
             $suppliers = Supplier::all()->toArray();
+
+            $_SESSION['error_message']="Error: ". implode('<br>', $errors);
             $this->view('staff/transactions/add', [
-                'error' => 'Please correct the following issues: ' . implode(', ', $errors),
                 'customers' => $customers,
                 'suppliers' => $suppliers,
                 'transaction' => (object) [
@@ -230,11 +177,14 @@ class StaffTransactionController extends Controller {
         } catch (Exception $e) {
             DB::rollBack();
             Logger::log('TRANSACTION_STORE_ERROR: Failed to store transaction. Exception: ' . $e->getMessage());
+
             Logger::log('TRANSACTION_STORE_ERROR: Stack Trace: ' . $e->getTraceAsString());
             $customers = Customer::all()->toArray();
             $suppliers = Supplier::all()->toArray();
+
+            $_SESSION['error_message']="An unexpected error occured. " .$e->getMessage();
             $this->view('staff/transactions/add', [
-                'error' => 'An unexpected error occurred while saving the transaction. Please try again. ' . $e->getMessage(),
+
                 'customers' => $customers,
                 'suppliers' => $suppliers,
                 'transaction' => (object) [
@@ -272,7 +222,9 @@ class StaffTransactionController extends Controller {
 
         if (!$transaction) {
             Logger::log("TRANSACTION_EDIT_FAILED: Transaction ID $id not found for editing.");
-            header('Location: /staff/transactions_list?error=' . urlencode('Transaction not found.'));
+
+            $_SESSION['error_message']="Transaction not found for " . $id . ".";
+            header('Location: /staff/transactions_list?');
             exit();
         }
 
@@ -318,19 +270,17 @@ class StaffTransactionController extends Controller {
 
         Logger::log("TRANSACTION_EDIT_SUCCESS: Displaying edit form for transaction ID: $id.");
 
-            $this->view('staff/transactions/edit', [
-                'transaction' => $transaction,
-                'customers' => $customers,
-                'suppliers' => $suppliers,
-                'available_serial_numbers_by_product' => $available_serial_numbers_by_product,
-                'potential_customer_return_serials_by_product' => $potential_customer_return_serials_by_product,
-                'potential_supplier_return_serials_by_product' => $potential_supplier_return_serials_by_product,
-                'potential_adjusted_out_serials_by_product' => $potential_adjusted_out_serials_by_product,
-                'error_data' => $error_data,
-                'temp_submitted_serials' => $temp_submitted_serials,
-                'temp_submitted_adjustment_directions' => $temp_submitted_adjustment_directions,
-                'error_message' => $_GET['error'] ?? null,
-                'success_message' => $_GET['success_message'] ?? null,
+        $this->view('staff/transactions/edit', [
+            'transaction' => $transaction,
+            'customers' => $customers,
+            'suppliers' => $suppliers,
+            'available_serial_numbers_by_product' => $available_serial_numbers_by_product,
+            'potential_customer_return_serials_by_product' => $potential_customer_return_serials_by_product,
+            'potential_supplier_return_serials_by_product' => $potential_supplier_return_serials_by_product,
+            'potential_adjusted_out_serials_by_product' => $potential_adjusted_out_serials_by_product,
+            'error_data' => $error_data,
+            'temp_submitted_serials' => $temp_submitted_serials,
+            'temp_submitted_adjustment_directions' => $temp_submitted_adjustment_directions,
             ], 'staff');
     }
 

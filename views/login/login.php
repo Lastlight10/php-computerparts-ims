@@ -21,27 +21,7 @@
   <!-- MDBootstrap JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"></script>
   <?php
-  // Initialize variables to hold messages
-  $success_message = '';
-  $error_message = '';
 
-  // Check for success message in URL query parameters
-  if (isset($_GET['success_message']) && !empty($_GET['success_message'])) {
-      $success_message = htmlspecialchars($_GET['success_message']);
-  }
-
-  // Check for error message in URL query parameters
-  if (isset($_GET['error']) && !empty($_GET['error'])) {
-      $error_message = htmlspecialchars($_GET['error']);
-  }
-  // If your controller also passes $error/$success directly when rendering,
-  // you might need to add checks like:
-  // if (isset($error) && !empty($error)) { $error_message = htmlspecialchars($error); }
-  // if (isset($success_message_from_controller) && !empty($success_message_from_controller)) { $success_message = htmlspecialchars($success_message_from_controller); }
-  // Ensure $suppliers_info is an object with an isEmpty method to prevent errors (if this view is used elsewhere)
-  if (!isset($suppliers_info)) {
-      $suppliers_info = new \Illuminate\Database\Eloquent\Collection();
-  }
   ?>
 <section class="page-wrapper dark-bg">
   <div class="container-fluid page-content">
@@ -55,29 +35,36 @@
         <div class="login-header text-center mb-4">
           <h3 class="text-white">COMPUTER IMS</h3>
         </div>
-
-        <?php if (!empty($success_message)): ?>
-          <div class="alert alert-success text-center mb-3" role="alert">
-            <?= $success_message ?>
-          </div>
-        <?php endif; ?>
-
-        <?php if (!empty($error_message)): ?>
-          <div class="alert alert-danger text-center mb-3" role="alert">
-            <?= $error_message ?>
-          </div>
-        <?php endif; ?>
+        <?php
+          if (isset($_SESSION['success_message'])) {
+              echo '
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['success_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['success_message']); // fix: previously unsetting error instead
+          }
+          if (isset($_SESSION['error_message'])) {
+              echo '
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['error_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['error_message']);
+          }
+        ?>
 
         <form method="POST" action="/login/login_acc">
           <div class="mb-4">
             <label class="form-label light-txt">Username</label>
             <input type="text" id="username" name="username" class="form-control form-control-lg dark-txt light-bg"
-                  required maxlength="50" value="<?php echo htmlspecialchars($user_username ?? ''); // Retain username if re-displaying after error ?>"/>
+                  required maxlength="30" value="<?php echo htmlspecialchars($user_username ?? ''); // Retain username if re-displaying after error ?>"/>
           </div>
+
           <div class="mb-3">
             <label class="form-label light-txt">Password</label>
             <input type="password" id="password" name="password" class="form-control form-control-lg dark-txt light-bg"
-                  required maxlength="50"/>
+                  required maxlength="30"/>
           </div>
 
           <div class="d-flex justify-content-between align-items-center mb-4">

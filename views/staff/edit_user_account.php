@@ -1,17 +1,33 @@
 
 <div class="container">
         <h1>Edit My Account</h1>
-
         <?php
-        // Display error message if passed from the controller
-        if (isset($error) && !empty($error)) {
-            echo '<div class="error-message">' . htmlspecialchars($error) . '</div>';
-        }
-        // Display success message after saving (you'd pass this from the update method)
-        if (isset($success_message) && !empty($success_message)) {
-            echo '<div class="success-message">' . htmlspecialchars($success_message) . '</div>';
-        }
-        ?>
+          if (isset($_SESSION['success_message'])) {
+              echo '
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['success_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['success_message']); // fix: previously unsetting error instead
+          }
+
+          if (isset($_SESSION['error_message'])) {
+              echo '
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['error_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['error_message']);
+          }
+          if (isset($_SESSION['warning_message'])) {
+              echo '
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['warning_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['warning_message']);
+          }
+          ?>
 
         <h2>General Information</h2>
         <form action="/staff/update_user_account" method="POST">
@@ -25,22 +41,22 @@
 
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user_account->email); ?>" required>
+                <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user_account->email); ?>" required maxlength="30">
             </div>
 
             <div class="form-group">
                 <label for="first_name">First Name:</label>
-                <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($user_account->first_name); ?>" required>
+                <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($user_account->first_name); ?>" required maxlength="30">
             </div>
 
             <div class="form-group">
                 <label for="middle_name">Middle Name (Optional):</label>
-                <input type="text" id="middle_name" name="middle_name" value="<?php echo htmlspecialchars($user_account->middle_name ?? ''); ?>">
+                <input type="text" id="middle_name" name="middle_name" value="<?php echo htmlspecialchars($user_account->middle_name ?? ''); ?>" maxlength="30">
             </div>
 
             <div class="form-group">
                 <label for="last_name">Last Name:</label>
-                <input type="text" id="last_name" name="last_name" value="<?php echo htmlspecialchars($user_account->last_name); ?>" required>
+                <input type="text" id="last_name" name="last_name" value="<?php echo htmlspecialchars($user_account->last_name); ?>" required maxlength="30">
             </div>
 
             <div class="form-group">
@@ -69,25 +85,25 @@
 
         <h2>Change Password</h2>
         <form action="/staff/update_user_password" method="POST">
-            <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($user_account->id); ?>">
+            <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($user_account->id); ?>" maxlength="30">
 
             <div class="form-group">
                 <label for="current_password">Current Password:</label>
-                <input type="password" id="current_password" name="current_password" required>
+                <input type="password" id="current_password" name="current_password" required maxlength="30">
             </div>
 
             <div class="form-group">
                 <label for="new_password">New Password:</label>
-                <input type="password" id="new_password" name="new_password" required>
+                <input type="password" id="new_password" name="new_password" required maxlength="30">
             </div>
 
             <div class="form-group">
                 <label for="confirm_password">Confirm New Password:</label>
-                <input type="password" id="confirm_password" name="confirm_password" required>
+                <input type="password" id="confirm_password" name="confirm_password" required maxlength="30">
             </div>
 
             <div class="form-group">
-                <button type="submit">Change Password</button>
+                <button onclick= "return confirm('Are you sure you want to change your password?')" type="submit">Change Password</button>
             </div>
         </form>
     </div>

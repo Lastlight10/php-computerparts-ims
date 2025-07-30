@@ -5,23 +5,6 @@ use Models\Transaction; // To get transaction details if needed
 use Models\TransactionItem; // To fetch the item being edited
 use Models\Product;    // To populate the product dropdown
 
-// Initialize variables for messages
-$display_success_message = '';
-$display_error_message = '';
-
-// Check for success message (from redirect OR direct view render)
-if (isset($_GET['success_message']) && !empty($_GET['success_message'])) {
-    $display_success_message = htmlspecialchars($_GET['success_message']);
-} elseif (isset($success_message) && !empty($success_message)) {
-    $display_success_message = htmlspecialchars($success_message);
-}
-
-// Check for error message (from redirect OR direct view render)
-if (isset($_GET['error']) && !empty($_GET['error'])) {
-    $display_error_message = htmlspecialchars($_GET['error']);
-} elseif (isset($error) && !empty($error)) {
-    $display_error_message = htmlspecialchars($error);
-}
 
 // Ensure variables are set for the view
 // $transaction_item should be passed from the controller when editing
@@ -32,8 +15,10 @@ $products = $products ?? []; // All products for the dropdown
 // If transaction_item is not set, this page likely shouldn't be loaded directly
 if (!$transaction_item) {
     Logger::log("UI_ERROR: transaction_items/edit.php loaded without \$transaction_item.");
+
+    $_SESSION['error_message']="Invalid Transaction Item for editing.";
     // Redirect or show an error
-    header('Location: /staff/transactions_list?error=' . urlencode('Invalid transaction item for editing.'));
+    header('Location: /staff/transactions_list');
     exit();
 }
 
@@ -50,17 +35,33 @@ if (!$transaction && $transaction_item->transaction_id) {
         <div class="card lighterdark-bg p-4 shadow-sm">
           <h3 class="text-white text-center mb-4">Edit Item for Transaction #<?= htmlspecialchars($transaction->invoice_bill_number ?? $transaction_item->transaction_id) ?></h3>
 
-          <?php if (!empty($display_success_message)): ?>
-            <div class="alert alert-success text-center mb-3" role="alert">
-              <?= $display_success_message ?>
-            </div>
-          <?php endif; ?>
+          <?php
+          if (isset($_SESSION['success_message'])) {
+              echo '
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['success_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['success_message']); // fix: previously unsetting error instead
+          }
+          if (isset($_SESSION['warning_message'])) {
+              echo '
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['warning_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['warning_message']);
+          }
 
-          <?php if (!empty($display_error_message)): ?>
-            <div class="alert alert-danger text-center mb-3" role="alert">
-              <?= $display_error_message ?>
-            </div>
-          <?php endif; ?>
+          if (isset($_SESSION['error_message'])) {
+              echo '
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  ' . htmlspecialchars($_SESSION['error_message']) . '
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              unset($_SESSION['error_message']);
+          }
+    ?>
 
           <form action="/staff/transaction_items/update" method="POST" id="transactionItemForm">
             <input type="hidden" name="id" value="<?= htmlspecialchars($transaction_item->id) ?>">

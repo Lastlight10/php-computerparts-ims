@@ -163,4 +163,13 @@ class Controller {
             ]);
         }
     }
+
+    public function flash($key){
+        if (!empty($_SESSION[$key])){
+            $msg = $_SESSION[$key];
+            unset($_SESSION[$key]);
+            return $msg;
+        }
+        return null;
+    }
 }
