@@ -52,7 +52,7 @@ use App\Core\Logger;
                     <td class="hidden-column"><?= htmlspecialchars($brand->id) ?></td> <td><?= htmlspecialchars($brand->name ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($brand->website ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($brand->contact_email ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($brand->created_at ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars(date('Y-m-d', strtotime($brand->created_at) ?? 'N/A')) ?></td>
                     <td><?= htmlspecialchars(date('Y-m-d', strtotime($brand->updated_at)) ?? 'N/A') ?></td>
                     <td>
                         <a href="/staff/brands/edit/<?= htmlspecialchars($brand->id) ?>" class="btn btn-sm btn-info me-1">Edit</a>

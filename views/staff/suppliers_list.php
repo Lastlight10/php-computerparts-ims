@@ -71,8 +71,8 @@ if (!isset($suppliers_info)) {
                     <td><?= htmlspecialchars($supplier->contact_last_name ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($supplier->email ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($supplier->phone_number ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($supplier->address ?? 'N/A') ?></td> <td><?= htmlspecialchars($supplier->created_at ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($supplier->updated_at ?? 'N/A') ?></td> <td>
+                    <td><?= htmlspecialchars($supplier->address ?? 'N/A') ?></td> <td><?= htmlspecialchars(date('Y-m-d', strtotime($supplier->created_at)) ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars(date('Y-m-d', strtotime($supplier->updated_at)) ?? 'N/A') ?></td> <td>
                         <a href="/staff/suppliers/edit/<?= htmlspecialchars($supplier->id) ?>" class="btn btn-sm btn-info me-1">Edit</a>
                         <a href="/staff/suppliers/delete/<?= htmlspecialchars($supplier->id) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this supplier? This action cannot be undone.');">Delete</a>
                     </td>

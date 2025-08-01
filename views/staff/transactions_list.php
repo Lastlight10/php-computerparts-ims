@@ -155,8 +155,8 @@ use App\Core\Logger; // Ensure Logger is used if needed here
                         echo htmlspecialchars($transaction->updatedBy->username ?? 'N/A');
                         ?>
                     </td>
-                    <td><?= htmlspecialchars($transaction->created_at ? date('Y-m-d H:i', strtotime($transaction->created_at)) : 'N/A') ?></td>
-                    <td><?= htmlspecialchars($transaction->updated_at ? date('Y-m-d H:i', strtotime($transaction->updated_at)) : 'N/A') ?></td>
+                    <td><?= htmlspecialchars($transaction->created_at ? date('Y-m-d', strtotime($transaction->created_at)) : 'N/A') ?></td>
+                    <td><?= htmlspecialchars($transaction->updated_at ? date('Y-m-d', strtotime($transaction->updated_at)) : 'N/A') ?></td>
                     <td>
                         <a href="/staff/transactions/show/<?= htmlspecialchars($transaction->id ?? '') ?>" class="btn btn-sm btn-info me-1">Show</a>
                         <a href="/staff/transactions/edit/<?= htmlspecialchars($transaction->id ?? '') ?>" class="btn btn-sm btn-info me-1">Edit</a>

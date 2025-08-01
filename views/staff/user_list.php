@@ -36,21 +36,6 @@ use App\Core\Logger;
           }
     ?>
 
-  <!-- Message Display Area -->
-  <?php if ($display_success_message): ?>
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <?= $display_success_message ?>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-  <?php endif; ?>
-
-  <?php if ($display_error_message): ?>
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <?= $display_error_message ?>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-  <?php endif; ?>
-  <!-- End Message Display Area -->
 
   <div class="table-responsive">
     <table class="table table-dark table-striped table-hover">
@@ -78,9 +63,9 @@ use App\Core\Logger;
                     <td><?= htmlspecialchars($user->last_name ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($user->first_name ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($user->middle_name ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($user->birthdate ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars(date('Y-m-d', strtotime($user->birthdate)) ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($user->type ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($user->created_at ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars(date('Y-m-d',strtotime($user->created_at)) ?? 'N/A') ?></td>
                     <td>
                         <a href="/staff/users/edit/<?= htmlspecialchars($user->id) ?>" class="btn btn-sm btn-info me-1">Edit</a>
                         <a href="/staff/users/delete/<?= htmlspecialchars($user->id) ?>" class="btn btn-sm btn-danger"  onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone.');">Delete</a>

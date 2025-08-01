@@ -171,7 +171,9 @@ class StaffTransactionController extends Controller {
 
             DB::commit();
             Logger::log('TRANSACTION_STORE_SUCCESS: Transaction created successfully with ID: ' . $transaction->id);
-            header('Location: /staff/transactions/edit/' . $transaction->id . '?success_message=' . urlencode('Transaction created successfully. You can now add items.'));
+
+            $_SESSION['success_message']="Transaction successfully added.";
+            header('Location: /staff/transactions/show/' . $transaction->id);
             exit();
 
         } catch (Exception $e) {
@@ -371,11 +373,11 @@ class StaffTransactionController extends Controller {
 
             // Get submitted serial numbers for each item from the form
             // Ensure these input names match your frontend form structure
-            $submitted_purchase_serials = trim($this->input('serial_numbers')) ?? [];
-            $submitted_sale_serials = trim($this->input('selected_serial_numbers')) ?? [];
+            $submitted_purchase_serials = $this->input('serial_numbers') ?? [];
+            $submitted_sale_serials = $this->input('selected_serial_numbers') ?? [];
             $submitted_customer_return_serials = trim($this->input('returned_serial_numbers')) ?? [];
-            $submitted_supplier_return_serials = trim($this->input('supplier_returned_serial_numbers')) ?? [];
-            $submitted_adjustment_serials = trim($this->input('adjustment_serial_numbers')) ?? [];
+            $submitted_supplier_return_serials = $this->input('supplier_returned_serial_numbers') ?? [];
+            $submitted_adjustment_serials =$this->input('adjustment_serial_numbers') ?? [];
             $submitted_adjustment_directions = [];
             // For stock adjustments, the direction is per item, so retrieve correctly
             foreach ($items_data as $idx => $item_data) {
@@ -1285,6 +1287,8 @@ class StaffTransactionController extends Controller {
         } elseif ($transaction->transaction_type === 'Supplier Return') {
             $amount_label = 'Amount Received (Refund):';
         }
+        $logoData = base64_encode(file_get_contents('resources/images/Heading.png'));
+        $logoSrc = 'data:image/png;base64,' . $logoData;
 
         // Build the HTML content for the PDF
         $html = '
@@ -1296,8 +1300,9 @@ class StaffTransactionController extends Controller {
             <style>
                 body { font-family: "DejaVu Sans", sans-serif; font-size: 12px; line-height: 1.6; color: #333; }
                 .container { width: 90%; margin: 0 auto; padding: 20px; border: 1px solid #eee; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-                .header { text-align: center; margin-bottom: 30px; }
-                .header h1 { margin: 0; padding: 0; color: #0056b3; }
+                .logo {padding-bottom: 10px;}
+                .header { text-align: center; margin-bottom: 30px;}
+                .header h1 { margin: 0; padding: 0; color: #0056b3; font-size:24px;}
                 .details-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
                 .details-table td { padding: 8px; border-bottom: 1px solid #eee; }
                 .details-table strong { display: inline-block; width: 150px; }
@@ -1311,7 +1316,17 @@ class StaffTransactionController extends Controller {
         </head>
         <body>
             <div class="container">
+                <div class="logo" style="text-align: center;">
+                    <img src="' . $logoSrc . '" alt="Company Logo" style="height: 100px; width: 100px; border-radius: 50%; object-fit: cover;">
+                    <div class="company-info" style="margin-top: 10px; font-size: 13px; color: #333;">
+                        <strong>Computer Parts Company</strong><br>
+                        123 Main Street, City, Country<br>
+                        Phone: (123) 456-7890 | Email: info@company.com
+                    </div>
+                </div>
+
                 <div class="header">
+                    
                     <h1>Transaction Details</h1>
                     <h2>Invoice/Bill Number: ' . htmlspecialchars($transaction->invoice_bill_number) . '</h2>
                 </div>
@@ -1450,6 +1465,8 @@ class StaffTransactionController extends Controller {
         $options->set('isRemoteEnabled', true);
         date_default_timezone_set('Asia/Manila');
         $dompdf = new Dompdf($options);
+        $logoData = base64_encode(file_get_contents('resources/images/Heading.png'));
+        $logoSrc = 'data:image/png;base64,' . $logoData;
 
         // Build the HTML content for the PDF list
         $html = '
@@ -1473,6 +1490,14 @@ class StaffTransactionController extends Controller {
         </head>
         <body>
             <div class="container">
+                <div class="logo" style="text-align: center;">
+                    <img src="' . $logoSrc . '" alt="Company Logo" style="height: 100px; width: 100px; border-radius: 50%; object-fit: cover;">
+                    <div class="company-info" style="margin-top: 10px; font-size: 13px; color: #333;">
+                        <strong>Computer Parts Company</strong><br>
+                            123 Main Street, City, Country<br>
+                            Phone: (123) 456-7890 | Email: info@company.com
+                    </div>
+                </div>
                 <div class="header">
                     <h1>Transactions List Report</h1>
                     

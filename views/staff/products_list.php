@@ -164,7 +164,7 @@ use App\Core\Logger; // Ensure Logger is used if needed here
                     </td>
                     <td class="hidden-column"><?= htmlspecialchars($product->location_aisle ?? 'N/A') ?></td>
                     <td class="hidden-column"><?= htmlspecialchars($product->location_bin ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($product->created_at ? date('Y-m-d H:i', strtotime($product->created_at)) : 'N/A') ?></td>
+                    <td><?= htmlspecialchars($product->created_at ? date('Y-m-d', strtotime($product->created_at)) : 'N/A') ?></td>
                     <td>
                         <a href="/staff/products/edit/<?= htmlspecialchars($product->id) ?>" class="btn btn-sm btn-info me-1">Edit</a>
                         <a href="/staff/products/show/<?= htmlspecialchars($product->id) ?>" class="btn btn-sm btn-info me-1">Show</a>

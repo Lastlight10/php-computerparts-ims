@@ -166,6 +166,8 @@ class StaffTransactionItemController extends Controller {
             }
 
             Logger::log("TRANSACTION_ITEM_STORE_SUCCESS: New item (Product ID: {$product_id}, Qty: {$quantity}) added to Transaction ID: {$transaction_id}.");
+
+            $_SESSION['success_message']= "New Item added to transaction.";
             header('Location: /staff/transactions/show/' . $transaction_id);
             exit();
 

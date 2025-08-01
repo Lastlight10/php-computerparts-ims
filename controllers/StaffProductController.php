@@ -545,7 +545,8 @@ class StaffProductController extends Controller {
         $options->set('isRemoteEnabled', true);
 
         $dompdf = new Dompdf($options);
-
+        $logoData = base64_encode(file_get_contents('resources/images/Heading.png'));
+        $logoSrc = 'data:image/png;base64,' . $logoData;
         // Build the HTML content for the PDF list
         $html = '
         <!DOCTYPE html>
@@ -568,6 +569,14 @@ class StaffProductController extends Controller {
         </head>
         <body>
             <div class="container">
+            <div class="logo" style="text-align: center;">
+                    <img src="' . $logoSrc . '" alt="Company Logo" style="height: 100px; width: 100px; border-radius: 50%; object-fit: cover;">
+                    <div class="company-info" style="margin-top: 10px; font-size: 13px; color: #333;">
+                        <strong>Computer Parts Company</strong><br>
+                            123 Main Street, City, Country<br>
+                            Phone: (123) 456-7890 | Email: info@company.com
+                    </div>
+                </div>
                 <div class="header">
                     <h1>Products List Report</h1>
                     <p>Generated on: ' . date('F j, Y, h:i A') . '</p>
@@ -665,7 +674,8 @@ class StaffProductController extends Controller {
         $options->set('isRemoteEnabled', true);
 
         $dompdf = new Dompdf($options);
-
+        $logoData = base64_encode(file_get_contents('resources/images/Heading.png'));
+        $logoSrc = 'data:image/png;base64,' . $logoData;
         // Build the HTML content for the PDF
         $html = '
         <!DOCTYPE html>
@@ -677,20 +687,28 @@ class StaffProductController extends Controller {
                 body { font-family: "DejaVu Sans", sans-serif; font-size: 12px; line-height: 1.6; color: #333; }
                 .container { width: 90%; margin: 0 auto; padding: 20px; border: 1px solid #eee; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
                 .header { text-align: center; margin-bottom: 30px; }
-                .header h1 { margin: 0; padding: 0; color: #0056b3; }
-                .details-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                .header h1 { margin: 0; padding: 0; color: #0056b3; font-size: 20px;}
+                .details-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
                 .details-table td { padding: 8px; border-bottom: 1px solid #eee; }
                 .details-table strong { display: inline-block; width: 150px; }
                 .instances-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
                 .instances-table th, .instances-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
                 .instances-table th { background-color: #f2f2f2; }
                 .notes { margin-top: 20px; padding: 10px; border: 1px solid #eee; background-color: #f9f9f9; }
-                .footer { text-align: center; margin-top: 50px; font-size: 10px; color: #777; }
+                .footer { text-align: center; margin-top: 30px; font-size: 10px; color: #777; }
             </style>
         </head>
         <body>
             <div class="container">
                 <div class="header">
+                <div class="logo" style="text-align: center;">
+                    <img src="' . $logoSrc . '" alt="Company Logo" style="height: 100px; width: 100px; border-radius: 50%; object-fit: cover;">
+                    <div class="company-info" style="margin-top: 10px; font-size: 13px; color: #333;">
+                        <strong>Computer Parts Company</strong><br>
+                            123 Main Street, City, Country<br>
+                            Phone: (123) 456-7890 | Email: info@company.com
+                    </div>
+                </div>
                     <h1>Product Details Report</h1>
                     <h2>' . htmlspecialchars($product->name) . ' (SKU: ' . htmlspecialchars($product->sku) . ')</h2>
                 </div>
