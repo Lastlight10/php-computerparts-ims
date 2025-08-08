@@ -4,7 +4,7 @@ namespace Controllers;
 use App\Core\Controller;
 use App\Core\Logger;
 use App\Core\Connection;
-
+use Carbon\Carbon;
 use Models\User;
 use Models\Transaction;
 use Models\Customer;
@@ -50,6 +50,7 @@ class StaffController extends Controller {
     $search_query = $this->input('search_query');
     $filter_category_id = $this->input('filter_category_id');
     $filter_brand_id = $this->input('filter_brand_id');
+    $filter_date_range = $this->input('filter_date_range');
     $filter_is_serialized = $this->input('filter_is_serialized'); // 'Yes', 'No', or ''
     $filter_is_active = $this->input('filter_is_active');     // 'Yes', 'No', or ''
     $sort_by = $this->input('sort_by') ?: 'name'; // Default sort column
@@ -79,6 +80,37 @@ class StaffController extends Controller {
         });
         Logger::log("DEBUG: Applied product search query: '{$search_query}'");
     }
+    if (!empty($filter_date_range)) {
+    $now = Carbon::now();
+        Logger::log("Date Range Filter: $filter_date_range");
+
+    switch ($filter_date_range) {
+        case 'today':
+            $products_query->whereDate('created_at', $now->toDateString());
+            break;
+        case 'yesterday':
+            $products_query->whereDate('created_at', $now->copy()->subDay()->toDateString());
+            break;
+        case 'week':
+            $products_query->whereBetween('created_at', [
+                $now->copy()->startOfWeek()->toDateString(),
+                $now->copy()->endOfWeek()->toDateString()
+            ]);
+            break;
+        case 'month':
+            $products_query->whereBetween('created_at', [
+                $now->copy()->startOfMonth()->toDateString(),
+                $now->copy()->endOfMonth()->toDateString()
+            ]);
+            break;
+        case 'year':
+            $products_query->whereBetween('created_at', [
+                $now->copy()->startOfYear()->toDateString(),
+                $now->copy()->endOfYear()->toDateString()
+            ]);
+            break;
+    }
+}
 
     // Apply category filter
     if (!empty($filter_category_id)) {
@@ -138,6 +170,7 @@ class StaffController extends Controller {
         'filter_brand_id' => $filter_brand_id,
         'filter_is_serialized' => $filter_is_serialized,
         'filter_is_active' => $filter_is_active,
+        'filter_date_range' => $filter_date_range,
         'sort_by' => $sort_by,
         'sort_order' => $sort_order,
         'categories' => $categories, // Pass categories to view

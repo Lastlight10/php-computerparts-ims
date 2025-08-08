@@ -8,6 +8,7 @@ use Dompdf\Options;
 use Models\Product;
 use Models\Category;
 use Models\Brand;
+use Carbon\Carbon;
 use Models\ProductInstance; // Ensure this is available if you plan to use it for deletion checks
 
 // As previously discussed, this line ideally belongs in your main application bootstrap (e.g., public/index.php)
@@ -491,6 +492,8 @@ class StaffProductController extends Controller {
         $filter_category_id = trim($this->input('filter_category_id'));
         $filter_brand_id = trim($this->input('filter_brand_id'));
         $filter_is_serialized = trim($this->input('filter_is_serialized'));
+        $filter_date_range = trim($this->input('filter_date_range'));
+
         $filter_is_active = trim($this->input('filter_is_active'));
         $sort_by = trim($this->input('sort_by')) ?: 'name';
         $sort_order = trim($this->input('sort_order')) ?: 'asc';
@@ -511,6 +514,37 @@ class StaffProductController extends Controller {
                       });
             });
         }
+        if (!empty($filter_date_range)) {
+    $now = Carbon::now();
+
+    switch ($filter_date_range) {
+        case 'today':
+            $products_query->whereDate('created_at', $now->toDateString());
+            break;
+        case 'yesterday':
+            $products_query->whereDate('created_at', $now->copy()->subDay()->toDateString());
+            break;
+        case 'week':
+            $products_query->whereBetween('created_at', [
+                $now->copy()->startOfWeek()->toDateString(),
+                $now->copy()->endOfWeek()->toDateString()
+            ]);
+            break;
+        case 'month':
+            $products_query->whereBetween('created_at', [
+                $now->copy()->startOfMonth()->toDateString(),
+                $now->copy()->endOfMonth()->toDateString()
+            ]);
+            break;
+        case 'year':
+            $products_query->whereBetween('created_at', [
+                $now->copy()->startOfYear()->toDateString(),
+                $now->copy()->endOfYear()->toDateString()
+            ]);
+            break;
+    }
+}
+
 
         // Apply filters
         if (!empty($filter_category_id)) {
@@ -537,6 +571,7 @@ class StaffProductController extends Controller {
             header('Location: /staff/products_list');
             exit();
         }
+        
 
         // Configure Dompdf options
         $options = new Options();
@@ -589,7 +624,17 @@ class StaffProductController extends Controller {
                     <p><strong>Serialized Filter:</strong> ' . htmlspecialchars($filter_is_serialized ?: 'All') . '</p>
                     <p><strong>Active Filter:</strong> ' . htmlspecialchars($filter_is_active ?: 'All') . '</p>
                     <p><strong>Sort By:</strong> ' . htmlspecialchars(ucwords(str_replace('_', ' ', $sort_by))) . ' (' . htmlspecialchars(ucfirst($sort_order)) . ')</p>
-                </div>
+                    <p><strong>Date Filter:</strong> ' . htmlspecialchars(match($filter_date_range) {
+                        'today' => 'Today',
+                        'yesterday' => 'Yesterday',
+                        'week' => 'This Week',
+                        'month' => 'This Month',
+                        'year' => 'This Year',
+                        default => 'All Dates'
+                    }) . '</p>
+
+                    </div>
+
 
                 <table class="items-table">
                     <thead>

@@ -1416,6 +1416,7 @@ class StaffTransactionController extends Controller {
         $filter_status = trim($this->input('filter_status'));
         $sort_by = trim($this->input('sort_by')) ?: 'transaction_date';
         $sort_order = trim($this->input('sort_order')) ?: 'desc';
+        $time_filter = trim($this->input('time_filter'));
 
         $transactions_query = Transaction::with(['customer', 'supplier', 'createdBy', 'updatedBy']);
 
@@ -1444,6 +1445,34 @@ class StaffTransactionController extends Controller {
         if (!empty($filter_status)) {
             $transactions_query->where('status', $filter_status);
         }
+        if (!empty($time_filter)) {
+    $now = Carbon::now();
+
+    switch ($time_filter) {
+        case '5min':
+            $from = $now->subMinutes(5);
+            break;
+        case 'day':
+            $from = $now->subDay();
+            break;
+        case 'week':
+            $from = $now->subWeek();
+            break;
+        case 'month':
+            $from = $now->subMonth();
+            break;
+        case 'year':
+            $from = $now->subYear();
+            break;
+        default:
+            $from = null;
+    }
+
+    if ($from) {
+        $transactions_query->where('transaction_date', '>=', $from);
+        Logger::log("DEBUG: Applied time filter for print: '{$time_filter}' from " . $from->toDateTimeString());
+    }
+}
 
         // Apply sorting
         // IMPORTANT: Avoid orderBy() on joined columns directly in Eloquent for complex queries
@@ -1454,7 +1483,8 @@ class StaffTransactionController extends Controller {
         if ($transactions->isEmpty()) {
             Logger::log("PRINT_TRANSACTIONS_LIST_FAILED: No transactions found matching criteria for printing.");
             // Redirect back to the list page with an error message
-            header('Location: /staff/transactions_list?error_message=' . urlencode('No transactions found matching your criteria for printing.'));
+            $_SESSION['error_message']="No transactions found matching criteria for printing.";
+            header('Location: /staff/transactions_list');
             exit();
         }
 
@@ -1509,6 +1539,8 @@ class StaffTransactionController extends Controller {
                     <p><strong>Type Filter:</strong> ' . htmlspecialchars($filter_type ?: 'All Types') . '</p>
                     <p><strong>Status Filter:</strong> ' . htmlspecialchars($filter_status ?: 'All Statuses') . '</p>
                     <p><strong>Sort By:</strong> ' . htmlspecialchars(ucwords(str_replace('_', ' ', $sort_by))) . ' (' . htmlspecialchars(ucfirst($sort_order)) . ')</p>
+                    <p><strong>Time Filter:</strong> ' . htmlspecialchars(ucwords(str_replace(['5min'], ['Last 5 Minutes'], $time_filter ?: 'All Time'))) . '</p>
+
                 </div>
 
                 <table class="items-table">

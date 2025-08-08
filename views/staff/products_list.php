@@ -68,6 +68,17 @@ use App\Core\Logger; // Ensure Logger is used if needed here
                 <?php endforeach; ?>
             </select>
         </div>
+        <div class="col-md-3">
+    <label for="filter_date_range" class="form-label light-txt">Date Range</label>
+    <select class="form-select dark-txt light-bg" id="filter_date_range" name="filter_date_range">
+        <option value="">All</option>
+        <option value="today" <?= (($filter_date_range ?? '') === 'today') ? 'selected' : '' ?>>Today</option>
+        <option value="yesterday" <?= (($filter_date_range ?? '') === 'yesterday') ? 'selected' : '' ?>>Yesterday</option>
+        <option value="week" <?= (($filter_date_range ?? '') === 'week') ? 'selected' : '' ?>>This Week</option>
+        <option value="month" <?= (($filter_date_range ?? '') === 'month') ? 'selected' : '' ?>>This Month</option>
+        <option value="year" <?= (($filter_date_range ?? '') === 'year') ? 'selected' : '' ?>>This Year</option>
+    </select>
+</div>
         <div class="col-md-2">
             <button type="submit" class="btn btn-info w-100">Apply Filters</button>
         </div>
@@ -81,6 +92,8 @@ use App\Core\Logger; // Ensure Logger is used if needed here
                 <option value="No" <?= (($filter_is_serialized ?? '') === 'No') ? 'selected' : '' ?>>No</option>
             </select>
         </div>
+        
+
         <div class="col-md-3">
             <label for="filter_is_active" class="form-label light-txt">Active?</label>
             <select class="form-select dark-txt light-bg" id="filter_is_active" name="filter_is_active">

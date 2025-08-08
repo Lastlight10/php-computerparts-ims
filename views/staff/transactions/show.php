@@ -112,9 +112,9 @@ $can_add_items = ($transaction->status !== 'Completed' && $transaction->status !
                             </div>
                         <?php endif; ?>
                         <div class="col-md-6 mb-2"><strong>Created By:</strong> <?= htmlspecialchars($transaction->createdBy->username ?? 'N/A') ?></div>
-                        <div class="col-md-6 mb-2"><strong>Created At:</strong> <?= $created_at_formatted ?></div>
+                        <div class="col-md-6 mb-2"><strong>Created At:</strong> <?= date('Y-m-d', strtotime($created_at_formatted)) ?></div>
                         <div class="col-md-6 mb-2"><strong>Updated By:</strong> <?= htmlspecialchars($transaction->updatedBy->username ?? 'N/A') ?></div>
-                        <div class="col-md-6 mb-2"><strong>Updated At:</strong> <?= $updated_at_formatted ?></div>
+                        <div class="col-md-6 mb-2"><strong>Updated At:</strong> <?= date('Y-m-d', strtotime($updated_at_formatted)) ?></div>
                         <div class="col-12 mb-2"><strong>Notes:</strong> <?= nl2br(htmlspecialchars($transaction->notes ?? '')) ?></div>
                     </div>
 

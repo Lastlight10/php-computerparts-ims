@@ -1,6 +1,8 @@
 <?php
 // Display success message if available
 use App\Core\Logger; // Ensure Logger is used if needed here
+use Carbon\Carbon; // Required for date comparison
+
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
   <h1 class="text-white mb-0">Transactions List</h1>
@@ -55,6 +57,7 @@ use App\Core\Logger; // Ensure Logger is used if needed here
                 <?php endforeach; ?>
             </select>
         </div>
+        
         <div class="col-md-3">
             <label for="filter_status" class="form-label light-txt">Filter by Status</label>
             <select class="form-select dark-txt light-bg" id="filter_status" name="filter_status">
@@ -66,6 +69,17 @@ use App\Core\Logger; // Ensure Logger is used if needed here
                 <?php endforeach; ?>
             </select>
         </div>
+        <div class="col-md-3">
+    <label for="time_filter" class="form-label light-txt">Date Range</label>
+    <select class="form-select dark-txt light-bg" id="time_filter" name="time_filter">
+        <option value="">All Time</option>
+        <option value="5min" <?= (($time_filter ?? '') === '5min') ? 'selected' : '' ?>>Last 5 Minutes</option>
+        <option value="day" <?= (($time_filter ?? '') === 'day') ? 'selected' : '' ?>>Last 24 Hours</option>
+        <option value="week" <?= (($time_filter ?? '') === 'week') ? 'selected' : '' ?>>Last 7 Days</option>
+        <option value="month" <?= (($time_filter ?? '') === 'month') ? 'selected' : '' ?>>Last 30 Days</option>
+        <option value="year" <?= (($time_filter ?? '') === 'year') ? 'selected' : '' ?>>Last 12 Months</option>
+    </select>
+</div>
         <div class="col-md-2">
             <button type="submit" class="btn btn-info w-100">Apply Filters</button>
         </div>
