@@ -51,9 +51,6 @@ class Connection
 
             // Load ENV file here
             // Adjust path to your .env file relative to the project root
-            $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
-            $dotenv->load();
-            Logger::log("DB_INFO: .env file loaded.");
 
             static::$capsule = new Capsule;
 
