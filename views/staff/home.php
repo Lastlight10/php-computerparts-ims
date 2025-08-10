@@ -25,10 +25,20 @@
     <!-- Header Section -->
     <h1 class="text-4xl font-bold text-center text-white mb-8">Welcome to Computer IMS</h1>
 
+    <p class="text text-left text-white" > Here we offer many services in our inventory management system on a web application. </p>
+
+    <ul class="text text-left text-white">
+      <li>Different User Statuses.</li>
+      <li>Customer and Supplier Tracking.</li>
+      <li>Product and Transactions inventory with Serial Number Integration.</li>
+      <li>Simple and friendly user interface.</li>
+    </ul>
+
+
     <!-- Mission Section -->
-    <div class="lighterdark-bg p-6 rounded-lg shadow-lg">
+    <div class="bg-dark p-6 rounded-lg shadow-lg">
         <h2 class="text-3xl font-semibold light-txt py-2 mb-4 text-center">Our Mission</h2>
-        <p class="light-txt py-2 leading-relaxed text-lg text-center">
+        <p class="light-txt py-2 leading-relaxed text-lg text-left">
             To provide cutting-edge computer hardware and software solutions,
             ensuring unparalleled quality and customer satisfaction. We are
             committed to fostering technological advancement and empowering
@@ -37,17 +47,17 @@
     </div>
 
     <!-- Vision Section -->
-    <div class="lighterdark-bg p-6 rounded-lg shadow-lg">
+    <div class="bg-dark p-6 rounded-lg shadow-lg">
         <h2 class="text-3xl font-semibold light-txt py-2 mb-4 text-center">Our Vision</h2>
-        <p class="light-txt leading-relaxed text-lg text-center py-2">
-            To be the leading provider of innovative computer solutions in the region,
+        <p class="light-txt leading-relaxed text-lg text-left py-2">
+            To be the leading provider of innovative computer solutions in the city,
             recognized for our integrity, expertise, and dedication to building a
             smarter, more connected future.
         </p>
     </div>
 
     <!-- Google Maps Location Section -->
-    <div class="lighterdark-bg p-6 rounded-lg shadow-lg">
+    <div class="bg-dark p-6 rounded-lg shadow-lg">
         <h2 class="text-3xl font-semibold light-txt py-2 mb-4 text-center">Find Us Here</h2>
         <p class="light-txt py-2 mb-4 text-center">
             Visit our main office located at 4 Kaligayahan St, Quezon City, Metro Manila.
@@ -63,7 +73,7 @@
             The map shows the location of 4 Kaligayahan St, Quezon City, Metro Manila.
         </p>
     </div>
-    <div class="lighterdark-bg p-6 rounded-lg shadow-lg">
+    <div class="bg-dark p-6 rounded-lg shadow-lg">
         <h2 class="text-3xl font-semibold light-txt mb-4 text-center py-2">Contact Us:</h2>
         <p class="light-txt leading-relaxed text-lg text-left px-4 py-2">
             EMAIL: recon21342@gmail.com<br>

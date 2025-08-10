@@ -121,7 +121,7 @@ class StaffTransactionController extends Controller {
         }
         Logger::log("DEBUG_AFTER_CLEARING_LOGIC: transaction_type='{$transaction_type}', customer_id='" . var_export($customer_id, true) . "', supplier_id='" . var_export($supplier_id, true) . "'");
         if (empty($status)) $errors[] = 'Status is required.';
-        if (!in_array($status, ['Draft', 'Pending', 'Confirmed', 'Completed', 'Cancelled'])) $errors[] = 'Invalid Status.';
+        if (!in_array($status, ['Pending','Completed', 'Cancelled'])) $errors[] = 'Invalid Status.';
         if (empty($current_user_id)) $errors[] = 'User ID not found. Please log in.';
 
         if (!empty($errors)) {
@@ -683,7 +683,7 @@ class StaffTransactionController extends Controller {
 
 
             // Store submitted serial numbers and adjustment directions for pending transactions (sticky form)
-            if ($newStatus === 'Pending' || $newStatus === 'Draft') {
+            if ($newStatus === 'Pending') {
                 $submittedSerialsToPersist = [];
                 $submittedAdjustmentDirectionsToPersist = [];
 

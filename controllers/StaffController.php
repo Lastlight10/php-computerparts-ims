@@ -277,7 +277,7 @@ class StaffController extends Controller {
         'sort_by' => $sort_by,           // Pass back to view
         'sort_order' => $sort_order,     // Pass back to view
         'transaction_types_list' => ['Sale', 'Purchase', 'Customer Return', 'Supplier Return', 'Stock Adjustment'], // For filter dropdown
-        'transaction_statuses_list' => ['Draft', 'Pending', 'Confirmed', 'Completed', 'Cancelled'], // For filter dropdown
+        'transaction_statuses_list' => ['Pending','Completed', 'Cancelled'], // For filter dropdown
     ], 'staff');
   }
 
