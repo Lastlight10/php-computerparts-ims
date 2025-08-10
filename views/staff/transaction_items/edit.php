@@ -88,13 +88,13 @@ if (!$transaction && $transaction_item->transaction_id) {
             </div>
 
             <div class="mb-3">
-              <label for="unit_price" class="form-label light-txt">Unit Price</label>
+              <label for="unit_price" class="form-label light-txt">Unit Price (₱)</label>
               <input type="number" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="unit_price" name="unit_price"
                      value="<?= htmlspecialchars(number_format($transaction_item->line_total, 2, '.', '')) ?>" min="0" required>
             </div>
 
             <div class="mb-3">
-              <label for="item_total" class="form-label light-txt">Item Total</label>
+              <label for="item_total" class="form-label light-txt">Item Total (₱)</label>
               <input type="text" class="form-control form-control-lg dark-txt light-bg" id="item_total" name="item_total"
                      value="<?= htmlspecialchars(number_format($transaction_item->quantity * $transaction_item->unit_price, 2, '.', '')) ?>" readonly>
             </div>

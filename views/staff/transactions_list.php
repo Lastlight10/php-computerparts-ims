@@ -44,7 +44,7 @@ use Carbon\Carbon; // Required for date comparison
     <div class="row g-3 align-items-end">
         <div class="col-md-4">
             <label for="search_query" class="form-label light-txt">Search</label>
-            <input type="text" class="form-control dark-txt light-bg" id="search_query" name="search_query" placeholder="Invoice, notes, customer, supplier" value="<?= htmlspecialchars($search_query ?? '') ?>" maxlength="50">
+            <input type="text" class="form-control dark-txt light-bg" id="search_query" name="search_query" placeholder="Invoice Number" value="<?= htmlspecialchars($search_query ?? '') ?>" maxlength="50">
         </div>
         <div class="col-md-3">
             <label for="filter_type" class="form-label light-txt">Filter by Type</label>

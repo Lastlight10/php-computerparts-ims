@@ -205,14 +205,8 @@ class StaffController extends Controller {
     if (!empty($search_query)) {
         $transactions_query->where(function ($query) use ($search_query) {
             $query->where('invoice_bill_number', 'LIKE', '%' . $search_query . '%')
-                  ->orWhere('notes', 'LIKE', '%' . $search_query . '%')
-                  ->orWhereHas('customer', function ($q) use ($search_query) {
-                      $q->where('first_name', 'LIKE', '%' . $search_query . '%')
-                        ->orWhere('last_name', 'LIKE', '%' . $search_query . '%');
-                  })
-                  ->orWhereHas('supplier', function ($q) use ($search_query) {
-                      $q->where('supplier_name', 'LIKE', '%' . $search_query . '%');
-                  });
+                  ->orWhere('transaction_type', 'LIKE', '%' . $search_query . '%')
+                    ;
         });
         Logger::log("DEBUG: Applied search query: '{$search_query}'");
     }

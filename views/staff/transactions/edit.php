@@ -102,7 +102,7 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
             
             <div class="mb-3">
               <label for="transaction_type" class="form-label light-txt">Transaction Type</label>
-              <select class="form-select form-select-lg dark-txt light-bg" id="transaction_type" name="transaction_type" required <?= $initial_is_form_readonly ? 'disabled' : '' ?>>
+              <select class="form-select form-select-lg dark-txt light-bg" id="transaction_type" name="transaction_type" required disabled>
                 <option value="Sale" <?= ($transaction->transaction_type == 'Sale') ? 'selected' : '' ?>>Sale</option>
                 <option value="Purchase" <?= ($transaction->transaction_type == 'Purchase') ? 'selected' : '' ?>>Purchase</option>
                 <option value="Customer Return" <?= ($transaction->transaction_type == 'Customer Return') ? 'selected' : '' ?>>Customer Return</option>
@@ -111,28 +111,30 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
               </select>
             </div>
 
-            <div class="mb-3" id="customer_field">
-              <label for="customer_id" class="form-label light-txt">Customer</label>
-              <select class="form-select form-select-lg dark-txt light-bg" id="customer_id" name="customer_id"
-                      data-initial-value="<?= htmlspecialchars($transaction->customer_id ?? '') ?>" <?= $initial_is_form_readonly ? 'disabled' : '' ?>> <option value="">Select Customer (Optional)</option>
-                <?php foreach ($customers as $customer): // Changed from object to array access ?>
-                  <option value="<?= htmlspecialchars($customer['id']) ?>"
-                    <?php
-                    if ($transaction->transaction_type !== 'Stock Adjustment' && isset($transaction->customer_id) && $transaction->customer_id == $customer['id']) {
-                        echo 'selected';
-                    }
-                    ?>
-                  >
-                    <?= htmlspecialchars($customer['company_name'] ?? ($customer['contact_first_name'] . ' ' . $customer['contact_last_name'])) ?>
-                  </option>
-                <?php endforeach; ?>
-              </select>
-            </div>
-
-            <div class="mb-3" id="supplier_field">
+            <?php if (in_array($transaction->transaction_type, ['Sale', 'Customer Return'])): ?>
+                <div class="mb-3" id="customer_field">
+                    <label for="customer_id" class="form-label light-txt">Customer</label>
+                    <select class="form-select form-select-lg dark-txt light-bg" id="customer_id" name="customer_id"
+                            data-initial-value="<?= htmlspecialchars($transaction->customer_id ?? '') ?>" disabled> <option value="">Select Customer (Optional)</option>
+                        <?php foreach ($customers as $customer): // Changed from object to array access ?>
+                        <option value="<?= htmlspecialchars($customer['id']) ?>"
+                            <?php
+                            if ($transaction->transaction_type !== 'Stock Adjustment' && isset($transaction->customer_id) && $transaction->customer_id == $customer['id']) {
+                                echo 'selected';
+                            }
+                            ?>
+                        >
+                            <?= htmlspecialchars($customer['company_name'] ?? ($customer['contact_first_name'] . ' ' . $customer['contact_last_name'])) ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            <?php endif; ?>
+            <?php if (in_array($transaction->transaction_type, ['Purchase', 'Supplier Return'])): ?>
+               <div class="mb-3" id="supplier_field">
               <label for="supplier_id" class="form-label light-txt">Supplier</label>
               <select class="form-select form-select-lg dark-txt light-bg" id="supplier_id" name="supplier_id"
-                      data-initial-value="<?= htmlspecialchars($transaction->supplier_id ?? '') ?>" <?= $initial_is_form_readonly ? 'disabled' : '' ?>> <option value="">Select Supplier (Optional)</option>
+                      data-initial-value="<?= htmlspecialchars($transaction->supplier_id ?? '') ?>" disabled> <option value="">Select Supplier (Optional)</option>
                 <?php foreach ($suppliers as $supplier): // Changed from object to array access ?>
                   <option value="<?= htmlspecialchars($supplier['id']) ?>"
                     <?php
@@ -146,10 +148,14 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                 <?php endforeach; ?>
               </select>
             </div>
+            <?php endif; ?>
+            
+
+    
             
 
             <div class="row mb-3">
-                <label for="total_amount" class="form-label light-txt">Total Amount</label>
+                <label for="total_amount" class="form-label light-txt">Total Amount (₱)</label>
                 <div class="col-sm-10">
                     <input type="number" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="total_amount" name="total_amount"
                         value="<?= htmlspecialchars($transaction->total_amount ?? '') ?>" readonly>
@@ -163,13 +169,13 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                 <div class="row mb-3"> <label for="amount_received" class="form-label light-txt">
                         <?php
                         if ($transaction->transaction_type === 'Sale') {
-                            echo 'Amount Received from Customer:';
+                            echo 'Amount Received from Customer (₱):';
                         } elseif ($transaction->transaction_type === 'Purchase') {
-                            echo 'Amount Paid to Supplier:';
+                            echo 'Amount Paid to Supplier (₱):';
                         } elseif ($transaction->transaction_type === 'Customer Return') {
-                            echo 'Amount Refunded to Customer:';
+                            echo 'Amount Refunded to Customer (₱):';
                         } elseif ($transaction->transaction_type === 'Supplier Return') {
-                            echo 'Amount Received from Supplier (Refund):';
+                            echo 'Amount Received from Supplier (Refund in ₱):';
                         }
                         ?>
                     </label>
@@ -238,7 +244,7 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                 ?>
                                 
                                     <div class="mb-3">
-                                        <label for="item_cost_<?= $index ?>" class="form-label light-txt">Cost at Receipt (price for customer):</label>
+                                        <label for="item_cost_<?= $index ?>" class="form-label light-txt">Cost at Receipt (price for customer in ₱):</label>
                                         <input type="number" step="0.01" class="form-control form-control-sm dark-txt light-bg"
                                                id="item_cost_<?= $index ?>"
                                                name="items[<?= $index ?>][purchase_cost]"
@@ -271,11 +277,11 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                     <label for="item_unit_price_<?= $index ?>" class="form-label light-txt">
                                         <?php
                                         if ($transaction->transaction_type === 'Sale') {
-                                            echo 'Selling Price (price for Customer):';
+                                            echo 'Selling Price (price for Customer in ₱):';
                                         } elseif ($transaction->transaction_type === 'Customer Return') {
-                                            echo 'Return Value (per unit):';
+                                            echo 'Return Value (per unit in ₱):';
                                         } else {
-                                            echo 'Unit Price (for customer):'; // Default label if not Sale/Return
+                                            echo 'Unit Price (for customer in ₱):'; // Default label if not Sale/Return
                                         }
                                         ?>
                                     </label>

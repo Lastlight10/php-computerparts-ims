@@ -226,7 +226,7 @@ class StaffTransactionController extends Controller {
             Logger::log("TRANSACTION_EDIT_FAILED: Transaction ID $id not found for editing.");
 
             $_SESSION['error_message']="Transaction not found for " . $id . ".";
-            header('Location: /staff/transactions_list?');
+            header('Location: /staff/transactions_list');
             exit();
         }
 

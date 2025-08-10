@@ -85,7 +85,6 @@ $can_add_items = ($transaction->status !== 'Completed' && $transaction->status !
                     <div class="row text-white mb-3">
                         <div class="col-md-6 mb-2"><strong>Transaction Type:</strong> <?= htmlspecialchars($transaction->transaction_type) ?></div>
                         <div class="col-md-6 mb-2"><strong>Transaction Date:</strong> <?= $transaction_date_formatted ?></div>
-                        <div class="col-md-6 mb-2"><strong><?= $party_type ?>:</strong> <?= $party_name ?></div>
                         <div class="col-md-6 mb-2"><strong>Status:</strong> <?= htmlspecialchars($transaction->status) ?></div>
                         <div class="col-md-6 mb-2"><strong>Total Amount:</strong> ₱<?= number_format($transaction->total_amount, 2) ?></div>
                         <?php
