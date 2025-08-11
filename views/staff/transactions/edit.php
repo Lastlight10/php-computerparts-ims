@@ -213,165 +213,164 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
             <h3 class="text-white mt-4 mb-3">Transaction Items</h3>
             <div class="transaction-items-list">
                 <?php if (!empty($transaction->items) && count($transaction->items) > 0): ?>
-                    
-                    <?php 
-                        $error_data = $_SESSION['error_data'] ?? [];
-                        unset($_SESSION['error_data']); // Clear it after use
-                        foreach ($transaction->items as $index => $item): ?>
-                        <?php
+                  <?php 
+                    $error_data = $_SESSION['error_data'] ?? [];
+                    unset($_SESSION['error_data']); // Clear it after use
+                    foreach ($transaction->items as $index => $item): ?>
+                  <?php
                         
-                        $is_serialized_product = ($item->product->is_serialized ?? false);
-                        // Add this debug line:
-                        Logger::log("DEBUG: Item Product ID: " . $item->product->id . ", Transaction Type: " . $transaction->transaction_type);
-                            ?>
+                  $is_serialized_product = ($item->product->is_serialized ?? false);
+                  // Add this debug line:
+                  Logger::log("DEBUG: Item Product ID: " . $item->product->id . ", Transaction Type: " . $transaction->transaction_type);
+                  ?>
                             
-                        <div class="card lighterdark-bg mb-3 p-3 shadow-sm" data-product-id="<?= htmlspecialchars($item->product->id); ?>" data-is-serialized="<?= htmlspecialchars((int)$item->product->is_serialized); ?>" data-quantity="<?= htmlspecialchars($item->quantity); ?>">
-                            <div class="card-body">
-                                <h5 class="card-title text-white"><?= htmlspecialchars(string: $item->product->name ?? 'N/A') ?> (SKU: <?= htmlspecialchars($item->product->sku ?? 'N/A') ?>)</h5>
-                                <input type="hidden" name="items[<?= $index ?>][id]" value="<?= htmlspecialchars($item->id) ?>">
-                                <input type="hidden" name="items[<?= $index ?>][product_id]" value="<?= htmlspecialchars($item->product->id) ?>">
-                                <input type="hidden" name="items[<?= $index ?>][quantity]" value="<?= htmlspecialchars($item->quantity) ?>">
-                                <?php
+                  <div class="card lighterdark-bg mb-3 p-3 shadow-sm" data-product-id="<?= htmlspecialchars($item->product->id); ?>" data-is-serialized="<?= htmlspecialchars((int)$item->product->is_serialized); ?>" data-quantity="<?= htmlspecialchars($item->quantity); ?>">
+                    <div class="card-body">
+                      <h5 class="card-title text-white"><?= htmlspecialchars(string: $item->product->name ?? 'N/A') ?> (SKU: <?= htmlspecialchars($item->product->sku ?? 'N/A') ?>)</h5>
+                      <input type="hidden" name="items[<?= $index ?>][id]" value="<?= htmlspecialchars($item->id) ?>">
+                      <input type="hidden" name="items[<?= $index ?>][product_id]" value="<?= htmlspecialchars($item->product->id) ?>">
+                       <input type="hidden" name="items[<?= $index ?>][quantity]" value="<?= htmlspecialchars($item->quantity) ?>">
+                  <?php
                                 // Only show "Cost at Receipt" for Purchase transactions
-                                if ($transaction->transaction_type === 'Purchase'):
-                                    $default_purchase_cost = '';
-                                    if (isset($item->purchase_cost) && $item->purchase_cost !== null) {
-                                        $default_purchase_cost = $item->purchase_cost; // Use saved value if exists
-                                    } else {
-                                        // For new purchase items, default to product's cost
-                                        $default_purchase_cost = $item->product->unit_price ?? ''; // Assuming product has a default cost
-                                    }
-                                ?>
+                  if ($transaction->transaction_type === 'Purchase'):
+                    $default_purchase_cost = '';
+                    if (isset($item->purchase_cost) && $item->purchase_cost !== null) {
+                      $default_purchase_cost = $item->purchase_cost; // Use saved value if exists
+                    } else {
+                      // For new purchase items, default to product's cost
+                      $default_purchase_cost = $item->product->unit_price ?? ''; // Assuming product has a default cost
+                    }
+                   ?>
                                 
-                                    <div class="mb-3">
-                                        <label for="item_cost_<?= $index ?>" class="form-label light-txt">Cost at Receipt (price for customer in ₱):</label>
-                                        <input type="number" step="0.01" class="form-control form-control-sm dark-txt light-bg"
-                                               id="item_cost_<?= $index ?>"
-                                               name="items[<?= $index ?>][purchase_cost]"
-                                               value="<?= htmlspecialchars($default_purchase_cost) ?>"
-                                               placeholder="Enter cost for this unit" required readonly>
-                                            </div>
-                                <?php
-                                endif;
-                                ?>
-                                <?php
+                    <div class="mb-3">
+                      <label for="item_cost_<?= $index ?>" class="form-label light-txt">Cost at Receipt (price for customer in ₱):</label>
+                      <input type="number" step="0.01" class="form-control form-control-sm dark-txt light-bg"
+                        id="item_cost_<?= $index ?>"
+                        name="items[<?= $index ?>][purchase_cost]"
+                        value="<?= htmlspecialchars($default_purchase_cost) ?>"
+                        placeholder="Enter cost for this unit" required readonly>
+                    </div>
+                    <?php
+                    endif;
+                    ?>
+                    <?php
                                 // Determine if unit_price should be editable.
                                 // It's editable for Sales, and potentially Customer Returns (for refund value).
                                 // For Purchase, it's typically fixed by the purchase_cost, or perhaps auto-calculated.
                                 // For Stock Adjustment/Supplier Return, it's usually not relevant as an editable input here.
-                                $is_unit_price_editable = in_array($transaction->transaction_type, ['Sale', 'Customer Return']);
+                      $is_unit_price_editable = in_array($transaction->transaction_type, ['Sale', 'Customer Return']);
 
-                                // Determine the default value for the unit_price input
-                                $default_unit_price = '';
-                                if (isset($item->unit_price) && $item->unit_price !== null) {
-                                    $default_unit_price = $item->unit_price; // Always use saved value if exists
-                                } elseif ($transaction->transaction_type === 'Sale') {
-                                    // For new sale items, default to product's selling price (your products.unit_price)
-                                    $default_unit_price = $item->product->cost_price ?? '';
-                                } elseif ($transaction->transaction_type === 'Purchase') {
-                                    // For new purchase items, default to product's cost (your products.cost_price)
-                                    $default_unit_price = $item->product->unit_price ?? '';
-                                }
-                                ?>
-                                <div class="mb-3">
-                                    <label for="item_unit_price_<?= $index ?>" class="form-label light-txt">
-                                        <?php
-                                        if ($transaction->transaction_type === 'Sale') {
-                                            echo 'Selling Price (price for Customer in ₱):';
-                                        } elseif ($transaction->transaction_type === 'Customer Return') {
-                                            echo 'Return Value (per unit in ₱):';
-                                        } else {
-                                            echo 'Unit Price (for customer in ₱):'; // Default label if not Sale/Return
-                                        }
-                                        ?>
-                                    </label>
-                                    <input type="number" step="0.01"
-                                           class="form-control form-control-sm dark-txt light-bg"
-                                           id="item_unit_price_<?= $index ?>"
-                                           name="items[<?= $index ?>][unit_price]"
-                                           readonly
-                                           value="<?= htmlspecialchars($default_unit_price) ?>"
-                                           <?= $is_unit_price_editable ? 'required' : 'readonly' ?> >
-                                </div>
+                      // Determine the default value for the unit_price input
+                      $default_unit_price = '';
+                      if (isset($item->unit_price) && $item->unit_price !== null) {
+                        $default_unit_price = $item->unit_price; // Always use saved value if exists
+                      } elseif ($transaction->transaction_type === 'Sale') {
+                        // For new sale items, default to product's selling price (your products.unit_price)
+                        $default_unit_price = $item->product->cost_price ?? '';
+                      } elseif ($transaction->transaction_type === 'Purchase') {
+                        // For new purchase items, default to product's cost (your products.cost_price)
+                        $default_unit_price = $item->product->unit_price ?? '';
+                      }
+                      ?>
+                      <div class="mb-3">
+                        <label for="item_unit_price_<?= $index ?>" class="form-label light-txt">
+                        <?php
+                          if ($transaction->transaction_type === 'Sale') {
+                            echo 'Selling Price (price for Customer in ₱):';
+                          } elseif ($transaction->transaction_type === 'Customer Return') {
+                            echo 'Return Value (per unit in ₱):';
+                          } else {
+                            echo 'Unit Price (for customer in ₱):'; // Default label if not Sale/Return
+                           }
+                        ?>
+                        </label>
+                          <input type="number" step="0.01"
+                            class="form-control form-control-sm dark-txt light-bg"
+                            id="item_unit_price_<?= $index ?>"
+                            name="items[<?= $index ?>][unit_price]"
+                            readonly
+                            value="<?= htmlspecialchars($default_unit_price) ?>"
+                            <?= $is_unit_price_editable ? 'required' : 'readonly' ?> >
+                      </div>
 
-                                <?php
-                                // Common flags for serial number sections
-                                $is_serialized_product = ($item->product->is_serialized ?? false);
-                                // The initial_allow_serial_number_interaction is no longer used to control disabled state of serials
-                                ?>
+                      <?php
+                      // Common flags for serial number sections
+                      $is_serialized_product = ($item->product->is_serialized ?? false);
+                      // The initial_allow_serial_number_interaction is no longer used to control disabled state of serials
+                      ?>
                                 
-                                <?php if ($is_serialized_product && $transaction->transaction_type === 'Purchase'): ?>
-                                    <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="purchase" data-item-id="<?= htmlspecialchars($item->id); ?>">
-                                        <h6 class="text-white">Serial Numbers (Purchase - Qty: <?= htmlspecialchars($item->quantity) ?>)</h6>
-                                        <p class="text-muted">Enter a unique serial number for each unit purchased.</p>
+                      <?php if ($is_serialized_product && $transaction->transaction_type === 'Purchase'): ?>
+                      <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="purchase" data-item-id="<?= htmlspecialchars($item->id); ?>">
+                      <h6 class="text-white">Serial Numbers (Purchase - Qty: <?= htmlspecialchars($item->quantity) ?>)</h6>
+                      <p class="text-muted">Enter a unique serial number for each unit purchased.</p>
 
-                                        <?php
-                                        $current_purchase_serials = [];
-                                        // Priority 1: From temporary session data (e.g., successful update of PENDING transaction)
-                                        if (isset($temp_submitted_serials[$item->id]) && is_array($temp_submitted_serials[$item->id])) {
-                                            $current_purchase_serials = $temp_submitted_serials[$item->id];
-                                        }
-                                        // Priority 2: From submitted error data (sticky form repopulation on *failed* attempt)
-                                        elseif (isset($error_data['submitted_serial_numbers'][$item->id]) && is_array($error_data['submitted_serial_numbers'][$item->id])) {
-                                            $current_purchase_serials = $error_data['submitted_serial_numbers'][$item->id];
-                                        }
-                                        // Priority 3: From existing ProductInstances if the transaction is already completed (or has existing links)
-                                        elseif ($item->relationLoaded('purchasedInstances') && !empty($item->purchasedInstances)) {
-                                            foreach ($item->purchasedInstances as $instance) {
-                                                $current_purchase_serials[] = $instance->serial_number;
-                                            }
-                                        }
-                                        // Ensure array has as many elements as quantity, padding with empty strings
-                                        $displayed_purchase_serials = []; // Use a separate variable for display
-                                        for ($i = 0; $i < $item->quantity; $i++) {
-                                            $displayed_purchase_serials[] = $current_purchase_serials[$i] ?? '';
-                                        }
+                      <?php
+                        $current_purchase_serials = [];
+                        // Priority 1: From temporary session data (e.g., successful update of PENDING transaction)
+                        if (isset($temp_submitted_serials[$item->id]) && is_array($temp_submitted_serials[$item->id])) {
+                          $current_purchase_serials = $temp_submitted_serials[$item->id];
+                        }
+                        // Priority 2: From submitted error data (sticky form repopulation on *failed* attempt)
+                        elseif (isset($error_data['submitted_serial_numbers'][$item->id]) && is_array($error_data['submitted_serial_numbers'][$item->id])) {
+                          $current_purchase_serials = $error_data['submitted_serial_numbers'][$item->id];
+                        }
+                        // Priority 3: From existing ProductInstances if the transaction is already completed (or has existing links)
+                        elseif ($item->relationLoaded('purchasedInstances') && !empty($item->purchasedInstances)) {
+                          foreach ($item->purchasedInstances as $instance) {
+                            $current_purchase_serials[] = $instance->serial_number;
+                          }
+                        }
+                        // Ensure array has as many elements as quantity, padding with empty strings
+                        $displayed_purchase_serials = []; // Use a separate variable for display
+                        for ($i = 0; $i < $item->quantity; $i++) {
+                          $displayed_purchase_serials[] = $current_purchase_serials[$i] ?? '';
+                        }
                                         // Now use $displayed_purchase_serials in the loop below
-                                        ?>
+                        ?>
 
-                                        <?php
-                                        $current_purchase_serials = [];
-                                        // Priority 1: From temporary session data (e.g., successful update of PENDING transaction)
-                                        if (isset($temp_submitted_serials[$item->id]) && is_array($temp_submitted_serials[$item->id])) {
-                                            $current_purchase_serials = $temp_submitted_serials[$item->id];
-                                        }
-                                        // Priority 2: From submitted error data (sticky form repopulation on *failed* attempt)
-                                        elseif (isset($error_data['submitted_serial_numbers'][$item->id]) && is_array($error_data['submitted_serial_numbers'][$item->id])) {
-                                            $current_purchase_serials = $error_data['submitted_serial_numbers'][$item->id];
-                                        }
-                                        // Priority 3: From existing ProductInstances if the transaction is already completed (or has existing links)
-                                        elseif ($item->relationLoaded('purchasedInstances') && !empty($item->purchasedInstances)) {
-                                            foreach ($item->purchasedInstances as $instance) {
-                                                $current_purchase_serials[] = $instance->serial_number;
-                                            }
-                                        }
-                                        // Ensure array has as many elements as quantity, padding with empty strings
-                                        $displayed_purchase_serials = []; // Use a separate variable for display
-                                        for ($i = 0; $i < $item->quantity; $i++) {
-                                            $displayed_purchase_serials[] = $current_purchase_serials[$i] ?? '';
-                                        }
-                                        ?>
+                        <?php
+                          $current_purchase_serials = [];
+                          // Priority 1: From temporary session data (e.g., successful update of PENDING transaction)
+                          if (isset($temp_submitted_serials[$item->id]) && is_array($temp_submitted_serials[$item->id])) {
+                            $current_purchase_serials = $temp_submitted_serials[$item->id];
+                          }
+                          // Priority 2: From submitted error data (sticky form repopulation on *failed* attempt)
+                          elseif (isset($error_data['submitted_serial_numbers'][$item->id]) && is_array($error_data['submitted_serial_numbers'][$item->id])) {
+                            $current_purchase_serials = $error_data['submitted_serial_numbers'][$item->id];
+                          }
+                          // Priority 3: From existing ProductInstances if the transaction is already completed (or has existing links)
+                          elseif ($item->relationLoaded('purchasedInstances') && !empty($item->purchasedInstances)) {
+                            foreach ($item->purchasedInstances as $instance) {
+                              $current_purchase_serials[] = $instance->serial_number;
+                            }
+                          }
+                          // Ensure array has as many elements as quantity, padding with empty strings
+                          $displayed_purchase_serials = []; // Use a separate variable for display
+                          for ($i = 0; $i < $item->quantity; $i++) {
+                            $displayed_purchase_serials[] = $current_purchase_serials[$i] ?? '';
+                          }
+                        ?>
 
-                                        <?php foreach ($displayed_purchase_serials as $i => $serial_value): ?>
-                                            <div class="form-group mb-2">
-                                                <label for="purchase_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>" class="form-label light-txt">Serial #<?= ($i + 1); ?>:</label>
-                                                <input type="text"
-                                                       class="form-control form-control-sm dark-txt light-bg serial-number-input"
-                                                       id="purchase_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
-                                                       name="serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
-                                                       value="<?= htmlspecialchars($serial_value); ?>"
-                                                       data-product-id="<?= htmlspecialchars($item->product->id); ?>"
-                                                       data-item-id="<?= htmlspecialchars($item->id); ?>"
-                                                       required
-                                                       maxlength="50"
-                                                       pattern="^[a-zA-Z0-9-]*$"
-                                                       >
-                                            </div>
-                                        <?php endforeach; ?>
-                                    </div>
-                                <?php endif; ?>
+                        <?php foreach ($displayed_purchase_serials as $i => $serial_value): ?>
+                          <div class="form-group mb-2">
+                            <label for="purchase_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>" class="form-label light-txt">Serial #<?= ($i + 1); ?>:</label>
+                            <input type="text"
+                              class="form-control form-control-sm dark-txt light-bg serial-number-input"
+                              id="purchase_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
+                              name="serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
+                              value="<?= htmlspecialchars($serial_value); ?>"
+                              data-product-id="<?= htmlspecialchars($item->product->id); ?>"
+                              data-item-id="<?= htmlspecialchars($item->id); ?>"
+                              required
+                              maxlength="50"
+                              pattern="^[a-zA-Z0-9-]*$">
 
-                                <?php if ($is_serialized_product && $transaction->transaction_type === 'Sale'): ?>
+                          </div>
+                        <?php endforeach; ?>
+                      </div>
+                  <?php endif; ?>
+
+                  <?php if ($is_serialized_product && $transaction->transaction_type === 'Sale'): ?>
                                     <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="sale" data-item-id="<?= htmlspecialchars($item->id); ?>">
                                         <h6 class="text-white">Serial Numbers (Sale - Qty: <?= htmlspecialchars($item->quantity) ?>)</h6>
                                         <p class="text-muted">Select the specific serial numbers being sold from available stock.</p>
@@ -460,101 +459,96 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                             <p class="text-warning mt-2">No serialized units of this product are currently 'In Stock' for sale.</p>
                                         <?php endif; ?>
                                     </div>
-                                <?php endif; ?>
+                  <?php endif; ?>
 
-                                <?php if ($is_serialized_product && $transaction->transaction_type === 'Customer Return'): ?>
-                                    <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="customer-return" data-item-id="<?= htmlspecialchars($item->id); ?>">
-                                        <?php if ($transaction->customer_id): ?>
-                                            <div class="serial-numbers-subsection" data-return-type="customer">
-                                                <h6 class="text-white">Serial Numbers (Customer Return - Qty: <?= htmlspecialchars($item->quantity) ?>)</h6>
-                                                <p class="text-muted">Select the specific serial numbers being returned by the customer (should be previously sold).</p>
+                  <?php if ($is_serialized_product && $transaction->transaction_type === 'Customer Return'): ?>
+                    <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="customer-return" data-item-id="<?= htmlspecialchars($item->id); ?>">
+                  <?php if ($transaction->customer_id): ?>
+                    <div class="serial-numbers-subsection" data-return-type="customer">
+                      <h6 class="text-white">Serial Numbers (Customer Return - Qty: <?= htmlspecialchars($item->quantity) ?>)</h6>
+                      <p class="text-muted">Select the specific serial numbers being returned by the customer (should be previously sold).</p>
 
-                                                <?php
-                                                // Get potential instances for customer return (typically 'Sold' items)
-                                                $potential_return_serials = $potential_customer_return_serials_by_product[$item->product->id] ?? [];
-                                                usort($potential_return_serials, function($a, $b) {
-                                                    return strcmp($a['serial_number'], $b['serial_number']);
-                                                });
-
-                                                // Prepare pre-filled selected serial numbers for customer returns
-                                                $current_return_serials = [];
-                                                // Priority 1: From temporary session data (e.g., successful update of PENDING transaction)
-                                                if (isset($temp_submitted_serials[$item->id]) && is_array($temp_submitted_serials[$item->id])) {
-                                                    $current_return_serials = $temp_submitted_serials[$item->id];
-                                                }
+                  <?php
+                    $potential_return_serials = $potential_customer_return_serials_by_product[$item->product->id] ?? [];
+                    usort($potential_return_serials, function($a, $b) {
+                      return strcmp($a['serial_number'], $b['serial_number']);
+                    });
+                    $current_return_serials = [];
+                    if (isset($temp_submitted_serials[$item->id]) && is_array($temp_submitted_serials[$item->id])) {
+                      $current_return_serials = $temp_submitted_serials[$item->id];
+                    }
                                                 // Priority 2: From submitted error data (sticky form repopulation)
-                                                elseif (isset($error_data['returned_serial_numbers'][$item->id]) && is_array($error_data['returned_serial_numbers'][$item->id])) {
-                                                    $current_return_serials = $error_data['returned_serial_numbers'][$item->id];
+                    elseif (isset($error_data['returned_serial_numbers'][$item->id]) && is_array($error_data['returned_serial_numbers'][$item->id])) {
+                      $current_return_serials = $error_data['returned_serial_numbers'][$item->id];
                                                 }
                                                 // Priority 3: From existing ProductInstances if the transaction is already completed
-                                                elseif ($item->relationLoaded('returnedFromCustomerInstances') && !empty($item->returnedFromCustomerInstances)) {
-                                                    foreach ($item->returnedFromCustomerInstances as $instance) {
-                                                        $current_return_serials[] = $instance->serial_number;
-                                                    }
-                                                }
-                                                ?>
+                    elseif ($item->relationLoaded('returnedFromCustomerInstances') && !empty($item->returnedFromCustomerInstances)) {
+                    foreach ($item->returnedFromCustomerInstances as $instance) {
+                      $current_return_serials[] = $instance->serial_number;
+                      }
+                    }
+                  ?>
 
-                                                <?php for ($i = 0; $i < $item->quantity; $i++): ?>
-                                                    <div class="form-group mb-2">
-                                                        <label for="return_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>" class="form-label light-txt">Select Serial #<?= ($i + 1); ?>:</label>
-                                                        <select class="form-select form-control-sm dark-txt light-bg serial-number-input"
-                                                                id="return_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
-                                                                name="returned_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
-                                                                data-product-id="<?= htmlspecialchars($item->product->id); ?>"
-                                                                data-item-id="<?= htmlspecialchars($item->id); ?>"
-                                                                required>
-                                                            <option value="">-- Select a Serial Number --</option>
-                                                            <?php
-                                                            $selected_value = $current_return_serials[$i] ?? null;
+                  <?php for ($i = 0; $i < $item->quantity; $i++): ?>
+                    <div class="form-group mb-2">
+                      <label for="return_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>" class="form-label light-txt">Select Serial #<?= ($i + 1); ?>:</label>
+                      <select class="form-select form-control-sm dark-txt light-bg serial-number-input"
+                        id="return_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
+                        name="returned_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
+                        data-product-id="<?= htmlspecialchars($item->product->id); ?>"
+                        data-item-id="<?= htmlspecialchars($item->id); ?>"
+                        required>
+                  <option value="">-- Select a Serial Number --</option>
+                  <?php
+                    $selected_value = $current_return_serials[$i] ?? null;
 
-                                                            $display_options_return = [];
-                                                            foreach ($potential_return_serials as $instance) {
-                                                                $display_options_return[$instance['serial_number']] = $instance;
-                                                            }
-                                                            if ($selected_value && !isset($display_options_return[$selected_value])) {
-                                                                $temp_instance = new ProductInstance();
-                                                                $temp_instance->serial_number = $selected_value;
-                                                                $temp_instance->status = 'Previously Returned';
-                                                                $display_options_return[$selected_value] = $temp_instance;
-                                                            }
-                                                            ksort($display_options_return);
+                    $display_options_return = [];
+                    foreach ($potential_return_serials as $instance) {
+                    $display_options_return[$instance['serial_number']] = $instance;
+                    }
+                    if ($selected_value && !isset($display_options_return[$selected_value])) {
+                      $temp_instance = new ProductInstance();
+                      $temp_instance->serial_number = $selected_value;
+                      $temp_instance->status = 'Previously Returned';
+                      $display_options_return[$selected_value] = $temp_instance;
+                      }
+                      ksort($display_options_return);
 
-                                                            foreach ($display_options_return as $serial_num => $instance):
-                                                                $option_text = htmlspecialchars($serial_num);
-                                                                // Check if $instance is an array (from DB) or an object (dummy/eager loaded)
-                                                                if (is_array($instance)) {
-                                                                    if (isset($instance['status']) && $instance['status'] !== 'Sold') {
-                                                                        $option_text .= " ({$instance['status']})";
-                                                                    }
-                                                                } else { // It's a ProductInstance object (e.g., from eager load or dummy)
-                                                                    if (isset($instance->status) && $instance->status !== 'Sold') {
-                                                                        $option_text .= " ({$instance->status})";
-                                                                    }
-                                                                }
-                                                                // This specific condition for 'Previously Returned' applies to the dummy object
-                                                                if (is_object($instance) && $instance->status === 'Previously Returned' && $selected_value === $serial_num) {
-                                                                    $option_text .= " (Previously Returned)";
-                                                                }
-                                                            ?>
-                                                                <option value="<?= htmlspecialchars($serial_num); ?>"
-                                                                    <?= ($serial_num === $selected_value) ? 'selected' : ''; ?>>
-                                                                    <?= $option_text; ?>
-                                                                </option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
-                                                <?php endfor; ?>
-                                                <?php if (empty($potential_return_serials)): ?>
-                                                    <p class="text-warning mt-2">No serialized units of this product are currently 'Sold' for return.</p>
-                                                <?php endif; ?>
-                                            </div>
-                                        <?php else: ?>
-                                            <p class="text-warning">Please select a Customer for Customer Return to manage serial numbers.</p>
-                                        <?php endif; ?>
-                                    </div>
-                                <?php endif; ?>
-
-                                <?php if ($is_serialized_product && $transaction->transaction_type === 'Supplier Return'): ?>
+                      foreach ($display_options_return as $serial_num => $instance):
+                        $option_text = htmlspecialchars($serial_num);
+                        // Check if $instance is an array (from DB) or an object (dummy/eager loaded)
+                        if (is_array($instance)) {
+                          if (isset($instance['status']) && $instance['status'] !== 'Sold') {
+                            $option_text .= " ({$instance['status']})";
+                          }
+                        } else { // It's a ProductInstance object (e.g., from eager load or dummy)
+                          if (isset($instance->status) && $instance->status !== 'Sold') {
+                            $option_text .= " ({$instance->status})";
+                          }
+                        }
+                         // This specific condition for 'Previously Returned' applies to the dummy object
+                        if (is_object($instance) && $instance->status === 'Previously Returned' && $selected_value === $serial_num) {
+                          $option_text .= " (Previously Returned)";
+                        }
+                      ?>
+                      <option value="<?= htmlspecialchars($serial_num); ?>"
+                        <?= ($serial_num === $selected_value) ? 'selected' : ''; ?>>
+                        <?= $option_text; ?>
+                      </option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              <?php endfor; ?>
+            <?php if (empty($potential_return_serials)): ?>
+              <p class="text-warning mt-2">No serialized units of this product are currently 'Sold' for return.</p>
+            <?php endif; ?>
+          </div>
+        <?php else: ?>
+        <p class="text-warning">Please select a Customer for Customer Return to manage serial numbers.</p>
+        <?php endif; ?>
+      </div>
+      <?php endif; ?>
+      <?php if ($is_serialized_product && $transaction->transaction_type === 'Supplier Return'): ?>
                                     <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="supplier-return" data-item-id="<?= htmlspecialchars($item->id); ?>">
                                         <?php if ($transaction->supplier_id): ?>
                                             <div class="serial-numbers-subsection" data-return-type="supplier">
@@ -644,106 +638,103 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                             <p class="text-warning">Please select a Supplier for Supplier Return to manage serial numbers.</p>
                                         <?php endif; ?>
                                     </div>
-                                <?php endif; ?>
+      <?php endif; ?>
 
-                                <?php if ($is_serialized_product && $transaction->transaction_type === 'Stock Adjustment'): ?>
+      <?php if ($is_serialized_product && $transaction->transaction_type === 'Stock Adjustment'): ?>
                                     
-                                    <?php if ($is_serialized_product && $transaction->transaction_type === 'Stock Adjustment'): ?>
-                                            
-                                    
-                                    <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="adjustment" data-item-id="<?= htmlspecialchars($item->id); ?>">
-                                        <h6 class="text-white">Serial Numbers (Adjustment - Qty: <?= htmlspecialchars($item->quantity) ?>)</h6>
-                                        <p class="text-muted">Specify the direction of the adjustment (inflow/outflow) and manage serial numbers.</p>
+      <?php if ($is_serialized_product && $transaction->transaction_type === 'Stock Adjustment'): ?>
+                                                                     
+        <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="adjustment" data-item-id="<?= htmlspecialchars($item->id); ?>">
+          <h6 class="text-white">Serial Numbers (Adjustment - Qty: <?= htmlspecialchars($item->quantity) ?>)</h6>
+          <p class="text-muted">Specify the direction of the adjustment (inflow/outflow) and manage serial numbers.</p>
 
-                                        <?php
-                                        // Initialize serials array
-                                        $current_adjustment_serials = [];
-                                        $current_adjustment_direction = ''; // To be determined for display
+          <?php
+            $current_adjustment_serials = [];
+            $current_adjustment_direction = ''; // To be determined for display
 
                                         // Priority 1: From temporary session data (e.g., successful update of PENDING transaction)
-                                        if (isset($temp_submitted_serials[$item->id]) && is_array($temp_submitted_serials[$item->id])) {
-                                            $current_adjustment_serials = $temp_submitted_serials[$item->id];
-                                            $current_adjustment_direction = $temp_submitted_adjustment_directions[$item->id] ?? '';
-                                        }
+            if (isset($temp_submitted_serials[$item->id]) && is_array($temp_submitted_serials[$item->id])) {
+              $current_adjustment_serials = $temp_submitted_serials[$item->id];
+              $current_adjustment_direction = $temp_submitted_adjustment_directions[$item->id] ?? '';
+            }
                                         // Priority 2: From submitted error data (sticky form repopulation on *failed* attempt)
-                                        elseif (isset($error_data['adjustment_serial_numbers'][$item->id]) && is_array($error_data['adjustment_serial_numbers'][$item->id])) {
-                                            $current_adjustment_serials = $error_data['adjustment_serial_numbers'][$item->id];
-                                            $current_adjustment_direction = $error_data['adjustment_direction'][$item->id] ?? '';
-                                        }
-                                        // Priority 3: From existing ProductInstances if the transaction is already completed/exists
-                                        elseif ($item->relationLoaded('adjustedInInstances') && count($item->adjustedInInstances) > 0) {
-                                            $current_adjustment_serials = $item->adjustedInInstances->pluck('serial_number')->toArray();
-                                            $current_adjustment_direction = 'inflow';
-                                        } elseif ($item->relationLoaded('adjustedOutInstances') && count($item->adjustedOutInstances) > 0) {
-                                            $current_adjustment_serials = $item->adjustedOutInstances->pluck('serial_number')->toArray();
-                                            $current_adjustment_direction = 'outflow';
-                                        }
+            elseif (isset($error_data['adjustment_serial_numbers'][$item->id]) && is_array($error_data['adjustment_serial_numbers'][$item->id])) {
+              $current_adjustment_serials = $error_data['adjustment_serial_numbers'][$item->id];
+              $current_adjustment_direction = $error_data['adjustment_direction'][$item->id] ?? '';
+            }
+                                       // Priority 3: From existing ProductInstances if the transaction is already completed/exists
+            elseif ($item->relationLoaded('adjustedInInstances') && count($item->adjustedInInstances) > 0) {
+              $current_adjustment_serials = $item->adjustedInInstances->pluck('serial_number')->toArray();
+              $current_adjustment_direction = 'inflow';
+            } elseif ($item->relationLoaded('adjustedOutInstances') && count($item->adjustedOutInstances) > 0) {
+              $current_adjustment_serials = $item->adjustedOutInstances->pluck('serial_number')->toArray();
+              $current_adjustment_direction = 'outflow';
+            }
 
                                         // Ensure we have enough input fields for the quantity, pre-filling existing serials
-                                        $displayed_adjustment_serials = [];
-                                        for ($i = 0; $i < $item->quantity; $i++) {
-                                            $displayed_adjustment_serials[] = $current_adjustment_serials[$i] ?? ''; // Use existing serial or empty string
-                                        }
-                                        ?>
+            $displayed_adjustment_serials = [];
+            for ($i = 0; $i < $item->quantity; $i++) {
+              $displayed_adjustment_serials[] = $current_adjustment_serials[$i] ?? ''; // Use existing serial or empty string
+            }
+            ?>
 
-                                        <div class="form-group mb-3">
-                                            <label for="adjustment_direction_<?= htmlspecialchars($item->id); ?>" class="form-label light-txt">Adjustment Direction:</label>
-                                            <select class="form-select form-control-sm dark-txt light-bg adjustment-direction-select"
-                                                    id="adjustment_direction_<?= htmlspecialchars($item->id); ?>"
-                                                    name="adjustment_direction_<?= htmlspecialchars($item->id); ?>"
-                                                    data-item-id="<?= htmlspecialchars($item->id); ?>"
-                                                    required>
-                                                <option value="">-- Select Direction --</option>
-                                                <option value="inflow" <?= ($current_adjustment_direction === 'inflow') ? 'selected' : ''; ?>>Inflow (Adding to Stock)</option>
-                                                <option value="outflow" <?= ($current_adjustment_direction === 'outflow') ? 'selected' : ''; ?>>Outflow (Removing from Stock)</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="serial-numbers-inputs-container" data-item-id="<?= htmlspecialchars($item->id); ?>">
-                                            <?php foreach ($displayed_adjustment_serials as $serial_idx => $serial_value) : ?>
-                                                <div class="form-group mb-2">
-                                                    <label for="adjustment_serial_<?= htmlspecialchars($item->id); ?>_<?= $serial_idx; ?>" class="form-label light-txt">Serial #<?= ($serial_idx + 1); ?>:</label>
-                                                    <input type="text"
-                                                           class="form-control form-control-sm dark-txt light-bg serial-number-input"
-                                                           id="adjustment_serial_<?= htmlspecialchars($item->id); ?>_<?= $serial_idx; ?>"
-                                                           name="adjustment_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
-                                                           value="<?= htmlspecialchars($serial_value); ?>"
-                                                           data-product-id="<?= htmlspecialchars($item->product->id); ?>"
-                                                           data-item-id="<?= htmlspecialchars($item->id); ?>"
-                                                           required
-                                                           pattern="^[a-zA-Z0-9-]*$"
-                                                           maxlength="50">
-                                                </div>
-                                            <?php endforeach; ?>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-
-                                    </div>
-                                <?php endif; ?>
-
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-white-50">No items in this transaction.</p>
-                <?php endif; ?>
+            <div class="form-group mb-3">
+              <label for="adjustment_direction_<?= htmlspecialchars($item->id); ?>" class="form-label light-txt">Adjustment Direction:</label>
+              <select class="form-select form-control-sm dark-txt light-bg adjustment-direction-select"
+                id="adjustment_direction_<?= htmlspecialchars($item->id); ?>"
+                name="adjustment_direction_<?= htmlspecialchars($item->id); ?>"
+                data-item-id="<?= htmlspecialchars($item->id); ?>"
+              required>
+                <option value="">-- Select Direction --</option>
+                <option value="inflow" <?= ($current_adjustment_direction === 'inflow') ? 'selected' : ''; ?>>Inflow (Adding to Stock)</option>
+                <option value="outflow" <?= ($current_adjustment_direction === 'outflow') ? 'selected' : ''; ?>>Outflow (Removing from Stock)</option>
+              </select>
             </div>
-
-            <div class="mb-3">
-              <label for="notes" class="form-label light-txt">Notes</label>
-              <textarea class="form-control dark-txt light-bg" id="notes" name="notes" rows="3" <?= $initial_is_form_readonly ? 'disabled' : '' ?>><?= htmlspecialchars($transaction->notes ?? '') ?></textarea>
+            <div class="serial-numbers-inputs-container" data-item-id="<?= htmlspecialchars($item->id); ?>">
+              <?php foreach ($displayed_adjustment_serials as $serial_idx => $serial_value) : ?>
+              <div class="form-group mb-2">
+              <label for="adjustment_serial_<?= htmlspecialchars($item->id); ?>_<?= $serial_idx; ?>" class="form-label light-txt">Serial #<?= ($serial_idx + 1); ?>:</label>
+              <input type="text"
+                class="form-control form-control-sm dark-txt light-bg serial-number-input"
+                id="adjustment_serial_<?= htmlspecialchars($item->id); ?>_<?= $serial_idx; ?>"
+                name="adjustment_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
+                value="<?= htmlspecialchars($serial_value); ?>"
+                data-product-id="<?= htmlspecialchars($item->product->id); ?>"
+                data-item-id="<?= htmlspecialchars($item->id); ?>"
+                required
+                pattern="^[a-zA-Z0-9-]*$"
+                maxlength="50">
             </div>
-
-            <div class="d-grid gap-2 mt-4">
-              <button type="submit" class="btn btn-primary btn-lg" id="updateButton">Update Transaction</button>
-              <a href="/staff/transactions_list" class="btn btn-secondary btn-lg">Back to List</a>
-            </div>
-          </form>
+          <?php endforeach; ?>
         </div>
       </div>
+      <?php endif; ?>
+
     </div>
+    <?php endif; ?>
+
   </div>
+</div>
+<?php endforeach; ?>
+<?php else: ?>
+<p class="text-white-50">No items in this transaction.</p>
+<?php endif; ?>
+</div>
+
+<div class="mb-3">
+  <label for="notes" class="form-label light-txt">Notes</label>
+  <textarea class="form-control dark-txt light-bg" id="notes" name="notes" rows="3" <?= $initial_is_form_readonly ? 'disabled' : '' ?>><?= htmlspecialchars($transaction->notes ?? '') ?></textarea>
+</div>
+
+<div class="d-grid gap-2 mt-4">
+  <button type="submit" class="btn btn-primary btn-lg" id="updateButton">Update Transaction</button>
+    <a href="/staff/transactions_list" class="btn btn-secondary btn-lg">Back to List</a>
+</div>
+</form>
+</div>
+</div>
+</div>
+ </div>
 </section>
 <script>
     // This script should be placed in the HTML file where your numeric input field is located.
