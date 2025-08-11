@@ -647,11 +647,10 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                 <?php endif; ?>
 
                                 <?php if ($is_serialized_product && $transaction->transaction_type === 'Stock Adjustment'): ?>
-                                    <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="adjustment" data-item-id="<?= htmlspecialchars($item->id); ?>">
-                                        <h6 class="text-white">Serial Numbers (Adjustment - Qty: <?= htmlspecialchars($item->quantity) ?>)</h6>
-                                        <p class="text-muted">Specify the direction of the adjustment (inflow/outflow) and manage serial numbers.</p>
-
-                                        <?php if ($is_serialized_product && $transaction->transaction_type === 'Stock Adjustment'): ?>
+                                    
+                                    <?php if ($is_serialized_product && $transaction->transaction_type === 'Stock Adjustment'): ?>
+                                            
+                                    
                                     <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="adjustment" data-item-id="<?= htmlspecialchars($item->id); ?>">
                                         <h6 class="text-white">Serial Numbers (Adjustment - Qty: <?= htmlspecialchars($item->quantity) ?>)</h6>
                                         <p class="text-muted">Specify the direction of the adjustment (inflow/outflow) and manage serial numbers.</p>
@@ -720,121 +719,6 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                     </div>
                                 <?php endif; ?>
 
-                                        <div class="form-group mb-3">
-                                            <label class="form-label light-txt">Adjustment Direction:</label>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input adjustment-direction-radio" type="radio" name="item_adjustment_direction[<?= htmlspecialchars($item->id); ?>]"
-                                                       id="adjustment_inflow_<?= htmlspecialchars($item->id); ?>" value="inflow"
-                                                       <?= ($current_adjustment_direction === 'inflow') ? 'checked' : ''; ?>>
-                                                <label class="form-check-label light-txt" for="adjustment_inflow_<?= htmlspecialchars($item->id); ?>">Inflow (Add to Stock)</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input adjustment-direction-radio" type="radio" name="item_adjustment_direction[<?= htmlspecialchars($item->id); ?>]"
-                                                       id="adjustment_outflow_<?= htmlspecialchars($item->id); ?>" value="outflow"
-                                                       <?= ($current_adjustment_direction === 'outflow') ? 'checked' : ''; ?>>
-                                                <label class="form-check-label light-txt" for="adjustment_outflow_<?= htmlspecialchars($item->id); ?>">Outflow (Remove from Stock)</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="serial-number-fields" data-item-id="<?= htmlspecialchars($item->id); ?>">
-                                            <?php if ($current_adjustment_direction === 'inflow'): ?>
-                                                <div class="inflow-section">
-                                                    <h6 class="text-white">Inflow Serial Numbers:</h6>
-                                                    <p class="text-muted">Enter new serial numbers to add to stock.</p>
-                                                    <?php
-                                                    $current_adjusted_in_serials = [];
-                                                    if (isset($error_data['adjusted_in_serial_numbers'][$item->id]) && is_array($error_data['adjusted_in_serial_numbers'][$item->id])) {
-                                                        $current_adjusted_in_serials = $error_data['adjusted_in_serial_numbers'][$item->id];
-                                                    } elseif ($item->relationLoaded('adjustedInInstances') && !empty($item->adjustedInInstances)) {
-                                                        // Ensure this is accessing object properties since adjustedInInstances is a collection of objects
-                                                        $current_adjusted_in_serials = array_map(fn($instance) => $instance->serial_number, $item->adjustedInInstances->toArray());
-                                                    }
-                                                    ?>
-                                                    <?php for ($i = 0; $i < $item->quantity; $i++): ?>
-                                                        <div class="form-group mb-2">
-                                                            <label for="adjusted_in_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>" class="form-label light-txt">Serial #<?= ($i + 1); ?>:</label>
-                                                            <input type="text"
-                                                                   class="form-control form-control-sm dark-txt light-bg serial-number-input"
-                                                                   id="adjusted_in_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
-                                                                   name="adjusted_in_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
-                                                                   value="<?= htmlspecialchars($current_adjusted_in_serials[$i] ?? ''); ?>"
-                                                                   required
-                                                                   maxlength="50"
-                                                                   pattern="^[a-zA-Z0-9-]*$">
-                                                        </div>
-                                                    <?php endfor; ?>
-                                                </div>
-                                            <?php elseif ($current_adjustment_direction === 'outflow'): ?>
-                                                <div class="outflow-section">
-                                                    <h6 class="text-white">Outflow Serial Numbers:</h6>
-                                                    <p class="text-muted">Select serial numbers to remove from stock.</p>
-                                                    <?php
-                                                    // Get available in-stock instances for this product
-                                                    $available_in_stock_for_adjustment_out = $potential_adjusted_out_serials_by_product[$item->product->id] ?? [];
-                                                    usort($available_in_stock_for_adjustment_out, function($a, $b) {
-                                                        return strcmp($a['serial_number'], $b['serial_number']);
-                                                    });
-
-                                                    $current_adjusted_out_serials = [];
-                                                    if (isset($error_data['adjusted_out_serial_numbers'][$item->id]) && is_array($error_data['adjusted_out_serial_numbers'][$item->id])) {
-                                                        $current_adjusted_out_serials = $error_data['adjusted_out_serial_numbers'][$item->id];
-                                                    } elseif ($item->relationLoaded('adjustedOutInstances') && !empty($item->adjustedOutInstances)) {
-                                                        foreach ($item->adjustedOutInstances as $instance) {
-                                                            $current_adjusted_out_serials[] = $instance->serial_number; // This is a real Eloquent object
-                                                        }
-                                                    }
-                                                    ?>
-                                                    <?php for ($i = 0; $i < $item->quantity; $i++): ?>
-                                                        <div class="form-group mb-2">
-                                                            <label for="adjusted_out_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>" class="form-label light-txt">Select Serial #<?= ($i + 1); ?>:</label>
-                                                            <select class="form-select form-control-sm dark-txt light-bg serial-number-input"
-                                                                    id="adjusted_out_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
-                                                                    name="adjusted_out_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
-                                                                    required>
-                                                                <option value="">-- Select a Serial Number --</option>
-                                                                <?php
-                                                                $selected_value = $current_adjusted_out_serials[$i] ?? null;
-
-                                                                $display_options_outflow = [];
-                                                                foreach ($available_in_stock_for_adjustment_out as $instance) {
-                                                                    $display_options_outflow[$instance['serial_number']] = $instance;
-                                                                }
-                                                                if ($selected_value && !isset($display_options_outflow[$selected_value])) {
-                                                                    $temp_instance = new ProductInstance();
-                                                                    $temp_instance->serial_number = $selected_value;
-                                                                    $temp_instance->status = 'Previously Adjusted Out';
-                                                                    $display_options_outflow[$selected_value] = $temp_instance;
-                                                                }
-                                                                ksort($display_options_outflow);
-
-                                                                foreach ($display_options_outflow as $serial_num => $instance):
-                                                                    $option_text = htmlspecialchars($serial_num);
-                                                                    // Check if $instance is an array (from DB) or an object (dummy/eager loaded)
-                                                                    if (is_array($instance)) {
-                                                                        if (isset($instance['status']) && $instance['status'] !== 'In Stock') {
-                                                                            $option_text .= " ({$instance['status']})";
-                                                                        }
-                                                                    } else { // It's a ProductInstance object (e.g., from eager load or dummy)
-                                                                        if (isset($instance->status) && $instance->status !== 'In Stock') {
-                                                                            $option_text .= " ({$instance->status})";
-                                                                        }
-                                                                    }
-                                                                    // This specific condition for 'Previously Adjusted Out' applies to the dummy object
-                                                                    if (is_object($instance) && $instance->status === 'Previously Adjusted Out' && $selected_value === $serial_num) {
-                                                                        $option_text .= " (Previously Adjusted Out)";
-                                                                    }
-                                                                ?>
-                                                                    <option value="<?= htmlspecialchars($serial_num); ?>"
-                                                                        <?= ($serial_num === $selected_value) ? 'selected' : ''; ?>>
-                                                                        <?= $option_text; ?>
-                                                                    </option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    <?php endfor; ?>
-                                                </div>
-                                            <?php endif; ?>
-                                        </div>
                                     </div>
                                 <?php endif; ?>
 
