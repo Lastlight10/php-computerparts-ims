@@ -195,6 +195,8 @@ class StaffController extends Controller {
     $search_query = $this->input('search_query');
     $filter_type = $this->input('filter_type');
     $filter_status = $this->input('filter_status');
+    $filter_date_range = $this->input('filter_date_range');
+
     $sort_by = $this->input('sort_by') ?: 'transaction_date'; // Default sort column
     $sort_order = $this->input('sort_order') ?: 'desc'; // Default sort order
 
@@ -222,6 +224,37 @@ class StaffController extends Controller {
         $transactions_query->where('status', $filter_status);
         Logger::log("DEBUG: Applied status filter: '{$filter_status}'");
     }
+      if (!empty($filter_date_range)) {
+    $now = Carbon::now();
+    Logger::log("Date Range Filter: $filter_date_range");
+
+    switch ($filter_date_range) {
+        case 'today':
+            $transactions_query->whereDate('created_at', $now);
+            break;
+        case 'yesterday':
+            $transactions_query->whereDate('created_at', $now->copy()->subDay());
+            break;
+        case 'week':
+            $transactions_query->whereBetween('created_at', [
+                $now->copy()->startOfWeek(),
+                $now->copy()->endOfWeek()
+            ]);
+            break;
+        case 'month':
+            $transactions_query->whereBetween('created_at', [
+                $now->copy()->startOfMonth(),
+                $now->copy()->endOfMonth()
+            ]);
+            break;
+        case 'year':
+            $transactions_query->whereBetween('created_at', [
+                $now->copy()->startOfYear(),
+                $now->copy()->endOfYear()
+            ]);
+            break;
+    }
+}
 
     // Apply sorting
     // Validate sort_by column to prevent SQL injection
@@ -268,6 +301,7 @@ class StaffController extends Controller {
         'search_query' => $search_query, // Pass back to view
         'filter_type' => $filter_type,   // Pass back to view
         'filter_status' => $filter_status, // Pass back to view
+        'filter_date_range' => $filter_date_range,
         'sort_by' => $sort_by,           // Pass back to view
         'sort_order' => $sort_order,     // Pass back to view
         'transaction_types_list' => ['Sale', 'Purchase', 'Customer Return', 'Supplier Return', 'Stock Adjustment'], // For filter dropdown

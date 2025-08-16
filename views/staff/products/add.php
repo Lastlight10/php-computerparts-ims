@@ -61,7 +61,7 @@ $brands = $brands ?? [];
             <div class="row">
     <div class="col-md-6 mb-3">
         <label for="category_id" class="form-label light-txt">Category</label>
-        <select data-live-search="true" class="form-select form-select-lg dark-txt light-bg selectpicker" id="category_id" name="category_id" required>
+        <select data-live-search="true" class="form-select form-select-lg dark-txt light-bg selectpicker" id="category_id" name="category_id" required maxlength="30">
             <option value="">Select Category</option>
             <?php foreach ($categories as $category): ?>
                 <option value="<?= htmlspecialchars($category->id) ?>"
@@ -73,7 +73,7 @@ $brands = $brands ?? [];
     </div>
     <div class="col-md-6 mb-3">
         <label for="brand_id" class="form-label light-txt">Brand</label>
-        <select data-live-search="true"  class="form-select form-select-lg dark-txt light-bg selectpicker" id="brand_id" name="brand_id" required>
+        <select data-live-search="true"  class="form-select form-select-lg dark-txt light-bg selectpicker" id="brand_id" name="brand_id" required maxlength="30">
             <option value="">Select Brand</option>
             <?php foreach ($brands as $brand): ?>
                 <option value="<?= htmlspecialchars($brand->id) ?>"
@@ -194,7 +194,18 @@ $brands = $brands ?? [];
         if (reorderLevelInput) {
             reorderLevelInput.addEventListener('input', enforceNumericInputRules);
         }
+
+        
     });
+    $('#category_id').on('shown.bs.select', function () {
+    // Target the live search input inside the dropdown
+    $('.bs-searchbox input').attr('maxlength', 30);
+});
+$('#brand_id').on('shown.bs.select', function () {
+    // Target the live search input inside the dropdown
+    $('.bs-searchbox input').attr('maxlength', 30);
+});
+
 </script>
 
 
