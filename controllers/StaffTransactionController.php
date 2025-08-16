@@ -1416,7 +1416,7 @@ class StaffTransactionController extends Controller {
         $filter_status = trim($this->input('filter_status'));
         $sort_by = trim($this->input('sort_by')) ?: 'transaction_date';
         $sort_order = trim($this->input('sort_order')) ?: 'desc';
-        $time_filter = trim($this->input('time_filter'));
+        $filter_date_range = trim($this->input('filter_date_range'));
 
         $transactions_query = Transaction::with(['customer', 'supplier', 'createdBy', 'updatedBy']);
 
@@ -1445,15 +1445,15 @@ class StaffTransactionController extends Controller {
         if (!empty($filter_status)) {
             $transactions_query->where('status', $filter_status);
         }
-        if (!empty($time_filter)) {
+        if (!empty($filter_date_range)) {
     $now = Carbon::now();
 
-    switch ($time_filter) {
-        case '5min':
-            $from = $now->subMinutes(5);
-            break;
-        case 'day':
+    switch ($filter_date_range) {
+        case 'today':
             $from = $now->subDay();
+            break;
+        case 'yesterday':
+            $from = $now->subYesterday();
             break;
         case 'week':
             $from = $now->subWeek();
@@ -1470,7 +1470,7 @@ class StaffTransactionController extends Controller {
 
     if ($from) {
         $transactions_query->where('transaction_date', '>=', $from);
-        Logger::log("DEBUG: Applied time filter for print: '{$time_filter}' from " . $from->toDateTimeString());
+        Logger::log("DEBUG: Applied time filter for print: '{$filter_date_range}' from " . $from->toDateTimeString());
     }
 }
 
@@ -1539,7 +1539,7 @@ class StaffTransactionController extends Controller {
                     <p><strong>Type Filter:</strong> ' . htmlspecialchars($filter_type ?: 'All Types') . '</p>
                     <p><strong>Status Filter:</strong> ' . htmlspecialchars($filter_status ?: 'All Statuses') . '</p>
                     <p><strong>Sort By:</strong> ' . htmlspecialchars(ucwords(str_replace('_', ' ', $sort_by))) . ' (' . htmlspecialchars(ucfirst($sort_order)) . ')</p>
-                    <p><strong>Time Filter:</strong> ' . htmlspecialchars(ucwords(str_replace(['5min'], ['Last 5 Minutes'], $time_filter ?: 'All Time'))) . '</p>
+                    <p><strong>Time Filter:</strong> ' . htmlspecialchars(ucwords(str_replace(['5min'], ['Last 5 Minutes'], $filter_date_range ?: 'All Time'))) . '</p>
 
                 </div>
 

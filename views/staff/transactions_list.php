@@ -70,14 +70,14 @@ use Carbon\Carbon; // Required for date comparison
             </select>
         </div>
         <div class="col-md-3">
-    <label for="time_filter" class="form-label light-txt">Date Range</label>
-    <select class="form-select dark-txt light-bg" id="time_filter" name="time_filter">
+    <label for="filter_date_range" class="form-label light-txt">Date Range</label>
+    <select class="form-select dark-txt light-bg" id="filter_date_range" name="filter_date_range">
         <option value="">All Time</option>
-        <option value="5min" <?= (($time_filter ?? '') === '5min') ? 'selected' : '' ?>>Last 5 Minutes</option>
-        <option value="day" <?= (($time_filter ?? '') === 'day') ? 'selected' : '' ?>>Last 24 Hours</option>
-        <option value="week" <?= (($time_filter ?? '') === 'week') ? 'selected' : '' ?>>Last 7 Days</option>
-        <option value="month" <?= (($time_filter ?? '') === 'month') ? 'selected' : '' ?>>Last 30 Days</option>
-        <option value="year" <?= (($time_filter ?? '') === 'year') ? 'selected' : '' ?>>Last 12 Months</option>
+        <option value="today" <?= (($filter_date_range ?? '') === '5min') ? 'selected' : '' ?>>Today</option>
+        <option value="yesterday" <?= (($filter_date_range ?? '') === 'day') ? 'selected' : '' ?>>Yesterday</option>
+        <option value="week" <?= (($filter_date_range ?? '') === 'week') ? 'selected' : '' ?>>This Week</select>option>
+        <option value="month" <?= (($filter_date_range ?? '') === 'month') ? 'selected' : '' ?>>This Month/option>
+        <option value="year" <?= (($filter_date_range ?? '') === 'year') ? 'selected' : '' ?>>This Year</option>
     </select>
 </div>
         <div class="col-md-2">
