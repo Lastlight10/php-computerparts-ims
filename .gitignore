@@ -1,3 +1,4 @@
-/.env
-/storage/logs/app.log
+storage/logs/app.log
+.env
+storage/logs/app.log
 storage/logs/app.log

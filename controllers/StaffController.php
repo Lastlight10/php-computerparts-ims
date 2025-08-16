@@ -224,37 +224,37 @@ class StaffController extends Controller {
         $transactions_query->where('status', $filter_status);
         Logger::log("DEBUG: Applied status filter: '{$filter_status}'");
     }
-      if (!empty($filter_date_range)) {
-    $now = Carbon::now();
-    Logger::log("Date Range Filter: $filter_date_range");
+    if (!empty($filter_date_range)) {
+        $now = Carbon::now();
+        Logger::log("Date Range Filter: $filter_date_range");
 
-    switch ($filter_date_range) {
-        case 'today':
-            $transactions_query->whereDate('created_at', $now);
-            break;
-        case 'yesterday':
-            $transactions_query->whereDate('created_at', $now->copy()->subDay());
-            break;
-        case 'week':
-            $transactions_query->whereBetween('created_at', [
-                $now->copy()->startOfWeek(),
-                $now->copy()->endOfWeek()
-            ]);
-            break;
-        case 'month':
-            $transactions_query->whereBetween('created_at', [
-                $now->copy()->startOfMonth(),
-                $now->copy()->endOfMonth()
-            ]);
-            break;
-        case 'year':
-            $transactions_query->whereBetween('created_at', [
-                $now->copy()->startOfYear(),
-                $now->copy()->endOfYear()
-            ]);
-            break;
+        switch ($filter_date_range) {
+            case 'today':
+                $transactions_query->whereDate('created_at', $now);
+                break;
+            case 'yesterday':
+                $transactions_query->whereDate('created_at', $now->copy()->subDay());
+                break;
+            case 'week':
+                $transactions_query->whereBetween('created_at', [
+                    $now->copy()->startOfWeek(),
+                    $now->copy()->endOfWeek()
+                ]);
+                break;
+            case 'month':
+                $transactions_query->whereBetween('created_at', [
+                    $now->copy()->startOfMonth(),
+                    $now->copy()->endOfMonth()
+                ]);
+                break;
+            case 'year':
+                $transactions_query->whereBetween('created_at', [
+                    $now->copy()->startOfYear(),
+                    $now->copy()->endOfYear()
+                ]);
+                break;
+        }
     }
-}
 
     // Apply sorting
     // Validate sort_by column to prevent SQL injection
