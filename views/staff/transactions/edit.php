@@ -110,87 +110,94 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                 <option value="Stock Adjustment" <?= ($transaction->transaction_type == 'Stock Adjustment') ? 'selected' : '' ?>>Stock Adjustment</option>
               </select>
             </div>
-
-            <?php if (in_array($transaction->transaction_type, ['Sale', 'Customer Return'])): ?>
-                <div class="mb-3" id="customer_field">
-                    <label for="customer_id" class="form-label light-txt">Customer</label>
-                    <select class="form-select form-select-lg dark-txt light-bg" id="customer_id" name="customer_id"
-                            data-initial-value="<?= htmlspecialchars($transaction->customer_id ?? '') ?>" disabled> <option value="">Select Customer (Optional)</option>
-                        <?php foreach ($customers as $customer): // Changed from object to array access ?>
-                        <option value="<?= htmlspecialchars($customer['id']) ?>"
-                            <?php
-                            if ($transaction->transaction_type !== 'Stock Adjustment' && isset($transaction->customer_id) && $transaction->customer_id == $customer['id']) {
-                                echo 'selected';
-                            }
-                            ?>
-                        >
-                            <?= htmlspecialchars($customer['company_name'] ?? ($customer['contact_first_name'] . ' ' . $customer['contact_last_name'])) ?>
+            
+          <?php if (in_array($transaction->transaction_type, ['Sale', 'Customer Return'])): ?>
+            <div class="mb-3" id="customer_field">
+                <label for="customer_id" class="form-label light-txt">Customer</label>
+                
+                <!-- Disabled dropdown just for display -->
+                <select class="form-select form-select-lg dark-txt light-bg" disabled>
+                    <?php if ($transaction->customer): ?>
+                        <option selected>
+                            <?= htmlspecialchars(
+                                $transaction->customer->company_name
+                                ?: trim(($transaction->customer->contact_first_name ?? '') . ' ' . ($transaction->customer->contact_last_name ?? ''))
+                            ) ?>
                         </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            <?php endif; ?>
-            <?php if (in_array($transaction->transaction_type, ['Purchase', 'Supplier Return'])): ?>
-               <div class="mb-3" id="supplier_field">
-              <label for="supplier_id" class="form-label light-txt">Supplier</label>
-              <select class="form-select form-select-lg dark-txt light-bg" id="supplier_id" name="supplier_id"
-                      data-initial-value="<?= htmlspecialchars($transaction->supplier_id ?? '') ?>" disabled> <option value="">Select Supplier (Optional)</option>
-                <?php foreach ($suppliers as $supplier): // Changed from object to array access ?>
-                  <option value="<?= htmlspecialchars($supplier['id']) ?>"
-                    <?php
-                    if ($transaction->transaction_type !== 'Stock Adjustment' && isset($transaction->supplier_id) && $transaction->supplier_id == $supplier['id']) {
-                        echo 'selected';
-                    }
-                    ?>
-                  >
-                    <?= htmlspecialchars($supplier['company_name'] ?? ($supplier['contact_first_name'] . ' ' . $supplier['contact_last_name'])) ?>
+                    <?php else: ?>
+                        <option>No Customer Assigned</option>
+                    <?php endif; ?>
+                </select>
+                
+                <!-- Hidden input to keep value submitted -->
+                <input type="hidden" name="customer_id" value="<?= htmlspecialchars((string) $transaction->customer_id) ?>">
+            </div>
+          <?php endif; ?>
+
+          <?php if (in_array($transaction->transaction_type, ['Purchase', 'Supplier Return'])): ?>
+            <div class="mb-3" id="supplier_field">
+                <label for="supplier_id" class="form-label light-txt">Supplier</label>
+                <select class="form-select form-select-lg dark-txt light-bg" disabled>
+                  <option>
+                    <?= htmlspecialchars(
+                        $transaction->supplier['company_name'] 
+                        ?? trim(($transaction->supplier['contact_first_name'] ?? '') . ' ' . ($transaction->supplier['contact_last_name'] ?? ''))
+                    ) ?>
                   </option>
-                <?php endforeach; ?>
-              </select>
-            </div>
+                </select>
+                <input type="hidden" name="supplier_id" value="<?= htmlspecialchars($transaction->supplier_id ?? '') ?>">
+              </div>
             <?php endif; ?>
             
-
-    
-            
-
             <div class="row mb-3">
-                <label for="total_amount" class="form-label light-txt">Total Amount (₱)</label>
-                <div class="col-sm-10">
-                    <input type="number" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="total_amount" name="total_amount"
-                        value="<?= htmlspecialchars($transaction->total_amount ?? '') ?>" readonly>
-                </div>
-            </div>
-            <?php
-            // Determine if the amount_received field should be displayed
-            $show_amount_received_input = in_array($transaction->transaction_type, ['Sale', 'Purchase', 'Customer Return', 'Supplier Return']);
+              <label for="total_amount" class="form-label light-txt">Total Amount (₱)</label>
+              <div class="col-sm-10">
+                  <div class="input-group">
+                      <span class="input-group-text">₱</span>
+                      <input type="text"
+                            class="form-control form-control-lg dark-txt light-bg"
+                            id="total_amount"
+                            name="total_amount"
+                            value="<?= htmlspecialchars(number_format($calculated_total_amount ?? $transaction->total_amount ?? 0, 2)) ?>"
+                            readonly>
+                  </div>
+
+
+              </div>
+          </div>
+
+          <?php
+            // Determine if the amount_received should be displayed
+            $show_amount_received = in_array($transaction->transaction_type, ['Sale', 'Purchase', 'Customer Return', 'Supplier Return']);
+            if ($show_amount_received):
+
+                $amount_label = match($transaction->transaction_type) {
+                    'Sale' => 'Amount Received from Customer (₱):',
+                    'Purchase' => 'Amount Paid to Supplier (₱):',
+                    'Customer Return' => 'Amount Refunded to Customer (₱):',
+                    'Supplier Return' => 'Amount Received from Supplier (Refund in ₱):',
+                    default => 'Amount (₱):',
+                };
+
+                // Use stored or pre-calculated amount
+                $amount_value = number_format($transaction->amount_received ?? $calculated_total_amount ?? 0, 2);
             ?>
-            <?php if ($show_amount_received_input): ?>
-                <div class="row mb-3"> <label for="amount_received" class="form-label light-txt">
-                        <?php
-                        if ($transaction->transaction_type === 'Sale') {
-                            echo 'Amount Received from Customer (₱):';
-                        } elseif ($transaction->transaction_type === 'Purchase') {
-                            echo 'Amount Paid to Supplier (₱):';
-                        } elseif ($transaction->transaction_type === 'Customer Return') {
-                            echo 'Amount Refunded to Customer (₱):';
-                        } elseif ($transaction->transaction_type === 'Supplier Return') {
-                            echo 'Amount Received from Supplier (Refund in ₱):';
-                        }
-                        ?>
-                    </label>
-                    <div class="col-sm-10"> <input type="number" step="0.01" class="form-control form-control-lg dark-txt light-bg"
-                               id="amount_received" name="amount_received"
-                               value="<?= htmlspecialchars($transaction->amount_received ?? '') ?>"
-                               placeholder="Enter amount"
-                               oninput="this.value=this.value.slice(0,this.maxLength)"
-                               maxlength="11"
-                               required 
-                               pattern="[0-9]*\.?[0-9]*"
-                               title="Please enter a valid number (e.g., 123.45)">
-                    </div>
+                <div class="row mb-3">
+                    <label class="form-label light-txt"><strong><?= $amount_label ?></strong></label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                          <span class="input-group-text">₱</span>
+                          <input type="text"
+                                class="form-control form-control-lg dark-txt light-bg"
+                                value="<?= htmlspecialchars(number_format((float)$amount_value, 2, '.', '')) ?>"
+                                readonly>
+                      </div>
+                  </div>
                 </div>
             <?php endif; ?>
+
+
+
 
             <div class="mb-3">
               <label for="transaction_date" class="form-label light-txt">Transaction Date</label>
@@ -227,6 +234,10 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                   <div class="card lighterdark-bg mb-3 p-3 shadow-sm" data-product-id="<?= htmlspecialchars($item->product->id); ?>" data-is-serialized="<?= htmlspecialchars((int)$item->product->is_serialized); ?>" data-quantity="<?= htmlspecialchars($item->quantity); ?>">
                     <div class="card-body">
                       <h5 class="card-title text-white"><?= htmlspecialchars(string: $item->product->name ?? 'N/A') ?> (SKU: <?= htmlspecialchars($item->product->sku ?? 'N/A') ?>)</h5>
+                      <p class="text-light">
+                        Quantity: <?= htmlspecialchars($item->quantity ?? 'N/A') ?>
+                    </p>
+                      
                       <input type="hidden" name="items[<?= $index ?>][id]" value="<?= htmlspecialchars($item->id) ?>">
                       <input type="hidden" name="items[<?= $index ?>][product_id]" value="<?= htmlspecialchars($item->product->id) ?>">
                        <input type="hidden" name="items[<?= $index ?>][quantity]" value="<?= htmlspecialchars($item->quantity) ?>">
@@ -244,11 +255,18 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                 
                     <div class="mb-3">
                       <label for="item_cost_<?= $index ?>" class="form-label light-txt">Cost at Receipt (price for customer in ₱):</label>
-                      <input type="number" step="0.01" class="form-control form-control-sm dark-txt light-bg"
-                        id="item_cost_<?= $index ?>"
-                        name="items[<?= $index ?>][purchase_cost]"
-                        value="<?= htmlspecialchars($default_purchase_cost) ?>"
-                        placeholder="Enter cost for this unit" required readonly>
+                      <div class="input-group input-group-sm mb-2">
+                          <span class="input-group-text">₱</span>
+                          <input type="number" step="0.01" 
+                                class="form-control form-control-sm dark-txt light-bg"
+                                id="item_cost_<?= $index ?>"
+                                name="items[<?= $index ?>][purchase_cost]"
+                                value="<?= htmlspecialchars(number_format((float)$default_purchase_cost, 2, '.', '')) ?>"
+                                placeholder="Enter cost for this unit" 
+                                required 
+                                readonly>
+                      </div>
+
                     </div>
                     <?php
                     endif;
@@ -263,14 +281,40 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                       // Determine the default value for the unit_price input
                       $default_unit_price = '';
                       if (isset($item->unit_price) && $item->unit_price !== null) {
-                        $default_unit_price = $item->unit_price; // Always use saved value if exists
-                      } elseif ($transaction->transaction_type === 'Sale') {
-                        // For new sale items, default to product's selling price (your products.unit_price)
-                        $default_unit_price = $item->product->cost_price ?? '';
-                      } elseif ($transaction->transaction_type === 'Purchase') {
-                        // For new purchase items, default to product's cost (your products.cost_price)
-                        $default_unit_price = $item->product->unit_price ?? '';
+                          // Always use saved value if exists
+                          $default_unit_price = $item->unit_price;
+                      } else {
+                          switch ($transaction->transaction_type) {
+                              case 'Sale':
+                                  // For new sale items, default to product's selling price
+                                  $default_unit_price = $item->product->unit_price ?? '';
+                                  break;
+
+                              case 'Purchase':
+                                  // For new purchase items, default to product's cost
+                                  $default_unit_price = $item->product->cost_price ?? '';
+                                  break;
+
+                              case 'Customer Return':
+                                  // Default to the unit price at which the customer bought the product
+                                  $default_unit_price = $item->unit_price_at_transaction ?? $item->product->unit_price ?? '';
+                                  break;
+
+                              case 'Supplier Return':
+                                  // Default to the product's cost (assuming refund is based on cost)
+                                  $default_unit_price = $item->purchase_cost_at_transaction ?? $item->product->cost_price ?? '';
+                                  break;
+
+                              case 'Stock Adjustment':
+                                  // Default to product cost (or 0 if not applicable)
+                                  $default_unit_price = $item->product->cost_price ?? 0;
+                                  break;
+
+                              default:
+                                  $default_unit_price = '';
+                          }
                       }
+
                       ?>
                       <div class="mb-3">
                         <label for="item_unit_price_<?= $index ?>" class="form-label light-txt">
@@ -280,17 +324,22 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                           } elseif ($transaction->transaction_type === 'Customer Return') {
                             echo 'Return Value (per unit in ₱):';
                           } else {
-                            echo 'Unit Price (for customer in ₱):'; // Default label if not Sale/Return
+                            echo 'Unit Price (from supplier in ₱):'; // Default label if not Sale/Return
                            }
                         ?>
                         </label>
-                          <input type="number" step="0.01"
-                            class="form-control form-control-sm dark-txt light-bg"
-                            id="item_unit_price_<?= $index ?>"
-                            name="items[<?= $index ?>][unit_price]"
-                            readonly
-                            value="<?= htmlspecialchars($default_unit_price) ?>"
-                            <?= $is_unit_price_editable ? 'required' : 'readonly' ?> >
+                        <div class="input-group input-group-sm mb-2">
+                            <span class="input-group-text">₱</span>
+                            <input type="text"
+                                  class="form-control form-control-sm dark-txt light-bg"
+                                  id="item_unit_price_<?= $index ?>"
+                                  name="items[<?= $index ?>][unit_price]"
+                                  <?= $is_unit_price_editable ? 'required' : 'readonly' ?>
+                                  value="<?= htmlspecialchars(number_format((float)$default_unit_price, 2, '.', '')) ?>"
+                                  placeholder="No Price">
+                        </div>
+
+
                       </div>
 
                       <?php
@@ -405,54 +454,37 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                             <div class="form-group mb-2">
                                                 <label for="sale_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>" class="form-label light-txt">Select Serial #<?= ($i + 1); ?>:</label>
                                                 <select class="form-select form-control-sm dark-txt light-bg serial-number-input"
-                                                        id="sale_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
-                                                        name="selected_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
-                                                        data-product-id="<?= htmlspecialchars($item->product->id); ?>"
-                                                        data-item-id="<?= htmlspecialchars($item->id); ?>"
-                                                        required>
-                                                    <option value="">-- Select a Serial Number --</option>
-                                                    <?php
-                                                    $selected_value = $current_sale_serials[$i] ?? null;
+        id="sale_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
+        name="selected_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
+        data-product-id="<?= htmlspecialchars($item->product->id); ?>"
+        data-item-id="<?= htmlspecialchars($item->id); ?>"
+        required>
+    <option value="">-- Select a Serial Number --</option>
+    <?php
+    $selected_value = $current_sale_serials[$i] ?? null;
 
-                                                    // Collect all serials that are either 'In Stock' or were previously selected for this item (for pre-fill)
-                                                    $display_options = [];
-                                                    foreach ($available_instances_for_product as $instance) {
-                                                        $display_options[$instance['serial_number']] = $instance;
-                                                    }
-                                                    // Add any previously selected but perhaps now unavailable serials for sticky form/completed transaction display
-                                                    if ($selected_value && !isset($display_options[$selected_value])) {
-                                                        $temp_instance = new ProductInstance(); // Create a dummy instance to represent it
-                                                        $temp_instance->serial_number = $selected_value;
-                                                        $temp_instance->status = 'Unavailable/Previously Sold'; // Indicate its status
-                                                        $display_options[$selected_value] = $temp_instance;
-                                                    }
+    $serial_options = $available_serial_numbers_by_product[$item->product->id] ?? [];
+    // Include previously selected serial if it's no longer available
+    if ($selected_value && !in_array($selected_value, array_column($serial_options, 'serial_number'))) {
+        $serial_options[] = ['serial_number' => $selected_value, 'status' => 'Previously Sold'];
+    }
 
-                                                    // Sort display options by serial number
-                                                    ksort($display_options);
+    // Sort by serial number
+    usort($serial_options, fn($a, $b) => strcmp($a['serial_number'], $b['serial_number']));
 
-                                                    foreach ($display_options as $serial_num => $instance):
-                                                        $option_text = htmlspecialchars($serial_num);
-                                                        // Check if $instance is an array (from DB) or an object (dummy/eager loaded)
-                                                        if (is_array($instance)) {
-                                                            if (isset($instance['status']) && $instance['status'] !== 'In Stock') {
-                                                                $option_text .= " ({$instance['status']})";
-                                                            }
-                                                        } else { // It's a ProductInstance object (e.g., from eager load or dummy)
-                                                            if (isset($instance->status) && $instance->status !== 'In Stock') {
-                                                                $option_text .= " ({$instance->status})";
-                                                            }
-                                                        }
-                                                        // This specific condition for 'Previously Selected' applies to the dummy object
-                                                        if (is_object($instance) && $instance->status === 'Unavailable/Previously Sold' && $selected_value === $serial_num) {
-                                                            $option_text .= " (Previously Selected)";
-                                                        }
-                                                    ?>
-                                                        <option value="<?= htmlspecialchars($serial_num); ?>"
-                                                            <?= ($serial_num === $selected_value) ? 'selected' : ''; ?>>
-                                                            <?= $option_text; ?>
-                                                        </option>
-                                                    <?php endforeach; ?>
-                                                </select>
+    foreach ($serial_options as $instance):
+        $option_text = htmlspecialchars($instance['serial_number']);
+        if (isset($instance['status']) && $instance['status'] !== 'In Stock') {
+            $option_text .= " ({$instance['status']})";
+        }
+    ?>
+        <option value="<?= htmlspecialchars($instance['serial_number']) ?>"
+            <?= ($instance['serial_number'] === $selected_value) ? 'selected' : '' ?>>
+            <?= $option_text ?>
+        </option>
+    <?php endforeach; ?>
+</select>
+
                                             </div>
                                         <?php endfor; ?>
                                         <?php if (empty($available_instances_for_product)): ?>

@@ -152,7 +152,7 @@ use Carbon\Carbon; // Required for date comparison
                         echo htmlspecialchars($transaction->supplier->supplier_name ?? 'N/A');
                         ?>
                     </td>
-                    <td><?= htmlspecialchars($transaction->transaction_date ? date('Y-m-d H:i', strtotime($transaction->transaction_date)) : 'N/A') ?></td>
+                    <td><?= htmlspecialchars($transaction->transaction_date ? date('Y-m-d', strtotime($transaction->transaction_date)) : 'N/A') ?></td>
                     <td><?= htmlspecialchars($transaction->invoice_bill_number ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars(number_format($transaction->total_amount ?? 0.00, 2)) ?></td>
                     <td><?= htmlspecialchars($transaction->status ?? 'N/A') ?></td>

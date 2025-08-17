@@ -85,6 +85,26 @@ $can_add_items = ($transaction->status !== 'Completed' && $transaction->status !
                     <div class="row text-white mb-3">
                         <div class="col-md-6 mb-2"><strong>Transaction Type:</strong> <?= htmlspecialchars($transaction->transaction_type) ?></div>
                         <div class="col-md-6 mb-2"><strong>Transaction Date:</strong> <?= $transaction_date_formatted ?></div>
+
+                        <div class="col-md-6 mb-2"><strong>Party:</strong>
+                            <?php 
+                            
+                            if ($transaction->customer): ?>
+                                <?= htmlspecialchars(
+                                    $transaction->customer->company_name
+                                    ?: trim(($transaction->customer->contact_first_name ?? '') . ' ' . ($transaction->customer->contact_last_name ?? ''))
+                                ) ?>
+                            <?php elseif ($transaction->supplier): ?>
+                                <?= htmlspecialchars(
+                                    $transaction->supplier->company_name
+                                    ?: trim(($transaction->supplier->contact_first_name ?? '') . ' ' . ($transaction->supplier->contact_last_name ?? ''))
+                                    
+                                ) ?>
+                            <?php else: ?>
+                                No Supplier/Customer
+                            <?php endif; ?>
+                        </div>
+                        
                         <div class="col-md-6 mb-2"><strong>Status:</strong> <?= htmlspecialchars($transaction->status) ?></div>
                         <div class="col-md-6 mb-2"><strong>Total Amount:</strong> ₱<?= number_format($transaction->total_amount, 2) ?></div>
                         <?php
@@ -110,6 +130,7 @@ $can_add_items = ($transaction->status !== 'Completed' && $transaction->status !
                                 ₱<?= number_format($transaction->amount_received !== null ? (float)$transaction->amount_received : 0.00, 2) ?>
                             </div>
                         <?php endif; ?>
+
                         <div class="col-md-6 mb-2"><strong>Created By:</strong> <?= htmlspecialchars($transaction->createdBy->username ?? 'N/A') ?></div>
                         <div class="col-md-6 mb-2"><strong>Created At:</strong> <?= date('Y-m-d', strtotime($created_at_formatted)) ?></div>
                         <div class="col-md-6 mb-2"><strong>Updated By:</strong> <?= htmlspecialchars($transaction->updatedBy->username ?? 'N/A') ?></div>

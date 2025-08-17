@@ -74,4 +74,16 @@ class TransactionItem extends Model {
     {
         return $this->hasMany(ProductInstance::class, 'adjusted_out_transaction_item_id');
     }
+    public function getLinkedSerials(): array {
+        // Merge all instance arrays, just an example
+        return array_merge(
+            $this->purchasedInstances->toArray(),
+            $this->soldInstances->toArray(),
+            $this->returnedFromCustomerInstances->toArray(),
+            $this->returnedToSupplierInstances->toArray(),
+            $this->adjustedInInstances->toArray(),
+            $this->adjustedOutInstances->toArray()
+        );
+    }
+
 }

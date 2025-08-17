@@ -83,7 +83,7 @@ $default_status = $transaction->status ?? 'Pending'; // Default to Pending
             <div class="mb-3" id="customer_field">
                 <label for="customer_id" class="form-label light-txt">Customer</label>
                 <select class="form-select form-select-lg dark-txt light-bg" id="customer_id" name="customer_id">
-                    <option value="">Select Customer (Optional)</option>
+                    <option value="">Select Customer</option>
                     <?php
                     if (isset($customers) && (is_array($customers) || $customers instanceof Collection)) {
                         foreach ($customers as $customer) {
@@ -122,42 +122,42 @@ $default_status = $transaction->status ?? 'Pending'; // Default to Pending
             </div>
 
             <div class="mb-3" id="supplier_field">
-                <label for="supplier_id" class="form-label light-text">Supplier</label>
-                <select class="form-select form-select-lg dark-txt light-bg" id="supplier_id" name="supplier_id">
-                    <option value="">Select Supplier (Optional)</option>
-                    <?php
-                    if (isset($suppliers) && (is_array($suppliers) || $suppliers instanceof Collection)) {
-                        foreach ($suppliers as $supplier) {
-                            if (is_object($supplier)) {
-                                $supplierId = htmlspecialchars($supplier->id ?? '');
-                                $firstName = htmlspecialchars($supplier->contact_first_name ?? '');
-                                $lastName = htmlspecialchars($supplier->contact_last_name ?? '');
-                                $companyName = htmlspecialchars($supplier->company_name ?? '');
+    <label for="supplier_id" class="form-label light-text">Supplier</label>
+    <select class="form-select form-select-lg dark-txt light-bg" id="supplier_id" name="supplier_id">
+        <option value="">Select Supplier</option>
+        <?php
+        if (!empty($suppliers) && (is_array($suppliers) || $suppliers instanceof Collection)) {
+            foreach ($suppliers as $supplier) {
+                if (is_object($supplier)) {
+                    // Prepare ID and display name
+                    $supplierId = $supplier->id;
+                    $displayName = !empty($supplier->company_name) 
+                        ? htmlspecialchars($supplier->company_name) 
+                        : htmlspecialchars(trim(($supplier->contact_first_name ?? '') . ' ' . ($supplier->contact_last_name ?? '')));
+                    
+                    if (empty($displayName)) {
+                        $displayName = 'ID: ' . $supplierId;
+                    }
 
-                                $selected = '';
-                                if (isset($transaction) && $transaction->supplier_id == $supplier->id) {
-                                    $selected = 'selected';
-                                } elseif (isset($_SESSION['error_data']['supplier_id']) && $_SESSION['error_data']['supplier_id'] == $supplier->id) {
-                                    $selected = 'selected';
-                                }
-
-                                $displayName = !empty($companyName) ? $companyName : trim($firstName . ' ' . $lastName);
-                                if (empty($displayName)) {
-                                    $displayName = 'ID: ' . $supplierId;
-                                }
-                                ?>
-                                <option value="<?= $supplierId ?>" <?= $selected ?>>
-                                    <?= $displayName ?>
-                                </option>
-                                <?php
-                            } else {
-                                error_log('Warning: $supplier is not an object in transactions/add.php loop. Supplier data: ' . print_r($supplier, true));
-                            }
-                        }
+                    // Determine selected
+                    $selected = '';
+                    if (isset($transaction) && $transaction->supplier_id == $supplierId) {
+                        $selected = 'selected';
+                    } elseif (!empty($_SESSION['error_data']['supplier_id']) && $_SESSION['error_data']['supplier_id'] == $supplierId) {
+                        $selected = 'selected';
                     }
                     ?>
-                </select>
-            </div>
+                    <option value="<?= $supplierId ?>" <?= $selected ?>><?= $displayName ?></option>
+                    <?php
+                } else {
+                    error_log('Warning: $supplier is not an object in transactions/add.php. Supplier data: ' . print_r($supplier, true));
+                }
+            }
+        }
+        ?>
+    </select>
+</div>
+
 
             <div class="mb-3">
               <label for="transaction_date" class="form-label light-txt">Transaction Date</label>

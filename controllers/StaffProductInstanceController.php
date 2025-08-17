@@ -193,7 +193,7 @@ class StaffProductInstanceController extends Controller {
             Logger::log("PRODUCT_INSTANCE_UPDATE_SUCCESS: Product instance ID {$instanceId} updated successfully. Status changed from '{$originalStatus}' to '{$newStatus}'.");
             
             $_SESSION['success_message'] = 'Product unit updated successfully!';
-            header('Location: /staff/products/show/'.$instanceId); // Redirect back to product details
+            header('Location: /staff/products/show/'.$product->id); // Redirect back to product details
             exit();
 
         } catch (\Exception $e) {

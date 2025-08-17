@@ -63,15 +63,25 @@ if ($transaction_id) {
               <select data-live-search="true" class="form-select form-select-lg dark-txt light-bg selectpicker" id="product_id" name="product_id" required maxlength="50">
                   <option value="">Select Product</option>
                   <?php foreach ($products as $product): ?>
+                      <?php
+                      // Determine which price to use based on transaction type
+                      $data_price = 0.00;
+                      if (isset($transaction)) {
+                          if (in_array($transaction->transaction_type, ['Purchase', 'Supplier Return'])) {
+                              $data_price = $product->cost_price ?? 0.00;
+                          } else { // Sale, Customer Return, etc.
+                              $data_price = $product->unit_price ?? 0.00;
+                          }
+                      }
+                      ?>
                       <option value="<?= htmlspecialchars($product->id) ?>"
                           <?= ($transaction_item->product_id == $product->id) ? 'selected' : '' ?>
-                          data-unit-price="<?= htmlspecialchars((string)$product->unit_price) ?>">
+                          data-unit-price="<?= htmlspecialchars((string)$data_price) ?>">
                           <?= htmlspecialchars($product->name) ?> (<?= htmlspecialchars($product->sku) ?>)
                       </option>
                   <?php endforeach; ?>
               </select>
-          </div>
-
+            </div>
             <div class="mb-3">
               <label for="quantity" class="form-label light-txt">Quantity</label>
               <input type="number" class="form-control form-control-lg dark-txt light-bg" id="quantity" name="quantity"
@@ -81,17 +91,57 @@ if ($transaction_id) {
                      oninput="this.value=this.value.slice(0,this.maxLength)"
                      >
             </div>
+            <?php
+            // Determine default unit price for the selected product
+            $unit_price_value = 0.00;
+            if (isset($transaction_item->product_id)) {
+                $selected_product = null;
+                foreach ($products as $product) {
+                    if ($product->id == $transaction_item->product_id) {
+                        $selected_product = $product;
+                        break;
+                    }
+                }
+                if ($selected_product) {
+                    if (in_array($transaction->transaction_type, ['Purchase', 'Supplier Return'])) {
+                        $unit_price_value = $selected_product->cost_price ?? 0.00;
+                    } else { // Sale, Customer Return, etc.
+                        $unit_price_value = $selected_product->unit_price ?? 0.00;
+                    }
+                }
+            }
 
+            // If transaction_item has a unit_price (e.g., from a failed submission), it overrides default
+            if (isset($transaction_item->unit_price) && $transaction_item->unit_price !== null) {
+                $unit_price_value = $transaction_item->unit_price;
+            }
+            ?>
             <div class="mb-3">
-              <label for="unit_price" class="form-label light-txt">Unit Price (₱)</label>
-              <input type="number" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="unit_price" name="unit_price"
-                     value="<?= htmlspecialchars(number_format($transaction_item->unit_price, 2, '.', '')) ?>" min="0" required readonly>
+                <label for="unit_price" class="form-label light-txt">Unit Price</label>
+                <div class="input-group">
+                    <span class="input-group-text">₱</span>
+                    <input type="number" step="0.01"
+                        class="form-control form-control-lg dark-txt light-bg"
+                        id="unit_price"
+                        name="unit_price"
+                        value="<?= htmlspecialchars(number_format($unit_price_value, 2, '.', '')) ?>"
+                        min="0"
+                        required
+                        readonly>
+                </div>
             </div>
 
             <div class="mb-3">
-              <label for="item_total" class="form-label light-txt">Item Total (₱)</label>
-              <input type="text" class="form-control form-control-lg dark-txt light-bg" id="item_total" name="item_total"
-                     value="<?= htmlspecialchars(number_format($transaction_item->quantity * $transaction_item->unit_price, 2, '.', '')) ?>" readonly>
+                <label for="item_total" class="form-label light-txt">Item Total</label>
+                <div class="input-group">
+                    <span class="input-group-text">₱</span>
+                    <input type="text"
+                        class="form-control form-control-lg dark-txt light-bg"
+                        id="item_total"
+                        name="item_total"
+                        value="<?= htmlspecialchars(number_format($transaction_item->quantity * $transaction_item->unit_price, 2, '.', '')) ?>"
+                        readonly>
+                </div>
             </div>
 
             <div class="d-grid gap-2 mt-4">

@@ -54,141 +54,124 @@ class StaffTransactionItemController extends Controller {
      * @return void
      */
     public function store() {
-        Logger::log('TRANSACTION_ITEM_STORE: Attempting to store new transaction item.');
+    Logger::log('TRANSACTION_ITEM_STORE: Attempting to store new transaction item.');
 
-        $transaction_id = trim($this->input('transaction_id'));
-        $product_id     = trim($this->input('product_id'));
-        $quantity       = trim($this->input('quantity'));
-        $unit_price     = trim($this->input('unit_price')); // This is the input value from the form
-        $current_user_id = $this->getCurrentUserId();
+    $transaction_id = $this->input('transaction_id');
+    $product_id     = trim($this->input('product_id'));
+    $quantity       = trim($this->input('quantity'));
+    $unit_price     = trim($this->input('unit_price')); // For sales
+    $current_user_id = $this->getCurrentUserId();
 
-        $errors = [];
+    $errors = [];
 
-        // 1. Basic Input Validation
-        if (empty($transaction_id)) $errors[] = 'Transaction ID is required.';
-        if (empty($product_id)) $errors[] = 'Product is required.';
-        // Ensure quantity is a valid positive number
-        if (!is_numeric($quantity) || $quantity <= 0) $errors[] = 'Quantity must be a positive number.';
-        // Ensure unit_price is a valid non-negative number
-        if (!is_numeric($unit_price) || $unit_price < 0) $errors[] = 'Unit Price must be a non-negative number.';
-        if (empty($current_user_id)) $errors[] = 'User ID not found. Please log in.';
+    // Validation
+    if (empty($transaction_id)) $errors[] = 'Transaction ID is required.';
+    if (empty($product_id)) $errors[] = 'Product is required.';
+    if (!is_numeric($quantity) || $quantity <= 0) $errors[] = 'Quantity must be a positive number.';
+    if (!is_numeric($unit_price) || $unit_price < 0) $errors[] = 'Unit Price must be non-negative.';
+    if (empty($current_user_id)) $errors[] = 'User ID not found. Please log in.';
 
-        $transaction = null;
-        if ($transaction_id) {
-            $transaction = Transaction::find($transaction_id);
-            if (!$transaction) {
-                $errors[] = 'Parent transaction not found.';
-            } else {
-                // Prevent adding items if the parent transaction status doesn't allow it
-                if (!in_array($transaction->status, ['Pending', 'Confirmed'])) {
-                    $errors[] = 'Cannot add items to a ' . $transaction->status . ' transaction.';
-                }
-            }
-        }
-
-        $product = null;
-        if ($product_id) {
-            $product = Product::find($product_id);
-            if (!$product) {
-                $errors[] = 'Selected product not found.';
-            }
-            // Optional: You might want to pull unit_price from the product if not provided,
-            // or if the transaction type implies using the product's default price.
-            // if (empty($unit_price) && $product) {
-            //     $unit_price = $product->current_unit_price; // Assuming a 'current_unit_price' field on Product
-            // }
-        }
-
-        // *** DUPLICATE PRODUCT VALIDATION (GOOD!) ***
-        // Check if this product is already linked to this transaction
-        if ($transaction && $product_id) { // Only check if both exist
-            $existingItem = TransactionItem::where('transaction_id', $transaction_id)
-                                          ->where('product_id', $product_id)
-                                          ->first();
-            if ($existingItem) {
-                $errors[] = 'This product is already listed in this transaction. Please edit the existing item instead.';
-            }
-        }
-        // ********************************************
-
-        // 2. Handle Validation Errors (re-render form with errors)
-        if (!empty($errors)) {
-            Logger::log("TRANSACTION_ITEM_STORE_FAILED: Validation errors: " . implode(', ', $errors));
-
-            $_SESSION['error_message']="Error: ".implode('<br>', $errors); 
-            $products = Product::all(); // Re-fetch products for the dropdown
-            $this->view('staff/transaction_items/add', [
-                'transaction_id' => $transaction_id,
-                'transaction' => $transaction, // Pass transaction back for consistent view rendering
-                'products' => $products,
-                'transaction_item' => (object)[ // Repopulate form fields with submitted data
-                    'product_id' => $product_id,
-                    'quantity' => $quantity,
-                    'unit_price' => $unit_price, // The input value
-                ]
-            ], 'staff');
-            return;
-        }
-
-        // 3. Create and Save New Transaction Item
-        try {
-            // Consider wrapping this in a DB transaction if your framework supports it
-            // (e.g., Capsule/Eloquent: \Illuminate\Database\Capsule\Manager::transaction(function() use (...) { ... });)
-            // This ensures atomicity: either both item and total_amount are updated, or neither are.
-
-            $transactionItem = new TransactionItem();
-            $transactionItem->transaction_id = $transaction_id;
-            $transactionItem->product_id = $product_id;
-            $transactionItem->quantity = $quantity;
-            // Use 'unit_price_at_transaction' to match DB column name
-            $transactionItem->unit_price_at_transaction = $unit_price;
-            // Calculate and assign to 'line_total' to match DB column name
-            $transactionItem->line_total = (float)$quantity * (float)$unit_price; // Cast to float for precision
-
-            $transactionItem->created_by_user_id = $current_user_id;
-            $transactionItem->updated_by_user_id = $current_user_id;
-
-            $transactionItem->save();
-
-            // 4. Update Parent Transaction's Total Amount
-            if ($transaction) {
-                Logger::log(": STORE - Before reloading 'items' relationship for Transaction ID: {$transaction->id}.");
-
-                // Reload the 'items' relationship to get the latest data, including the newly added item
-                // This is crucial to sum the *current* items correctly.
-                $transaction->load('items');
-
-                Logger::log(": STORE - After reloading 'items' relationship for Transaction ID: {$transaction->id}.");
-
-                // Sum 'line_total' from all associated items to update the parent transaction's total_amount
-                $transaction->total_amount = $transaction->items->sum('line_total');
-                $transaction->save(); // Save the updated total amount on the parent transaction
-            }
-
-            Logger::log("TRANSACTION_ITEM_STORE_SUCCESS: New item (Product ID: {$product_id}, Qty: {$quantity}) added to Transaction ID: {$transaction_id}.");
-
-            $_SESSION['success_message']= "New Item added to transaction.";
-            header('Location: /staff/transactions/show/' . $transaction_id);
-            exit();
-
-        } catch (\Exception $e) {
-            Logger::log("TRANSACTION_ITEM_STORE_DB_ERROR: Failed to add transaction item - " . $e->getMessage());
-            $products = Product::all(); // Re-fetch products for the dropdown
-
-            $_SESSION['error_message']="Failed to add transaction. " . $e->getMessage();
-            $this->view('staff/transaction_items/add', [
-                'transaction_id' => $transaction_id,
-                'transaction' => $transaction,
-                'products' => $products,
-                'transaction_item' => (object)[
-                    'product_id' => $product_id,
-                    'quantity' => $quantity,
-                    'unit_price' => $unit_price, // The input value
-                ]
-            ], 'staff');
-            return;
-        }
+    $transaction = Transaction::find($transaction_id);
+    if (!$transaction) $errors[] = 'Parent transaction not found.';
+    elseif (!in_array($transaction->status, ['Pending', 'Confirmed'])) {
+        $errors[] = 'Cannot add items to a ' . $transaction->status . ' transaction.';
     }
+
+    $product = Product::find($product_id);
+    if (!$product) $errors[] = 'Selected product not found.';
+
+    // Prevent duplicate items
+    if ($transaction && $product_id) {
+        $existingItem = TransactionItem::where('transaction_id', $transaction_id)
+                                       ->where('product_id', $product_id)
+                                       ->first();
+        if ($existingItem) $errors[] = 'This product is already listed in this transaction. Please edit the existing item instead.';
+    }
+
+    if (!empty($errors)) {
+        Logger::log("TRANSACTION_ITEM_STORE_FAILED: Validation errors: " . implode(', ', $errors));
+        $_SESSION['error_message'] = "Error: " . implode('<br>', $errors);
+        $products = Product::all();
+        $this->view('staff/transaction_items/add', [
+            'transaction_id' => $transaction_id,
+            'transaction' => $transaction,
+            'products' => $products,
+            'transaction_item' => (object)[
+                'product_id' => $product_id,
+                'quantity' => $quantity,
+                'unit_price' => $unit_price,
+            ]
+        ], 'staff');
+        return;
+    }
+
+    try {
+        $transactionItem = new TransactionItem();
+        $transactionItem->transaction_id = $transaction_id;
+        $transactionItem->product_id = $product_id;
+        $transactionItem->quantity = (float)$quantity;
+        $transactionItem->created_by_user_id = $current_user_id;
+        $transactionItem->updated_by_user_id = $current_user_id;
+
+        // Determine line total
+        switch ($transaction->transaction_type) {
+            case 'Sale':
+            case 'Customer Return':
+                $price = $unit_price ?: ($product->unit_price ?? 0);
+                $transactionItem->unit_price_at_transaction = $price;
+                $transactionItem->line_total = $quantity * $price;
+                break;
+
+            case 'Purchase':
+            case 'Supplier Return':
+                $price = $product->cost_price ?? 0; // use product cost directly
+                $transactionItem->unit_price_at_transaction = $price; // for display only
+                $transactionItem->line_total = $quantity * $price;
+                break;
+
+            case 'Stock Adjustment':
+                $transactionItem->unit_price_at_transaction = 0;
+                $transactionItem->line_total = 0;
+                break;
+
+            default:
+                throw new \Exception("Unsupported transaction type: {$transaction->transaction_type}");
+        }
+
+        $transactionItem->save();
+
+        // Recalculate totals for parent transaction
+        $transaction->load('items');
+        $total = $transaction->items->sum('line_total');
+        $transaction->total_amount = $total;
+
+        if (in_array($transaction->transaction_type, ['Sale', 'Purchase', 'Customer Return', 'Supplier Return'])) {
+            $transaction->amount_received = $total;
+        }
+
+        $transaction->save();
+
+        Logger::log("TRANSACTION_ITEM_STORE_SUCCESS: New item (Product ID: {$product_id}, Qty: {$quantity}) added to Transaction ID: {$transaction_id}.");
+        $_SESSION['success_message'] = "New Item added to transaction.";
+        header('Location: /staff/transactions/show/' . $transaction_id);
+        exit();
+
+    } catch (\Exception $e) {
+        Logger::log("TRANSACTION_ITEM_STORE_DB_ERROR: Failed to add transaction item - " . $e->getMessage());
+        $_SESSION['error_message'] = "Failed to add transaction item. " . $e->getMessage();
+        $products = Product::all();
+        $this->view('staff/transaction_items/add', [
+            'transaction_id' => $transaction_id,
+            'transaction' => $transaction,
+            'products' => $products,
+            'transaction_item' => (object)[
+                'product_id' => $product_id,
+                'quantity' => $quantity,
+                'unit_price' => $unit_price,
+            ]
+        ], 'staff');
+    }
+}
 
     /**
      * Displays the form to edit an existing transaction item.
@@ -250,8 +233,8 @@ class StaffTransactionItemController extends Controller {
     public function update() {
         Logger::log('TRANSACTION_ITEM_UPDATE: Attempting to update transaction item.');
 
-        $id             = trim($this->input('id'));
-        $transaction_id = trim($this->input('transaction_id'));
+        $id             = $this->input('id');
+        $transaction_id = $this->input('transaction_id');
         $product_id     = trim($this->input('product_id'));
         $quantity       = trim($this->input('quantity'));
         $unit_price     = trim($this->input('unit_price')); // This is the input value from the form
