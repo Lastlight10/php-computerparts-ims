@@ -4926,3 +4926,513 @@
 [2025-08-10 19:49:30] UI: On staff/transactions/show.php for Transaction ID: 37
 [2025-08-10 19:49:30] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
 [2025-08-10 19:49:30] ROUTING (index.php): Dispatched to staff/transactions/show/37
+[2025-08-18 15:10:02] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:10:02] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:10:02] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:10:02] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:10:02] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:10:02] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:10:02] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:10:02] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:10:02] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:10:02] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:10:02] URL_DEBUG: Raw REQUEST_URI: /staff/products/add
+[2025-08-18 15:10:02] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:10:02] URL_DEBUG: Path after strtok: /staff/products/add
+[2025-08-18 15:10:02] URL_DEBUG: Path after /index.php removal: /staff/products/add
+[2025-08-18 15:10:02] URL_DEBUG: Final URL after trimming: staff/products/add
+[2025-08-18 15:10:02] 📥 Incoming request parsed as: staff/products/add
+[2025-08-18 15:10:02] ROUTING: Attempting to call StaffProductController@add for URL: staff/products/add
+[2025-08-18 15:10:02] PRODUCT_ADD: Displaying new product form.
+[2025-08-18 15:10:02] UI: On staff/products/add.php
+[2025-08-18 15:10:02] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:10:02] ROUTING (index.php): Dispatched to staff/products/add
+[2025-08-18 15:10:33] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:10:33] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:10:33] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:10:33] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:10:33] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:10:33] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:10:33] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:10:33] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:10:33] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:10:33] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:10:33] URL_DEBUG: Raw REQUEST_URI: /staff/products/store
+[2025-08-18 15:10:33] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:10:33] URL_DEBUG: Path after strtok: /staff/products/store
+[2025-08-18 15:10:33] URL_DEBUG: Path after /index.php removal: /staff/products/store
+[2025-08-18 15:10:33] URL_DEBUG: Final URL after trimming: staff/products/store
+[2025-08-18 15:10:33] 📥 Incoming request parsed as: staff/products/store
+[2025-08-18 15:10:33] ROUTING: Attempting to call StaffProductController@store for URL: staff/products/store
+[2025-08-18 15:10:33] PRODUCT_STORE: Attempting to store new product.
+[2025-08-18 15:10:33] PRODUCT_STORE_SUCCESS: New product 'kmoooooooooooooooooooooooooooooooooooooooooooooooo' (ID: 6, SKU: PROD-68a2d1e94460a7.31575317) added successfully.
+[2025-08-18 15:10:33] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:10:33] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:10:33] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:10:33] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:10:33] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:10:33] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:10:33] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:10:33] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:10:33] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:10:33] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:10:33] URL_DEBUG: Raw REQUEST_URI: /staff/products_list
+[2025-08-18 15:10:33] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:10:33] URL_DEBUG: Path after strtok: /staff/products_list
+[2025-08-18 15:10:33] URL_DEBUG: Path after /index.php removal: /staff/products_list
+[2025-08-18 15:10:33] URL_DEBUG: Final URL after trimming: staff/products_list
+[2025-08-18 15:10:33] 📥 Incoming request parsed as: staff/products_list
+[2025-08-18 15:10:33] ROUTING: Attempting to call StaffController@products_list for URL: staff/products_list
+[2025-08-18 15:10:33] Reached List of Products
+[2025-08-18 15:10:33] DEBUG: Applied product sorting: 'name' asc
+[2025-08-18 15:10:33] DEBUG: Number of products retrieved: 6
+[2025-08-18 15:10:33] UI: On products_list.php
+[2025-08-18 15:10:33] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:10:33] ROUTING (index.php): Dispatched to staff/products_list
+[2025-08-18 15:10:39] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:10:39] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:10:39] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:10:39] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:10:39] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:10:39] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:10:39] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:10:39] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:10:39] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:10:39] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:10:39] URL_DEBUG: Raw REQUEST_URI: /staff/products_list
+[2025-08-18 15:10:39] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:10:39] URL_DEBUG: Path after strtok: /staff/products_list
+[2025-08-18 15:10:39] URL_DEBUG: Path after /index.php removal: /staff/products_list
+[2025-08-18 15:10:39] URL_DEBUG: Final URL after trimming: staff/products_list
+[2025-08-18 15:10:39] 📥 Incoming request parsed as: staff/products_list
+[2025-08-18 15:10:39] ROUTING: Attempting to call StaffController@products_list for URL: staff/products_list
+[2025-08-18 15:10:39] Reached List of Products
+[2025-08-18 15:10:39] DEBUG: Applied product sorting: 'name' asc
+[2025-08-18 15:10:39] DEBUG: Number of products retrieved: 6
+[2025-08-18 15:10:39] UI: On products_list.php
+[2025-08-18 15:10:39] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:10:39] ROUTING (index.php): Dispatched to staff/products_list
+[2025-08-18 15:11:12] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:11:12] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:11:12] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:11:12] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:11:12] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:11:12] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:11:12] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:11:12] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:11:12] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:11:12] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:11:12] URL_DEBUG: Raw REQUEST_URI: /staff/products_list
+[2025-08-18 15:11:12] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:11:12] URL_DEBUG: Path after strtok: /staff/products_list
+[2025-08-18 15:11:12] URL_DEBUG: Path after /index.php removal: /staff/products_list
+[2025-08-18 15:11:12] URL_DEBUG: Final URL after trimming: staff/products_list
+[2025-08-18 15:11:12] 📥 Incoming request parsed as: staff/products_list
+[2025-08-18 15:11:12] ROUTING: Attempting to call StaffController@products_list for URL: staff/products_list
+[2025-08-18 15:11:12] Reached List of Products
+[2025-08-18 15:11:12] DEBUG: Applied product sorting: 'name' asc
+[2025-08-18 15:11:12] DEBUG: Number of products retrieved: 6
+[2025-08-18 15:11:13] UI: On products_list.php
+[2025-08-18 15:11:13] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:11:13] ROUTING (index.php): Dispatched to staff/products_list
+[2025-08-18 15:11:26] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:11:26] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:11:26] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:11:26] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:11:26] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:11:26] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:11:26] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:11:26] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:11:26] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:11:26] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:11:26] URL_DEBUG: Raw REQUEST_URI: /staff/products_list
+[2025-08-18 15:11:26] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:11:26] URL_DEBUG: Path after strtok: /staff/products_list
+[2025-08-18 15:11:26] URL_DEBUG: Path after /index.php removal: /staff/products_list
+[2025-08-18 15:11:26] URL_DEBUG: Final URL after trimming: staff/products_list
+[2025-08-18 15:11:26] 📥 Incoming request parsed as: staff/products_list
+[2025-08-18 15:11:26] ROUTING: Attempting to call StaffController@products_list for URL: staff/products_list
+[2025-08-18 15:11:26] Reached List of Products
+[2025-08-18 15:11:26] DEBUG: Applied product sorting: 'name' asc
+[2025-08-18 15:11:26] DEBUG: Number of products retrieved: 6
+[2025-08-18 15:11:26] UI: On products_list.php
+[2025-08-18 15:11:26] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:11:26] ROUTING (index.php): Dispatched to staff/products_list
+[2025-08-18 15:11:40] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:11:40] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:11:40] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:11:40] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:11:40] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:11:40] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:11:40] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:11:40] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:11:40] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:11:40] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:11:40] URL_DEBUG: Raw REQUEST_URI: /staff/products_list
+[2025-08-18 15:11:40] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:11:40] URL_DEBUG: Path after strtok: /staff/products_list
+[2025-08-18 15:11:40] URL_DEBUG: Path after /index.php removal: /staff/products_list
+[2025-08-18 15:11:40] URL_DEBUG: Final URL after trimming: staff/products_list
+[2025-08-18 15:11:40] 📥 Incoming request parsed as: staff/products_list
+[2025-08-18 15:11:40] ROUTING: Attempting to call StaffController@products_list for URL: staff/products_list
+[2025-08-18 15:11:40] Reached List of Products
+[2025-08-18 15:11:40] DEBUG: Applied product sorting: 'name' asc
+[2025-08-18 15:11:40] DEBUG: Number of products retrieved: 6
+[2025-08-18 15:11:41] UI: On products_list.php
+[2025-08-18 15:11:41] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:11:41] ROUTING (index.php): Dispatched to staff/products_list
+[2025-08-18 15:11:42] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:11:42] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:11:42] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:11:42] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:11:42] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:11:42] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:11:42] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:11:42] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:11:42] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:11:42] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:11:42] URL_DEBUG: Raw REQUEST_URI: /staff/products_list
+[2025-08-18 15:11:42] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:11:42] URL_DEBUG: Path after strtok: /staff/products_list
+[2025-08-18 15:11:42] URL_DEBUG: Path after /index.php removal: /staff/products_list
+[2025-08-18 15:11:42] URL_DEBUG: Final URL after trimming: staff/products_list
+[2025-08-18 15:11:42] 📥 Incoming request parsed as: staff/products_list
+[2025-08-18 15:11:42] ROUTING: Attempting to call StaffController@products_list for URL: staff/products_list
+[2025-08-18 15:11:42] Reached List of Products
+[2025-08-18 15:11:42] DEBUG: Applied product sorting: 'name' asc
+[2025-08-18 15:11:42] DEBUG: Number of products retrieved: 6
+[2025-08-18 15:11:42] UI: On products_list.php
+[2025-08-18 15:11:42] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:11:42] ROUTING (index.php): Dispatched to staff/products_list
+[2025-08-18 15:12:33] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:12:33] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:12:33] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:12:33] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:12:33] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:12:33] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:12:33] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:12:33] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:12:33] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:12:33] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:12:33] URL_DEBUG: Raw REQUEST_URI: /staff/products_list
+[2025-08-18 15:12:33] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:12:33] URL_DEBUG: Path after strtok: /staff/products_list
+[2025-08-18 15:12:33] URL_DEBUG: Path after /index.php removal: /staff/products_list
+[2025-08-18 15:12:33] URL_DEBUG: Final URL after trimming: staff/products_list
+[2025-08-18 15:12:33] 📥 Incoming request parsed as: staff/products_list
+[2025-08-18 15:12:33] ROUTING: Attempting to call StaffController@products_list for URL: staff/products_list
+[2025-08-18 15:12:33] Reached List of Products
+[2025-08-18 15:12:33] DEBUG: Applied product sorting: 'name' asc
+[2025-08-18 15:12:33] DEBUG: Number of products retrieved: 6
+[2025-08-18 15:12:33] UI: On products_list.php
+[2025-08-18 15:12:33] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:12:33] ROUTING (index.php): Dispatched to staff/products_list
+[2025-08-18 15:12:35] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:12:35] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:12:35] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:12:35] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:12:35] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:12:35] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:12:35] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:12:35] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:12:35] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:12:35] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:12:35] URL_DEBUG: Raw REQUEST_URI: /staff/products/add
+[2025-08-18 15:12:35] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:12:35] URL_DEBUG: Path after strtok: /staff/products/add
+[2025-08-18 15:12:35] URL_DEBUG: Path after /index.php removal: /staff/products/add
+[2025-08-18 15:12:35] URL_DEBUG: Final URL after trimming: staff/products/add
+[2025-08-18 15:12:35] 📥 Incoming request parsed as: staff/products/add
+[2025-08-18 15:12:35] ROUTING: Attempting to call StaffProductController@add for URL: staff/products/add
+[2025-08-18 15:12:35] PRODUCT_ADD: Displaying new product form.
+[2025-08-18 15:12:35] UI: On staff/products/add.php
+[2025-08-18 15:12:35] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:12:35] ROUTING (index.php): Dispatched to staff/products/add
+[2025-08-18 15:17:39] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:17:39] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:17:40] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:17:40] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:17:40] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:17:40] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:17:41] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:17:41] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:17:41] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:17:41] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:17:41] URL_DEBUG: Raw REQUEST_URI: /staff/products/add
+[2025-08-18 15:17:41] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:17:41] URL_DEBUG: Path after strtok: /staff/products/add
+[2025-08-18 15:17:41] URL_DEBUG: Path after /index.php removal: /staff/products/add
+[2025-08-18 15:17:41] URL_DEBUG: Final URL after trimming: staff/products/add
+[2025-08-18 15:17:41] 📥 Incoming request parsed as: staff/products/add
+[2025-08-18 15:17:41] ROUTING: Attempting to call StaffProductController@add for URL: staff/products/add
+[2025-08-18 15:17:41] PRODUCT_ADD: Displaying new product form.
+[2025-08-18 15:17:42] UI: On staff/products/add.php
+[2025-08-18 15:17:42] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:17:42] ROUTING (index.php): Dispatched to staff/products/add
+[2025-08-18 15:21:00] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:21:00] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:21:00] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:21:00] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:21:00] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:21:00] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:21:00] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:21:00] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:21:00] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:21:00] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:21:00] URL_DEBUG: Raw REQUEST_URI: /staff/products/add
+[2025-08-18 15:21:00] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:21:00] URL_DEBUG: Path after strtok: /staff/products/add
+[2025-08-18 15:21:00] URL_DEBUG: Path after /index.php removal: /staff/products/add
+[2025-08-18 15:21:00] URL_DEBUG: Final URL after trimming: staff/products/add
+[2025-08-18 15:21:00] 📥 Incoming request parsed as: staff/products/add
+[2025-08-18 15:21:00] ROUTING: Attempting to call StaffProductController@add for URL: staff/products/add
+[2025-08-18 15:21:00] PRODUCT_ADD: Displaying new product form.
+[2025-08-18 15:21:00] UI: On staff/products/add.php
+[2025-08-18 15:21:00] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:21:00] ROUTING (index.php): Dispatched to staff/products/add
+[2025-08-18 15:21:16] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:21:16] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:21:16] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:21:16] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:21:16] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:21:16] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:21:16] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:21:16] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:21:16] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:21:16] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:21:16] URL_DEBUG: Raw REQUEST_URI: /staff/products_list
+[2025-08-18 15:21:16] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:21:16] URL_DEBUG: Path after strtok: /staff/products_list
+[2025-08-18 15:21:16] URL_DEBUG: Path after /index.php removal: /staff/products_list
+[2025-08-18 15:21:16] URL_DEBUG: Final URL after trimming: staff/products_list
+[2025-08-18 15:21:16] 📥 Incoming request parsed as: staff/products_list
+[2025-08-18 15:21:16] ROUTING: Attempting to call StaffController@products_list for URL: staff/products_list
+[2025-08-18 15:21:17] Reached List of Products
+[2025-08-18 15:21:17] DEBUG: Applied product sorting: 'name' asc
+[2025-08-18 15:21:17] DEBUG: Number of products retrieved: 6
+[2025-08-18 15:21:18] UI: On products_list.php
+[2025-08-18 15:21:18] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:21:18] ROUTING (index.php): Dispatched to staff/products_list
+[2025-08-18 15:21:28] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:21:28] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:21:28] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:21:28] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:21:28] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:21:28] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:21:28] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:21:28] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:21:28] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:21:28] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:21:28] URL_DEBUG: Raw REQUEST_URI: /staff/products/add
+[2025-08-18 15:21:28] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:21:28] URL_DEBUG: Path after strtok: /staff/products/add
+[2025-08-18 15:21:28] URL_DEBUG: Path after /index.php removal: /staff/products/add
+[2025-08-18 15:21:28] URL_DEBUG: Final URL after trimming: staff/products/add
+[2025-08-18 15:21:28] 📥 Incoming request parsed as: staff/products/add
+[2025-08-18 15:21:28] ROUTING: Attempting to call StaffProductController@add for URL: staff/products/add
+[2025-08-18 15:21:28] PRODUCT_ADD: Displaying new product form.
+[2025-08-18 15:21:29] UI: On staff/products/add.php
+[2025-08-18 15:21:29] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:21:29] ROUTING (index.php): Dispatched to staff/products/add
+[2025-08-18 15:21:51] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:21:51] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:21:51] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:21:51] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:21:51] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:21:51] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:21:51] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:21:51] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:21:51] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:21:51] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:21:51] URL_DEBUG: Raw REQUEST_URI: /staff/products/add
+[2025-08-18 15:21:51] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:21:51] URL_DEBUG: Path after strtok: /staff/products/add
+[2025-08-18 15:21:51] URL_DEBUG: Path after /index.php removal: /staff/products/add
+[2025-08-18 15:21:51] URL_DEBUG: Final URL after trimming: staff/products/add
+[2025-08-18 15:21:51] 📥 Incoming request parsed as: staff/products/add
+[2025-08-18 15:21:51] ROUTING: Attempting to call StaffProductController@add for URL: staff/products/add
+[2025-08-18 15:21:51] PRODUCT_ADD: Displaying new product form.
+[2025-08-18 15:21:52] UI: On staff/products/add.php
+[2025-08-18 15:21:52] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:21:52] ROUTING (index.php): Dispatched to staff/products/add
+[2025-08-18 15:22:38] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:22:38] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:22:38] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:22:38] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:22:38] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:22:38] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:22:38] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:22:38] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:22:38] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:22:38] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:22:38] URL_DEBUG: Raw REQUEST_URI: /staff/products/store
+[2025-08-18 15:22:38] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:22:38] URL_DEBUG: Path after strtok: /staff/products/store
+[2025-08-18 15:22:38] URL_DEBUG: Path after /index.php removal: /staff/products/store
+[2025-08-18 15:22:38] URL_DEBUG: Final URL after trimming: staff/products/store
+[2025-08-18 15:22:38] 📥 Incoming request parsed as: staff/products/store
+[2025-08-18 15:22:38] ROUTING: Attempting to call StaffProductController@store for URL: staff/products/store
+[2025-08-18 15:22:38] PRODUCT_STORE: Attempting to store new product.
+[2025-08-18 15:22:38] PRODUCT_STORE_SUCCESS: New product 'iji' (ID: 7, SKU: PROD-68a2d4be540100.48351365) added successfully.
+[2025-08-18 15:22:38] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:22:38] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:22:38] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:22:38] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:22:38] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:22:38] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:22:38] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:22:38] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:22:38] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:22:38] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:22:38] URL_DEBUG: Raw REQUEST_URI: /staff/products_list
+[2025-08-18 15:22:38] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:22:38] URL_DEBUG: Path after strtok: /staff/products_list
+[2025-08-18 15:22:38] URL_DEBUG: Path after /index.php removal: /staff/products_list
+[2025-08-18 15:22:38] URL_DEBUG: Final URL after trimming: staff/products_list
+[2025-08-18 15:22:38] 📥 Incoming request parsed as: staff/products_list
+[2025-08-18 15:22:38] ROUTING: Attempting to call StaffController@products_list for URL: staff/products_list
+[2025-08-18 15:22:38] Reached List of Products
+[2025-08-18 15:22:38] DEBUG: Applied product sorting: 'name' asc
+[2025-08-18 15:22:38] DEBUG: Number of products retrieved: 7
+[2025-08-18 15:22:38] UI: On products_list.php
+[2025-08-18 15:22:38] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:22:38] ROUTING (index.php): Dispatched to staff/products_list
+[2025-08-18 15:23:57] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:23:57] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:23:57] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:23:57] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:23:57] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:23:57] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:23:57] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:23:57] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:23:57] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:23:57] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:23:57] URL_DEBUG: Raw REQUEST_URI: /staff/products/edit/7
+[2025-08-18 15:23:57] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:23:57] URL_DEBUG: Path after strtok: /staff/products/edit/7
+[2025-08-18 15:23:57] URL_DEBUG: Path after /index.php removal: /staff/products/edit/7
+[2025-08-18 15:23:57] URL_DEBUG: Final URL after trimming: staff/products/edit/7
+[2025-08-18 15:23:57] 📥 Incoming request parsed as: staff/products/edit/7
+[2025-08-18 15:23:57] ROUTING: Attempting to call StaffProductController@edit for URL: staff/products/edit/7
+[2025-08-18 15:23:57] PRODUCT_EDIT: Attempting to display edit form for product ID: 7
+[2025-08-18 15:23:57] PRODUCT_EDIT_SUCCESS: Displaying edit form for product ID: 7 - iji
+[2025-08-18 15:23:58] UI: On staff/products/edit.php
+[2025-08-18 15:23:58] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:23:58] ROUTING (index.php): Dispatched to staff/products/edit/7
+[2025-08-18 15:25:02] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:25:02] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:25:02] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:25:02] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:25:02] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:25:02] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:25:02] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:25:02] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:25:02] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:25:02] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:25:02] URL_DEBUG: Raw REQUEST_URI: /staff/products/edit/7
+[2025-08-18 15:25:02] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:25:02] URL_DEBUG: Path after strtok: /staff/products/edit/7
+[2025-08-18 15:25:02] URL_DEBUG: Path after /index.php removal: /staff/products/edit/7
+[2025-08-18 15:25:02] URL_DEBUG: Final URL after trimming: staff/products/edit/7
+[2025-08-18 15:25:02] 📥 Incoming request parsed as: staff/products/edit/7
+[2025-08-18 15:25:02] ROUTING: Attempting to call StaffProductController@edit for URL: staff/products/edit/7
+[2025-08-18 15:25:02] PRODUCT_EDIT: Attempting to display edit form for product ID: 7
+[2025-08-18 15:25:02] PRODUCT_EDIT_SUCCESS: Displaying edit form for product ID: 7 - iji
+[2025-08-18 15:25:03] UI: On staff/products/edit.php
+[2025-08-18 15:25:03] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:25:03] ROUTING (index.php): Dispatched to staff/products/edit/7
+[2025-08-18 15:25:06] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:25:06] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:25:06] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:25:06] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:25:06] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:25:06] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:25:06] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:25:06] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:25:06] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:25:06] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:25:06] URL_DEBUG: Raw REQUEST_URI: /staff/products_list
+[2025-08-18 15:25:06] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:25:06] URL_DEBUG: Path after strtok: /staff/products_list
+[2025-08-18 15:25:06] URL_DEBUG: Path after /index.php removal: /staff/products_list
+[2025-08-18 15:25:06] URL_DEBUG: Final URL after trimming: staff/products_list
+[2025-08-18 15:25:06] 📥 Incoming request parsed as: staff/products_list
+[2025-08-18 15:25:06] ROUTING: Attempting to call StaffController@products_list for URL: staff/products_list
+[2025-08-18 15:25:06] Reached List of Products
+[2025-08-18 15:25:06] DEBUG: Applied product sorting: 'name' asc
+[2025-08-18 15:25:06] DEBUG: Number of products retrieved: 7
+[2025-08-18 15:25:06] UI: On products_list.php
+[2025-08-18 15:25:06] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:25:06] ROUTING (index.php): Dispatched to staff/products_list
+[2025-08-18 15:26:06] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:26:06] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:26:06] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:26:06] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:26:06] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:26:06] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:26:06] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:26:06] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:26:06] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:26:06] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:26:06] URL_DEBUG: Raw REQUEST_URI: /staff/products_list
+[2025-08-18 15:26:06] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:26:06] URL_DEBUG: Path after strtok: /staff/products_list
+[2025-08-18 15:26:06] URL_DEBUG: Path after /index.php removal: /staff/products_list
+[2025-08-18 15:26:06] URL_DEBUG: Final URL after trimming: staff/products_list
+[2025-08-18 15:26:06] 📥 Incoming request parsed as: staff/products_list
+[2025-08-18 15:26:06] ROUTING: Attempting to call StaffController@products_list for URL: staff/products_list
+[2025-08-18 15:26:06] Reached List of Products
+[2025-08-18 15:26:06] DEBUG: Applied product sorting: 'name' asc
+[2025-08-18 15:26:06] DEBUG: Number of products retrieved: 7
+[2025-08-18 15:26:07] UI: On products_list.php
+[2025-08-18 15:26:07] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:26:07] ROUTING (index.php): Dispatched to staff/products_list
+[2025-08-18 15:26:09] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:26:09] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:26:09] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:26:09] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:26:09] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:26:09] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:26:09] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:26:09] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:26:09] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:26:09] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:26:09] URL_DEBUG: Raw REQUEST_URI: /staff/transactions_list
+[2025-08-18 15:26:09] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:26:09] URL_DEBUG: Path after strtok: /staff/transactions_list
+[2025-08-18 15:26:09] URL_DEBUG: Path after /index.php removal: /staff/transactions_list
+[2025-08-18 15:26:09] URL_DEBUG: Final URL after trimming: staff/transactions_list
+[2025-08-18 15:26:09] 📥 Incoming request parsed as: staff/transactions_list
+[2025-08-18 15:26:09] ROUTING: Attempting to call StaffController@transactions_list for URL: staff/transactions_list
+[2025-08-18 15:26:09] Reached List of Transactions
+[2025-08-18 15:26:09] DEBUG: Raw GET parameters: []
+[2025-08-18 15:26:10] DEBUG: Applied sorting: 'transaction_date' desc
+[2025-08-18 15:26:10] DEBUG: SQL Query: select * from "transactions" order by "transaction_date" desc
+[2025-08-18 15:26:10] DEBUG: SQL Bindings: []
+[2025-08-18 15:26:10] DEBUG: Number of transactions retrieved in transactions_list: 31
+[2025-08-18 15:26:10] UI: On transactions_list.php
+[2025-08-18 15:26:10] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:26:10] ROUTING (index.php): Dispatched to staff/transactions_list
+[2025-08-18 15:32:27] DB_INFO: Attempting to set up database connection...
+[2025-08-18 15:32:27] DB_INFO: Composer autoloader loaded (if not already).
+[2025-08-18 15:32:27] DB_INFO: Database connection and Eloquent ORM successfully set up.
+[2025-08-18 15:32:27] DIAGNOSTIC: Attempting to get Capsule instance...
+[2025-08-18 15:32:27] DIAGNOSTIC: Connection::getCapsule() returned a non-NULL instance. Type: Illuminate\Database\Capsule\Manager
+[2025-08-18 15:32:27] DIAGNOSTIC: Attempting to get Connection object...
+[2025-08-18 15:32:27] DIAGNOSTIC: getConnection() returned a Connection object. Type: Illuminate\Database\SQLiteConnection
+[2025-08-18 15:32:27] DIAGNOSTIC: Attempting to get PDO object...
+[2025-08-18 15:32:27] DIAGNOSTIC: getPdo() returned a PDO object. Type: PDO
+[2025-08-18 15:32:27] DIAGNOSTIC: PDO transaction is NOT active before routing.
+[2025-08-18 15:32:27] URL_DEBUG: Raw REQUEST_URI: /staff/products_list
+[2025-08-18 15:32:27] URL_DEBUG: Raw _GET array: []
+[2025-08-18 15:32:27] URL_DEBUG: Path after strtok: /staff/products_list
+[2025-08-18 15:32:27] URL_DEBUG: Path after /index.php removal: /staff/products_list
+[2025-08-18 15:32:27] URL_DEBUG: Final URL after trimming: staff/products_list
+[2025-08-18 15:32:27] 📥 Incoming request parsed as: staff/products_list
+[2025-08-18 15:32:27] ROUTING: Attempting to call StaffController@products_list for URL: staff/products_list
+[2025-08-18 15:32:27] Reached List of Products
+[2025-08-18 15:32:27] DEBUG: Applied product sorting: 'name' asc
+[2025-08-18 15:32:27] DEBUG: Number of products retrieved: 7
+[2025-08-18 15:32:27] UI: On products_list.php
+[2025-08-18 15:32:27] VIEW LAYOUT: Layout file found: views/staff/staff_layout.php
+[2025-08-18 15:32:27] ROUTING (index.php): Dispatched to staff/products_list

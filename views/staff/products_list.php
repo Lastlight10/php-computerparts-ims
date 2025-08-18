@@ -44,7 +44,7 @@ use App\Core\Logger; // Ensure Logger is used if needed here
     <div class="row g-3 align-items-end">
         <div class="col-md-4">
             <label for="search_query" class="form-label light-txt">Search</label>
-            <input type="text" class="form-control dark-txt light-bg" id="search_query" name="search_query" placeholder="SKU, name, description, category, brand" value="<?= htmlspecialchars($search_query ?? '') ?>" maxlength="50">
+            <input type="text" class="form-control dark-txt light-bg" id="search_query" name="search_query" placeholder="Product code, name, description, category, brand" value="<?= htmlspecialchars($search_query ?? '') ?>" maxlength="50">
         </div>
         <div class="col-md-3">
             <label for="filter_category_id" class="form-label light-txt">Filter by Category</label>
@@ -159,8 +159,13 @@ use App\Core\Logger; // Ensure Logger is used if needed here
                 <tr>
                     <td class="hidden-column"><?= htmlspecialchars($product->id) ?></td>
                     <td class="wrap-long"><?= htmlspecialchars($product->sku ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($product->name ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($product->description ?? 'N/A') ?></td>
+                    <td style="max-width:200px; white-space:normal; overflow-wrap:break-word; word-wrap: break-word;">
+                      <?= htmlspecialchars($product->name ?? 'N/A') ?>
+                    </td>
+                    <td style="max-width:200px; white-space:normal; overflow-wrap:break-word; word-wrap: break-word;">
+                      <?= htmlspecialchars($product->description ?? 'N/A') ?>
+                    </td>
+
                     <td><?= htmlspecialchars($product->category->name ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($product->brand->name ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars(number_format($product->unit_price ?? 0.00, 2)) ?></td>

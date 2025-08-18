@@ -88,13 +88,13 @@ $brands = $brands ?? [];
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="unit_price" class="form-label light-txt">Unit Price (₱)</label>
-                    <input type="number" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="unit_price" name="unit_price"
-                        value="<?= htmlspecialchars($product->unit_price ?? ''); ?>" required min="0" data-maxlength="9">
+                    <input type="text" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="unit_price" name="unit_price"
+                        value="<?= htmlspecialchars($product->unit_price ?? ''); ?>" required min="0" data-maxlength="6">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="cost_price" class="form-label light-txt">Cost Price (₱)</label>
-                    <input type="number" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="cost_price" name="cost_price"
-                        value="<?= htmlspecialchars($product->cost_price ?? ''); ?>" min="0" data-maxlength="9">
+                    <input type="text" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="cost_price" name="cost_price"
+                        value="<?= htmlspecialchars($product->cost_price ?? ''); ?>" min="0" data-maxlength="6">
                 </div>
             </div>
 
@@ -157,18 +157,21 @@ $brands = $brands ?? [];
             let value = input.value;
             const maxLength = parseInt(input.getAttribute('data-maxlength'), 10); // This line dynamically reads the data-maxlength
 
-            // 1. Strip non-numeric characters
             if (input.id === 'reorder_level') {
-                value = value.replace(/[^0-9]/g, ''); // Only digits for reorder_level
+                value = value.replace(/[^0-9]/g, ''); // integers only
             } else {
-                // For prices, allow one decimal point
+                // allow only numbers and a single dot
                 value = value.replace(/[^0-9.]/g, '');
+
                 const parts = value.split('.');
                 if (parts.length > 2) {
-                    value = parts.shift() + '.' + parts.join('');
+                    // keep first decimal, remove extra ones
+                    value = parts[0] + '.' + parts[1];
                 }
-                if (value.indexOf('.') !== value.lastIndexOf('.')) {
-                    value = value.substring(0, value.lastIndexOf('.'));
+
+                // limit to 2 decimals
+                if (parts[1] && parts[1].length > 2) {
+                    value = parts[0] + '.' + parts[1].substring(0, 2);
                 }
             }
 

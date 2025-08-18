@@ -48,21 +48,21 @@ $brands = $brands ?? [];
 
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="sku" class="form-label light-txt">SKU</label>
+                    <label for="sku" class="form-label light-txt">Product Code</label>
                     <input type="text" class="form-control form-control-lg dark-txt light-bg" id="sku" name="sku"
                            value="<?= htmlspecialchars($product->sku ?? ''); ?>" required maxlength="50" readonly>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="name" class="form-label light-txt">Product Name</label>
                     <input type="text" class="form-control form-control-lg dark-txt light-bg" id="name" name="name"
-                           value="<?= htmlspecialchars($product->name ?? ''); ?>" required maxlength="255">
+                           value="<?= htmlspecialchars($product->name ?? ''); ?>" required maxlength="50">
                 </div>
             </div>
 
             <div class="mb-3">
               <label for="description" class="form-label light-txt">Description (Optional)</label>
               <textarea class="form-control form-control-lg dark-txt light-bg" id="description" name="description"
-                        rows="3" maxlength="1000"><?= htmlspecialchars($product->description ?? ''); ?></textarea>
+                        rows="3" maxlength="100"><?= htmlspecialchars($product->description ?? ''); ?></textarea>
             </div>
 
             <div class="row">
@@ -95,12 +95,12 @@ $brands = $brands ?? [];
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="unit_price" class="form-label light-txt">Unit Price (₱)</label>
-                    <input type="number" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="unit_price" name="unit_price"
+                    <input type="text" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="unit_price" name="unit_price"
                         value="<?= htmlspecialchars($product->unit_price ?? ''); ?>" required min="0" data-maxlength="9">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="cost_price" class="form-label light-txt">Cost Price (₱)</label>
-                    <input type="number" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="cost_price" name="cost_price"
+                    <input type="text" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="cost_price" name="cost_price"
                         value="<?= htmlspecialchars($product->cost_price ?? ''); ?>" min="0" data-maxlength="9">
                 </div>
             </div>
