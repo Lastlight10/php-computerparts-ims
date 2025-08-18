@@ -64,7 +64,7 @@ if (!$product) {
 
             <div class="mb-4">
                 <p class="light-txt mb-1"><strong>Description:</strong></p>
-                <p class="text-white ps-3"><?= htmlspecialchars($product->description ?? 'No description provided.') ?></p>
+                <p class="text-white ps-3" style="max-width:1100px; white-space:normal; overflow-wrap:break-word;"><?= htmlspecialchars($product->description ?? 'No description provided.') ?></p>
             </div>
 
             <div class="text-center mt-3">

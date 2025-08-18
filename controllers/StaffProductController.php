@@ -655,7 +655,7 @@ class StaffProductController extends Controller {
             $html .= '
                         <tr>
                             <td>' . htmlspecialchars($product->sku ?? 'N/A') . '</td>
-                            <td>' . htmlspecialchars($product->name ?? 'N/A') . '</td>
+                            <td style="max-width:200px; white-space:normal; overflow-wrap:break-word; word-wrap: break-word;">' . htmlspecialchars($product->name ?? 'N/A') . '</td>
                             <td>' . htmlspecialchars($product->category->name ?? 'N/A') . '</td>
                             <td>' . htmlspecialchars($product->brand->name ?? 'N/A') . '</td>
                             <td>₱' . number_format($product->unit_price ?? 0.00, 2) . '</td>
@@ -755,7 +755,7 @@ class StaffProductController extends Controller {
                     </div>
                 </div>
                     <h1>Product Details Report</h1>
-                    <h2>' . htmlspecialchars($product->name) . ' (SKU: ' . htmlspecialchars($product->sku) . ')</h2>
+                    <h2>' . htmlspecialchars($product->name) . ' (Code: ' . htmlspecialchars($product->sku) . ')</h2>
                 </div>
 
                 <table class="details-table">
@@ -774,7 +774,7 @@ class StaffProductController extends Controller {
                     <tr><td><strong>Updated At:</strong></td><td>' . htmlspecialchars($product->updated_at ? date('Y-m-d H:i', strtotime($product->updated_at)) : 'N/A') . '</td></tr>
                 </table>
 
-                <div class="notes">
+                <div class="notes" style="max-width:800px; white-space:normal; overflow-wrap:break-word;">
                     <strong>Description:</strong><br>' . nl2br(htmlspecialchars($product->description ?? 'No description provided.')) . '
                 </div>';
 
