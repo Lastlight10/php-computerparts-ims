@@ -233,7 +233,7 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                             
                   <div class="card lighterdark-bg mb-3 p-3 shadow-sm" data-product-id="<?= htmlspecialchars($item->product->id); ?>" data-is-serialized="<?= htmlspecialchars((int)$item->product->is_serialized); ?>" data-quantity="<?= htmlspecialchars($item->quantity); ?>">
                     <div class="card-body">
-                      <h5 class="card-title text-white"><?= htmlspecialchars(string: $item->product->name ?? 'N/A') ?> (SKU: <?= htmlspecialchars($item->product->sku ?? 'N/A') ?>)</h5>
+                      <h5 class="card-title text-white"><?= htmlspecialchars(string: $item->product->name ?? 'N/A') ?> (CODE: <?= htmlspecialchars($item->product->sku ?? 'N/A') ?>)</h5>
                       <p class="text-light">
                         Quantity: <?= htmlspecialchars($item->quantity ?? 'N/A') ?>
                     </p>

@@ -106,7 +106,7 @@ use App\Core\Logger; // Ensure Logger is used if needed here
             <label for="sort_by" class="form-label light-txt">Sort By</label>
             <select class="form-select dark-txt light-bg" id="sort_by" name="sort_by">
                 <option value="name" <?= (($sort_by ?? '') === 'name') ? 'selected' : '' ?>>Product Name</option>
-                <option value="sku" <?= (($sort_by ?? '') === 'sku') ? 'selected' : '' ?>>SKU</option>
+                <option value="sku" <?= (($sort_by ?? '') === 'sku') ? 'selected' : '' ?>>Product Code</option>
                 <option value="unit_price" <?= (($sort_by ?? '') === 'unit_price') ? 'selected' : '' ?>>Unit Price</option>
                 <option value="cost_price" <?= (($sort_by ?? '') === 'cost_price') ? 'selected' : '' ?>>Cost Price</option>
                 <option value="current_stock" <?= (($sort_by ?? '') === 'current_stock') ? 'selected' : '' ?>>Current Stock</option>
@@ -136,7 +136,7 @@ use App\Core\Logger; // Ensure Logger is used if needed here
       <thead>
         <tr>
           <th class="hidden-header">ID</th>
-          <th>SKU</th>
+          <th>CODE</th>
           <th>NAME</th>
           <th>DESCRIPTION</th>
           <th>CATEGORY</th>

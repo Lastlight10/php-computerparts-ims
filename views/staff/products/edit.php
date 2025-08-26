@@ -136,14 +136,14 @@ $brands = $brands ?? [];
                     </div>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <label for="location_aisle" class="form-label light-txt">Location Aisle (Optional)</label>
+                    <label for="location_aisle" class="form-label light-txt">Building (Optional)</label>
                     <input type="text" class="form-control form-control-lg dark-txt light-bg" id="location_aisle" name="location_aisle"
-                           value="<?= htmlspecialchars($product->location_aisle ?? ''); ?>" maxlength="50">
+                           value="<?= htmlspecialchars($product->location_aisle ?? ''); ?>" maxlength="12">
                 </div>
                 <div class="col-md-4 mb-3">
-                    <label for="location_bin" class="form-label light-txt">Location Bin (Optional)</label>
+                    <label for="location_bin" class="form-label light-txt">Shelf and Row(Optional)</label>
                     <input type="text" class="form-control form-control-lg dark-txt light-bg" id="location_bin" name="location_bin"
-                           value="<?= htmlspecialchars($product->location_bin ?? ''); ?>" maxlength="50">
+                           value="<?= htmlspecialchars($product->location_bin ?? ''); ?>" maxlength="15">
                 </div>
             </div>
 

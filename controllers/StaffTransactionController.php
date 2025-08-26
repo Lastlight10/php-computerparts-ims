@@ -1599,11 +1599,13 @@ $html .= '
     }
 
     // Optional: prevent deleting completed/cancelled ones
+    /*
     if (in_array($transaction->status, ['Completed', 'Cancelled'])) {
         $_SESSION['error_message'] = "Transaction ID {$transaction->id} cannot be deleted.";
         header('Location: /staff/transactions/edit/' . $transaction->id);
         exit();
     }
+        */
 
     // Cascade delete items + serials
     foreach ($transaction->items as $item) {
