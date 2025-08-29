@@ -43,7 +43,7 @@ if (!$instance) {
         <div class="card lightishdark-bg p-4 shadow-sm mb-4">
             <div class="card-header text-white text-center primary-bg-card">
                 <h2 class="mb-0 light-txt">Manage Product Unit: <?= htmlspecialchars($instance->serial_number ?? 'N/A') ?></h2>
-                <h5 class="mb-0 light-txt">Product: <?= htmlspecialchars($instance->product->name ?? 'N/A') ?> (SKU: <?= htmlspecialchars($instance->product->sku ?? 'N/A') ?>)</h5>
+                <h5 class="mb-0 light-txt">Product: <?= htmlspecialchars($instance->product->name ?? 'N/A') ?> (Code: <?= htmlspecialchars($instance->product->sku ?? 'N/A') ?>)</h5>
             </div>
             <div class="card-body light-bg-card">
 

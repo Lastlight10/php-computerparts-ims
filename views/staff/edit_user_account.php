@@ -77,7 +77,9 @@
             </div>
 
             <div class="form-group">
-                <button type="submit">Save General Information</button>
+                <button type="submit"
+                    onclick="return confirm('Are you sure you want update your account details?');"
+                >Save General Information</button>
             </div>
         </form>
 

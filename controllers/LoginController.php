@@ -369,7 +369,7 @@ class LoginController extends Controller {
         session_destroy();
 
         // 4. Redirect to the login page
-        $_SESSION['success_message']="Successfully logged in.";
+        $_SESSION['success_message']="Successfully logged out.";
         header('Location: /login/login'); // Redirect to your login route
         exit(); // Important to exit after a header redirect
     }

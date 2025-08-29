@@ -148,7 +148,9 @@ $brands = $brands ?? [];
             </div>
 
             <div class="d-grid gap-2 mt-4">
-              <button type="submit" class="btn btn-primary btn-lg lightgreen-bg">Update Product</button>
+              <button type="submit" class="btn btn-primary btn-lg lightgreen-bg"
+                onclick="return confirm('Are you sure you want to update the supplier details?');"
+              >Update Product</button>
               <a href="/staff/products_list" class="btn btn-secondary btn-lg">Cancel</a>
             </div>
           </form>

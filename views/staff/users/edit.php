@@ -88,7 +88,7 @@ if (!$user || !isset($user->id)) {
                 <div class="mb-3">
                     <label for="middle_name" class="form-label light-txt">Middle Name (Optional)</label>
                     <input type="text" class="form-control dark-txt light-bg" id="middle_name" name="middle_name"
-                           value="<?= htmlspecialchars($user->middle_name ?? '') ?>" maxlength="30">
+                           value="<?= htmlspecialchars($user->middle_name ?? '') ?>" maxlength="20">
                 </div>
 
                 <div class="mb-3">
@@ -111,7 +111,7 @@ if (!$user || !isset($user->id)) {
                 </div>
 
                 <div class="d-grid gap-2 mt-4">
-                    <button type="submit" class="btn btn-primary btn-lg" onclick="return confirm('Are you sure you want to update this user?')">Update User</button>
+                    <button type="submit" class="btn btn-primary btn-lg" onclick="return confirm('Are you sure you want to update this users details?')">Update User</button>
                     <a href="/staff/user_list" class="btn btn-secondary btn-lg">Back to User List</a>
                 </div>
             </form>

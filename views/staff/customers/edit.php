@@ -62,31 +62,31 @@ if (!$customer) {
             <div class="mb-3">
               <label for="company_name" class="form-label light-txt">Company Name (Optional)</label>
               <input type="text" class="form-control form-control-lg dark-txt light-bg" id="company_name" name="company_name"
-                     value="<?php echo htmlspecialchars($customer->company_name ?? ''); ?>" maxlength="50">
+                     value="<?php echo htmlspecialchars($customer->company_name ?? ''); ?>" maxlength="30">
             </div>
 
             <div class="mb-3">
               <label for="contact_first_name" class="form-label light-txt">Contact Person First Name</label>
               <input type="text" class="form-control form-control-lg dark-txt light-bg" id="contact_first_name" name="contact_first_name"
-                     value="<?php echo htmlspecialchars($customer->contact_first_name ?? ''); ?>" required maxlength="50">
+                     value="<?php echo htmlspecialchars($customer->contact_first_name ?? ''); ?>" required maxlength="30">
             </div>
 
             <div class="mb-3">
               <label for="contact_middle_name" class="form-label light-txt">Contact Person Middle Name (Optional)</label>
               <input type="text" class="form-control form-control-lg dark-txt light-bg" id="contact_middle_name" name="contact_middle_name"
-                     value="<?php echo htmlspecialchars($customer->contact_middle_name ?? ''); ?>" maxlength="50">
+                     value="<?php echo htmlspecialchars($customer->contact_middle_name ?? ''); ?>" maxlength="20">
             </div>
 
             <div class="mb-3">
               <label for="contact_last_name" class="form-label light-txt">Contact Person Last Name</label>
               <input type="text" class="form-control form-control-lg dark-txt light-bg" id="contact_last_name" name="contact_last_name"
-                     value="<?php echo htmlspecialchars($customer->contact_last_name ?? ''); ?>" required maxlength="50">
+                     value="<?php echo htmlspecialchars($customer->contact_last_name ?? ''); ?>" required maxlength="30">
             </div>
 
             <div class="mb-3">
               <label for="email" class="form-label light-txt">Email</label>
               <input type="email" class="form-control form-control-lg dark-txt light-bg" id="email" name="email"
-                     value="<?php echo htmlspecialchars($customer->email ?? ''); ?>" required maxlength="50">
+                     value="<?php echo htmlspecialchars($customer->email ?? ''); ?>" required maxlength="30">
             </div>
 
             <div class="mb-3">
@@ -103,7 +103,7 @@ if (!$customer) {
 
             <div class="d-grid gap-2 mt-4">
               <button type="submit"
-              onclick="return confirm('Are you sure you want to edit the customer?');"
+              onclick="return confirm('Are you sure you want to edit the customer details?');"
               class="btn btn-primary btn-lg lightgreen-bg">Update Customer</button>
               <a href="/staff/customers_list" class="btn btn-secondary btn-lg">Cancel</a>
             </div>

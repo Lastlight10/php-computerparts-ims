@@ -55,31 +55,31 @@ $supplier = $supplier ?? new Supplier(); // Use the Models\Supplier class explic
             <div class="mb-3">
               <label for="company_name" class="form-label light-txt">Company Name (Optional)</label>
               <input type="text" class="form-control form-control-lg dark-txt light-bg" id="company_name" name="company_name"
-                     value="<?php echo htmlspecialchars($supplier->company_name ?? ''); ?>" maxlength="50">
+                     value="<?php echo htmlspecialchars($supplier->company_name ?? ''); ?>" maxlength="30">
             </div>
 
             <div class="mb-3">
               <label for="contact_first_name" class="form-label light-txt">Contact Person First Name</label>
               <input type="text" class="form-control form-control-lg dark-txt light-bg" id="contact_first_name" name="contact_first_name"
-                     value="<?php echo htmlspecialchars($supplier->contact_first_name ?? ''); ?>" required maxlength="50">
+                     value="<?php echo htmlspecialchars($supplier->contact_first_name ?? ''); ?>" required maxlength="30">
             </div>
 
             <div class="mb-3">
               <label for="contact_middle_name" class="form-label light-txt">Contact Person Middle Name (Optional)</label>
               <input type="text" class="form-control form-control-lg dark-txt light-bg" id="contact_middle_name" name="contact_middle_name"
-                     value="<?php echo htmlspecialchars($supplier->contact_middle_name ?? ''); ?>" maxlength="50">
+                     value="<?php echo htmlspecialchars($supplier->contact_middle_name ?? ''); ?>" maxlength="20">
             </div>
 
             <div class="mb-3">
               <label for="contact_last_name" class="form-label light-txt">Contact Person Last Name</label>
               <input type="text" class="form-control form-control-lg dark-txt light-bg" id="contact_last_name" name="contact_last_name"
-                     value="<?php echo htmlspecialchars($supplier->contact_last_name ?? ''); ?>" required maxlength="50">
+                     value="<?php echo htmlspecialchars($supplier->contact_last_name ?? ''); ?>" required maxlength="30">
             </div>
 
             <div class="mb-3">
               <label for="email" class="form-label light-txt">Email</label>
               <input type="email" class="form-control form-control-lg dark-txt light-bg" id="email" name="email"
-                     value="<?php echo htmlspecialchars($supplier->email ?? ''); ?>" required maxlength="50">
+                     value="<?php echo htmlspecialchars($supplier->email ?? ''); ?>" required maxlength="30">
             </div>
 
             <div class="mb-3">
@@ -89,13 +89,15 @@ $supplier = $supplier ?? new Supplier(); // Use the Models\Supplier class explic
             </div>
 
             <div class="mb-3">
-              <label for="address" class="form-label light-txt">Full Address</label>
+              <label for="address" class="form-label light-txt">Address</label>
               <textarea class="form-control form-control-lg dark-txt light-bg" id="address" name="address"
-                        rows="3" maxlength="100"><?php echo htmlspecialchars($supplier->address ?? ''); ?></textarea>
+                        rows="3" maxlength="50"><?php echo htmlspecialchars($supplier->address ?? ''); ?></textarea>
             </div>
 
             <div class="d-grid gap-2 mt-4">
-              <button type="submit" class="btn btn-primary btn-lg lightgreen-bg">Add Supplier</button>
+              <button type="submit" class="btn btn-primary btn-lg lightgreen-bg"
+                onclick="return confirm('Are you sure you want to add the supplier?');"
+              >Add Supplier</button>
               <a href="/staff/suppliers_list" class="btn btn-secondary btn-lg">Cancel</a>
             </div>
           </form>

@@ -47,7 +47,7 @@ if (!$product) {
 
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <p class="light-txt mb-1"><strong>SKU:</strong> <?= htmlspecialchars($product->sku ?? 'N/A') ?></p>
+                    <p class="light-txt mb-1"><strong>Code:</strong> <?= htmlspecialchars($product->sku ?? 'N/A') ?></p>
                     <p class="light-txt mb-1"><strong>Category:</strong> <?= htmlspecialchars($product->category->name ?? 'N/A') ?></p>
                     <p class="light-txt mb-1"><strong>Brand:</strong> <?= htmlspecialchars($product->brand->name ?? 'N/A') ?></p>
                     <p class="light-txt mb-1"><strong>Unit Price:</strong> ₱<?= htmlspecialchars(number_format($product->unit_price ?? 0, 2)) ?></p>

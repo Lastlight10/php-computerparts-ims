@@ -49,7 +49,7 @@
 
             <div class="d-grid gap-2 mt-4">
               <button type="submit"
-              onclick="return confirm('Are you sure you want to update the category?');"
+              onclick="return confirm('Are you sure you want to update the category details?');"
               class="btn btn-primary btn-lg">Update Category</button>
               <a href="/staff/categories_list" class="btn btn-secondary btn-lg">Cancel</a>
             </div>

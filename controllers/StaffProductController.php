@@ -639,7 +639,7 @@ class StaffProductController extends Controller {
                 <table class="items-table">
                     <thead>
                         <tr>
-                            <th>SKU</th>
+                            <th>CODE</th>
                             <th>Name</th>
                             <th>Category</th>
                             <th>Brand</th>
