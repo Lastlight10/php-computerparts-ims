@@ -159,10 +159,10 @@ use App\Core\Logger; // Ensure Logger is used if needed here
                 <tr>
                     <td class="hidden-column"><?= htmlspecialchars($product->id) ?></td>
                     <td class="wrap-long"><?= htmlspecialchars($product->sku ?? 'N/A') ?></td>
-                    <td style="max-width:200px; white-space:normal; overflow-wrap:break-word; word-wrap: break-word;">
+                    <td class="pxtable">
                       <?= htmlspecialchars($product->name ?? 'N/A') ?>
                     </td>
-                    <td style="max-width:200px; white-space:normal; overflow-wrap:break-word; word-wrap: break-word;">
+                    <td class="pxtable">
                       <?= htmlspecialchars($product->description ?? 'N/A') ?>
                     </td>
 

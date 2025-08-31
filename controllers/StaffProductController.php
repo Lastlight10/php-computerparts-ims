@@ -768,9 +768,9 @@ class StaffProductController extends Controller {
                     <tr><td><strong>Serialized:</strong></td><td>' . (($product->is_serialized ?? false) ? 'Yes' : 'No') . '</td></tr>
                     <tr><td><strong>Active:</strong></td><td>' . (($product->is_active ?? false) ? 'Yes' : 'No') . '</td></tr>
                     <tr><td><strong>Location:</strong></td><td>' . htmlspecialchars($product->location_aisle ?? 'N/A') . ' / ' . htmlspecialchars($product->location_bin ?? 'N/A') . '</td></tr>
-                    <tr><td><strong>Created By:</strong></td><td>' . htmlspecialchars($product->createdBy->username ?? 'N/A') . '</td></tr>
+                    
                     <tr><td><strong>Created At:</strong></td><td>' . htmlspecialchars($product->created_at ? date('Y-m-d H:i', strtotime($product->created_at)) : 'N/A') . '</td></tr>
-                    <tr><td><strong>Updated By:</strong></td><td>' . htmlspecialchars($product->updatedBy->username ?? 'N/A') . '</td></tr>
+                    
                     <tr><td><strong>Updated At:</strong></td><td>' . htmlspecialchars($product->updated_at ? date('Y-m-d H:i', strtotime($product->updated_at)) : 'N/A') . '</td></tr>
                 </table>
 

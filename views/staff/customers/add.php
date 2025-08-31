@@ -66,7 +66,9 @@ $customer = $customer ?? new Customer(); // Use the Models\Customer class explic
             <div class="mb-3">
               <label for="contact_middle_name" class="form-label light-txt">Contact Person Middle Name (Optional)</label>
               <input type="text" class="form-control form-control-lg dark-txt light-bg" id="contact_middle_name" name="contact_middle_name"
-                     value="<?php echo htmlspecialchars($customer->contact_middle_name ?? ''); ?>" maxlength="20">
+                     value="<?php echo htmlspecialchars($customer->contact_middle_name ?? ''); ?>" maxlength="20"
+                     pattern="[A-Za-z]+"
+                     >
             </div>
 
             <div class="mb-3">
@@ -106,33 +108,48 @@ $customer = $customer ?? new Customer(); // Use the Models\Customer class explic
   </div>
 </section>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log("JavaScript for phone number input validation is running!");
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log("JavaScript for phone number input validation is running!");
 
         // This function will specifically handle phone number validation
-        function enforcePhoneNumberRules(event) {
-            const input = event.target;
-            let value = input.value;
-            const maxLength = parseInt(input.getAttribute('data-maxlength'), 10);
+    function enforcePhoneNumberRules(event) {
+      const input = event.target;
+      let value = input.value;
+      const maxLength = parseInt(input.getAttribute('data-maxlength'), 10);
 
             // 1. Strip non-numeric characters (only digits allowed for phone number)
-            value = value.replace(/[^0-9]/g, '');
+      value = value.replace(/[^0-9]/g, '');
 
             // 2. Enforce maxlength
-            if (!isNaN(maxLength) && value.length > maxLength) {
-                value = value.slice(0, maxLength);
-            }
+      if (!isNaN(maxLength) && value.length > maxLength) {
+        value = value.slice(0, maxLength);
+      }
 
             // Update the input value
-            input.value = value;
-        }
+      input.value = value;
+      }
 
-        const phoneNumberInput = document.getElementById('phone_number');
+      const phoneNumberInput = document.getElementById('phone_number');
 
-        if (phoneNumberInput) {
-            phoneNumberInput.addEventListener('input', enforcePhoneNumberRules);
+      if (phoneNumberInput) {
+        phoneNumberInput.addEventListener('input', enforcePhoneNumberRules);
         }
-    });
+      function lettersOnly(id, allowSpaces = false, allowHyphens = false) {
+        const el = document.getElementById(id);
+        el.addEventListener('input', () => {
+          let regex = '[^A-Za-z';
+          if (allowSpaces) regex += ' ';
+          if (allowHyphens) regex += '-';
+          regex += ']';
+          el.value = el.value.replace(new RegExp(regex, 'g'), '');
+        });
+      }
+
+      // Apply restrictions
+      lettersOnly("contact_first_name",true);              // Letters only
+      lettersOnly("contact_middle_name");             // Letters only
+      lettersOnly("contact_last_name",false, true);   // Letters + spaces + hyphens
+  });
 </script>
 <?php
 Logger::log('UI: On staff/customers/add.php');

@@ -84,7 +84,9 @@ $user_types = $user_types ?? ['Staff', 'Manager', 'Admin']; // Default if not pa
                 <div class="mb-3">
                     <label for="birthdate" class="form-label light-txt">Birthdate</label>
                     <input type="date" class="form-control dark-txt light-bg" id="birthdate" name="birthdate"
-                           value="<?= htmlspecialchars($user->birthdate ?? '') ?>" required maxlength="50">
+                           value="<?= htmlspecialchars($user->birthdate ?? '') ?>" required maxlength="50"
+                           max="2010-01-01"
+                           >
                 </div>
 
                 <div class="mb-3">
@@ -108,7 +110,23 @@ $user_types = $user_types ?? ['Staff', 'Manager', 'Admin']; // Default if not pa
         </div>
     </div>
 </section>
+<script>
+    function lettersOnly(id, allowSpaces = false, allowHyphens = false) {
+        const el = document.getElementById(id);
+        el.addEventListener('input', () => {
+          let regex = '[^A-Za-z';
+          if (allowSpaces) regex += ' ';
+          if (allowHyphens) regex += '-';
+          regex += ']';
+          el.value = el.value.replace(new RegExp(regex, 'g'), '');
+        });
+      }
 
+      // Apply restrictions
+      lettersOnly("first_name",true);              // Letters only
+      lettersOnly("middle_name");             // Letters only
+      lettersOnly("last_name",false, true);
+</script>
 <?php
 Logger::log('UI: On staff/users/add.php');
 ?>

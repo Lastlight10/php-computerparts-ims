@@ -133,6 +133,21 @@ $supplier = $supplier ?? new Supplier(); // Use the Models\Supplier class explic
         if (phoneNumberInput) {
             phoneNumberInput.addEventListener('input', enforcePhoneNumberRules);
         }
+    function lettersOnly(id, allowSpaces = false, allowHyphens = false) {
+        const el = document.getElementById(id);
+        el.addEventListener('input', () => {
+          let regex = '[^A-Za-z';
+          if (allowSpaces) regex += ' ';
+          if (allowHyphens) regex += '-';
+          regex += ']';
+          el.value = el.value.replace(new RegExp(regex, 'g'), '');
+        });
+      }
+
+      // Apply restrictions
+      lettersOnly("contact_first_name",true);              // Letters only
+      lettersOnly("contact_middle_name");             // Letters only
+      lettersOnly("contact_last_name",false, true);
     });
 </script>
 <?php

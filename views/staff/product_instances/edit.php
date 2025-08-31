@@ -87,7 +87,7 @@ if (!$instance) {
 
                     <div class="mb-3">
                         <label for="warranty_expires_at" class="form-label light-txt">Warranty Expiration Date</label>
-                        <input type="date" class="form-control dark-txt light-bg" id="warranty_expires_at" name="warranty_expires_at" value="<?= htmlspecialchars($instance->warranty_expires_at ?? '') ?>">
+                        <input type="date" class="form-control dark-txt light-bg" id="warranty_expires_at" name="warranty_expires_at" value="<?= htmlspecialchars($instance->warranty_expires_at ?? '') ?>" max="2010-01-01">
                     </div>
 
                     <h4 class="text-white mt-4 mb-3">Associated Transactions</h4>

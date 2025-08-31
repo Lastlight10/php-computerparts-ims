@@ -58,12 +58,12 @@ use App\Core\Logger;
             <?php foreach ($user_info as $user): ?>
                 <tr>
                     <td><?= htmlspecialchars($user->id) ?></td>
-                    <td><?= htmlspecialchars($user->username) ?></td>
-                    <td><?= htmlspecialchars($user->email ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($user->last_name ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($user->first_name ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($user->middle_name ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars(date('Y-m-d', strtotime($user->birthdate)) ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 150px;"><?= htmlspecialchars($user->username) ?></td>
+                    <td class="pxtable" style="max-width: 100px;"><?= htmlspecialchars($user->email ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 100px;"><?= htmlspecialchars($user->last_name ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 100px;"><?= htmlspecialchars($user->first_name ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 100px;"><?= htmlspecialchars($user->middle_name ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 100px;"><?= htmlspecialchars(date('Y-m-d', strtotime($user->birthdate)) ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($user->type ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars(date('Y-m-d',strtotime($user->created_at)) ?? 'N/A') ?></td>
                     <td>

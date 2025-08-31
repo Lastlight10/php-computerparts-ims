@@ -60,13 +60,14 @@ if (!isset($customers_info)) {
             <?php foreach ($customers_info as $customer): ?>
                 <tr>
                     <td class="hidden-column"><?= htmlspecialchars($customer->id) ?></td>
-                    <td><?= htmlspecialchars($customer->customer_type ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($customer->company_name ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($customer->contact_first_name ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($customer->contact_middle_name ?? 'N/A') ?></td> <td><?= htmlspecialchars($customer->contact_last_name ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($customer->email ?? 'N/A') ?></td>
+                    <td ><?= htmlspecialchars($customer->customer_type ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 150px;"><?= htmlspecialchars($customer->company_name ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 100px;"><?= htmlspecialchars($customer->contact_first_name ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 100px;"><?= htmlspecialchars($customer->contact_middle_name ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 100px;"><?= htmlspecialchars($customer->contact_last_name ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 120px;"><?= htmlspecialchars($customer->email ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($customer->phone_number ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($customer->address ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 150px;"><?= htmlspecialchars($customer->address ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars(date('Y-m-d', strtotime($customer->created_at)) ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars(date('Y-m-d',strtotime($customer->updated_at)) ?? 'N/A') ?></td>
                     <td>

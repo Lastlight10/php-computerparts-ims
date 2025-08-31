@@ -65,13 +65,13 @@ if (!isset($suppliers_info)) {
                 <tr>
                     <td class="hidden-column"><?= htmlspecialchars($supplier->id) ?></td>
                     <td><?= htmlspecialchars($supplier->supplier_type ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($supplier->company_name ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($supplier->contact_first_name ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($supplier->contact_middle_name ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($supplier->contact_last_name ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($supplier->email ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($supplier->phone_number ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($supplier->address ?? 'N/A') ?></td> <td><?= htmlspecialchars(date('Y-m-d', strtotime($supplier->created_at)) ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 100px;"><?= htmlspecialchars($supplier->company_name ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 100px;"><?= htmlspecialchars($supplier->contact_first_name ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 100px;"><?= htmlspecialchars($supplier->contact_middle_name ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 100px;"><?= htmlspecialchars($supplier->contact_last_name ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 120px;"><?= htmlspecialchars($supplier->email ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 100px;"><?= htmlspecialchars($supplier->phone_number ?? 'N/A') ?></td>
+                    <td class="pxtable" style="max-width: 150px;"><?= htmlspecialchars($supplier->address ?? 'N/A') ?></td> <td><?= htmlspecialchars(date('Y-m-d', strtotime($supplier->created_at)) ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars(date('Y-m-d', strtotime($supplier->updated_at)) ?? 'N/A') ?></td> <td>
                         <a href="/staff/suppliers/edit/<?= htmlspecialchars($supplier->id) ?>" class="btn btn-sm btn-info me-1">Edit</a>
                         <a href="/staff/suppliers/delete/<?= htmlspecialchars($supplier->id) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this supplier? This action cannot be undone.');">Delete</a>

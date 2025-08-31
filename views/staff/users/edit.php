@@ -88,7 +88,7 @@ if (!$user || !isset($user->id)) {
                 <div class="mb-3">
                     <label for="middle_name" class="form-label light-txt">Middle Name (Optional)</label>
                     <input type="text" class="form-control dark-txt light-bg" id="middle_name" name="middle_name"
-                           value="<?= htmlspecialchars($user->middle_name ?? '') ?>" maxlength="20">
+                           value="<?= htmlspecialchars($user->middle_name ?? '') ?>" maxlength="20" max="2010-01-01">
                 </div>
 
                 <div class="mb-3">
@@ -118,7 +118,23 @@ if (!$user || !isset($user->id)) {
         </div>
     </div>
 </section>
+<script>
+    function lettersOnly(id, allowSpaces = false, allowHyphens = false) {
+        const el = document.getElementById(id);
+        el.addEventListener('input', () => {
+          let regex = '[^A-Za-z';
+          if (allowSpaces) regex += ' ';
+          if (allowHyphens) regex += '-';
+          regex += ']';
+          el.value = el.value.replace(new RegExp(regex, 'g'), '');
+        });
+      }
 
+      // Apply restrictions
+      lettersOnly("first_name",true);              // Letters only
+      lettersOnly("middle_name");             // Letters only
+      lettersOnly("last_name",false, true);
+</script>
 <?php
 Logger::log('UI: On staff/users/edit.php');
 ?>

@@ -61,7 +61,7 @@
 
             <div class="form-group">
                 <label for="birthdate">Birthdate:</label>
-                <input type="date" id="birthdate" name="birthdate" value="<?php echo htmlspecialchars($user_account->birthdate ? $user_account->birthdate->format('Y-m-d') : ''); ?>">
+                <input type="date" id="birthdate" name="birthdate" value="<?php echo htmlspecialchars($user_account->birthdate ? $user_account->birthdate->format('Y-m-d') : ''); ?>" max="2010-01-01">
                 <small>Format: YYYY-MM-DD</small>
             </div>
 
@@ -109,6 +109,23 @@
             </div>
         </form>
     </div>
+<script>
+    function lettersOnly(id, allowSpaces = false, allowHyphens = false) {
+        const el = document.getElementById(id);
+        el.addEventListener('input', () => {
+          let regex = '[^A-Za-z';
+          if (allowSpaces) regex += ' ';
+          if (allowHyphens) regex += '-';
+          regex += ']';
+          el.value = el.value.replace(new RegExp(regex, 'g'), '');
+        });
+      }
+
+      // Apply restrictions
+      lettersOnly("first_name",true);              // Letters only
+      lettersOnly("middle_name");             // Letters only
+      lettersOnly("last_name",false, true);
+</script>
 <?php 
 use App\Core\Logger;
 Logger::log('UI: On edit_user_account.php')

@@ -11,3 +11,10 @@
 .table{
   font-size:12px;
 }
+
+.pxtable {
+  max-width:200px;
+  white-space:normal;
+  overflow-wrap:break-word;
+  word-wrap:break-word;
+}
