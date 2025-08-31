@@ -189,7 +189,8 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                           <span class="input-group-text">₱</span>
                           <input type="text"
                                 class="form-control form-control-lg dark-txt light-bg"
-                                value="<?= htmlspecialchars(number_format((float)$amount_value, 2, '.', '')) ?>"
+                                value="<?= htmlspecialchars($amount_value) ?>"
+
                                 readonly>
                       </div>
                   </div>
