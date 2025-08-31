@@ -40,6 +40,23 @@ if (!isset($suppliers_info)) {
               unset($_SESSION['error_message']);
           }
           ?>
+<form method="get" action="">
+  <div class="row" style="margin-bottom: 10px;">
+    <div class="col-md-4">
+      <label for="search_query" class="form-label light-txt">Search</label>
+      <input type="text" 
+             class="form-control dark-txt light-bg" 
+             id="search_query" 
+             name="search_query" 
+             placeholder="Type, company, contact name, or email" 
+             value="<?= htmlspecialchars($search_query ?? '') ?>" 
+             maxlength="30">
+    </div>
+    <div class="col-md-2 d-flex align-items-end">
+      <button type="submit" class="btn btn-primary w-100">Search</button>
+    </div>
+  </div>
+</form>
 
 <div class="table-responsive">
     <table class="table table-dark table-striped table-hover">

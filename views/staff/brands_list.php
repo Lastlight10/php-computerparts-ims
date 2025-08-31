@@ -33,6 +33,25 @@ use App\Core\Logger;
     unset($_SESSION['error_message']);
   }
   ?>
+  <form method="get" action="">
+    <div class="row">
+      <div class="col-md-4">
+        <label for="search_query" class="form-label light-txt">Search</label>
+        <input type="text" 
+              class="form-control dark-txt light-bg" 
+              id="search_query" 
+              name="search_query" 
+              placeholder="Brand name or email" 
+              value="<?= htmlspecialchars($search_query ?? '') ?>" 
+              maxlength="30"
+              style="margin-bottom: 10px;"
+              >
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary w-100" style="margin-bottom: 10px;">Search</button>
+      </div>
+    </div>
+  </form>
     <table class="table table-dark table-striped table-hover">
       <thead>
         <tr>
@@ -50,10 +69,10 @@ use App\Core\Logger;
             <?php foreach ($brand_info as $brand): ?>
                 <tr>
                     <td class="hidden-column"><?= htmlspecialchars($brand->id) ?></td> <td><?= htmlspecialchars($brand->name ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($brand->website ?? 'N/A') ?></td>
+                    <td ><?= htmlspecialchars($brand->website ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($brand->contact_email ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars(date('Y-m-d', strtotime($brand->created_at) ?? 'N/A')) ?></td>
-                    <td><?= htmlspecialchars(date('Y-m-d', strtotime($brand->updated_at)) ?? 'N/A') ?></td>
+                    <td ><?= htmlspecialchars(date('Y-m-d', strtotime($brand->updated_at)) ?? 'N/A') ?></td>
                     <td>
                         <a href="/staff/brands/edit/<?= htmlspecialchars($brand->id) ?>" class="btn btn-sm btn-info me-1">Edit</a>
                         <a href="/staff/brands/delete/<?= htmlspecialchars($brand->id) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this brand? This action cannot be undone.');">Delete</a>

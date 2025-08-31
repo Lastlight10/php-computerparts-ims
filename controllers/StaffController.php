@@ -33,10 +33,51 @@ class StaffController extends Controller {
 
   public function user_list() {
     Logger::log('Reached List of Users');
-    $user_info = User::select('id', 'username', 'email', 'first_name', 'last_name','middle_name','birthdate','created_at','type')->get();
-    $this->view('staff/user_list', ['user_info' => $user_info],'staff');
-  }
 
+    // Get and trim search query
+    $search_query = trim((string) $this->input('search_query'));
+
+    // Build query (still select all needed columns)
+    $user_query = User::select(
+        'id',
+        'username',
+        'email',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'birthdate',
+        'created_at',
+        'type'
+    );
+
+    // Apply search filter (username, email, names only)
+    if (!empty($search_query)) {
+        $user_query->where(function ($q) use ($search_query) {
+            $q->where('username', 'LIKE', '%' . $search_query . '%')
+              ->orWhere('email', 'LIKE', '%' . $search_query . '%')
+              ->orWhere('first_name', 'LIKE', '%' . $search_query . '%')
+              ->orWhere('middle_name', 'LIKE', '%' . $search_query . '%')
+              ->orWhere('last_name', 'LIKE', '%' . $search_query . '%');
+        });
+        Logger::log("DEBUG: Applied user search query: '{$search_query}'");
+    }
+
+    // Fetch results
+    $user_info = $user_query->get();
+
+    Logger::log("DEBUG: Number of users retrieved: " . $user_info->count());
+
+    // Ensure iterable
+    if (is_null($user_info)) {
+        $user_info = collect([]);
+    }
+
+    // Pass back search_query
+    $this->view('staff/user_list', [
+        'user_info'    => $user_info,
+        'search_query' => $search_query
+    ], 'staff');
+}
   /**
    * Displays a list of all products with search, filter, and sort capabilities.
    * Accessible via /staff/products_list
@@ -47,7 +88,7 @@ class StaffController extends Controller {
     Logger::log('Reached List of Products');
 
     // Retrieve search, filter, and sort parameters from GET request
-    $search_query = $this->input('search_query');
+    $search_query = trim((string) $this->input('search_query'));
     $filter_category_id = $this->input('filter_category_id');
     $filter_brand_id = $this->input('filter_brand_id');
     $filter_date_range = $this->input('filter_date_range');
@@ -192,7 +233,7 @@ class StaffController extends Controller {
     // --- DEBUGGING END ---
 
     // Retrieve search, filter, and sort parameters from GET request
-    $search_query = $this->input('search_query');
+    $search_query = trim((string) $this->input('search_query'));
     $filter_type = $this->input('filter_type');
     $filter_status = $this->input('filter_status');
     $filter_date_range = $this->input('filter_date_range');
@@ -204,7 +245,7 @@ class StaffController extends Controller {
     $transactions_query = Transaction::with(['customer', 'supplier', 'createdBy', 'updatedBy']);
 
     // Apply search filter
-    if (!empty($search_query)) {
+    if (!empty(trim($search_query))) {
         $transactions_query->where(function ($query) use ($search_query) {
             $query->where('invoice_bill_number', 'LIKE', '%' . $search_query . '%')
                   ->orWhere('transaction_type', 'LIKE', '%' . $search_query . '%')
@@ -310,9 +351,14 @@ class StaffController extends Controller {
   }
 
   public function customers_list() {
-    Logger::log(message: 'Reached List of Customers');
-    $customers_info = Customer::select(
-      'id',
+    Logger::log('Reached List of Customers');
+
+    // Get search query
+    $search_query = trim((string) $this->input('search_query'));
+
+    // Start query
+    $customers_query = Customer::select(
+        'id',
         'customer_type',
         'company_name',
         'contact_first_name',
@@ -322,57 +368,171 @@ class StaffController extends Controller {
         'phone_number',
         'address',
         'created_at',
-        'updated_at',
-        )->get();
-    $this->view('staff/customers_list', ['customers_info' => $customers_info],'staff');
-  }
+        'updated_at'
+    );
 
-  public function suppliers_list() {
-        Logger::log('Reached List of Suppliers'); // Changed named parameter for broader compatibility
-
-        // Ensure all relevant columns are selected, including contact_middle_name
-        $suppliers_info = Supplier::select(
-            'id',
-            'supplier_type',
-            'company_name',
-            'contact_first_name',
-            'contact_middle_name', // Included contact_middle_name
-            'contact_last_name',
-            'email',
-            'phone_number',
-            'address',           // Single address field
-            'created_at',
-            'updated_at'
-        )->get();
-
-        $this->view('staff/suppliers_list', [
-            'suppliers_info' => $suppliers_info
-        ], 'staff');
+    // Apply search filter (only on specified fields)
+    if (!empty($search_query)) {
+        $customers_query->where(function ($q) use ($search_query) {
+            $q->where('company_name', 'LIKE', '%' . $search_query . '%')
+              ->orWhere('contact_first_name', 'LIKE', '%' . $search_query . '%')
+              ->orWhere('contact_middle_name', 'LIKE', '%' . $search_query . '%')
+              ->orWhere('contact_last_name', 'LIKE', '%' . $search_query . '%')
+              ->orWhere('customer_type', 'LIKE', '%' . $search_query . '%')
+              ->orWhere('email', 'LIKE', '%' . $search_query . '%');
+        });
+        Logger::log("DEBUG: Applied customer search query: '{$search_query}'");
     }
-  public function categories_list() {
-    Logger::log(message: 'Reached List of Categories');
-    $category_info = Category::select(
-      'id',
-            'name',
-            'description',
-            'created_at',
-            'updated_at',
-            )->get();
-    $this->view('staff/categories_list', ['category_info' => $category_info],'staff');
-  }
+
+    // Get results
+    $customers_info = $customers_query->get();
+
+    Logger::log("DEBUG: Number of customers retrieved: " . $customers_info->count());
+
+    // Ensure iterable
+    if (is_null($customers_info)) {
+        $customers_info = collect([]);
+    }
+
+    // Pass search_query back to view
+    $this->view('staff/customers_list', [
+        'customers_info' => $customers_info,
+        'search_query' => $search_query
+    ], 'staff');
+    }
+
+public function suppliers_list() {
+    Logger::log('Reached List of Suppliers');
+
+    // Get search query
+    $search_query = trim((string) $this->input('search_query'));
+
+    // Build query
+    $suppliers_query = Supplier::select(
+        'id',
+        'supplier_type',
+        'company_name',
+        'contact_first_name',
+        'contact_middle_name',
+        'contact_last_name',
+        'email',
+        'phone_number',
+        'address',
+        'created_at',
+        'updated_at'
+    );
+
+    // Apply search filter
+    if (!empty($search_query)) {
+        $suppliers_query->where(function ($q) use ($search_query) {
+            $q->where('supplier_type', 'LIKE', '%' . $search_query . '%')
+              ->orWhere('company_name', 'LIKE', '%' . $search_query . '%')
+              ->orWhere('contact_first_name', 'LIKE', '%' . $search_query . '%')
+              ->orWhere('contact_middle_name', 'LIKE', '%' . $search_query . '%')
+              ->orWhere('contact_last_name', 'LIKE', '%' . $search_query . '%')
+              ->orWhere('email', 'LIKE', '%' . $search_query . '%');
+        });
+        Logger::log("DEBUG: Applied supplier search query: '{$search_query}'");
+    }
+
+    // Fetch results
+    $suppliers_info = $suppliers_query->get();
+
+    Logger::log("DEBUG: Number of suppliers retrieved: " . $suppliers_info->count());
+
+    // Ensure iterable
+    if (is_null($suppliers_info)) {
+        $suppliers_info = collect([]);
+    }
+
+    // Pass search_query back to view
+    $this->view('staff/suppliers_list', [
+        'suppliers_info' => $suppliers_info,
+        'search_query'   => $search_query
+    ], 'staff');
+}
+
+ public function categories_list() {
+    Logger::log('Reached List of Categories');
+
+    // Get and trim search query
+    $search_query = trim((string) $this->input('search_query'));
+
+    // Start query
+    $category_query = Category::select(
+        'id',
+        'name',
+        'description',
+        'created_at',
+        'updated_at'
+    );
+
+    // Apply search filter (only on name)
+    if (!empty($search_query)) {
+        $category_query->where('name', 'LIKE', '%' . $search_query . '%');
+        Logger::log("DEBUG: Applied category search query: '{$search_query}'");
+    }
+
+    // Fetch results
+    $category_info = $category_query->get();
+
+    Logger::log("DEBUG: Number of categories retrieved: " . $category_info->count());
+
+    // Ensure iterable
+    if (is_null($category_info)) {
+        $category_info = collect([]);
+    }
+
+    // Pass search_query back to view
+    $this->view('staff/categories_list', [
+        'category_info' => $category_info,
+        'search_query'  => $search_query
+    ], 'staff');
+}
+
 
   public function brands_list() {
-    Logger::log(message: 'Reached List of Brands');
-    $brand_info = Brand::select(
-      'id',
-            'name',
-            'website',
-            'contact_email',
-            'created_at',
-            'updated_at',
-            )->get();
-    $this->view('staff/brands_list', ['brand_info' => $brand_info],'staff');
-  }
+    Logger::log('Reached List of Brands');
+
+    // Get search query
+    $search_query = $this->input('search_query');
+
+    // Start building the query
+    $brand_query = Brand::select(
+        'id',
+        'name',
+        'website',
+        'contact_email',
+        'created_at',
+        'updated_at'
+    );
+
+    // Apply search filter
+    if (!empty($search_query)) {
+        $brand_query->where(function ($q) use ($search_query) {
+            $q->where('name', 'LIKE', '%' . $search_query . '%')
+              ->orWhere('contact_email', 'LIKE', '%' . $search_query . '%');
+        });
+        Logger::log("DEBUG: Applied brand search query: '{$search_query}'");
+    }
+
+    // Fetch data
+    $brand_info = $brand_query->get();
+
+    Logger::log("DEBUG: Number of brands retrieved: " . $brand_info->count());
+
+    // Ensure iterable
+    if (is_null($brand_info)) {
+        $brand_info = collect([]);
+    }
+
+    // Pass search_query back to view to keep the input filled
+    $this->view('staff/brands_list', [
+        'brand_info' => $brand_info,
+        'search_query' => $search_query
+    ], 'staff');
+}
+
 
   public function edit_user_account() {
    Logger::log('Attempting to retrieve current user account for editing.');
