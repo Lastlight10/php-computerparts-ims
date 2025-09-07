@@ -3,7 +3,7 @@ namespace Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-
+use Illuminate\Database\Eloquent\Collection;
 class TransactionItem extends Model {
     protected $table = 'transaction_items';
     protected $primaryKey = 'id';
@@ -19,12 +19,6 @@ class TransactionItem extends Model {
         return $this->belongsTo(Transaction::class, 'transaction_id');
     }
 
-    // Define relationship with Product (many-to-one)
-    public function product(): BelongsTo // Added return type hint
-    {
-        return $this->belongsTo(Product::class, 'product_id');
-    }
-
     // Define relationship with the User who created this item
     public function createdBy(): BelongsTo // Added return type hint
     {
@@ -38,6 +32,19 @@ class TransactionItem extends Model {
     }
 
     // Define relationship with ProductInstances (one-to-many)
+    public function product() {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function allInstancesCollection(): Collection
+{
+    return $this->purchasedInstances
+        ->merge($this->soldInstances)
+        ->merge($this->returnedFromCustomerInstances)
+        ->merge($this->returnedToSupplierInstances)
+        ->merge($this->adjustedInInstances)
+        ->merge($this->adjustedOutInstances);
+}
 
     // A TransactionItem for a PURCHASE can have many ProductInstances
     public function purchasedInstances(): HasMany // Added return type hint

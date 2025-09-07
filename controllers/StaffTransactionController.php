@@ -86,12 +86,12 @@ public function store() {
     Logger::log('TRANSACTION_STORE: Attempting to store new transaction.');
 
     // Get inputs
-    $transaction_type = trim($this->input('transaction_type'));
+    $transaction_type = $this->input('transaction_type');
     $customer_id      = $this->input('customer_id') ? (int)$this->input('customer_id') : null;
     $supplier_id      = $this->input('supplier_id') !== '' ? (int)$this->input('supplier_id') : null;
-    $transaction_date_str = trim($this->input('transaction_date'));
-    $status           = trim($this->input('status'));
-    $notes            = trim($this->input('notes'));
+    $transaction_date_str = $this->input('transaction_date');
+    $status           = $this->input('status');
+    $notes            = $this->input('notes');
     $current_user_id  = $this->getCurrentUserId();
 
     $errors = [];
@@ -104,7 +104,12 @@ public function store() {
 
     if (empty($transaction_date_str)) $errors[] = 'Transaction Date is required.';
     elseif (!strtotime($transaction_date_str)) $errors[] = 'Transaction Date is invalid.';
-    $transaction_date_db = date('Y-m-d H:i:s', strtotime($transaction_date_str));
+    if (!empty($transaction_date_str)) {
+    $transaction_date_db = date('Y-m-d', strtotime($transaction_date_str));
+    } else {
+        $transaction_date_db = null; // or set a default like date('Y-m-d')
+    }
+
 
     // Validate customer/supplier based on type
     switch ($transaction_type) {
@@ -133,8 +138,8 @@ public function store() {
 
     if (!empty($errors)) {
         Logger::log("TRANSACTION_STORE_FAILED: " . implode(', ', $errors));
-        $customers = Customer::all()->toArray();
-        $suppliers = Supplier::all()->toArray();
+        $customers = Customer::all();
+        $suppliers = Supplier::all();
 
         $_SESSION['error_message'] = "Error: " . implode('<br>', $errors);
         $this->view('staff/transactions/add', [
@@ -280,6 +285,14 @@ public function store() {
 
             $_SESSION['error_message']="Transaction not found for " . $id . ".";
             header('Location: /staff/transactions_list');
+            exit();
+        }
+
+        if ($transaction->items->isEmpty()) {
+            Logger::log("TRANSACTION_EDIT_FAILED: No items found for transaction ID: $id.");
+
+            $_SESSION['error_message'] = "Please add items to this transaction.";
+            header('Location: /staff/transactions/show/'.$id);
             exit();
         }
 
@@ -1193,105 +1206,84 @@ public function store() {
             throw new Exception("Adjustment direction (inflow/outflow) must be specified for item '{$item->product->name}'.");
         }
     }
-    public function printTransaction($id) {
-        Logger::log("PRINT_TRANSACTION: Attempting to generate PDF for transaction ID: $id.");
-        date_default_timezone_set('Asia/Manila');
-        $transaction = Transaction::with([
-            'items.product',
-            'customer',
-            'supplier',
-            'createdBy',
-            'updatedBy'
-        ])->find($id);
+public function printTransaction($id) {
+    Logger::log("PRINT_TRANSACTION: Attempting to generate PDF for transaction ID: $id.");
+    date_default_timezone_set('Asia/Manila');
 
-        if (!$transaction) {
-            Logger::log("PRINT_TRANSACTION_FAILED: Transaction ID $id not found for printing.");
-            // Redirect back to the show page with an error message
-            header('Location: /staff/transactions/show/' . $id . '?error=' . urlencode('Transaction not found for printing.'));
-            exit();
-        }
+    // Load transaction with related data
+    $transaction = Transaction::with([
+        'items.product',
+        'customer',
+        'supplier',
+        'createdBy',
+        'updatedBy'
+    ])->find($id);
 
-        // Configure Dompdf options
-        $options = new Options();
-        $options->set('defaultFont', 'DejaVu Sans'); // Important for Unicode characters (e.g., currency symbols)
-        $options->set('isHtml5ParserEnabled', true);
-        $options->set('isRemoteEnabled', true); // Enable loading remote assets if needed (e.g., images)
+    if (!$transaction) {
+        Logger::log("PRINT_TRANSACTION_FAILED: Transaction ID $id not found.");
+        header('Location: /staff/transactions/show/' . $id . '?error=' . urlencode('Transaction not found for printing.'));
+        exit();
+    }
 
-        // Instantiate Dompdf
-        $dompdf = new Dompdf($options);
+    // Dompdf configuration
+    $options = new Options();
+    $options->set('defaultFont', 'DejaVu Sans');
+    $options->set('isHtml5ParserEnabled', true);
+    $options->set('isRemoteEnabled', true);
+    $dompdf = new Dompdf($options);
 
-        // Prepare data for HTML generation
-        $transaction_date_formatted = date('F j, Y', strtotime($transaction->transaction_date));
-        $created_at_formatted = $transaction->created_at ? date('F j, Y, h:i A', strtotime($transaction->created_at)) : 'N/A';
-        $updated_at_formatted = $transaction->updated_at ? date('F j, Y, h:i A', strtotime($transaction->updated_at)) : 'N/A';
+    $transaction_date = date('F j, Y', strtotime($transaction->transaction_date));
+    $created_at = $transaction->created_at ? date('F j, Y, h:i A', strtotime($transaction->created_at)) : 'N/A';
+    $updated_at = $transaction->updated_at ? date('F j, Y, h:i A', strtotime($transaction->updated_at)) : 'N/A';
 
-        $party_type = 'N/A';
-        $party_name = 'N/A';
+    // Determine party info
+    $party_name = 'N/A';
+    if ($transaction->customer) {
+        $party_name = htmlspecialchars($transaction->customer->company_name ?? trim(($transaction->customer->contact_first_name ?? '') . ' ' . ($transaction->customer->contact_last_name ?? '')));
+    } elseif ($transaction->supplier) {
+        $party_name = htmlspecialchars($transaction->supplier->company_name ?? trim(($transaction->supplier->contact_first_name ?? '') . ' ' . ($transaction->supplier->contact_last_name ?? '')));
+    }
 
-        if ($transaction->transaction_type === 'Sale' && $transaction->customer) {
-            $party_type = 'Customer';
-            $party_name = htmlspecialchars($transaction->customer->company_name ?? $transaction->customer->contact_first_name . ' ' . $transaction->customer->contact_last_name);
-        } elseif ($transaction->transaction_type === 'Purchase' && $transaction->supplier) {
-            $party_type = 'Supplier';
-            $party_name = htmlspecialchars($transaction->supplier->company_name ?? $transaction->supplier->contact_first_name . ' ' . $transaction->supplier->contact_last_name);
-        } elseif ($transaction->transaction_type === 'Return') {
-            if ($transaction->customer) {
-                $party_type = 'Customer (Return From)';
-                $party_name = htmlspecialchars($transaction->customer->company_name ?? $transaction->customer->contact_first_name . ' ' . $transaction->customer->contact_last_name);
-            } elseif ($transaction->supplier) {
-                $party_type = 'Supplier (Return To)';
-                $party_name = htmlspecialchars($transaction->supplier->company_name ?? $transaction->supplier->contact_first_name . ' ' . $transaction->supplier->contact_last_name);
-            } else {
-                $party_type = 'N/A (Return)';
-                $party_name = 'N/A';
-            }
-        } elseif ($transaction->transaction_type === 'Adjustment') {
-            $party_type = 'N/A';
-            $party_name = 'No specific party';
-        }
+    // Determine amount label
+    $amount_label_map = [
+        'Sale' => 'Amount Received:',
+        'Purchase' => 'Amount Paid:',
+        'Customer Return' => 'Amount Refunded:',
+        'Supplier Return' => 'Amount Received (Refund):'
+    ];
+    $amount_label = $amount_label_map[$transaction->transaction_type] ?? '';
 
-        $amount_label = '';
-        if ($transaction->transaction_type === 'Sale') {
-            $amount_label = 'Amount Received:';
-        } elseif ($transaction->transaction_type === 'Purchase') {
-            $amount_label = 'Amount Paid:';
-        } elseif ($transaction->transaction_type === 'Customer Return') {
-            $amount_label = 'Amount Refunded:';
-        } elseif ($transaction->transaction_type === 'Supplier Return') {
-            $amount_label = 'Amount Received (Refund):';
-        }
-        $logoData = base64_encode(file_get_contents('resources/images/Heading.png'));
-        $logoSrc = 'data:image/png;base64,' . $logoData;
+    // Prepare logo
+    $logoData = base64_encode(file_get_contents('resources/images/Heading.png'));
+    $logoSrc = 'data:image/png;base64,' . $logoData;
 
-        // Build the HTML content for the PDF
-        $html = '
+    // Begin HTML
+    $html = '
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Transaction Details: ' . htmlspecialchars($transaction->invoice_bill_number) . '</title>
-    <style>
-        body { font-family:"DejaVu Sans",sans-serif; font-size:12px; line-height:1.6; color:#333; }
-        .container { width:90%; margin:0 auto; padding:10px; border:1px solid #eee; box-shadow:0 0 10px rgba(0,0,0,0.1); }
-        .logo, .header { padding-bottom:10px; text-align:center; }
-        .header h1 { margin:0; padding:0; color:#0056b3; font-size:14px; }
-        .header h2 { margin:0; padding:0; font-size:10px; }
-        .details-table, .items-table { width:100%; border-collapse:collapse; margin-bottom:10px; }
-        .details-table td { padding:8px; border-bottom:1px solid #eee; }
-        .details-table strong { display:inline-block; width:150px; }
-        .items-table th, .items-table td { border:1px solid #ddd; padding:8px; text-align:left; font-size:10px; }
-        .items-table th { background-color:#f2f2f2; }
-        .total-row td { font-weight:bold; ont-size:10px; }
-        .notes { margin-top:5px; padding:10px; border:1px solid #eee; background-color:#f9f9f9; ont-size:10px; }
-        .footer { text-align:center; margin-top:10px; font-size:6px; color:#777; }
-        </style>
-
+<meta charset="UTF-8">
+<title>Transaction Details: ' . htmlspecialchars($transaction->invoice_bill_number) . '</title>
+<style>
+    body { font-family: "DejaVu Sans", sans-serif; font-size:12px; color:#333; line-height:1.5; }
+    .container { width:90%; margin:0 auto; padding:10px; border:1px solid #eee; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+    .logo { text-align:center; padding-bottom:10px; }
+    .header { text-align:center; margin-bottom:15px; }
+    .header h1 { margin:0; font-size:14px; color:#0056b3; }
+    .header h2 { margin:0; font-size:10px; }
+    table { width:100%; border-collapse:collapse; margin-bottom:15px; }
+    table th, table td { border:1px solid #ddd; padding:6px; font-size:10px; text-align:left; }
+    table th { background-color:#f2f2f2; }
+    .details-table td strong { display:inline-block; width:150px; }
+    .notes { margin-top:5px; padding:10px; border:1px solid #eee; background:#f9f9f9; font-size:10px; }
+    .footer { text-align:center; font-size:6px; color:#777; margin-top:10px; }
+</style>
 </head>
 <body>
 <div class="container">
-    <div class="logo" style="text-align: center;">
-        <img src="' . $logoSrc . '" alt="Company Logo" style="height: 80px; width: 80px; border-radius: 50%; object-fit: cover;">
-        <div class="company-info" style="margin-top: 10px; font-size: 10px; color: #333;">
+    <div class="logo">
+        <img src="' . $logoSrc . '" alt="Company Logo" style="height:80px;width:80px;border-radius:50%;object-fit:cover;">
+        <div class="company-info" style="margin-top:10px;font-size:10px;color:#333;">
             <strong>Computer Parts Company</strong><br>
             123 Main Street, City, Country<br>
             Phone: (123) 456-7890 | Email: info@company.com
@@ -1305,48 +1297,28 @@ public function store() {
 
     <table class="details-table">
         <tr><td><strong>Transaction Type:</strong></td><td>' . htmlspecialchars($transaction->transaction_type) . '</td></tr>
-        <tr><td><strong>Transaction Date:</strong></td><td>' . $transaction_date_formatted . '</td></tr>';
-
-        // Party row
-$html .= '<tr><td><strong>Party:</strong></td><td>';
-if ($transaction->customer) {
-    $html .= htmlspecialchars(
-        $transaction->customer->company_name
-        ?: trim(($transaction->customer->contact_first_name ?? '') . ' ' . ($transaction->customer->contact_last_name ?? ''))
-    );
-} elseif ($transaction->supplier) {
-    $html .= htmlspecialchars(
-        $transaction->supplier->company_name
-        ?: trim(($transaction->supplier->contact_first_name ?? '') . ' ' . ($transaction->supplier->contact_last_name ?? ''))
-    );
-} else {
-    $html .= 'No Supplier/Customer';
-}
-$html .= '</td></tr>';
-
-$html .= '
+        <tr><td><strong>Transaction Date:</strong></td><td>' . $transaction_date . '</td></tr>
+        <tr><td><strong>Party:</strong></td><td>' . $party_name . '</td></tr>
         <tr><td><strong>Status:</strong></td><td>' . htmlspecialchars($transaction->status) . '</td></tr>
-        <tr><td><strong>Total Amount:</strong></td><td>₱' . number_format($transaction->total_amount, 2) . '</td></tr>';
+        <tr><td><strong>Total Amount:</strong></td><td>₱' . number_format($transaction->total_amount,2) . '</td></tr>';
 
-if (in_array($transaction->transaction_type, ['Sale', 'Purchase', 'Customer Return', 'Supplier Return'])) {
-    $html .= '<tr><td><strong>' . $amount_label . '</strong></td><td>₱' . number_format($transaction->amount_received !== null ? (float)$transaction->amount_received : 0.00, 2) . '</td></tr>';
-}
+    if ($amount_label) {
+        $html .= '<tr><td><strong>' . $amount_label . '</strong></td><td>₱' . number_format($transaction->amount_received ?? 0, 2) . '</td></tr>';
+    }
 
-$html .= '
+    $html .= '
         <tr><td><strong>Created By:</strong></td><td>' . htmlspecialchars($transaction->createdBy->username ?? 'N/A') . '</td></tr>
-        <tr><td><strong>Created At:</strong></td><td>' . $created_at_formatted . '</td></tr>
+        <tr><td><strong>Created At:</strong></td><td>' . $created_at . '</td></tr>
         <tr><td><strong>Updated By:</strong></td><td>' . htmlspecialchars($transaction->updatedBy->username ?? 'N/A') . '</td></tr>
-        <tr><td><strong>Updated At:</strong></td><td>' . $updated_at_formatted . '</td></tr>
+        <tr><td><strong>Updated At:</strong></td><td>' . $updated_at . '</td></tr>
     </table>
 
-    <div class="notes">
-        <strong>Notes:</strong><br>' . nl2br(htmlspecialchars($transaction->notes ?? '')) . '
-    </div>
+    <div class="notes"><strong>Notes:</strong><br>' . nl2br(htmlspecialchars($transaction->notes ?? '')) . '</div>
 
     <h3>Transaction Items</h3>';
 
-if ((new \Illuminate\Support\Collection($transaction->items))->isEmpty()) {
-    $html .= '<p>No items have been added to this transaction.</p>';
+    if ($transaction->items->isEmpty()) {
+    $html .= '<p>No items added to this transaction.</p>';
 } else {
     $html .= '
     <table class="items-table">
@@ -1357,47 +1329,71 @@ if ((new \Illuminate\Support\Collection($transaction->items))->isEmpty()) {
                 <th>Quantity</th>
                 <th>Unit Price</th>
                 <th>Subtotal</th>
+                <th>Serial Number</th>
             </tr>
         </thead>
         <tbody>';
-    $item_counter = 1;
-    foreach ($transaction->items as $item) {
-        $html .= '
-            <tr>
-                <td>' . $item_counter++ . '</td>
-                <td>' . htmlspecialchars($item->product->name ?? 'N/A') . '</td>
-                <td>' . htmlspecialchars($item->quantity !== null ? $item->quantity : 'N/A') . '</td>
-                <td>₱' . number_format($item->unit_price_at_transaction !== null ? (float)$item->unit_price_at_transaction : 0.00, 2) . '</td>
-                <td>₱' . number_format($item->line_total !== null ? (float)$item->line_total : 0.00, 2) . '</td>
-            </tr>';
-    }
-    $html .= '
-        </tbody>
-    </table>';
-}
 
-$html .= '
-    <div class="footer">
-        <p>Generated by Computer IMS on ' . date('F j, Y, h:i A') . '</p>
-    </div>
+    $item_counter = 1;
+    
+    foreach ($transaction->items as $item) {
+        $quantity = (int)($item->quantity ?? 0);
+        $unit_price = (float)($item->unit_price_at_transaction ?? 0);
+        $line_total = (float)($item->line_total ?? $unit_price * $quantity);
+
+        // Merge all instances for this item
+        $serials = $item->allInstancesCollection(); // must return a Collection of all related instances
+        
+        if ($serials->isNotEmpty()) {
+            $first = true;
+            $count = $serials->count();
+
+            foreach ($serials as $serial) {
+                $html .= '<tr>';
+
+                if ($first) {
+                    $html .= '<td rowspan="' . $count . '">' . $item_counter . '</td>';
+                    $html .= '<td rowspan="' . $count . '">' . htmlspecialchars($item->product->name ?? 'N/A') . '</td>';
+                    $html .= '<td rowspan="' . $count . '">' . $quantity . '</td>';
+                    $html .= '<td rowspan="' . $count . '">₱' . number_format($unit_price, 2) . '</td>';
+                    $html .= '<td rowspan="' . $count . '">₱' . number_format($line_total, 2) . '</td>';
+                    $first = false;
+                }
+
+                $html .= '<td>' . htmlspecialchars($serial->serial_number ?? 'N/A') . '</td>';
+                $html .= '</tr>';
+            }
+        } else {
+            // No serials, single row
+            $html .= '<tr>
+                <td>' . $item_counter . '</td>
+                <td>' . htmlspecialchars($item->product->name ?? 'N/A') . '</td>
+                <td>' . $quantity . '</td>
+                <td>₱' . number_format($unit_price, 2) . '</td>
+                <td>₱' . number_format($line_total, 2) . '</td>
+                <td>N/A</td>
+            </tr>';
+        }
+
+        $item_counter++;
+    }
+
+    $html .= '</tbody></table>';
+}
+    $html .= '<div class="footer">Generated by Computer IMS on ' . date('F j, Y, h:i A') . '</div>
 </div>
 </body>
 </html>';
 
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('letter', 'portrait');
+    $dompdf->render();
+    $dompdf->stream("Transaction_" . htmlspecialchars($transaction->invoice_bill_number) . ".pdf", ["Attachment" => false]);
 
-        $dompdf->loadHtml($html);
+    Logger::log("PRINT_TRANSACTION_SUCCESS: PDF generated and streamed for transaction ID: $id.");
+    exit();
+}
 
-        // Set paper size and orientation
-        $dompdf->setPaper('letter', 'portrait');
-
-        // Render the HTML as PDF
-        $dompdf->render();
-
-        // Output the generated PDF (inline display in browser)
-        $dompdf->stream("Transaction_" . htmlspecialchars($transaction->invoice_bill_number) . ".pdf", ["Attachment" => false]);
-        Logger::log("PRINT_TRANSACTION_SUCCESS: PDF generated and streamed for transaction ID: $id.");
-        exit();
-    }
     public function printTransactionsList() {
         Logger::log("PRINT_TRANSACTIONS_LIST: Attempting to generate PDF for transactions list.");
 

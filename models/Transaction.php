@@ -5,7 +5,7 @@ use Models\User;
 use Models\Customer;
 use Models\Supplier;
 use Models\TransactionItem;
-use Models\Product; // Import the Product model
+use Models\ProductInstance; // Import the Product model
 use App\Core\Logger; // Import the Logger
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,7 +30,9 @@ class Transaction extends Model {
     {
         return $this->hasMany(TransactionItem::class, 'transaction_id','id');
     }
-
+    public function productInstances() {
+        return $this->hasMany(ProductInstance::class, 'purchase_transaction_item_id');
+    }
     // Define relationship with Customer (many-to-one)
     public function customer(): BelongsTo
     {

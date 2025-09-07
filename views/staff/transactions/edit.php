@@ -412,8 +412,7 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                               data-product-id="<?= htmlspecialchars($item->product->id); ?>"
                               data-item-id="<?= htmlspecialchars($item->id); ?>"
                               required
-                              maxlength="50"
-                              pattern="^[a-zA-Z0-9-]*$">
+                              data-maxlength="20">
 
                           </div>
                         <?php endforeach; ?>
@@ -421,16 +420,15 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                   <?php endif; ?>
 
                   <?php if ($is_serialized_product && $transaction->transaction_type === 'Sale'): ?>
-                                    <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="sale" data-item-id="<?= htmlspecialchars($item->id); ?>">
-                                        <h6 class="text-white">Serial Numbers (Sale - Qty: <?= htmlspecialchars($item->quantity) ?>)</h6>
-                                        <p class="text-muted">Select the specific serial numbers being sold from available stock.</p>
+                    <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="sale" data-item-id="<?= htmlspecialchars($item->id); ?>">
+                    <h6 class="text-white">Serial Numbers (Sale - Qty: <?= htmlspecialchars($item->quantity) ?>)</h6>
+                    <p class="text-muted">Select the specific serial numbers being sold from available stock.</p>
 
-                                        <?php
-                                        // Get available instances for this product from the data passed by controller
-                                        $available_instances_for_product = $available_serial_numbers_by_product[$item->product->id] ?? [];
+                    <?php
+                      $available_instances_for_product = $available_serial_numbers_by_product[$item->product->id] ?? [];
                                         // Sort available instances by serial number for readability
-                                        usort($available_instances_for_product, function($a, $b) {
-                                            return strcmp($a['serial_number'], $b['serial_number']);
+                      usort($available_instances_for_product, function($a, $b) {
+                      return strcmp($a['serial_number'], $b['serial_number']);
                                         });
 
                                         // Prepare pre-filled selected serial numbers for sales
@@ -451,50 +449,50 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                         }
                                         ?>
 
-                                        <?php for ($i = 0; $i < $item->quantity; $i++): ?>
-                                            <div class="form-group mb-2">
-                                                <label for="sale_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>" class="form-label light-txt">Select Serial #<?= ($i + 1); ?>:</label>
-                                                <select class="form-select form-control-sm dark-txt light-bg serial-number-input"
-        id="sale_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
-        name="selected_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
-        data-product-id="<?= htmlspecialchars($item->product->id); ?>"
-        data-item-id="<?= htmlspecialchars($item->id); ?>"
-        required>
-    <option value="">-- Select a Serial Number --</option>
-    <?php
-    $selected_value = $current_sale_serials[$i] ?? null;
+        <?php for ($i = 0; $i < $item->quantity; $i++): ?>
+<div class="mb-3">
+    <label for="serial_number_<?= $i ?>" class="form-label light-txt">Serial Number</label>
+    <select data-live-search="true"
+            class="form-select form-select-lg dark-txt light-bg selectpicker serial-number-select w-100"
+            id="serial_number_<?= $i ?>"
+            name="serial_number[]"
+            data-maxlength="20"
+            required>
+        <option value="">-- Select a Serial Number --</option>
+        <?php
+        $selected_value = $current_sale_serials[$i] ?? null;
 
-    $serial_options = $available_serial_numbers_by_product[$item->product->id] ?? [];
-    // Include previously selected serial if it's no longer available
-    if ($selected_value && !in_array($selected_value, array_column($serial_options, 'serial_number'))) {
-        $serial_options[] = ['serial_number' => $selected_value, 'status' => 'Previously Sold'];
-    }
-
-    // Sort by serial number
-    usort($serial_options, fn($a, $b) => strcmp($a['serial_number'], $b['serial_number']));
-
-    foreach ($serial_options as $instance):
-        $option_text = htmlspecialchars($instance['serial_number']);
-        if (isset($instance['status']) && $instance['status'] !== 'In Stock') {
-            $option_text .= " ({$instance['status']})";
+        $serial_options = $available_serial_numbers_by_product[$item->product->id] ?? [];
+        // Include previously selected serial if it's no longer available
+        if ($selected_value && !in_array($selected_value, array_column($serial_options, 'serial_number'))) {
+            $serial_options[] = ['serial_number' => $selected_value, 'status' => 'Previously Sold'];
         }
-    ?>
-        <option value="<?= htmlspecialchars($instance['serial_number']) ?>"
-            <?= ($instance['serial_number'] === $selected_value) ? 'selected' : '' ?>>
-            <?= $option_text ?>
-        </option>
-    <?php endforeach; ?>
-</select>
 
-                                            </div>
-                                        <?php endfor; ?>
-                                        <?php if (empty($available_instances_for_product)): ?>
-                                            <p class="text-warning mt-2">No serialized units of this product are currently 'In Stock' for sale.</p>
-                                        <?php endif; ?>
-                                    </div>
-                  <?php endif; ?>
+        // Sort by serial number
+        usort($serial_options, fn($a, $b) => strcmp($a['serial_number'], $b['serial_number']));
 
-                  <?php if ($is_serialized_product && $transaction->transaction_type === 'Customer Return'): ?>
+        foreach ($serial_options as $instance):
+            $option_text = htmlspecialchars($instance['serial_number']);
+            if (isset($instance['status']) && $instance['status'] !== 'In Stock') {
+                $option_text .= " ({$instance['status']})";
+            }
+        ?>
+            <option value="<?= htmlspecialchars($instance['serial_number']) ?>"
+                <?= ($instance['serial_number'] === $selected_value) ? 'selected' : '' ?>>
+                <?= $option_text ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+</div>
+
+  <?php endfor; ?>
+  <?php if (empty($available_instances_for_product)): ?>
+   <p class="text-warning mt-2">No serialized units of this product are currently 'In Stock' for sale.</p>
+   <?php endif; ?>
+   </div>
+      <?php endif; ?>
+
+  <?php if ($is_serialized_product && $transaction->transaction_type === 'Customer Return'): ?>
                     <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="customer-return" data-item-id="<?= htmlspecialchars($item->id); ?>">
                   <?php if ($transaction->customer_id): ?>
                     <div class="serial-numbers-subsection" data-return-type="customer">
@@ -523,53 +521,54 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                   ?>
 
                   <?php for ($i = 0; $i < $item->quantity; $i++): ?>
-                    <div class="form-group mb-2">
+                    <div class="mb-3">
                       <label for="return_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>" class="form-label light-txt">Select Serial #<?= ($i + 1); ?>:</label>
-                      <select class="form-select form-control-sm dark-txt light-bg serial-number-input"
-                        id="return_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
-                        name="returned_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
-                        data-product-id="<?= htmlspecialchars($item->product->id); ?>"
-                        data-item-id="<?= htmlspecialchars($item->id); ?>"
-                        required>
-                  <option value="">-- Select a Serial Number --</option>
-                  <?php
-                    $selected_value = $current_return_serials[$i] ?? null;
+                      <select data-live-search="true"
+        data-width="100%"
+        data-maxlength="20"
+        class="form-select form-control-sm dark-txt light-bg selectpicker serial-number-select"
+        id="return_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
+        name="returned_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
+        data-product-id="<?= htmlspecialchars($item->product->id); ?>"
+        data-item-id="<?= htmlspecialchars($item->id); ?>"
+        required>
+    <option value="">-- Select a Serial Number --</option>
+    <?php
+      $selected_value = $current_return_serials[$i] ?? null;
+      $display_options_return = [];
+      foreach ($potential_return_serials as $instance) {
+        $display_options_return[$instance['serial_number']] = $instance;
+      }
+      if ($selected_value && !isset($display_options_return[$selected_value])) {
+        $temp_instance = new ProductInstance();
+        $temp_instance->serial_number = $selected_value;
+        $temp_instance->status = 'Previously Returned';
+        $display_options_return[$selected_value] = $temp_instance;
+      }
+      ksort($display_options_return);
 
-                    $display_options_return = [];
-                    foreach ($potential_return_serials as $instance) {
-                    $display_options_return[$instance['serial_number']] = $instance;
-                    }
-                    if ($selected_value && !isset($display_options_return[$selected_value])) {
-                      $temp_instance = new ProductInstance();
-                      $temp_instance->serial_number = $selected_value;
-                      $temp_instance->status = 'Previously Returned';
-                      $display_options_return[$selected_value] = $temp_instance;
-                      }
-                      ksort($display_options_return);
+      foreach ($display_options_return as $serial_num => $instance):
+        $option_text = htmlspecialchars($serial_num);
+        if (is_array($instance)) {
+          if (isset($instance['status']) && $instance['status'] !== 'Sold') {
+            $option_text .= " ({$instance['status']})";
+          }
+        } else {
+          if (isset($instance->status) && $instance->status !== 'Sold') {
+            $option_text .= " ({$instance->status})";
+          }
+        }
+        if (is_object($instance) && $instance->status === 'Previously Returned' && $selected_value === $serial_num) {
+          $option_text .= " (Previously Returned)";
+        }
+    ?>
+        <option value="<?= htmlspecialchars($serial_num); ?>"
+          <?= ($serial_num === $selected_value) ? 'selected' : ''; ?>>
+          <?= $option_text; ?>
+        </option>
+    <?php endforeach; ?>
+</select>
 
-                      foreach ($display_options_return as $serial_num => $instance):
-                        $option_text = htmlspecialchars($serial_num);
-                        // Check if $instance is an array (from DB) or an object (dummy/eager loaded)
-                        if (is_array($instance)) {
-                          if (isset($instance['status']) && $instance['status'] !== 'Sold') {
-                            $option_text .= " ({$instance['status']})";
-                          }
-                        } else { // It's a ProductInstance object (e.g., from eager load or dummy)
-                          if (isset($instance->status) && $instance->status !== 'Sold') {
-                            $option_text .= " ({$instance->status})";
-                          }
-                        }
-                         // This specific condition for 'Previously Returned' applies to the dummy object
-                        if (is_object($instance) && $instance->status === 'Previously Returned' && $selected_value === $serial_num) {
-                          $option_text .= " (Previously Returned)";
-                        }
-                      ?>
-                      <option value="<?= htmlspecialchars($serial_num); ?>"
-                        <?= ($serial_num === $selected_value) ? 'selected' : ''; ?>>
-                        <?= $option_text; ?>
-                      </option>
-                    <?php endforeach; ?>
-                  </select>
                 </div>
               <?php endfor; ?>
             <?php if (empty($potential_return_serials)): ?>
@@ -614,53 +613,57 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                                 ?>
 
                                                 <?php for ($i = 0; $i < $item->quantity; $i++): ?>
-                                                    <div class="form-group mb-2">
+                                                    <div class="mb-3">
                                                         <label for="supplier_return_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>" class="form-label light-txt">Select Serial #<?= ($i + 1); ?>:</label>
-                                                        <select class="form-select form-control-sm dark-txt light-bg serial-number-input"
-                                                                id="supplier_return_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
-                                                                name="supplier_returned_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
-                                                                data-product-id="<?= htmlspecialchars($item->product->id); ?>"
-                                                                data-item-id="<?= htmlspecialchars($item->id); ?>"
-                                                                required>
-                                                            <option value="">-- Select a Serial Number --</option>
-                                                            <?php
-                                                            $selected_value = $current_supplier_return_serials[$i] ?? null;
+  <select data-live-search="true"
+        data-width="100%"
+        data-maxlength="20"
+        class="form-select form-control-sm dark-txt light-bg selectpicker serial-number-select"
+        id="supplier_return_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
+        name="supplier_returned_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
+        data-product-id="<?= htmlspecialchars($item->product->id); ?>"
+        data-item-id="<?= htmlspecialchars($item->id); ?>"
+        required>
+    <option value="">-- Select a Serial Number --</option>
+    <?php
+    $selected_value = $current_supplier_return_serials[$i] ?? null;
 
-                                                            $display_options_supplier_return = [];
-                                                            foreach ($potential_supplier_return_serials as $instance) {
-                                                                $display_options_supplier_return[$instance['serial_number']] = $instance;
-                                                            }
-                                                            if ($selected_value && !isset($display_options_supplier_return[$selected_value])) {
-                                                                $temp_instance = new ProductInstance();
-                                                                $temp_instance->serial_number = $selected_value;
-                                                                $temp_instance->status = 'Previously Returned to Supplier';
-                                                                $display_options_supplier_return[$selected_value] = $temp_instance;
-                                                            }
-                                                            ksort($display_options_supplier_return);
+    $display_options_supplier_return = [];
+    foreach ($potential_supplier_return_serials as $instance) {
+        $display_options_supplier_return[$instance['serial_number']] = $instance;
+    }
+    if ($selected_value && !isset($display_options_supplier_return[$selected_value])) {
+        $temp_instance = new ProductInstance();
+        $temp_instance->serial_number = $selected_value;
+        $temp_instance->status = 'Previously Returned to Supplier';
+        $display_options_supplier_return[$selected_value] = $temp_instance;
+    }
+    ksort($display_options_supplier_return);
 
-                                                            foreach ($display_options_supplier_return as $serial_num => $instance):
-                                                                $option_text = htmlspecialchars($serial_num);
-                                                                // Check if $instance is an array (from DB) or an object (dummy/eager loaded)
-                                                                if (is_array($instance)) {
-                                                                    if (isset($instance['status']) && $instance['status'] !== 'In Stock') {
-                                                                        $option_text .= " ({$instance['status']})";
-                                                                    }
-                                                                } else { // It's a ProductInstance object (e.g., from eager load or dummy)
-                                                                    if (isset($instance->status) && $instance->status !== 'In Stock') {
-                                                                        $option_text .= " ({$instance->status})";
-                                                                    }
-                                                                }
-                                                                // This specific condition for 'Previously Returned to Supplier' applies to the dummy object
-                                                                if (is_object($instance) && $instance->status === 'Previously Returned to Supplier' && $selected_value === $serial_num) {
-                                                                    $option_text .= " (Previously Returned to Supplier)";
-                                                                }
-                                                            ?>
-                                                                <option value="<?= htmlspecialchars($serial_num); ?>"
-                                                                    <?= ($serial_num === $selected_value) ? 'selected' : ''; ?>>
-                                                                    <?= $option_text; ?>
-                                                                </option>
-                                                            <?php endforeach; ?>
-                                                        </select>
+    foreach ($display_options_supplier_return as $serial_num => $instance):
+        $option_text = htmlspecialchars($serial_num);
+
+        if (is_array($instance)) {
+            if (isset($instance['status']) && $instance['status'] !== 'In Stock') {
+                $option_text .= " ({$instance['status']})";
+            }
+        } else {
+            if (isset($instance->status) && $instance->status !== 'In Stock') {
+                $option_text .= " ({$instance->status})";
+            }
+        }
+
+        if (is_object($instance) && $instance->status === 'Previously Returned to Supplier' && $selected_value === $serial_num) {
+            $option_text .= " (Previously Returned to Supplier)";
+        }
+    ?>
+        <option value="<?= htmlspecialchars($serial_num); ?>"
+            <?= ($serial_num === $selected_value) ? 'selected' : ''; ?>>
+            <?= $option_text; ?>
+        </option>
+    <?php endforeach; ?>
+</select>
+
                                                     </div>
                                                 <?php endfor; ?>
                                                 <?php if (empty($potential_supplier_return_serials)): ?>
@@ -677,7 +680,7 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                     
       <?php if ($is_serialized_product && $transaction->transaction_type === 'Stock Adjustment'): ?>
                                                                      
-        <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="adjustment" data-item-id="<?= htmlspecialchars($item->id); ?>">
+<div class="serial-numbers-section mt-3 border p-3 rounded" data-type="adjustment" data-item-id="<?= htmlspecialchars($item->id); ?>">
           <h6 class="text-white">Serial Numbers (Adjustment - Qty: <?= htmlspecialchars($item->quantity) ?>)</h6>
           <p class="text-muted">Specify the direction of the adjustment (inflow/outflow) and manage serial numbers.</p>
 
@@ -714,32 +717,85 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
             <div class="form-group mb-3">
               <label for="adjustment_direction_<?= htmlspecialchars($item->id); ?>" class="form-label light-txt">Adjustment Direction:</label>
               <select class="form-select form-control-sm dark-txt light-bg adjustment-direction-select"
-                id="adjustment_direction_<?= htmlspecialchars($item->id); ?>"
-                name="adjustment_direction_<?= htmlspecialchars($item->id); ?>"
-                data-item-id="<?= htmlspecialchars($item->id); ?>"
-              required>
-                <option value="">-- Select Direction --</option>
-                <option value="inflow" <?= ($current_adjustment_direction === 'inflow') ? 'selected' : ''; ?>>Inflow (Adding to Stock)</option>
-                <option value="outflow" <?= ($current_adjustment_direction === 'outflow') ? 'selected' : ''; ?>>Outflow (Removing from Stock)</option>
+                      id="adjustment_direction_<?= htmlspecialchars($item->id); ?>"
+                      name="adjustment_direction_<?= htmlspecialchars($item->id); ?>"
+                      data-item-id="<?= htmlspecialchars($item->id); ?>"
+                      required>
+                  <option value="">-- Select Direction --</option>
+                  <option value="inflow" <?= ($current_adjustment_direction === 'inflow') ? 'selected' : ''; ?>>
+                      Inflow (Adding to Stock)
+                  </option>
+                  <option value="outflow" <?= ($current_adjustment_direction === 'outflow') ? 'selected' : ''; ?>>
+                      Outflow (Removing from Stock)
+                  </option>
               </select>
+
             </div>
             <div class="serial-numbers-inputs-container" data-item-id="<?= htmlspecialchars($item->id); ?>">
-              <?php foreach ($displayed_adjustment_serials as $serial_idx => $serial_value) : ?>
-              <div class="form-group mb-2">
-              <label for="adjustment_serial_<?= htmlspecialchars($item->id); ?>_<?= $serial_idx; ?>" class="form-label light-txt">Serial #<?= ($serial_idx + 1); ?>:</label>
-              <input type="text"
-                class="form-control form-control-sm dark-txt light-bg serial-number-input"
-                id="adjustment_serial_<?= htmlspecialchars($item->id); ?>_<?= $serial_idx; ?>"
-                name="adjustment_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
-                value="<?= htmlspecialchars($serial_value); ?>"
-                data-product-id="<?= htmlspecialchars($item->product->id); ?>"
-                data-item-id="<?= htmlspecialchars($item->id); ?>"
-                required
-                pattern="^[a-zA-Z0-9-]*$"
-                maxlength="50">
-            </div>
-          <?php endforeach; ?>
-        </div>
+  <?php foreach ($displayed_adjustment_serials as $serial_idx => $serial_value) : ?>
+
+
+  <div class="mb-3">
+  <label for="adjustment_serial_<?= htmlspecialchars($item->id); ?>_<?= $serial_idx; ?>"
+         class="form-label light-txt">
+    Serial #<?= ($serial_idx + 1); ?>:
+  </label>
+
+<input type="text"
+       class="form-control form-control-sm dark-txt light-bg serial-number-input inflow-field"
+       id="adjustment_serial_input_<?= htmlspecialchars($item->id); ?>_<?= $serial_idx; ?>"
+       name="adjustment_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
+       value="<?= htmlspecialchars($serial_value); ?>"
+       data-product-id="<?= htmlspecialchars($item->product->id); ?>"
+       data-item-id="<?= htmlspecialchars($item->id); ?>"
+       data-maxlength="20"
+       <?= ($current_adjustment_direction === 'outflow') ? 'style="display:none;" disabled' : 'required'; ?>
+       <?= ($current_adjustment_direction !== 'inflow') ? 'style="display:none;" disabled' : 'required'; ?>>
+       
+<?php
+$product_serials = $available_serial_numbers_by_product[$item->product->id] ?? [];
+
+// Only keep in-stock serials
+$product_serials = array_filter($product_serials, fn($s) => $s['status'] === 'In Stock');
+
+// Ensure unique serial numbers
+$unique_serial_numbers = [];
+foreach ($product_serials as $instance) {
+    $unique_serial_numbers[$instance['serial_number']] = $instance;
+}
+
+// Sort alphabetically by serial
+usort($unique_serial_numbers, fn($a, $b) => strcmp($a['serial_number'], $b['serial_number']));
+
+$product_serials = array_values($unique_serial_numbers);
+$product_serials = array_unique($product_serials, SORT_REGULAR);
+
+?>
+<select data-live-search="true"
+  class="form-select form-select-sm dark-txt light-bg selectpicker serial-number-select outflow-field w-100"
+  id="adjustment_serial_select_<?= htmlspecialchars($item->id); ?>_<?= $serial_idx; ?>"
+  name="adjustment_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
+  data-product-id="<?= htmlspecialchars($item->product->id); ?>"
+  data-item-id="<?= htmlspecialchars($item->id); ?>"
+  title="-- Select Serial --"
+  
+  <?= ($current_adjustment_direction !== 'outflow') ? 'style="display:none;" disabled' : 'required'; ?>>
+  
+  <?php foreach ($product_serials as $instance): 
+    ?>
+    
+    <option value="<?= htmlspecialchars($instance['serial_number']); ?>">
+      <?= htmlspecialchars($instance['serial_number']); ?>
+    </option>
+  <?php endforeach; ?>
+</select>
+
+
+</div>
+
+<?php endforeach; ?>
+</div>
+
       </div>
       <?php endif; ?>
 
@@ -820,4 +876,93 @@ document.addEventListener('DOMContentLoaded', function() {
     '#transactionForm select:not(#status):not(.serial-number-input), ' +
     '#transactionForm textarea'
 );
+</script>
+<script>
+$(document).ready(function () {
+    // Initialize all selectpickers once
+    $('.selectpicker').selectpicker();
+
+    // Adjust inflow/outflow
+    $(document).on('change', '.adjustment-direction-select', function() {
+        const itemId = $(this).data('item-id');
+        const direction = $(this).val();
+        const container = $(`.serial-numbers-inputs-container[data-item-id="${itemId}"]`);
+
+        if (direction === 'inflow') {
+            container.find('.inflow-field').show().prop('disabled', false).prop('required', true);
+            container.find('.outflow-field').hide().prop('disabled', true).prop('required', false);
+        } else if (direction === 'outflow') {
+            container.find('.outflow-field').show().prop('disabled', false).prop('required', true)
+                     .selectpicker('refresh'); // refresh only
+            container.find('.inflow-field').hide().prop('disabled', true).prop('required', false);
+        } else {
+            container.find('.inflow-field, .outflow-field').hide().prop('disabled', true).prop('required', false);
+        }
+    });
+    $('.inflow-field').show().prop('disabled', false).prop('required', true);
+$('.outflow-field').hide().prop('disabled', true).prop('required', false);
+
+});
+
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Watch all selectpickers with serial numbers
+    document.querySelectorAll('.serial-number-select').forEach(select => {
+        const maxLength = parseInt(select.dataset.maxlength, 10) || 20;
+
+        // Bootstrap-select creates a search input inside the dropdown
+        $(select).on('shown.bs.select', function() {
+            const searchInput = document.querySelector('.bs-searchbox input');
+
+            if (searchInput) {
+                searchInput.addEventListener('input', function(event) {
+                    let value = event.target.value;
+
+                    // Allow only letters, numbers, dashes
+                    value = value.replace(/[^a-zA-Z0-9]/g, '');
+
+                    // Enforce max length
+                    if (value.length > maxLength) {
+                        value = value.substring(0, maxLength);
+                    }
+
+                    event.target.value = value;
+                });
+            }
+        });
+    });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.serial-number-input').forEach(input => {
+        const maxLength = parseInt(input.dataset.maxlength, 10) || 20;
+
+        // Prevent invalid characters as user types
+        input.addEventListener('input', function(e) {
+            let value = e.target.value;
+
+            // Allow only letters, numbers, and dashes
+            value = value.replace(/[^A-Z0-9]/g, '');
+
+            // Enforce max length
+            if (value.length > maxLength) {
+                value = value.substring(0, maxLength);
+            }
+
+            e.target.value = value;
+        });
+
+        // Optional: Prevent pasting invalid content
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            let paste = (e.clipboardData || window.clipboardData).getData('text');
+            paste = paste.replace(/[^A-Z0-9-]/g, '').substring(0, maxLength);
+            e.target.value = paste;
+        });
+    });
+});
 </script>
