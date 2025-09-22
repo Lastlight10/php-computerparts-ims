@@ -349,6 +349,119 @@ class StaffController extends Controller {
         'transaction_statuses_list' => ['Pending','Completed', 'Cancelled'], // For filter dropdown
     ], 'staff');
   }
+  public function sales_report() {
+    Logger::log('Reached Sales Report');
+
+    // --- DEBUGGING START ---
+    Logger::log('DEBUG: Raw GET parameters: ' . json_encode($_GET));
+    // --- DEBUGGING END ---
+
+    // Retrieve search, filter, and sort parameters from GET request
+    $search_query = trim((string) $this->input('search_query'));
+    $filter_status = $this->input('filter_status');
+    $filter_date_range = $this->input('filter_date_range');
+
+    $sort_by = $this->input('sort_by') ?: 'transaction_date'; // Default sort column
+    $sort_order = $this->input('sort_order') ?: 'desc'; // Default sort order
+
+    // Start building the query
+    $transactions_query = Transaction::with(['customer', 'supplier', 'createdBy', 'updatedBy']);
+
+    // Apply search filter
+    if (!empty(trim($search_query))) {
+        $transactions_query->where(function ($query) use ($search_query) {
+            $query->where('invoice_bill_number', 'LIKE', '%' . $search_query . '%');
+        });
+        Logger::log("DEBUG: Applied search query: '{$search_query}'");
+    }
+
+    // Apply status filter
+    if (!empty($filter_status)) {
+        $transactions_query->where('status', $filter_status);
+        Logger::log("DEBUG: Applied status filter: '{$filter_status}'");
+    }
+    if (!empty($filter_date_range)) {
+        $now = Carbon::now();
+        Logger::log("Date Range Filter: $filter_date_range");
+
+        switch ($filter_date_range) {
+            case 'today':
+                $transactions_query->whereDate('created_at', $now);
+                break;
+            case 'yesterday':
+                $transactions_query->whereDate('created_at', $now->copy()->subDay());
+                break;
+            case 'week':
+                $transactions_query->whereBetween('created_at', [
+                    $now->copy()->startOfWeek(),
+                    $now->copy()->endOfWeek()
+                ]);
+                break;
+            case 'month':
+                $transactions_query->whereBetween('created_at', [
+                    $now->copy()->startOfMonth(),
+                    $now->copy()->endOfMonth()
+                ]);
+                break;
+            case 'year':
+                $transactions_query->whereBetween('created_at', [
+                    $now->copy()->startOfYear(),
+                    $now->copy()->endOfYear()
+                ]);
+                break;
+        }
+    }
+
+    // Apply sorting
+    // Validate sort_by column to prevent SQL injection
+    $allowed_sort_columns = [
+        'id', 'transaction_date', 'invoice_bill_number',
+        'total_amount', 'status', 'created_at', 'updated_at'
+    ];
+    if (!in_array($sort_by, $allowed_sort_columns)) {
+        $sort_by = 'transaction_date'; // Fallback to default if invalid
+    }
+
+    // Validate sort_order
+    if (!in_array(strtolower($sort_order), ['asc', 'desc'])) {
+        $sort_order = 'desc'; // Fallback to default if invalid
+    }
+
+    $transactions_query->orderBy($sort_by, $sort_order);
+    Logger::log("DEBUG: Applied sorting: '{$sort_by}' {$sort_order}");
+
+    // --- DEBUGGING START ---
+    // Get the SQL query string and its bindings for debugging
+    try {
+        $debug_sql = $transactions_query->toSql();
+        $debug_bindings = $transactions_query->getBindings();
+        Logger::log("DEBUG: SQL Query: " . $debug_sql);
+        Logger::log("DEBUG: SQL Bindings: " . json_encode($debug_bindings));
+    } catch (\Exception $e) {
+        Logger::log("DEBUG: Could not get SQL query for debugging: " . $e->getMessage());
+    }
+    // --- DEBUGGING END ---
+
+
+    $transactions_info = $transactions_query->get();
+
+    Logger::log('DEBUG: Number of transactions retrieved in transactions_list: ' . $transactions_info->count());
+
+    // Ensure transactions_info is an iterable collection even if empty
+    if (is_null($transactions_info)) {
+        $transactions_info = collect([]);
+    }
+
+    $this->view('staff/sales_report', [
+        'transactions_info' => $transactions_info,
+        'search_query' => $search_query, // Pass back to view
+        'filter_status' => $filter_status, // Pass back to view
+        'filter_date_range' => $filter_date_range,
+        'sort_by' => $sort_by,           // Pass back to view
+        'sort_order' => $sort_order,     // Pass back to view
+        'transaction_statuses_list' => ['Pending','Completed', 'Cancelled'], // For filter dropdown
+    ], 'staff');
+  }
 
   public function customers_list() {
     Logger::log('Reached List of Customers');

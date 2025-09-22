@@ -57,6 +57,8 @@ class Router {
                         $method = 'printTransaction'; // For single transaction PDF
                     } elseif ($action === 'print_list') {
                         $method = 'printTransactionsList'; // For list of transactions PDF
+                    } elseif ($action === 'sales_report') {
+                        $method = 'printSalesReport'; // For list of sales report PDF
                     } else {
                         $method = $action; // Default mapping for other actions
                     }

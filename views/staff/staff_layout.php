@@ -85,6 +85,14 @@
                         </li>
                         <?php endif; ?>
 
+                        <?php if (in_array($userType, ['Staff', 'Manager', 'Admin'])): ?>
+                        <li>
+                            <a href="/staff/sales_report" class="nav-link py-1 px-0" data-bs-placement="right" data-bs-toggle="tooltip" title="Sales Report">
+                                <i class="bi bi-currency-dollar fs-3"></i>
+                            </a>
+                        </li>
+                        <?php endif; ?>
+
                         <!-- Products (Visible to Staff, Manager, Admin) -->
                         <?php if (in_array($userType, ['Staff', 'Manager', 'Admin'])): ?>
                         <li>

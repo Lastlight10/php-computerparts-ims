@@ -75,7 +75,6 @@ class StaffTransactionController extends Controller {
         ], 'staff');
     }
 
-
     /**
      * Handles the POST request to store a new transaction in the database.
      * Accessible via /staff/transactions/store
@@ -1585,6 +1584,303 @@ public function printTransaction($id) {
         Logger::log("PRINT_TRANSACTIONS_LIST_SUCCESS: PDF list generated and streamed.");
         exit();
     }
+
+    public function printSalesReport() {
+    Logger::log("PRINT_SALES_REPORT: Attempting to generate PDF for sales report.");
+
+    // Retrieve search, filter, and sort parameters from GET request
+    $search_query = trim($this->input('search_query'));
+    $filter_status = trim($this->input('filter_status'));
+    $sort_by = trim($this->input('sort_by')) ?: 'transaction_date';
+    $sort_order = trim($this->input('sort_order')) ?: 'desc';
+    $filter_date_range = trim($this->input('filter_date_range'));
+
+    // Always restrict to Sale transactions
+    $transactions_query = Transaction::with(['customer', 'supplier', 'createdBy', 'updatedBy'])
+        ->where('transaction_type', 'Sale');
+
+    // Apply search query
+    if (!empty($search_query)) {
+        $transactions_query->where(function($query) use ($search_query) {
+            $query->where('invoice_bill_number', 'like', '%' . $search_query . '%')
+                  ->orWhere('notes', 'like', '%' . $search_query . '%')
+                  ->orWhereHas('customer', function($q) use ($search_query) {
+                      $q->where('contact_first_name', 'like', '%' . $search_query . '%')
+                        ->orWhere('contact_last_name', 'like', '%' . $search_query . '%')
+                        ->orWhere('company_name', 'like', '%' . $search_query . '%');
+                  })
+                  ->orWhereHas('supplier', function($q) use ($search_query) {
+                      $q->where('company_name', 'like', '%' . $search_query . '%')
+                        ->orWhere('contact_first_name', 'like', '%' . $search_query . '%')
+                        ->orWhere('contact_last_name', 'like', '%' . $search_query . '%');
+                  });
+        });
+    }
+
+    // Apply filters
+    if (!empty($filter_status)) {
+        $transactions_query->where('status', $filter_status);
+    }
+
+    if (!empty($filter_date_range)) {
+        $now = Carbon::now();
+
+        switch ($filter_date_range) {
+            case 'today':
+                $from = $now->startOfDay();
+                break;
+            case 'yesterday':
+                $from = $now->subDay()->startOfDay();
+                $to   = $now->copy()->endOfDay();
+                break;
+            case 'week':
+                $from = $now->startOfWeek();
+                break;
+            case 'month':
+                $from = $now->startOfMonth();
+                break;
+            case 'year':
+                $from = $now->startOfYear();
+                break;
+            default:
+                $from = null;
+        }
+
+        if ($from) {
+            $transactions_query->where('transaction_date', '>=', $from);
+            Logger::log("DEBUG: Applied date filter for sales report: '{$filter_date_range}' from " . $from->toDateTimeString());
+        }
+    }
+
+    // Apply sorting
+    $transactions = $transactions_query->orderBy($sort_by, $sort_order)->get();
+
+    if ($transactions->isEmpty()) {
+        Logger::log("PRINT_SALES_REPORT_FAILED: No sales found matching criteria.");
+        $_SESSION['error_message'] = "No sales found matching criteria for printing.";
+        header('Location: /staff/sales_report');
+        exit();
+    }
+    $i = 1;
+    // Configure Dompdf
+    $options = new Options();
+    $options->set('defaultFont', 'DejaVu Sans');
+    $options->set('isHtml5ParserEnabled', true);
+    $options->set('isRemoteEnabled', true);
+    date_default_timezone_set('Asia/Manila');
+
+    $dompdf = new Dompdf($options);
+    $logoData = base64_encode(file_get_contents('resources/images/Heading.png'));
+    $logoSrc = 'data:image/png;base64,' . $logoData;
+
+    // Build HTML
+    $html = '
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Sales Report</title>
+        <style>
+            body { font-family: "DejaVu Sans", sans-serif; font-size: 10px; line-height: 1.4; color: #333; }
+            .container { width: 95%; margin: 0 auto; padding: 15px; }
+            .header { text-align: center; margin-bottom: 20px; }
+            .header h1 { margin: 0; padding: 0; color: #0056b3; font-size: 20px; }
+            .filters-info { margin-bottom: 20px; font-size: 10px; }
+            .filters-info strong { display: inline-block; width: 80px; }
+            .items-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+            .items-table th, .items-table td { border: 1px solid #ddd; padding: 6px; text-align: left; }
+            .items-table th { background-color: #f2f2f2; font-weight: bold; }
+            .footer { text-align: center; margin-top: 30px; font-size: 8px; color: #777; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="logo" style="text-align: center;">
+                <img src="' . $logoSrc . '" alt="Company Logo" style="height: 100px; width: 100px; border-radius: 50%; object-fit: cover;">
+                <div class="company-info" style="margin-top: 10px; font-size: 13px; color: #333;">
+                    <strong>Computer Parts Company</strong><br>
+                        123 Main Street, City, Country<br>
+                        Phone: (123) 456-7890 | Email: info@company.com
+                </div>
+            </div>
+            <div class="header">
+                <h1>Sales Report</h1>
+                <p>Generated on: ' . date('F j, Y, h:i A') . '</p>
+            </div>
+
+            <div class="filters-info">
+                <p><strong>Search:</strong> ' . htmlspecialchars($search_query ?: 'N/A') . '</p>
+                <p><strong>Status Filter:</strong> ' . htmlspecialchars($filter_status ?: 'All Statuses') . '</p>
+                <p><strong>Sort By:</strong> ' . htmlspecialchars(ucwords(str_replace("_", " ", $sort_by))) . ' (' . htmlspecialchars(ucfirst($sort_order)) . ')</p>
+                <p><strong>Date Filter:</strong> ' . htmlspecialchars($filter_date_range ?: 'All Time') . '</p>
+                
+            </div>
+
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Date</th>
+                        <th>Invoice</th>
+                        <th>Customer</th>
+                        <th>Total (₱)</th>
+                        <th>Status</th>
+                        <th>Created By</th>
+                    </tr>
+                </thead>
+                <tbody>';
+    
+    foreach ($transactions as $transaction) {
+        
+        $partyName = $transaction->customer->company_name
+            ?? trim(($transaction->customer->contact_first_name ?? '') . ' ' . ($transaction->customer->contact_last_name ?? ''));
+
+            echo htmlspecialchars($partyName !== '' ? $partyName : 'N/A');
+
+        $html .= '
+                    <tr>
+                        <td>'. $i++ . '</td>
+                        <td>' . htmlspecialchars($transaction->transaction_date ? date('Y-m-d', strtotime($transaction->transaction_date)) : 'N/A') . '</td>
+                        <td>' . htmlspecialchars($transaction->invoice_bill_number ?? 'N/A') . '</td>
+                        <td>' . $partyName . '</td>
+                        <td>₱' . number_format($transaction->total_amount ?? 0.00, 2) . '</td>
+                        <td>' . htmlspecialchars($transaction->status ?? 'N/A') . '</td>
+                        <td>' . htmlspecialchars($transaction->createdBy->username ?? 'N/A') . '</td>
+                    </tr>';
+    }
+    $totalSales = $transactions->sum('total_amount');
+    $completedSales = $transactions->where('status', 'Completed')->sum('total_amount');
+    $pendingSales = $transactions->where('status', 'Pending')->sum('total_amount');
+    $cancelledSales = $transactions->where('status', 'Cancelled')->sum('total_amount');
+    $totalCount     = $transactions->count();
+    $completedCount = $transactions->where('status', 'Completed')->count();
+    $pendingCount   = $transactions->where('status', 'Pending')->count();
+    $cancelledCount = $transactions->where('status', 'Cancelled')->count();
+    $chartUrl = "https://quickchart.io/chart?c=" . urlencode(json_encode([
+        'type' => 'pie',
+        'data' => [
+            'labels' => ['Completed', 'Pending', 'Cancelled'],
+            'datasets' => [[
+                'data' => [$completedCount, $pendingCount, $cancelledCount],
+                'backgroundColor' => ['#28a745', '#ffc107', '#dc3545']
+            ]]
+        ],
+        'options' => [
+            'plugins' => [
+                'datalabels' => ['display' => false],
+                'legend' => ['position' => 'left'] // keeps labels close to chart
+            ]
+        ]
+    ]));
+        // Group transactions by date and count how many sales per date
+    $salesByDate = $transactions->groupBy(function($t) {
+        return date('Y-m-d', strtotime($t->transaction_date));
+    })->map->count();
+
+    // Extract labels (dates) and data (counts)
+    $labels = $salesByDate->keys()->toArray();
+    $data = $salesByDate->values()->map(function ($v) {
+        return (int) $v;
+    })->toArray();
+
+    
+    // Build QuickChart bar graph URL
+$barChartUrl = "https://quickchart.io/chart?c=" . urlencode(json_encode([
+    'type' => 'bar',
+    'data' => [
+        'labels' => $labels,
+        'datasets' => [[
+            'label' => 'Number of Sales',
+            'data' => $data,
+            'backgroundColor' => '#007bff'
+        ]]
+    ],
+    'options' => [
+        'scales' => [
+            'y' => [
+                'type' => 'linear',   // <-- force linear scale
+                'beginAtZero' => true,
+                'min' => 0,           // <-- guarantee starts at 0
+                'ticks' => [
+                    'precision' => 0,
+                    'stepSize' => 1
+                ]
+            ],
+            'x' => [
+                'ticks' => [
+                    'maxRotation' => 45,
+                    'minRotation' => 45
+                ]
+            ]
+        ]
+    ]
+]));
+
+
+
+
+    $html .= '
+                </tbody>
+            </table>
+            <div class="footer">
+                <p>Report generated by Computer IMS.</p>
+            </div>
+        </div>
+    
+    <div style="page-break-before: always;"></div>
+
+    <h3>Sales Summary</h3>
+    <p><strong>Number of Records:</strong> '. ($i - 1) .'</p>
+
+    <table style="width:100%; margin-top:15px; border-collapse:collapse;">
+        <tr>
+            <td style="width:50%; text-align:center; vertical-align:top;">
+                <img src="' . $chartUrl . '" style="width:500px; height:300px;">
+            </td>
+            <td style="width:50%; vertical-align:top;">
+                <table class="items-table">
+                    <tr>
+                        <th>Total Sales</th>
+                        <td>' . $totalCount . ' (₱' . number_format($totalSales, 2) . '</td>
+                    </tr>
+                    <tr>
+                        <th>Completed Sales</th>
+                        <td>' . $completedCount . ' (₱' . number_format($completedSales, 2) . ')</td>
+                    </tr>
+                    <tr>
+                        <th>Pending Sales</th>
+                        <td>' . $pendingCount . ' (₱' . number_format($pendingSales, 2) . ')</td>
+                    </tr>
+                    <tr>
+                        <th>Cancelled Sales</th>
+                        <td>' . $cancelledCount . ' (₱' . number_format($cancelledSales, 2) . ')</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    
+    <h3>Sales Per Date</h3>
+    <div style="text-align:center;">
+        <img src="' . $barChartUrl . '" style="width:600px; height:350px;">
+    </div>
+    
+    ';
+
+
+    $html .= '
+    </body>
+    </html>';
+
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('letter', 'portrait'); // landscape for wide sales table
+    $dompdf->render();
+
+    $dompdf->stream("Sales_Report_" . date('Ymd_His') . ".pdf", ["Attachment" => false]);
+    Logger::log("PRINT_SALES_REPORT_SUCCESS: PDF sales report generated and streamed.");
+    exit();
+}
+
 
     public function delete($id) {
     $transaction = Transaction::find($id);
