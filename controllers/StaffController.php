@@ -242,14 +242,16 @@ class StaffController extends Controller {
     $sort_order = $this->input('sort_order') ?: 'desc'; // Default sort order
 
     // Start building the query
-    $transactions_query = Transaction::with(['customer', 'supplier', 'createdBy', 'updatedBy']);
+    $transactions_query = Transaction::with(['items.product', 'customer', 'supplier', 'createdBy', 'updatedBy']);
 
     // Apply search filter
     if (!empty(trim($search_query))) {
         $transactions_query->where(function ($query) use ($search_query) {
             $query->where('invoice_bill_number', 'LIKE', '%' . $search_query . '%')
                   ->orWhere('transaction_type', 'LIKE', '%' . $search_query . '%')
-                    ;
+                  ->orWhereHas('items.product', function ($productQuery) use ($search_query) {
+                  $productQuery->where('name', 'LIKE', '%' . $search_query . '%');
+              });
         });
         Logger::log("DEBUG: Applied search query: '{$search_query}'");
     }
