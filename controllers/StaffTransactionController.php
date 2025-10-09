@@ -1486,103 +1486,147 @@ public function printTransaction($id) {
 
         // Build the HTML content for the PDF list
         $html = '
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="UTF-8">
-            <title>Transactions List Report</title>
-            <style>
-                body { font-family: "DejaVu Sans", sans-serif; font-size: 10px; line-height: 1.4; color: #333; }
-                .container { width: 95%; margin: 0 auto; padding: 15px; }
-                .header { text-align: center; margin-bottom: 20px; }
-                .header h1 { margin: 0; padding: 0; color: #0056b3; font-size: 20px; }
-                .filters-info { margin-bottom: 20px; font-size: 10px; }
-                .filters-info strong { display: inline-block; width: 80px; }
-                .items-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-                .items-table th, .items-table td { border: 1px solid #ddd; padding: 6px; text-align: left; }
-                .items-table th { background-color: #f2f2f2; font-weight: bold; }
-                .footer { text-align: center; margin-top: 30px; font-size: 8px; color: #777; }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="logo" style="text-align: center;">
-                    <img src="' . $logoSrc . '" alt="Company Logo" style="height: 100px; width: 100px; border-radius: 50%; object-fit: cover;">
-                    <div class="company-info" style="margin-top: 10px; font-size: 13px; color: #333;">
-                        <strong>Computer Parts Company</strong><br>
-                            123 Main Street, City, Country<br>
-                            Phone: (123) 456-7890 | Email: info@company.com
-                    </div>
-                </div>
-                <div class="header">
-                    <h1>Transactions List Report</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Transactions List Report</title>
+    <style>
+        body { font-family: "DejaVu Sans", sans-serif; font-size: 10px; line-height: 1; color: #333; }
+        .container { width: 95%; margin: 0 auto; padding: 10px; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .header h1 { margin: 0; padding: 0; color: #0056b3; font-size: 20px; }
+        .filters-info { margin-bottom: 20px; font-size: 10px; }
+        .filters-info strong { display: inline-block; width: 80px; }
+        .items-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .items-table th, .items-table td { border: 1px solid #ddd; padding: 6px; text-align: left; vertical-align: top; word-break: break-word; overflow-wrap: anywhere; width:60px}
+        .items-table th { background-color: #f2f2f2; font-weight: bold; }
+        .footer { text-align: center; margin-top: 30px; font-size: 8px; color: #777; }
+        .items-table tbody tr:nth-child(even) { background-color: #fafafa; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo" style="text-align: center;">
+            <img src="' . $logoSrc . '" alt="Company Logo" style="height: 100px; width: 100px; border-radius: 50%; object-fit: cover;">
+            <div class="company-info" style="margin-top: 10px; font-size: 13px; color: #333;">
+                <strong>Computer Parts Company</strong><br>
+                123 Main Street, City, Country<br>
+                Phone: (123) 456-7890 | Email: info@company.com
+            </div>
+        </div>
+
+        <div class="header">
+            <h1>Transactions List Report</h1>
+            <p>Generated on: ' . date('F j, Y, h:i A') . '</p>
+        </div>
+
+        <div class="filters-info">
+            <p><strong>Search:</strong> ' . htmlspecialchars($search_query ?: 'N/A') . '</p>
+            <p><strong>Type Filter:</strong> ' . htmlspecialchars($filter_type ?: 'All Types') . '</p>
+            <p><strong>Status Filter:</strong> ' . htmlspecialchars($filter_status ?: 'All Statuses') . '</p>
+            <p><strong>Sort By:</strong> ' . htmlspecialchars(ucwords(str_replace('_', ' ', $sort_by))) . ' (' . htmlspecialchars(ucfirst($sort_order)) . ')</p>
+            <p><strong>Time Filter:</strong> ' . htmlspecialchars(ucwords(str_replace(['5min'], ['Last 5 Minutes'], $filter_date_range ?: 'All Time'))) . '</p>
+        </div>
+
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Customer/Supplier</th>
                     
-                    <p>Generated on: ' . date('F j, Y, h:i A') . '</p>
-                </div>
+                    <th>Invoice</th>
+                    <th>Product</th>
+                    <th >Quantity</th>
+                    <th>Total (₱)</th>
+                    <th>Status</th>
+                    <th style="width:40px;">Created By</th>
+                   <th style="width:40px;" >Date</th>
+                    
+                </tr>
+            </thead>
+            <tbody>';
+            
+foreach ($transactions as $transaction) {
+    // Determine customer/supplier
+    $party_name = 'N/A';
+    if ($transaction->customer) {
+        $party_name = htmlspecialchars($transaction->customer->company_name ?? $transaction->customer->contact_first_name . ' ' . $transaction->customer->contact_last_name);
+    } elseif ($transaction->supplier) {
+        $party_name = htmlspecialchars($transaction->supplier->company_name ?? $transaction->supplier->contact_first_name . ' ' . $transaction->supplier->contact_last_name);
+    }
 
-                <div class="filters-info">
-                    <p><strong>Search:</strong> ' . htmlspecialchars($search_query ?: 'N/A') . '</p>
-                    <p><strong>Type Filter:</strong> ' . htmlspecialchars($filter_type ?: 'All Types') . '</p>
-                    <p><strong>Status Filter:</strong> ' . htmlspecialchars($filter_status ?: 'All Statuses') . '</p>
-                    <p><strong>Sort By:</strong> ' . htmlspecialchars(ucwords(str_replace('_', ' ', $sort_by))) . ' (' . htmlspecialchars(ucfirst($sort_order)) . ')</p>
-                    <p><strong>Time Filter:</strong> ' . htmlspecialchars(ucwords(str_replace(['5min'], ['Last 5 Minutes'], $filter_date_range ?: 'All Time'))) . '</p>
+    // Count the products for rowspan
+  $itemCount = count($transaction->items);
+$first = true;
 
-                </div>
+if ($itemCount > 0) {
+    foreach ($transaction->items as $item) {
+        $html .= '<tr>';
 
-                <table class="items-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Type</th>
-                            <th>Customer/Supplier</th>
-                            <th>Date</th>
-                            <th>Invoice</th>
-                            <th>Total (₱)</th>
-                            <th>Status</th>
-                            <th>Created By</th>
-                        </tr>
-                    </thead>
-                    <tbody>';
-        
-        foreach ($transactions as $transaction) {
-            $party_name = 'N/A';
-            if ($transaction->customer) {
-                $party_name = htmlspecialchars($transaction->customer->company_name ?? $transaction->customer->contact_first_name . ' ' . $transaction->customer->contact_last_name);
-            } elseif ($transaction->supplier) {
-                $party_name = htmlspecialchars($transaction->supplier->company_name ?? $transaction->supplier->contact_first_name . ' ' . $transaction->supplier->contact_last_name);
-            }
-
+        // Print transaction info only once per transaction
+        if ($first) {
             $html .= '
-                        <tr>
-                            <td>' . htmlspecialchars($transaction->id ?? '') . '</td>
-                            <td>' . htmlspecialchars($transaction->transaction_type ?? 'N/A') . '</td>
-                            <td>' . $party_name . '</td>
-                            <td>' . htmlspecialchars($transaction->transaction_date ? date('Y-m-d', strtotime($transaction->transaction_date)) : 'N/A') . '</td>
-                            <td>' . htmlspecialchars($transaction->invoice_bill_number ?? 'N/A') . '</td>
-                            <td>₱' . number_format($transaction->total_amount ?? 0.00, 2) . '</td>
-                            <td>' . htmlspecialchars($transaction->status ?? 'N/A') . '</td>
-                            <td>' . htmlspecialchars($transaction->createdBy->username ?? 'N/A') . '</td>
-                        </tr>';
+                <td rowspan="' . $itemCount . '">' . htmlspecialchars($transaction->transaction_type ?? 'N/A') . '</td>
+                <td rowspan="' . $itemCount . '">' . $party_name . '</td>
+                
+                <td rowspan="' . $itemCount . '">' . htmlspecialchars($transaction->invoice_bill_number ?? 'N/A') . '</td>';
         }
 
+        // Product + Quantity columns (moved after invoice)
         $html .= '
-                    </tbody>
-                </table>
+            <td>' . htmlspecialchars($item->product->name ?? 'N/A') . '</td>
+            <td style="width:40px;">' . htmlspecialchars($item->quantity ?? 0) . '</td>';
 
-                <div class="footer">
-                    <p>Report generated by Computer IMS.</p>
-                </div>
-            </div>
-        </body>
-        </html>';
+        // Print total, status, and createdBy only once per transaction
+        if ($first) {
+            $html .= '
+                <td rowspan="' . $itemCount . '">₱' . number_format($transaction->total_amount ?? 0.00, 2) . '</td>
+                <td rowspan="' . $itemCount . '">' . htmlspecialchars($transaction->status ?? 'N/A') . '</td>
+                <td style="width:40px;" rowspan="' . $itemCount . '">' . htmlspecialchars($transaction->createdBy->username ?? 'N/A') . '</td>
+                <td style="width:40px;" rowspan="' . $itemCount . '">' . htmlspecialchars($transaction->transaction_date ? date('m/d/y', strtotime($transaction->transaction_date)) : 'N/A') . '</td>';
+                
+            $first = false; // now prevent repeating these
+        }
 
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('letter', 'portrait'); // Landscape for wider table
-        $dompdf->render();
+        $html .= '</tr>';
+    }
+} else {
+    // No items
+    $html .= '
+        <tr>
+            <td>' . htmlspecialchars($transaction->transaction_type ?? 'N/A') . '</td>
+            <td>' . $party_name . '</td>
+            <td>' . htmlspecialchars($transaction->invoice_bill_number ?? 'N/A') . '</td>
+            <td colspan="2" style="text-align:center;">No Products</td>
+            <td>₱' . number_format($transaction->total_amount ?? 0.00, 2) . '</td>
+            <td>' . htmlspecialchars($transaction->status ?? 'N/A') . '</td>
+            <td style="width:40px;" >' . htmlspecialchars($transaction->createdBy->username ?? 'N/A') . '</td>
+            <td style="width:40px;">' . htmlspecialchars($transaction->transaction_date ? date('m/d/y', strtotime($transaction->transaction_date)) : 'N/A') . '</td>
+            
+        </tr>';
+}
+}
 
-        $dompdf->stream("Transactions_List_Report_" . date('Ymd_His') . ".pdf", ["Attachment" => false]);
-        Logger::log("PRINT_TRANSACTIONS_LIST_SUCCESS: PDF list generated and streamed.");
-        exit();
+$html .= '
+            </tbody>
+        </table>
+
+        <div class="footer">
+            <p>Report generated by Computer IMS.</p>
+        </div>
+    </div>
+</body>
+</html>';
+
+// Dompdf render
+$dompdf->loadHtml($html);
+$dompdf->setPaper('letter', 'portrait');
+$dompdf->render();
+$dompdf->stream("Transactions_List_Report_" . date('Ymd_His') . ".pdf", ["Attachment" => false]);
+Logger::log("PRINT_TRANSACTIONS_LIST_SUCCESS: PDF list generated and streamed.");
+exit();
+
     }
 
     public function printSalesReport() {

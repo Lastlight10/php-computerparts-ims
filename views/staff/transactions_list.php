@@ -121,13 +121,14 @@ use Carbon\Carbon; // Required for date comparison
           <th class="hidden-header">SUPPLIER</th>
           <th>TRANSACTION DATE</th>
           <th>INVOICE</th>
+          <th>PRODUCTS</th>
           <th>TOTAL AMOUNT (₱)</th>
           <th>STATUS</th>
           <th>REMARKS</th>
-          <th>CREATED BY</th>
-          <th>UPDATED BY</th>
+          <th class="hidden-header">CREATED BY</th>
+          <th class="hidden-header">UPDATED BY</th>
           <th>CREATED AT</th>
-          <th>UPDATED AT</th>
+          <th class="hidden-header">UPDATED AT</th>
           <th>ACTIONS</th>
         </tr>
       </thead>
@@ -154,23 +155,38 @@ use Carbon\Carbon; // Required for date comparison
                     </td>
                     <td><?= htmlspecialchars($transaction->transaction_date ? date('Y-m-d', strtotime($transaction->transaction_date)) : 'N/A') ?></td>
                     <td><?= htmlspecialchars($transaction->invoice_bill_number ?? 'N/A') ?></td>
+
+                    
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <?php foreach ($transaction->items as $item): ?>
+                                <li>
+                                    <?= htmlspecialchars($item->product->name ?? 'N/A') ?>
+                                    (<?= htmlspecialchars($item->quantity ?? 'N/A') ?>)
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </td>
+
+                    
+
                     <td><?= htmlspecialchars(number_format($transaction->total_amount ?? 0.00, 2)) ?></td>
                     <td><?= htmlspecialchars($transaction->status ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($transaction->notes ?? 'N/A') ?></td>
-                    <td>
+                    <td class="hidden-column">
                         <?php
                         // Access created_by relationship
                         echo htmlspecialchars($transaction->createdBy->username ?? 'N/A');
                         ?>
                     </td>
-                    <td>
+                    <td class="hidden-column">
                         <?php
                         // Access updated_by relationship
                         echo htmlspecialchars($transaction->updatedBy->username ?? 'N/A');
                         ?>
                     </td>
-                    <td><?= htmlspecialchars($transaction->created_at ? date('Y-m-d', strtotime($transaction->created_at)) : 'N/A') ?></td>
-                    <td><?= htmlspecialchars($transaction->updated_at ? date('Y-m-d', strtotime($transaction->updated_at)) : 'N/A') ?></td>
+                    <td ><?= htmlspecialchars($transaction->created_at ? date('Y-m-d', strtotime($transaction->created_at)) : 'N/A') ?></td>
+                    <td class="hidden-column" ><?= htmlspecialchars($transaction->updated_at ? date('Y-m-d', strtotime($transaction->updated_at)) : 'N/A') ?></td>
                     <td>
                         <a href="/staff/transactions/show/<?= htmlspecialchars($transaction->id ?? '') ?>" class="btn btn-sm btn-info me-1 mr-1 my-1">Show</a>
                         <a href="/staff/transactions/edit/<?= htmlspecialchars($transaction->id ?? '') ?>" class="btn btn-sm btn-info me-1 mr-1 my-1">Edit</a>
