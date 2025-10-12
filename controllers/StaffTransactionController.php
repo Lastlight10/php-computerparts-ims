@@ -32,6 +32,8 @@ class StaffTransactionController extends Controller {
 
         $transaction = Transaction::with([
             'items.product',
+            'items.previous_quantity',
+            'items.new_quantity',
             'customer',
             'supplier',
             'createdBy',
@@ -456,7 +458,7 @@ public function store() {
 
     public function update() {
     Logger::log("TRANSACTION_UPDATE: Attempting to update transaction.");
-
+        
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         Logger::log("TRANSACTION_UPDATE_ERROR: Invalid request method. Must be POST.");
         $_SESSION['error_message'] = 'Invalid request method.';
@@ -494,7 +496,7 @@ public function store() {
     $items_data = $this->input('items') ?? [];
     $submitted_serials = [
         'purchase' => $this->input('serial_numbers') ?? [],
-        'sale' => $this->input('selected_serial_numbers') ?? [],
+        'sale' => $this->input('sale') ?? [],
         'customer_return' => $this->input('returned_serial_numbers') ?? [],
         'supplier_return' => $this->input('supplier_returned_serial_numbers') ?? [],
         'adjustment' => $this->input('adjustment_serial_numbers') ?? [],
@@ -632,15 +634,21 @@ public function store() {
                     switch ($transaction->transaction_type) {
                         case 'Purchase':
                         case 'Customer Return':
+                            $transaction_item->previous_quantity = $product->current_stock;
                             $product->increment('current_stock', $quantity);
+                            $transaction_item->new_quantity = $product->current_stock;
+                            
                             break;
                         case 'Sale':
                         case 'Supplier Return':
                         case 'Stock Adjustment':
                             if ($product->current_stock < $quantity) throw new Exception("Insufficient stock for '{$product->name}'.");
+                            $transaction_item->previous_quantity = $product->current_stock;
                             $product->decrement('current_stock', $quantity);
+                            $transaction_item->new_quantity = $product->current_stock;
                             break;
                     }
+                    $transaction_item->save();
                     $product->save();
                 }
                 if ($originalStatus === 'Completed' && $newStatus !== 'Completed') {
@@ -648,14 +656,19 @@ public function store() {
                         case 'Purchase':
                         case 'Customer Return':
                             if ($product->current_stock < $quantity) throw new Exception("Cannot revert stock for '{$product->name}'.");
-                            $product->decrement('current_stock', $quantity);
+                            $transaction_item->previous_quantity = $product->current_stock;
+                            $product->increment('current_stock', $quantity);
+                            $transaction_item->new_quantity = $product->current_stock;
                             break;
                         case 'Sale':
                         case 'Supplier Return':
                         case 'Stock Adjustment':
-                            $product->increment('current_stock', $quantity);
+                            $transaction_item->previous_quantity = $product->current_stock;
+                            $product->decrement('current_stock', $quantity);
+                            $transaction_item->new_quantity = $product->current_stock;
                             break;
                     }
+                    $transaction_item->save();
                     $product->save();
                 }
             }
@@ -693,14 +706,19 @@ public function store() {
                         switch ($transaction->transaction_type) {
                             case 'Purchase':
                             case 'Customer Return':
-                                $product->decrement('current_stock', $original_item->quantity);
+                                $transaction_item->previous_quantity = $product->current_stock;
+                            $product->increment('current_stock', $quantity);
+                            $transaction_item->new_quantity = $product->current_stock;
                                 break;
                             case 'Sale':
                             case 'Supplier Return':
                             case 'Stock Adjustment':
-                                $product->increment('current_stock', $original_item->quantity);
+                                $transaction_item->previous_quantity = $product->current_stock;
+                                $product->decrement('current_stock', $quantity);
+                                $transaction_item->new_quantity = $product->current_stock;
                                 break;
                         }
+                        $transaction_item->save();
                         $product->save();
                     }
                 }
@@ -759,6 +777,8 @@ public function store() {
                                        ->where('status', 'In Stock')
                                        ->count();
 
+        
+
         // Update the product's current_stock
         $product->current_stock = $inStockCount;
         $product->save();
@@ -778,6 +798,11 @@ public function store() {
      * @param float $purchaseCostAtTransaction The purchase cost of the item at the time of transaction.
      */
     private function handlePurchaseSerials(TransactionItem $item, array $submittedSerials, $originalTransactionStatus, $newTransactionStatus, float $purchaseCostAtTransaction) {
+        
+        $item->previous_quantity = ProductInstance::where('product_id', $item->product_id)
+        ->where('status', 'In Stock')
+        ->count();
+        
         $existingInstances = ProductInstance::where('purchase_transaction_item_id', $item->id)->pluck('serial_number')->toArray();
         $serialsToKeep = [];
 
@@ -853,6 +878,16 @@ public function store() {
                 }
             }
         }
+
+        $this->updateProductCurrentStockFromInstances($item->product_id);
+        $item->new_quantity = ProductInstance::where('product_id', $item->product_id)
+        ->where('status', 'In Stock')
+        ->count();
+
+        $item->save();
+
+        
+
     }
 
     /**
@@ -862,60 +897,107 @@ public function store() {
      * @param string $originalTransactionStatus The original status of the transaction.
      * @param string $newTransactionStatus The new status of the transaction.
      */
-    private function handleSaleSerials(TransactionItem $item, array $submittedSerials, $originalTransactionStatus, $newTransactionStatus) {
-        $existingSoldInstances = ProductInstance::where('sale_transaction_item_id', $item->id)->pluck('serial_number')->toArray();
-        $serialsToKeep = [];
+private function handleSaleSerials(TransactionItem $item, array $submittedSerials, $originalTransactionStatus, $newTransactionStatus) {
 
-        foreach ($submittedSerials as $serialNumber) {
-            $serialNumber = trim($serialNumber);
-            if (empty($serialNumber)) continue;
+    Logger::log("=== HANDLE SALE SERIALS START ===");
+    // ... (Steps 1 & 2 are fine)
 
-            $instance = ProductInstance::where('serial_number', $serialNumber)
-                                    ->where('product_id', $item->product->id)
-                                    ->first();
+    // 1️⃣ Capture previous stock
+    $item->previous_quantity = ProductInstance::where('product_id', $item->product_id)
+        ->where('status', 'In Stock')
+        ->count();
+    Logger::log("Previous stock for product {$item->product_id}: {$item->previous_quantity}");
+
+    // 2️⃣ Get currently linked serials
+    $existingSoldInstances = ProductInstance::where('sale_transaction_item_id', $item->id)
+        ->pluck('serial_number')->toArray();
+    $serialsToKeep = [];
+
+    // 3️⃣ Process each submitted serial
+    foreach ($submittedSerials as $serialNumber) {
+        $serialNumber = trim($serialNumber);
+        if (empty($serialNumber)) continue;
+
+        $instance = ProductInstance::where('serial_number', $serialNumber)
+                ->where('product_id', $item->product_id)
+                ->first();
 
             if (!$instance) {
-                throw new Exception('Serial number ' . $serialNumber . ' not found for product ' . $item->product->name . '.');
+                // CRITICAL FIX 1: Throw an exception on serial not found to ensure transaction rollback
+                throw new Exception("Serial number '{$serialNumber}' not found for product '{$item->product->name}'.");
             }
 
-            // Check if this instance is already linked to another sale item, or not in stock
-            if (($instance->sale_transaction_item_id !== null && $instance->sale_transaction_item_id !== $item->id) || $instance->status !== 'In Stock') {
-                // Allow re-linking if it was previously sold by this transaction item
-                if (!in_array($serialNumber, $existingSoldInstances)) {
-                    throw new Exception("Serial number '{$serialNumber}' is not 'In Stock' or already linked to another sale.");
-                }
+            Logger::log("Processing Serial: {$serialNumber}, Current Status: {$instance->status}");
+
+            // CRITICAL FIX 2: Check current status before allowing sale to complete.
+            $isExistingSoldSerial = in_array($serialNumber, $existingSoldInstances);
+            
+            if ($newTransactionStatus === 'Completed' && $instance->status !== 'In Stock' && !$isExistingSoldSerial) {
+                // Only allow sale if it's 'In Stock' OR it's an existing serial from a Pending transaction
+                throw new Exception("Serial number '{$serialNumber}' is not available (Status: {$instance->status}) and cannot be sold.");
             }
 
+            // Force link to this transaction item
             $instance->sale_transaction_item_id = $item->id;
+
+            // Force status based on transaction
             if ($newTransactionStatus === 'Completed') {
+                // New status is 'Sold' - this decrements stock upon sync
                 $instance->status = 'Sold';
             } elseif ($newTransactionStatus === 'Cancelled' && $originalTransactionStatus === 'Completed') {
-                $instance->status = 'In Stock'; // Revert to In Stock if sale is cancelled
+                // Revert status to 'In Stock' - this increments stock upon sync
+                $instance->status = 'In Stock';
             } else {
-                $instance->status = 'Pending Stock'; // Changed from 'Pending Sale' to 'Pending Stock' based on schema
+                $instance->status = 'Pending Stock';
             }
+
+            // Save instance (CRITICAL FIX 3: Enforce successful save or roll back)
             $instance->updated_by_user_id = $this->getCurrentUserId();
             $instance->updated_at = date('Y-m-d H:i:s');
-            $instance->save();
-            Logger::log("Updated status of sold serial {$serialNumber} to '{$instance->status}'.");
+
+            // Check save result and throw exception if it fails
+            if (!$instance->save()) { 
+                Logger::log("ERROR: Failed to update serial {$serialNumber}");
+                throw new Exception("Failed to update status for serial number '{$serialNumber}'.");
+            }
+            Logger::log("SUCCESS: Serial {$serialNumber} updated to {$instance->status}");
+
             $serialsToKeep[] = $serialNumber;
         }
 
-        // Handle serials that were originally linked but are no longer submitted
+        // 4️⃣ Revert any old serials no longer submitted (No change needed, but added exception for consistency)
         foreach ($existingSoldInstances as $existingSerialNumber) {
             if (!in_array($existingSerialNumber, $serialsToKeep)) {
                 $instance = ProductInstance::where('serial_number', $existingSerialNumber)->first();
                 if ($instance) {
-                    $instance->status = 'In Stock'; // Revert to in-stock
-                    $instance->sale_transaction_item_id = null; // Unlink
+                    $instance->status = 'In Stock';
+                    $instance->sale_transaction_item_id = null;
                     $instance->updated_by_user_id = $this->getCurrentUserId();
                     $instance->updated_at = date('Y-m-d H:i:s');
-                    $instance->save();
-                    Logger::log("Existing sold serial {$existingSerialNumber} reverted to 'In Stock'.");
+
+                    if (!$instance->save()) { // CRITICAL FIX 3 applied here too
+                        Logger::log("ERROR: Failed to revert old serial {$existingSerialNumber}");
+                        // Optionally throw an exception here too, but failing to revert is less critical than failing to sell
+                    } else {
+                        Logger::log("SUCCESS: Old serial {$existingSerialNumber} reverted to 'In Stock'");
+                    }
                 }
             }
         }
+
+        // 5️⃣ Update product stock
+        $this->updateProductCurrentStockFromInstances($item->product_id); // This recalculates the stock based on 'In Stock' instances
+
+        $item->new_quantity = ProductInstance::where('product_id', $item->product_id)
+            ->where('status', 'In Stock')
+            ->count();
+        Logger::log("New stock for product {$item->product_id}: {$item->new_quantity}");
+
+        $item->save();
+        Logger::log("=== HANDLE SALE SERIALS END ===");
     }
+
+
 
     /**
      * Handles serial number updates for Customer Return transactions.
@@ -925,6 +1007,11 @@ public function store() {
      * @param string $newTransactionStatus The new status of the transaction.
      */
     private function handleCustomerReturnSerials(TransactionItem $item, array $submittedSerials, $originalTransactionStatus, $newTransactionStatus) {
+        
+        $item->previous_quantity = ProductInstance::where('product_id', $item->product_id)
+            ->where('status', 'In Stock')
+            ->count();
+
         $existingReturnedInstances = ProductInstance::where('returned_from_customer_transaction_item_id', $item->id)->pluck('serial_number')->toArray();
         $serialsToKeep = [];
 
@@ -976,6 +1063,13 @@ public function store() {
                 }
             }
         }
+
+        $this->updateProductCurrentStockFromInstances($item->product_id);
+        $item->new_quantity = ProductInstance::where('product_id', $item->product_id)
+            ->where('status', 'In Stock')
+            ->count();
+
+        $item->save();
     }
 
     /**
@@ -986,6 +1080,11 @@ public function store() {
      * @param string $newTransactionStatus The new status of the transaction.
      */
     private function handleSupplierReturnSerials(TransactionItem $item, array $submittedSerials, $originalTransactionStatus, $newTransactionStatus) {
+        
+        $item->previous_quantity = ProductInstance::where('product_id', $item->product_id)
+            ->where('status', 'In Stock')
+            ->count();
+        
         $existingReturnedInstances = ProductInstance::where('returned_to_supplier_transaction_item_id', $item->id)->pluck('serial_number')->toArray();
         $serialsToKeep = [];
 
@@ -1035,6 +1134,14 @@ public function store() {
                 }
             }
         }
+
+        $this->updateProductCurrentStockFromInstances($item->product_id);
+        $item->new_quantity = ProductInstance::where('product_id', $item->product_id)
+            ->where('status', 'In Stock')
+            ->count();
+
+        $item->save();
+
     }
 
     /**
@@ -1047,6 +1154,11 @@ public function store() {
      * @param string $newTransactionStatus The new status of the transaction.
      */
     private function handleStockAdjustmentSerials(TransactionItem $item, ?string $adjustmentDirection, array $submittedInSerials, array $submittedOutSerials, $originalTransactionStatus, $newTransactionStatus) {
+        
+        $item->previous_quantity = ProductInstance::where('product_id', $item->product_id)
+            ->where('status', 'In Stock')
+            ->count();
+        
         $existingInInstances = ProductInstance::where('adjusted_in_transaction_item_id', $item->id)->pluck('serial_number')->toArray();
         $existingOutInstances = ProductInstance::where('adjusted_out_transaction_item_id', $item->id)->pluck('serial_number')->toArray();
         
@@ -1204,6 +1316,14 @@ public function store() {
             }
             throw new Exception("Adjustment direction (inflow/outflow) must be specified for item '{$item->product->name}'.");
         }
+
+        $this->updateProductCurrentStockFromInstances($item->product_id);
+        $item->new_quantity = ProductInstance::where('product_id', $item->product_id)
+            ->where('status', 'In Stock')
+            ->count();
+
+        $item->save();
+
     }
 public function printTransaction($id) {
     Logger::log("PRINT_TRANSACTION: Attempting to generate PDF for transaction ID: $id.");
@@ -1212,6 +1332,8 @@ public function printTransaction($id) {
     // Load transaction with related data
     $transaction = Transaction::with([
         'items.product',
+        'items.new_quantity',
+        'items.previous_quantity',
         'customer',
         'supplier',
         'createdBy',
@@ -1325,7 +1447,9 @@ public function printTransaction($id) {
             <tr>
                 <th>#</th>
                 <th>Product</th>
+                <th>Previous</th>
                 <th>Quantity</th>
+                <th>New Quantity</th>
                 <th>Unit Price</th>
                 <th>Subtotal</th>
                 <th>Serial Number</th>
@@ -1336,6 +1460,10 @@ public function printTransaction($id) {
     $item_counter = 1;
     
     foreach ($transaction->items as $item) {
+
+        $new_quantity = (int)($item->new_quantity ?? 0);
+        $previous_quantity = (int) ($item->previous_quantity ?? 0);
+
         $quantity = (int)($item->quantity ?? 0);
         $unit_price = (float)($item->unit_price_at_transaction ?? 0);
         $line_total = (float)($item->line_total ?? $unit_price * $quantity);
@@ -1353,7 +1481,13 @@ public function printTransaction($id) {
                 if ($first) {
                     $html .= '<td rowspan="' . $count . '">' . $item_counter . '</td>';
                     $html .= '<td rowspan="' . $count . '">' . htmlspecialchars($item->product->name ?? 'N/A') . '</td>';
+
+                    $html .= '<td rowspan="' . $count . '">' . $previous_quantity ?? 'N/A' . '</td>';
+                    
                     $html .= '<td rowspan="' . $count . '">' . $quantity . '</td>';
+
+                    $html .= '<td rowspan="' . $count . '">' . $new_quantity ?? 'N/A' . '</td>';
+
                     $html .= '<td rowspan="' . $count . '">₱' . number_format($unit_price, 2) . '</td>';
                     $html .= '<td rowspan="' . $count . '">₱' . number_format($line_total, 2) . '</td>';
                     $first = false;
@@ -1367,7 +1501,9 @@ public function printTransaction($id) {
             $html .= '<tr>
                 <td>' . $item_counter . '</td>
                 <td>' . htmlspecialchars($item->product->name ?? 'N/A') . '</td>
+                <td>' . $previous_quantity . '</td>
                 <td>' . $quantity . '</td>
+                <td>' . $new_quantity . '</td>
                 <td>₱' . number_format($unit_price, 2) . '</td>
                 <td>₱' . number_format($line_total, 2) . '</td>
                 <td>N/A</td>
@@ -1402,8 +1538,10 @@ public function printTransaction($id) {
         $filter_status = trim($this->input('filter_status'));
         $sort_by = trim($this->input('sort_by')) ?: 'transaction_date';
         $sort_order = trim($this->input('sort_order')) ?: 'desc';
-        $filter_date_range = trim($this->input('filter_date_range'));
-
+        $filter_date_range = $this->input('filter_date_range');
+        $start_date = $this->input('start_date');
+        $end_date = $this->input('end_date');
+        
         $transactions_query = Transaction::with(['customer', 'supplier', 'createdBy', 'updatedBy']);
 
         // Apply search query
@@ -1436,29 +1574,58 @@ public function printTransaction($id) {
 
     switch ($filter_date_range) {
         case 'today':
-            $from = $now->subDay();
+            $transactions_query->whereDate('transaction_date', $now->toDateString());
+            Logger::log("DEBUG: Applied 'today' filter: " . $now->toDateString());
             break;
-        case 'yesterday':
-            $from = $now->subYesterday();
-            break;
-        case 'week':
-            $from = $now->subWeek();
-            break;
-        case 'month':
-            $from = $now->subMonth();
-            break;
-        case 'year':
-            $from = $now->subYear();
-            break;
-        default:
-            $from = null;
-    }
 
-    if ($from) {
-        $transactions_query->where('transaction_date', '>=', $from);
-        Logger::log("DEBUG: Applied time filter for print: '{$filter_date_range}' from " . $from->toDateTimeString());
+        case 'yesterday':
+            $transactions_query->whereDate('transaction_date', $now->copy()->subDay()->toDateString());
+            Logger::log("DEBUG: Applied 'yesterday' filter: " . $now->copy()->subDay()->toDateString());
+            break;
+
+        case 'week':
+            $transactions_query->whereBetween('transaction_date', [
+                $now->copy()->startOfWeek(),
+                $now->copy()->endOfWeek()
+            ]);
+            Logger::log("DEBUG: Applied 'week' filter: " . $now->startOfWeek() . " to " . $now->endOfWeek());
+            break;
+
+        case 'month':
+            $transactions_query->whereBetween('transaction_date', [
+                $now->copy()->startOfMonth(),
+                $now->copy()->endOfMonth()
+            ]);
+            Logger::log("DEBUG: Applied 'month' filter: " . $now->startOfMonth() . " to " . $now->endOfMonth());
+            break;
+
+        case 'year':
+            $transactions_query->whereBetween('transaction_date', [
+                $now->copy()->startOfYear(),
+                $now->copy()->endOfYear()
+            ]);
+            Logger::log("DEBUG: Applied 'year' filter: " . $now->startOfYear() . " to " . $now->endOfYear());
+            break;
+
+        case 'custom':
+            if (!empty($start_date) && !empty($end_date)) {
+                $start = Carbon::parse($start_date)->startOfDay();
+                $end = Carbon::parse($end_date)->endOfDay();
+
+                if ($start->gt($end)) {
+                    $_SESSION['error_message'] = "Start date cannot be later than end date.";
+                    Logger::log("WARNING: Invalid custom date range: $start_date > $end_date");
+                } else {
+                    $transactions_query->whereBetween('transaction_date', [$start, $end]);
+                    Logger::log("DEBUG: Applied 'custom' date filter: $start_date to $end_date");
+                }
+            } else {
+                Logger::log("WARNING: Custom date range selected but missing start or end date.");
+            }
+            break;
     }
 }
+
 
         // Apply sorting
         // IMPORTANT: Avoid orderBy() on joined columns directly in Eloquent for complex queries
@@ -1498,8 +1665,8 @@ public function printTransaction($id) {
         .header h1 { margin: 0; padding: 0; color: #0056b3; font-size: 20px; }
         .filters-info { margin-bottom: 20px; font-size: 10px; }
         .filters-info strong { display: inline-block; width: 80px; }
-        .items-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .items-table th, .items-table td { border: 1px solid #ddd; padding: 6px; text-align: left; vertical-align: top; word-break: break-word; overflow-wrap: anywhere; width:60px}
+        .items-table { width: 100%; border-collapse: collapse; margin-top: 10px;}
+        .items-table th, .items-table td { border: 1px solid #ddd; padding: 3px; text-align: left; vertical-align: top; word-break: break-word; overflow-wrap: anywhere; width:60px}
         .items-table th { background-color: #f2f2f2; font-weight: bold; }
         .footer { text-align: center; margin-top: 30px; font-size: 8px; color: #777; }
         .items-table tbody tr:nth-child(even) { background-color: #fafafa; }
@@ -1526,28 +1693,34 @@ public function printTransaction($id) {
             <p><strong>Type Filter:</strong> ' . htmlspecialchars($filter_type ?: 'All Types') . '</p>
             <p><strong>Status Filter:</strong> ' . htmlspecialchars($filter_status ?: 'All Statuses') . '</p>
             <p><strong>Sort By:</strong> ' . htmlspecialchars(ucwords(str_replace('_', ' ', $sort_by))) . ' (' . htmlspecialchars(ucfirst($sort_order)) . ')</p>
-            <p><strong>Time Filter:</strong> ' . htmlspecialchars(ucwords(str_replace(['5min'], ['Last 5 Minutes'], $filter_date_range ?: 'All Time'))) . '</p>
+            <p><strong>Time Filter:</strong> ' . htmlspecialchars(
+                $filter_date_range === 'custom' && !empty($start_date) && !empty($end_date)
+                    ? "From $start_date to $end_date"
+                    : ucwords(str_replace(['5min'], ['Last 5 Minutes'], $filter_date_range ?: 'All Time'))
+            ) . '</p>
+
         </div>
 
         <table class="items-table">
             <thead>
                 <tr>
-                    <th>Type</th>
+                    <th style="width:50px;" >Type</th>
                     <th>Customer/Supplier</th>
-                    
                     <th>Invoice</th>
                     <th>Product</th>
-                    <th >Quantity</th>
+                    <th>Previous</th>
+                    <th>Quantity</th>
+                    <th>New</th>
                     <th>Total (₱)</th>
                     <th>Status</th>
                     <th style="width:40px;">Created By</th>
-                   <th style="width:40px;" >Date</th>
+                   <th>Date</th>
                     
                 </tr>
             </thead>
             <tbody>';
             
-foreach ($transactions as $transaction) {
+    foreach ($transactions as $transaction) {
     // Determine customer/supplier
     $party_name = 'N/A';
     if ($transaction->customer) {
@@ -1558,74 +1731,76 @@ foreach ($transactions as $transaction) {
 
     // Count the products for rowspan
   $itemCount = count($transaction->items);
-$first = true;
+    $first = true;
 
-if ($itemCount > 0) {
-    foreach ($transaction->items as $item) {
-        $html .= '<tr>';
+    if ($itemCount > 0) {
+        foreach ($transaction->items as $item) {
+            $html .= '<tr>';
 
-        // Print transaction info only once per transaction
-        if ($first) {
+            // Print transaction info only once per transaction
+            if ($first) {
+                $html .= '
+                    <td style="width:45px;" rowspan="' . $itemCount . '">' . htmlspecialchars($transaction->transaction_type ?? 'N/A') . '</td>
+                    <td rowspan="' . $itemCount . '">' . $party_name . '</td>
+                    
+                    <td rowspan="' . $itemCount . '">' . htmlspecialchars($transaction->invoice_bill_number ?? 'N/A') . '</td>';
+            }
+
+            // Product + Quantity columns (moved after invoice)
             $html .= '
-                <td rowspan="' . $itemCount . '">' . htmlspecialchars($transaction->transaction_type ?? 'N/A') . '</td>
-                <td rowspan="' . $itemCount . '">' . $party_name . '</td>
-                
-                <td rowspan="' . $itemCount . '">' . htmlspecialchars($transaction->invoice_bill_number ?? 'N/A') . '</td>';
-        }
+                <td>' . htmlspecialchars($item->product->name ?? 'N/A') . '</td>
+                <td style="width:40px;">' . htmlspecialchars($item->previous_quantity ?? 0) . '</td>;
+                <td style="width:40px;">' . htmlspecialchars($item->quantity ?? 0) . '</td>
+                <td style="width:40px;">' . htmlspecialchars($item->new_quantity ?? 0) . '</td>';
 
-        // Product + Quantity columns (moved after invoice)
+            // Print total, status, and createdBy only once per transaction
+            if ($first) {
+                $html .= '
+                    <td rowspan="' . $itemCount . '">₱' . number_format($transaction->total_amount ?? 0.00, 2) . '</td>
+                    <td rowspan="' . $itemCount . '">' . htmlspecialchars($transaction->status ?? 'N/A') . '</td>
+                    <td style="width:40px;" rowspan="' . $itemCount . '">' . htmlspecialchars($transaction->createdBy->username ?? 'N/A') . '</td>
+                    <td rowspan="' . $itemCount . '">' . htmlspecialchars($transaction->transaction_date ? date('m/d/y', strtotime($transaction->transaction_date)) : 'N/A') . '</td>';
+                    
+                $first = false; // now prevent repeating these
+            }
+
+            $html .= '</tr>';
+        }
+    } else {
+        // No items
         $html .= '
-            <td>' . htmlspecialchars($item->product->name ?? 'N/A') . '</td>
-            <td style="width:40px;">' . htmlspecialchars($item->quantity ?? 0) . '</td>';
-
-        // Print total, status, and createdBy only once per transaction
-        if ($first) {
-            $html .= '
-                <td rowspan="' . $itemCount . '">₱' . number_format($transaction->total_amount ?? 0.00, 2) . '</td>
-                <td rowspan="' . $itemCount . '">' . htmlspecialchars($transaction->status ?? 'N/A') . '</td>
-                <td style="width:40px;" rowspan="' . $itemCount . '">' . htmlspecialchars($transaction->createdBy->username ?? 'N/A') . '</td>
-                <td style="width:40px;" rowspan="' . $itemCount . '">' . htmlspecialchars($transaction->transaction_date ? date('m/d/y', strtotime($transaction->transaction_date)) : 'N/A') . '</td>';
+            <tr>
+                <td style="width:50px;" >' . htmlspecialchars($transaction->transaction_type ?? 'N/A') . '</td>
+                <td>' . $party_name . '</td>
+                <td>' . htmlspecialchars($transaction->invoice_bill_number ?? 'N/A') . '</td>
+                <td colspan="2" style="text-align:center;">No Products</td>
+                <td>₱' . number_format($transaction->total_amount ?? 0.00, 2) . '</td>
+                <td>' . htmlspecialchars($transaction->status ?? 'N/A') . '</td>
+                <td style="width:40px;" >' . htmlspecialchars($transaction->createdBy->username ?? 'N/A') . '</td>
+                <td>' . htmlspecialchars($transaction->transaction_date ? date('m/d/y', strtotime($transaction->transaction_date)) : 'N/A') . '</td>
                 
-            $first = false; // now prevent repeating these
-        }
-
-        $html .= '</tr>';
+            </tr>';
     }
-} else {
-    // No items
+    }
+
     $html .= '
-        <tr>
-            <td>' . htmlspecialchars($transaction->transaction_type ?? 'N/A') . '</td>
-            <td>' . $party_name . '</td>
-            <td>' . htmlspecialchars($transaction->invoice_bill_number ?? 'N/A') . '</td>
-            <td colspan="2" style="text-align:center;">No Products</td>
-            <td>₱' . number_format($transaction->total_amount ?? 0.00, 2) . '</td>
-            <td>' . htmlspecialchars($transaction->status ?? 'N/A') . '</td>
-            <td style="width:40px;" >' . htmlspecialchars($transaction->createdBy->username ?? 'N/A') . '</td>
-            <td style="width:40px;">' . htmlspecialchars($transaction->transaction_date ? date('m/d/y', strtotime($transaction->transaction_date)) : 'N/A') . '</td>
-            
-        </tr>';
-}
-}
+                </tbody>
+            </table>
 
-$html .= '
-            </tbody>
-        </table>
-
-        <div class="footer">
-            <p>Report generated by Computer IMS.</p>
+            <div class="footer">
+                <p>Report generated by Computer IMS.</p>
+            </div>
         </div>
-    </div>
-</body>
-</html>';
+    </body>
+    </html>';
 
-// Dompdf render
-$dompdf->loadHtml($html);
-$dompdf->setPaper('letter', 'portrait');
-$dompdf->render();
-$dompdf->stream("Transactions_List_Report_" . date('Ymd_His') . ".pdf", ["Attachment" => false]);
-Logger::log("PRINT_TRANSACTIONS_LIST_SUCCESS: PDF list generated and streamed.");
-exit();
+    // Dompdf render
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('letter', 'portrait');
+    $dompdf->render();
+    $dompdf->stream("Transactions_List_Report_" . date('Ymd_His') . ".pdf", ["Attachment" => false]);
+    Logger::log("PRINT_TRANSACTIONS_LIST_SUCCESS: PDF list generated and streamed.");
+    exit();
 
     }
 

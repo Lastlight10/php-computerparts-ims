@@ -165,7 +165,9 @@ $can_add_items = ($transaction->status !== 'Completed' && $transaction->status !
                                     <tr>
                                         <th>#</th>
                                         <th>Product</th>
-                                        <th>Quantity</th>
+                                        <th>Previous</th>
+                                        <th>Amount</th>
+                                        <th>New Quantity</th>
                                         <th>Unit Price</th>
                                         <th>Subtotal</th>
                                         <?php if ($can_add_items): ?>
@@ -179,7 +181,9 @@ $can_add_items = ($transaction->status !== 'Completed' && $transaction->status !
                                         <tr>
                                             <td><?= $item_counter++ ?></td>
                                             <td><?= htmlspecialchars($item->product->name ?? 'N/A') ?></td>
+                                            <td><?= htmlspecialchars($item->previous_quantity !== null ? $item->previous_quantity : 'N/A') ?></td>
                                             <td><?= htmlspecialchars($item->quantity !== null ? $item->quantity : 'N/A') ?></td>
+                                            <td><?= htmlspecialchars($item->new_quantity !== null ? $item->new_quantity : 'N/A') ?></td>
                                             <td>₱<?= number_format($item->unit_price_at_transaction !== null ? (float)$item->unit_price_at_transaction : 0.00, 2) ?></td>
                                             <td>₱<?= number_format($item->line_total !== null ? (float)$item->line_total : 0.00, 2) ?></td> <?php if ($can_add_items): ?>
                                                 <td>

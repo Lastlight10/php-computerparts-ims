@@ -203,7 +203,7 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
             <div class="mb-3">
               <label for="transaction_date" class="form-label light-txt">Transaction Date</label>
               <input type="date" class="form-control form-control-lg dark-txt light-bg" id="transaction_date" name="transaction_date"
-                     value="<?= $transaction_date_value ?>" required <?= $initial_is_form_readonly ? 'disabled' : '' ?>>
+                     value="<?= $transaction_date_value ?>" required <?= $initial_is_form_readonly ? 'disabled' : '' ?> readonly>
             </div>
             
 
@@ -432,30 +432,30 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                                         });
 
                                         // Prepare pre-filled selected serial numbers for sales
-                                        $current_sale_serials = [];
+                      $current_sale_serials = [];
                                         // Priority 1: From temporary session data (e.g., successful update of PENDING transaction)
-                                        if (isset($temp_submitted_serials[$item->id]) && is_array($temp_submitted_serials[$item->id])) {
-                                            $current_sale_serials = $temp_submitted_serials[$item->id];
-                                        }
+                      if (isset($temp_submitted_serials[$item->id]) && is_array($temp_submitted_serials[$item->id])) {
+                        $current_sale_serials = $temp_submitted_serials[$item->id];
+                      }
                                         // Priority 2: From submitted error data (sticky form repopulation)
-                                        elseif (isset($error_data['selected_serial_numbers'][$item->id]) && is_array($error_data['selected_serial_numbers'][$item->id])) {
-                                            $current_sale_serials = $error_data['selected_serial_numbers'][$item->id];
-                                        }
+                      elseif (isset($error_data['selected_serial_numbers'][$item->id]) && is_array($error_data['selected_serial_numbers'][$item->id])) {
+                        $current_sale_serials = $error_data['selected_serial_numbers'][$item->id];
+                      }
                                         // Priority 3: From existing ProductInstances if the transaction is already completed
-                                        elseif ($item->relationLoaded('soldInstances') && !empty($item->soldInstances)) {
-                                            foreach ($item->soldInstances as $instance) {
-                                                $current_sale_serials[] = $instance->serial_number;
-                                            }
-                                        }
-                                        ?>
+                        elseif ($item->relationLoaded('soldInstances') && !empty($item->soldInstances)) {
+                          foreach ($item->soldInstances as $instance) {
+                            $current_sale_serials[] = $instance->serial_number;
+                          }
+                        }
+                        ?>
 
-        <?php for ($i = 0; $i < $item->quantity; $i++): ?>
-<div class="mb-3">
+  <?php for ($i = 0; $i < $item->quantity; $i++): ?>
+    <div class="mb-3">
     <label for="serial_number_<?= $i ?>" class="form-label light-txt">Serial Number</label>
     <select data-live-search="true"
             class="form-select form-select-lg dark-txt light-bg selectpicker serial-number-select w-100"
             id="serial_number_<?= $i ?>"
-            name="serial_number[]"
+            name="sale[<?= $item->id ?>][]"
             data-maxlength="20"
             required>
         <option value="">-- Select a Serial Number --</option>
@@ -465,7 +465,7 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
         $serial_options = $available_serial_numbers_by_product[$item->product->id] ?? [];
         // Include previously selected serial if it's no longer available
         if ($selected_value && !in_array($selected_value, array_column($serial_options, 'serial_number'))) {
-            $serial_options[] = ['serial_number' => $selected_value, 'status' => 'Previously Sold'];
+            $serial_options[] = ['serial_number' => $selected_value, 'status' => 'Sold'];
         }
 
         // Sort by serial number

@@ -70,16 +70,28 @@ use Carbon\Carbon; // Required for date comparison
             </select>
         </div>
         <div class="col-md-3">
-    <label for="filter_date_range" class="form-label light-txt">Date Range</label>
-    <select class="form-select dark-txt light-bg" id="filter_date_range" name="filter_date_range">
-        <option value="">All Time</option>
-        <option value="today" <?= (($filter_date_range ?? '') === 'today') ? 'selected' : '' ?>>Today</option>
-        <option value="yesterday" <?= (($filter_date_range ?? '') === 'yesterday') ? 'selected' : '' ?>>Yesterday</option>
-        <option value="week" <?= (($filter_date_range ?? '') === 'week') ? 'selected' : '' ?>>This Week</option>
-        <option value="month" <?= (($filter_date_range ?? '') === 'month') ? 'selected' : '' ?>>This Month</option>
-        <option value="year" <?= (($filter_date_range ?? '') === 'year') ? 'selected' : '' ?>>This Year</option>
-    </select>
-</div>
+            <label for="filter_date_range" class="form-label light-txt">Date Range</label>
+            <select class="form-select dark-txt light-bg" id="filter_date_range" name="filter_date_range">
+                <option value="">All Time</option>
+                <option value="today" <?= (($filter_date_range ?? '') === 'today') ? 'selected' : '' ?>>Today</option>
+                <option value="yesterday" <?= (($filter_date_range ?? '') === 'yesterday') ? 'selected' : '' ?>>Yesterday</option>
+                <option value="week" <?= (($filter_date_range ?? '') === 'week') ? 'selected' : '' ?>>This Week</option>
+                <option value="month" <?= (($filter_date_range ?? '') === 'month') ? 'selected' : '' ?>>This Month</option>
+                <option value="year" <?= (($filter_date_range ?? '') === 'year') ? 'selected' : '' ?>>This Year</option>
+                <option value="custom" <?= (($filter_date_range ?? '') === 'custom') ? 'selected' : '' ?>>Custom Dates</option>
+            </select>
+        </div>
+
+        <div class="col-md-3" id="customDateFields" style="display: <?= (($filter_date_range ?? '') === 'custom') ? 'block' : 'none' ?>;">
+            <label class="form-label light-txt">Custom Date Range</label>
+            <div class="d-flex gap-2">
+                <input type="date" class="form-control dark-txt light-bg" id="start_date" name="start_date" 
+                    value="<?= htmlspecialchars($start_date ?? '') ?>" placeholder="Start Date">
+                <input type="date" class="form-control dark-txt light-bg" id="end_date" name="end_date" 
+                    value="<?= htmlspecialchars($end_date ?? '') ?>" placeholder="End Date">
+            </div>
+        </div>
+
         <div class="col-md-2">
             <button type="submit" class="btn btn-info w-100">Apply Filters</button>
         </div>
@@ -218,6 +230,16 @@ document.getElementById('printListBtn').addEventListener('click', function(e) {
     // Open the PDF in a new tab
     window.open(printUrl, '_blank');
 });
+// Show/hide custom date inputs when selecting "Custom Dates"
+document.getElementById('filter_date_range').addEventListener('change', function() {
+    const customFields = document.getElementById('customDateFields');
+    if (this.value === 'custom') {
+        customFields.style.display = 'block';
+    } else {
+        customFields.style.display = 'none';
+    }
+});
+
 </script>
 <?php
 Logger::log('UI: On transactions_list.php');

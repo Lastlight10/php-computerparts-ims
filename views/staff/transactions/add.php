@@ -162,7 +162,7 @@ $default_status = $transaction->status ?? 'Pending'; // Default to Pending
             <div class="mb-3">
               <label for="transaction_date" class="form-label light-txt">Transaction Date</label>
               <input type="date" class="form-control form-control-lg dark-txt light-bg" id="transaction_date" name="transaction_date"
-                     value="<?= $transaction_date_value ?>" required>
+                     value="<?= $transaction_date_value ?>" required readonly>
             </div>
 
             <div class="mb-3">

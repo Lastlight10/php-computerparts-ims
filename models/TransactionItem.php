@@ -10,7 +10,7 @@ class TransactionItem extends Model {
     protected $fillable = [
         'transaction_id', 'product_id', 'quantity',
         'unit_price_at_transaction', 'line_total',
-        'created_by_user_id', 'updated_by_user_id'
+        'created_by_user_id', 'updated_by_user_id','new_quantity','previous_quantity'
     ];
 
     // Define relationship with Transaction (many-to-one)
@@ -34,6 +34,14 @@ class TransactionItem extends Model {
     // Define relationship with ProductInstances (one-to-many)
     public function product() {
         return $this->belongsTo(Product::class);
+    }
+
+    public function previous_quantity() {
+        return $this->belongsTo(TransactionItem::class);
+    }
+
+    public function new_quantity() {
+        return $this->belongsTo(TransactionItem::class);
     }
 
     public function allInstancesCollection(): Collection
