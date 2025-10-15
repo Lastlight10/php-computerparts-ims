@@ -7,6 +7,7 @@ use App\Core\Logger;
 $product = $product ?? new Models\Product(); // Assuming Models\Product exists and has default properties
 $categories = $categories ?? [];
 $brands = $brands ?? [];
+$suppliers = $suppliers ??[];
 ?>
 
 <section class="page-wrapper dark-bg">
@@ -58,32 +59,60 @@ $brands = $brands ?? [];
                         rows="3" maxlength="100"><?= htmlspecialchars($product->description ?? ''); ?></textarea>
             </div>
 
-            <div class="row">
-    <div class="col-md-6 mb-3">
-        <label for="category_id" class="form-label light-txt">Category</label>
-        <select data-live-search="true" class="form-select form-select-lg dark-txt light-bg selectpicker" id="category_id" name="category_id" required maxlength="30">
-            <option value="">Select Category</option>
-            <?php foreach ($categories as $category): ?>
-                <option value="<?= htmlspecialchars($category->id) ?>"
-                    <?= (isset($product->category_id) && $product->category_id == $category->id) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($category->name) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="category_id" class="form-label light-txt">Category</label>
+            <select data-live-search="true" class="form-select form-select-lg dark-txt light-bg selectpicker" id="category_id" name="category_id" required maxlength="30">
+                <option value="">Select Category</option>
+                <?php foreach ($categories as $category): ?>
+                    <option value="<?= htmlspecialchars($category->id) ?>"
+                        <?= (isset($product->category_id) && $product->category_id == $category->id) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($category->name) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="brand_id" class="form-label light-txt">Brand</label>
+            <select data-live-search="true"  class="form-select form-select-lg dark-txt light-bg selectpicker" id="brand_id" name="brand_id" required maxlength="30">
+                <option value="">Select Brand</option>
+                <?php foreach ($brands as $brand): ?>
+                    <option value="<?= htmlspecialchars($brand->id) ?>"
+                        <?= (isset($product->brand_id) && $product->brand_id == $brand->id) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($brand->name) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
     </div>
-    <div class="col-md-6 mb-3">
-        <label for="brand_id" class="form-label light-txt">Brand</label>
-        <select data-live-search="true"  class="form-select form-select-lg dark-txt light-bg selectpicker" id="brand_id" name="brand_id" required maxlength="30">
-            <option value="">Select Brand</option>
-            <?php foreach ($brands as $brand): ?>
-                <option value="<?= htmlspecialchars($brand->id) ?>"
-                    <?= (isset($product->brand_id) && $product->brand_id == $brand->id) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($brand->name) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+    <div class="row">
+        <div class="col-12 mb-3">
+            <label for="supplier_ids" class="form-label light-txt">Suppliers</label>
+            <select data-live-search="true" class="form-select form-select-lg dark-txt light-bg selectpicker"
+                    id="supplier_ids" name="supplier_ids[]" multiple data-selected-text-format="count > 2" data-width="400px">
+                <?php
+                $selected_supplier_ids = $product->supplier_ids ?? [];
+                if (!is_array($selected_supplier_ids)) {
+                    // Handle case where it might be a single value or null
+                    $selected_supplier_ids = [];
+                }
+                ?>
+                <?php foreach ($suppliers as $supplier): ?>
+                    <?php
+                    // Determine the display name: Company Name if available, otherwise contact person
+                    $display_name = $supplier->company_name ?: trim("{$supplier->contact_first_name} {$supplier->contact_last_name}");
+                    if (empty($display_name)) {
+                        $display_name = "Supplier #{$supplier->id}"; // Fallback if no name fields are set
+                    }
+                    ?>
+                    <option value="<?= htmlspecialchars($supplier->id) ?>"
+                        <?= in_array($supplier->id, $selected_supplier_ids) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($display_name) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
     </div>
-</div>
 
             <div class="row">
                 <div class="col-md-6 mb-3">
@@ -203,12 +232,15 @@ $brands = $brands ?? [];
     $('#category_id').on('shown.bs.select', function () {
     // Target the live search input inside the dropdown
     $('.bs-searchbox input').attr('maxlength', 30);
-});
-$('#brand_id').on('shown.bs.select', function () {
-    // Target the live search input inside the dropdown
-    $('.bs-searchbox input').attr('maxlength', 30);
-});
-
+    });
+    $('#brand_id').on('shown.bs.select', function () {
+        // Target the live search input inside the dropdown
+        $('.bs-searchbox input').attr('maxlength', 30);
+    });
+    $('#supplier_ids').on('shown.bs.select', function () {
+        // Target the live search input inside the dropdown
+        $('.bs-searchbox input').attr('maxlength', 30);
+    });
 </script>
 
 

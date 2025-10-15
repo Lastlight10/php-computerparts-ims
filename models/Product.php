@@ -5,6 +5,7 @@ namespace Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
@@ -75,7 +76,12 @@ class Product extends Model
     {
         return $this->hasMany(ProductInstance::class);
     }
-
+     public function suppliers(): BelongsToMany // <--- ADDED THIS NEW METHOD
+    {
+        // Assumes a pivot table named 'product_supplier' 
+        // with foreign keys 'product_id' and 'supplier_id'
+        return $this->belongsToMany(Supplier::class, 'product_suppliers', 'product_id', 'supplier_id');
+    }
     /**
      * Get the user who created the product.
      */

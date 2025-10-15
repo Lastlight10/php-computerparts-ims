@@ -10,6 +10,7 @@ use Models\Category;
 use Models\Brand;
 use Carbon\Carbon;
 use Models\ProductInstance; // Ensure this is available if you plan to use it for deletion checks
+use Models\Supplier;
 
 // As previously discussed, this line ideally belongs in your main application bootstrap (e.g., public/index.php)
 // not necessarily in every controller.
@@ -121,10 +122,12 @@ class StaffProductController extends Controller {
         // Fetch categories and brands for dropdowns
         $categories = Category::all();
         $brands = Brand::all();
+        $suppliers = Supplier::all();
 
         $this->view('staff/products/add', [
             'categories' => $categories,
             'brands' => $brands,
+            'suppliers' => $suppliers,
             'product' => new Product() // Pass an empty Product model for form binding
         ],'staff');
     }
@@ -147,10 +150,12 @@ class StaffProductController extends Controller {
         $cost_price      = trim($this->input('cost_price'));
         // $current_stock is NOT taken from input
         $reorder_level   = trim($this->input('reorder_level'));
-        $is_serialized   = trim($this->input('is_serialized')) === 'on' ? true : false;
-        $is_active       = trim($this->input('is_active')) === 'on' ? true : false;
+        $is_serialized   = $this->input('is_serialized') === 'on' ? true : false;
+        $is_active       = $this->input('is_active') === 'on' ? true : false;
         $location_aisle  = trim($this->input('location_aisle'));
         $location_bin    = trim($this->input('location_bin'));
+
+        $supplier_ids    = $this->input('supplier_ids') ?? [];
 
         // 2. Validation
         $errors = [];
@@ -167,23 +172,40 @@ class StaffProductController extends Controller {
 
         if (empty($category_id)) $errors[] = 'Category is required.';
         if (empty($brand_id)) $errors[] = 'Brand is required.';
+        if (empty($supplier_ids)) $errors[] = 'At least one Supplier is required.';
         if (!is_numeric($unit_price) || $unit_price < 0) $errors[] = 'Unit Price must be a non-negative number.';
         // current_stock validation removed as it's not user input
         if (!is_numeric($reorder_level) || $reorder_level < 0) $errors[] = 'Reorder Level must be a non-negative integer.';
 
         // Optional fields validation
         if (!empty($cost_price) && (!is_numeric($cost_price) || $cost_price < 0)) $errors[] = 'Cost Price must be a non-negative number if provided.';
-
+        
+        if (!empty($supplier_ids)) {
+            if (!is_array($supplier_ids)) {
+                $errors[] = 'Invalid supplier data submitted.';
+            } else {
+                // Check that all submitted IDs are numeric and non-zero
+                $invalid_ids = array_filter($supplier_ids, function($id) {
+                    return !is_numeric($id) || $id <= 0;
+                });
+                if (!empty($invalid_ids)) {
+                    $errors[] = 'One or more submitted Supplier IDs are invalid.';
+                }
+            }
+        }
         if (!empty($errors)) {
             Logger::log("PRODUCT_STORE_FAILED: Validation errors: " . implode(', ', $errors));
             
             $categories = Category::all();
             $brands = Brand::all();
+
+            $suppliers = Supplier::all(); 
             
             $_SESSION['error_message']="Error: " . implode('<br>', $errors);
             $this->view('staff/products/add', [
                 'categories' => $categories,
                 'brands' => $brands,
+                'suppliers' => $suppliers,
                 'product' => (object)[ // Create a dummy object to mimic Eloquent model for form repopulation
                     'name'            => $name, // Ensure name is repopulated
                     'description'     => $description,
@@ -191,12 +213,12 @@ class StaffProductController extends Controller {
                     'brand_id'        => $brand_id,
                     'unit_price'      => $unit_price,
                     'cost_price'      => $cost_price,
-                    // 'current_stock' should not be repopulated from input
                     'reorder_level'   => $reorder_level,
                     'is_serialized'   => $is_serialized,
                     'is_active'       => $is_active,
                     'location_aisle'  => $location_aisle,
                     'location_bin'    => $location_bin,
+                    'supplier_ids'    => $supplier_ids
                 ]
             ],'staff');
             return;
@@ -223,6 +245,12 @@ class StaffProductController extends Controller {
 
             $product->save();
 
+             if (!empty($supplier_ids)) {
+            // Assuming your Product model has a suppliers() BelongsToMany relationship
+                $product->suppliers()->sync($supplier_ids);
+                Logger::log("PRODUCT_STORE_SUCCESS: Synced suppliers for product ID: {$product->id}.");
+            }
+
             Logger::log("PRODUCT_STORE_SUCCESS: New product '{$product->name}' (ID: {$product->id}, SKU: {$product->sku}) added successfully.");
 
             $_SESSION['success_message']="New product " . $product->name . " added successfully.";
@@ -234,11 +262,14 @@ class StaffProductController extends Controller {
             $categories = Category::all();
             $brands = Brand::all();
 
+            $suppliers = Supplier::all(); 
+
             $_SESSION['error_message']="Failed to add product. " . $e->getMessage();
 
             $this->view('staff/products/add', [
                 'categories' => $categories,
                 'brands' => $brands,
+                'suppliers' => $suppliers,
                 'product' => (object)[ // Re-populate form with submitted data (SKU and current_stock excluded)
                     'name'            => $name,
                     'description'     => $description,
@@ -246,12 +277,12 @@ class StaffProductController extends Controller {
                     'brand_id'        => $brand_id,
                     'unit_price'      => $unit_price,
                     'cost_price'      => $cost_price,
-                    // 'current_stock' should not be repopulated
                     'reorder_level'   => $reorder_level,
                     'is_serialized'   => $is_serialized,
                     'is_active'       => $is_active,
                     'location_aisle'  => $location_aisle,
                     'location_bin'    => $location_bin,
+                    'supplier_ids'    => $supplier_ids
                 ]
             ],'staff');
             return;
@@ -268,7 +299,7 @@ class StaffProductController extends Controller {
     public function edit($id) {
         Logger::log("PRODUCT_EDIT: Attempting to display edit form for product ID: $id");
 
-        $product = Product::find($id);
+       $product = Product::with('suppliers')->find($id);
 
         if (!$product) {
             Logger::log("PRODUCT_EDIT_FAILED: Product ID $id not found for editing.");
@@ -281,11 +312,19 @@ class StaffProductController extends Controller {
         // Fetch categories and brands for dropdowns
         $categories = Category::all();
         $brands = Brand::all();
+        $suppliers = Supplier::all();
+
+        $selected_supplier_ids = $product->suppliers->pluck('id')->toArray();
+
+        // Attach this array to the product object for easy access in the view
+        // (This is primarily for repopulating a multi-select box)
+        $product->supplier_ids = $selected_supplier_ids; 
 
         Logger::log("PRODUCT_EDIT_SUCCESS: Displaying edit form for product ID: $id - {$product->name}");
         $this->view('staff/products/edit', [
             'product' => $product,
             'categories' => $categories,
+            'suppliers' => $suppliers,
             'brands' => $brands
         ],'staff');
     }
@@ -310,12 +349,14 @@ class StaffProductController extends Controller {
     $cost_price      = trim($this->input('cost_price'));
     // REMOVED: $current_stock = $this->input('current_stock'); // Not user input
     $reorder_level   = trim($this->input('reorder_level'));
-    $is_serialized   = trim($this->input('is_serialized')) === 'on' ? true : false;
-    $is_active       = trim($this->input('is_active')) === 'on' ? true : false;
+    $is_serialized   = $this->input('is_serialized') === 'on' ? true : false;
+    $is_active       = $this->input('is_active') === 'on' ? true : false;
     $location_aisle  = trim($this->input('location_aisle'));
     $location_bin    = trim($this->input('location_bin'));
 
     $product = Product::find($id);
+
+     $supplier_ids    = $this->input('supplier_ids') ?? [];
 
     if (!$product) {
         Logger::log("PRODUCT_UPDATE_FAILED: Product ID $id not found for update.");
@@ -343,6 +384,11 @@ class StaffProductController extends Controller {
     if (!is_numeric($reorder_level) || $reorder_level < 0) $errors[] = 'Reorder Level must be a non-negative integer.';
     if (!empty($cost_price) && (!is_numeric($cost_price) || $cost_price < 0)) $errors[] = 'Cost Price must be a non-negative number if provided.';
 
+    if (empty($supplier_ids)) {
+         $errors[] = 'At least one Supplier is required.';
+    } elseif (!is_array($supplier_ids) || count(array_filter($supplier_ids, 'is_numeric')) !== count($supplier_ids)) {
+         $errors[] = 'Invalid supplier data submitted.';
+    }
 
     if (!empty($errors)) {
         Logger::log("PRODUCT_UPDATE_FAILED: Validation errors for Product ID $id: " . implode(', ', $errors));
@@ -361,8 +407,10 @@ class StaffProductController extends Controller {
         $product->location_aisle = $location_aisle;
         $product->location_bin = $location_bin;
 
+        $product->supplier_ids = $supplier_ids; 
         $categories = Category::all();
         $brands = Brand::all();
+        $suppliers = Supplier::all();
 
 
         $_SESSION['error_message']="Error: ". implode('<br>',$errors); 
@@ -370,6 +418,7 @@ class StaffProductController extends Controller {
             'product' => $product,
             'categories' => $categories,
             'brands' => $brands,
+            'suppliers' => $suppliers,
         ], 'staff');
         return;
     }
@@ -389,22 +438,50 @@ class StaffProductController extends Controller {
     $product->location_aisle = !empty($location_aisle) ? $location_aisle : null;
     $product->location_bin = !empty($location_bin) ? $location_bin : null;
 
-    if (!$product->isDirty()) {
+    // Check if any product attributes were changed
+    $product_is_dirty = $product->isDirty();
+    
+    // Check if the list of suppliers has changed
+    // This requires fetching the current IDs before saving
+    $current_supplier_ids = $product->suppliers->pluck('id')->map(function($item) { return (string)$item; })->toArray(); // Map to string for strict comparison
+    $submitted_supplier_ids = array_map('strval', $supplier_ids); // Map to string for strict comparison
+
+    // Check if arrays are identical (requires sorting and strict comparison)
+    sort($current_supplier_ids);
+    sort($submitted_supplier_ids);
+    $suppliers_changed = ($current_supplier_ids !== $submitted_supplier_ids);
+
+
+    if (!$product_is_dirty && !$suppliers_changed) {
         Logger::log("PRODUCT_UPDATE_INFO: Product ID $id submitted form with no changes.");
+        
         $categories = Category::all();
         $brands = Brand::all();
-
+        $suppliers = Supplier::all(); 
+        
+        // Re-assign submitted supplier_ids to product for view repopulation
+        $product->supplier_ids = $submitted_supplier_ids; 
+        
         $_SESSION['warning_message']="No changes made.";
         $this->view('staff/products/edit', [
             'product' => $product,
             'categories' => $categories,
-            'brands' => $brands
+            'brands' => $brands,
+            'suppliers' => $suppliers,
         ],'staff');
         return;
     }
-
     try {
-        $product->save();
+         // 5. Save Product
+        if ($product_is_dirty) {
+            $product->save();
+        }
+
+        // 6. Sync Suppliers only if they changed
+        if ($suppliers_changed) {
+            $product->suppliers()->sync($supplier_ids);
+            Logger::log("PRODUCT_UPDATE_INFO: Synced suppliers for product ID: {$product->id}.");
+        }
         Logger::log("PRODUCT_UPDATE_SUCCESS: Product '{$product->name}' (ID: {$product->id}) updated successfully.");
 
         $_SESSION['success_message']="Successfully updated product.";
@@ -412,14 +489,18 @@ class StaffProductController extends Controller {
         exit();
     } catch (\Exception $e) {
         Logger::log("PRODUCT_UPDATE_DB_ERROR: Failed to update product ID $id - " . $e->getMessage());
+        $product->supplier_ids = $supplier_ids; 
+        
         $categories = Category::all();
         $brands = Brand::all();
+        $suppliers = Supplier::all();
 
         $_SESSION['error_message']="Failed to update product. " . $e->getMessage();
         $this->view('staff/products/edit', [
             'product' => $product,
             'categories' => $categories,
-            'brands' => $brands
+            'brands' => $brands,
+            'suppliers' => $suppliers,
         ],'staff');
         return;
     }
@@ -590,14 +671,14 @@ class StaffProductController extends Controller {
             <meta charset="UTF-8">
             <title>Products List Report</title>
             <style>
-                body { font-family: "DejaVu Sans", sans-serif; font-size: 10px; line-height: 1.4; color: #333; }
-                .container { width: 95%; margin: 0 auto; padding: 15px; }
+                body { font-family: "DejaVu Sans", sans-serif; font-size: 10px; line-height: 1; color: #333; }
+                .container { width: 95%; margin: 0 auto; padding: 7px; }
                 .header { text-align: center; margin-bottom: 20px; }
                 .header h1 { margin: 0; padding: 0; color: #0056b3; font-size: 20px; }
                 .filters-info { margin-bottom: 20px; font-size: 10px; }
                 .filters-info strong { display: inline-block; width: 80px; }
                 .items-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-                .items-table th, .items-table td { border: 1px solid #ddd; padding: 6px; text-align: left; }
+                .items-table th, .items-table td { border: 1px solid #ddd; padding: 4px; text-align: left; }
                 .items-table th { background-color: #f2f2f2; font-weight: bold; }
                 .footer { text-align: center; margin-top: 30px; font-size: 8px; color: #777; }
             </style>
@@ -691,9 +772,12 @@ class StaffProductController extends Controller {
     public function printProductDetails($id) {
         Logger::log("PRINT_PRODUCT_DETAILS: Attempting to generate PDF for product ID: $id.");
         date_default_timezone_set('Asia/Manila');
+
+        // Load the product with all necessary relationships
         $product = Product::with([
             'category',
             'brand',
+            'suppliers', // Load the suppliers relationship
             'productInstances.purchaseTransactionItem.transaction',
             'productInstances.saleTransactionItem.transaction',
             'productInstances.returnedFromCustomerTransactionItem.transaction',
@@ -707,8 +791,8 @@ class StaffProductController extends Controller {
         if (!$product) {
             Logger::log("PRINT_PRODUCT_DETAILS_FAILED: Product ID $id not found for printing.");
 
-            $_SESSION['error_messaeg']="Product not found for printing.";
-            header('Location: /staff/products/show/');
+            $_SESSION['error_message'] = "Product not found for printing.";
+            header('Location: /staff/products_list'); 
             exit();
         }
 
@@ -721,78 +805,92 @@ class StaffProductController extends Controller {
         $dompdf = new Dompdf($options);
         $logoData = base64_encode(file_get_contents('resources/images/Heading.png'));
         $logoSrc = 'data:image/png;base64,' . $logoData;
+
+        // Logic to build the supplier list in HTML bullet format
+        $supplier_html = '';
+        if (!empty($product->suppliers) && method_exists($product->suppliers, 'isNotEmpty') && $product->suppliers->isNotEmpty()) {
+            $supplier_html .= '<ul style="margin: 0; padding-left: 20px;">'; // Start the unordered list
+            foreach ($product->suppliers as $supplier) {
+                $name = $supplier->company_name ?: trim($supplier->contact_first_name . ' ' . $supplier->contact_last_name);
+                $supplier_html .= '<li>' . htmlspecialchars($name ?: "Supplier #{$supplier->id}") . '</li>'; // Add a list item
+            }
+            $supplier_html .= '</ul>'; // End the unordered list
+        } else {
+            $supplier_html = 'No supplier(s) provided.';
+        }
+
         // Build the HTML content for the PDF
         $html = '
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="UTF-8">
-            <title>Product Details: ' . htmlspecialchars($product->name) . '</title>
-            <style>
-                body { font-family: "DejaVu Sans", sans-serif; font-size: 12px; line-height: 1.6; color: #333; }
-                .container { width: 90%; margin: 0 auto; padding: 20px; border: 1px solid #eee; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-                .header { text-align: center; margin-bottom: 30px; }
-                .header h1 { margin: 0; padding: 0; color: #0056b3; font-size: 20px;}
-                .details-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
-                .details-table td { padding: 8px; border-bottom: 1px solid #eee; }
-                .details-table strong { display: inline-block; width: 150px; }
-                .instances-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-                .instances-table th, .instances-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                .instances-table th { background-color: #f2f2f2; }
-                .notes { margin-top: 20px; padding: 10px; border: 1px solid #eee; background-color: #f9f9f9; }
-                .footer { text-align: center; margin-top: 30px; font-size: 10px; color: #777; }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                <div class="logo" style="text-align: center;">
-                    <img src="' . $logoSrc . '" alt="Company Logo" style="height: 100px; width: 100px; border-radius: 50%; object-fit: cover;">
-                    <div class="company-info" style="margin-top: 10px; font-size: 13px; color: #333;">
-                        <strong>Computer Parts Company</strong><br>
-                            123 Main Street, City, Country<br>
-                            Phone: (123) 456-7890 | Email: info@company.com
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <title>Product Details: ' . htmlspecialchars($product->name) . '</title>
+                <style>
+                    body { font-family: "DejaVu Sans", sans-serif; font-size: 12px; line-height: 1.6; color: #333; }
+                    .container { width: 90%; margin: 0 auto; padding: 20px; border: 1px solid #eee; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+                    .header { text-align: center; margin-bottom: 30px; }
+                    .header h1 { margin: 0; padding: 0; color: #0056b3; font-size: 20px;}
+                    .details-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+                    .details-table td { padding: 8px; border-bottom: 1px solid #eee; }
+                    .details-table strong { display: inline-block; width: 150px; }
+                    .instances-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                    .instances-table th, .instances-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                    .instances-table th { background-color: #f2f2f2; }
+                    .notes { margin-top: 20px; padding: 10px; border: 1px solid #eee; background-color: #f9f9f9; }
+                    .footer { text-align: center; margin-top: 30px; font-size: 10px; color: #777; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                    <div class="logo" style="text-align: center;">
+                        <img src="' . $logoSrc . '" alt="Company Logo" style="height: 100px; width: 100px; border-radius: 50%; object-fit: cover;">
+                        <div class="company-info" style="margin-top: 10px; font-size: 13px; color: #333;">
+                            <strong>Computer Parts Company</strong><br>
+                                123 Main Street, City, Country<br>
+                                Phone: (123) 456-7890 | Email: info@company.com
+                        </div>
                     </div>
-                </div>
-                    <h1>Product Details Report</h1>
-                    <h2>' . htmlspecialchars($product->name) . ' (Code: ' . htmlspecialchars($product->sku) . ')</h2>
-                </div>
+                        <h1>Product Details Report</h1>
+                        <h2>' . htmlspecialchars($product->name) . ' (Code: ' . htmlspecialchars($product->sku) . ')</h2>
+                    </div>
 
-                <table class="details-table">
-                    <tr><td><strong>Category:</strong></td><td>' . htmlspecialchars($product->category->name ?? 'N/A') . '</td></tr>
-                    <tr><td><strong>Brand:</strong></td><td>' . htmlspecialchars($product->brand->name ?? 'N/A') . '</td></tr>
-                    <tr><td><strong>Unit Price:</strong></td><td>₱' . number_format($product->unit_price ?? 0, 2) . '</td></tr>
-                    <tr><td><strong>Cost Price:</strong></td><td>₱' . number_format($product->cost_price ?? 0, 2) . '</td></tr>
-                    <tr><td><strong>Current Stock:</strong></td><td>' . htmlspecialchars($product->current_stock ?? 'N/A') . '</td></tr>
-                    <tr><td><strong>Reorder Level:</strong></td><td>' . htmlspecialchars($product->reorder_level ?? 'N/A') . '</td></tr>
-                    <tr><td><strong>Serialized:</strong></td><td>' . (($product->is_serialized ?? false) ? 'Yes' : 'No') . '</td></tr>
-                    <tr><td><strong>Active:</strong></td><td>' . (($product->is_active ?? false) ? 'Yes' : 'No') . '</td></tr>
-                    <tr><td><strong>Location:</strong></td><td>' . htmlspecialchars($product->location_aisle ?? 'N/A') . ' / ' . htmlspecialchars($product->location_bin ?? 'N/A') . '</td></tr>
-                    
-                    <tr><td><strong>Created At:</strong></td><td>' . htmlspecialchars($product->created_at ? date('Y-m-d H:i', strtotime($product->created_at)) : 'N/A') . '</td></tr>
-                    
-                    <tr><td><strong>Updated At:</strong></td><td>' . htmlspecialchars($product->updated_at ? date('Y-m-d H:i', strtotime($product->updated_at)) : 'N/A') . '</td></tr>
-                </table>
+                    <table class="details-table">
+                        <tr><td><strong>Category:</strong></td><td>' . htmlspecialchars($product->category->name ?? 'N/A') . '</td></tr>
+                        <tr><td><strong>Brand:</strong></td><td>' . htmlspecialchars($product->brand->name ?? 'N/A') . '</td></tr>
+                        <tr><td><strong>Supplier/s:</strong></td><td>' . $supplier_html . '</td></tr> <tr><td><strong>Unit Price:</strong></td><td>₱' . number_format($product->unit_price ?? 0, 2) . '</td></tr>
+                        <tr><td><strong>Cost Price:</strong></td><td>₱' . number_format($product->cost_price ?? 0, 2) . '</td></tr>
+                        <tr><td><strong>Current Stock:</strong></td><td>' . htmlspecialchars($product->current_stock ?? 'N/A') . '</td></tr>
+                        <tr><td><strong>Reorder Level:</strong></td><td>' . htmlspecialchars($product->reorder_level ?? 'N/A') . '</td></tr>
+                        <tr><td><strong>Serialized:</strong></td><td>' . (($product->is_serialized ?? false) ? 'Yes' : 'No') . '</td></tr>
+                        <tr><td><strong>Active:</strong></td><td>' . (($product->is_active ?? false) ? 'Yes' : 'No') . '</td></tr>
+                        <tr><td><strong>Location:</strong></td><td>' . htmlspecialchars($product->location_aisle ?? 'N/A') . ' / ' . htmlspecialchars($product->location_bin ?? 'N/A') . '</td></tr>
+                        
+                        <tr><td><strong>Created At:</strong></td><td>' . htmlspecialchars($product->created_at ? date('Y-m-d H:i', strtotime($product->created_at)) : 'N/A') . '</td></tr>
+                        
+                        <tr><td><strong>Updated At:</strong></td><td>' . htmlspecialchars($product->updated_at ? date('Y-m-d H:i', strtotime($product->updated_at)) : 'N/A') . '</td></tr>
+                    </table>
 
-                <div class="notes" style="max-width:800px; white-space:normal; overflow-wrap:break-word;">
-                    <strong>Description:</strong><br>' . nl2br(htmlspecialchars($product->description ?? 'No description provided.')) . '
-                </div>';
+                    <div class="notes" style="max-width:800px; white-space:normal; overflow-wrap:break-word;">
+                        <strong>Description:</strong><br>' . nl2br(htmlspecialchars($product->description ?? 'No description provided.')) . '
+                    </div>';
 
         if ($product->is_serialized && $product->productInstances->isNotEmpty()) {
             $html .= '
-                <h3>Individual Units</h3>
-                <table class="instances-table">
-                    <thead>
-                        <tr>
-                            <th>Serial Number</th>
-                            <th>Status</th>
-                            <th>Cost at Receipt</th>
-                            <th>Warranty Expiration</th>
-                            <th>Purchase Date</th>
-                            <th>Sold Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>';
+                    <h3>Individual Units</h3>
+                    <table class="instances-table">
+                        <thead>
+                            <tr>
+                                <th>Serial Number</th>
+                                <th>Status</th>
+                                <th>Cost at Receipt</th>
+                                <th>Warranty Expiration</th>
+                                <th>Purchase Date</th>
+                                <th>Sold Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
             foreach ($product->productInstances as $instance) {
                 $purchase_date = 'N/A';
                 if (isset($instance->purchaseTransactionItem->transaction->transaction_date)) {
@@ -805,31 +903,31 @@ class StaffProductController extends Controller {
                 }
 
                 $html .= '
-                        <tr>
-                            <td>' . htmlspecialchars($instance->serial_number ?? 'N/A') . '</td>
-                            <td>' . htmlspecialchars($instance->status ?? 'N/A') . '</td>
-                            <td>₱' . number_format((float)$instance->cost_at_receipt ?? 0, 2) . '</td>
-                            <td>' . htmlspecialchars($instance->warranty_expires_at ? date('Y-m-d', strtotime($instance->warranty_expires_at)) : 'N/A') . '</td>
-                            <td>' . htmlspecialchars($purchase_date) . '</td>
-                            <td>' . htmlspecialchars($sold_date) . '</td>
-                        </tr>';
+                            <tr>
+                                <td>' . htmlspecialchars($instance->serial_number ?? 'N/A') . '</td>
+                                <td>' . htmlspecialchars($instance->status ?? 'N/A') . '</td>
+                                <td>₱' . number_format((float)$instance->cost_at_receipt ?? 0, 2) . '</td>
+                                <td>' . htmlspecialchars($instance->warranty_expires_at ? date('Y-m-d', strtotime($instance->warranty_expires_at)) : 'N/A') . '</td>
+                                <td>' . htmlspecialchars($purchase_date) . '</td>
+                                <td>' . htmlspecialchars($sold_date) . '</td>
+                            </tr>';
             }
             $html .= '
-                    </tbody>
-                </table>';
+                        </tbody>
+                    </table>';
         } elseif ($product->is_serialized && $product->productInstances->isEmpty()) {
-            $html .= '<p>No individual units tracked yet for this serialized product.</p>';
+            $html .= '<h3>Individual Units</h3><p>No individual units tracked yet for this serialized product.</p>';
         } else {
-            $html .= '<p>This product is not serialized, so individual units are not tracked.</p>';
+            $html .= '<h3>Individual Units</h3><p>This product is not serialized, so individual units are not tracked.</p>';
         }
 
         $html .= '
-                <div class="footer">
-                    <p>Generated by Computer IMS on ' . date('F j, Y, h:i A') . '</p>
+                    <div class="footer">
+                        <p>Generated by Computer IMS on ' . date('F j, Y, h:i A') . '</p>
+                    </div>
                 </div>
-            </div>
-        </body>
-        </html>';
+            </body>
+            </html>';
 
         $dompdf->loadHtml($html);
         $dompdf->setPaper('letter', 'portrait');
@@ -838,7 +936,7 @@ class StaffProductController extends Controller {
         $dompdf->stream("Product_Details_" . htmlspecialchars($product->sku) . ".pdf", ["Attachment" => false]);
         Logger::log("PRINT_PRODUCT_DETAILS_SUCCESS: PDF generated and streamed for product ID: $id.");
 
-        header('Location: /staff/products/show');
+        // The script execution must stop after streaming the PDF content.
         exit();
     }
 }

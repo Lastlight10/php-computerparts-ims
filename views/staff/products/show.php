@@ -67,6 +67,27 @@ if (!$product) {
                 <p class="text-white ps-3" style="max-width:1100px; white-space:normal; overflow-wrap:break-word;"><?= htmlspecialchars($product->description ?? 'No description provided.') ?></p>
             </div>
 
+            <div class="mb-4">
+                <p class="light-txt mb-1"><strong>Supplier/s:</strong></p>
+                <p class="text-white ps-3" style="max-width:1100px; white-space:normal; overflow-wrap:break-word;">
+                    <?php
+                    $supplier_names = [];
+                    
+                    // Check if the 'suppliers' relationship is loaded and is a collection
+                    if (!empty($product->suppliers) && method_exists($product->suppliers, 'isNotEmpty') && $product->suppliers->isNotEmpty()) {
+                        foreach ($product->suppliers as $supplier) {
+                            // Prioritize company_name, fallback to contact name, fallback to ID
+                            $name = $supplier->company_name ?: trim($supplier->contact_first_name . ' ' . $supplier->contact_last_name);
+                            $supplier_names[] = htmlspecialchars($name ?: "Supplier #{$supplier->id}");
+                        }
+                        echo implode(', ', $supplier_names);
+                    } else {
+                        echo 'No supplier(s) provided.';
+                    }
+                    ?>
+                </p>
+            </div>
+
             <div class="text-center mt-3">
                 <a href="/staff/products/edit/<?= htmlspecialchars($product->id) ?>" class="btn btn-primary lightgreen-bg me-2">Edit Product</a>
                 <!-- New Print Details Button -->

@@ -7,6 +7,7 @@ use App\Core\Logger;
 $product = $product ?? new Models\Product();
 $categories = $categories ?? [];
 $brands = $brands ?? [];
+$selected_supplier_ids = $product->supplier_ids ?? [];
 ?>
 
 <section class="page-wrapper dark-bg">
@@ -86,6 +87,37 @@ $brands = $brands ?? [];
                             <option value="<?= htmlspecialchars($brand->id) ?>"
                                 <?= (isset($product->brand_id) && $product->brand_id == $brand->id) ? 'selected' : '' ?>>
                                 <?= htmlspecialchars($brand->name) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label for="supplier_ids" class="form-label light-txt">Suppliers</label>
+                    <select data-live-search="true" class="form-select form-select-lg dark-txt light-bg selectpicker"
+                        id="supplier_ids" name="supplier_ids[]" multiple data-selected-text-format="count > 2" data-width="400px">
+                        <?php
+                        // 1. Get the array of IDs currently associated with the product (either from DB or submitted data)
+                        // The controller assigns this array to $product->supplier_ids
+                        $selected_supplier_ids = $product->supplier_ids ?? [];
+                        if (!is_array($selected_supplier_ids)) {
+                            // Ensure it's an array if the relationship wasn't loaded correctly (for safety)
+                            $selected_supplier_ids = []; 
+                        }
+                        ?>
+                        <?php foreach ($suppliers as $supplier): ?>
+                            <?php
+                            // Determine the display name: Company Name if available, otherwise contact person
+                            $display_name = $supplier->company_name ?: trim("{$supplier->contact_first_name} {$supplier->contact_last_name}");
+                            if (empty($display_name)) {
+                                $display_name = "Supplier #{$supplier->id}"; // Fallback if no name fields are set
+                            }
+                            ?>
+                            <option value="<?= htmlspecialchars($supplier->id) ?>"
+                                <?= in_array($supplier->id, $selected_supplier_ids) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($display_name) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
