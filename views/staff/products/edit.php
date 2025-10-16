@@ -97,7 +97,7 @@ $selected_supplier_ids = $product->supplier_ids ?? [];
                 <div class="col-12 mb-3">
                     <label for="supplier_ids" class="form-label light-txt">Suppliers</label>
                     <select data-live-search="true" class="form-select form-select-lg dark-txt light-bg selectpicker"
-                        id="supplier_ids" name="supplier_ids[]" multiple data-selected-text-format="count > 2" data-width="400px">
+                        id="supplier_ids" name="supplier_ids[]" multiple data-selected-text-format="count > 2" data-width="400px" required>
                         <?php
                         // 1. Get the array of IDs currently associated with the product (either from DB or submitted data)
                         // The controller assigns this array to $product->supplier_ids

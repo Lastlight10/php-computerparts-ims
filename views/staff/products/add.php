@@ -89,7 +89,7 @@ $suppliers = $suppliers ??[];
         <div class="col-12 mb-3">
             <label for="supplier_ids" class="form-label light-txt">Suppliers</label>
             <select data-live-search="true" class="form-select form-select-lg dark-txt light-bg selectpicker"
-                    id="supplier_ids" name="supplier_ids[]" multiple data-selected-text-format="count > 2" data-width="400px">
+                    id="supplier_ids" name="supplier_ids[]" multiple data-selected-text-format="count > 2" data-width="400px" required>
                 <?php
                 $selected_supplier_ids = $product->supplier_ids ?? [];
                 if (!is_array($selected_supplier_ids)) {
