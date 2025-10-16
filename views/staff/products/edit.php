@@ -128,12 +128,12 @@ $selected_supplier_ids = $product->supplier_ids ?? [];
                 <div class="col-md-6 mb-3">
                     <label for="unit_price" class="form-label light-txt">Unit Price (₱)</label>
                     <input type="text" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="unit_price" name="unit_price"
-                        value="<?= htmlspecialchars($product->unit_price ?? ''); ?>" required min="0" data-maxlength="7">
+                        value="<?= htmlspecialchars($product->unit_price ?? ''); ?>" required min="0" data-maxlength="5">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="cost_price" class="form-label light-txt">Cost Price (₱)</label>
                     <input type="text" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="cost_price" name="cost_price"
-                        value="<?= htmlspecialchars($product->cost_price ?? ''); ?>" min="0" data-maxlength="7">
+                        value="<?= htmlspecialchars($product->cost_price ?? ''); ?>" min="0" data-maxlength="5">
                 </div>
             </div>
 
