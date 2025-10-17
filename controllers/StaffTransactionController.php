@@ -1354,8 +1354,8 @@ public function printTransaction($id) {
     $dompdf = new Dompdf($options);
 
     $transaction_date = date('F j, Y', strtotime($transaction->transaction_date));
-    $created_at = $transaction->created_at ? date('F j, Y, h:i A', strtotime($transaction->created_at)) : 'N/A';
-    $updated_at = $transaction->updated_at ? date('F j, Y, h:i A', strtotime($transaction->updated_at)) : 'N/A';
+    $created_at = $transaction->created_at ? date('F j, Y', strtotime($transaction->created_at)) : 'N/A';
+    $updated_at = $transaction->updated_at ? date('F j, Y', strtotime($transaction->updated_at)) : 'N/A';
 
     // Determine party info
     $party_name = 'N/A';
@@ -1708,12 +1708,12 @@ public function printTransaction($id) {
                     <th>Customer/Supplier</th>
                     <th>Invoice</th>
                     <th>Product</th>
-                    <th>Previous</th>
-                    <th>Quantity</th>
-                    <th>New</th>
+                    <th style="width:40px;">Previous</th>
+                    <th style="width:40px;">Quantity</th>
+                    <th style="width:40px;">New</th>
                     <th>Total (₱)</th>
                     <th>Status</th>
-                    <th style="width:40px;">Created By</th>
+                    <th style="width:50px;">Created By</th>
                    <th>Date</th>
                     
                 </tr>
