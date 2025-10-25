@@ -66,7 +66,7 @@ class LoginController extends Controller {
             // Log this for debugging but provide a generic message to the user
             // to prevent email enumeration attacks.
             Logger::log("SEND_RESET_CODE_INFO: Password reset requested for non-existent email: " . $email);
-            $_SESSION['success_message'] = 'If an account with that email exists, a password reset code has been sent.';
+            $_SESSION['error_message'] = 'Email does not exist in the system.';
             header('Location: /login/forgotpass');
             exit();
         }
