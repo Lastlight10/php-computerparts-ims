@@ -1954,8 +1954,6 @@ public function printTransaction($id) {
         $partyName = $transaction->customer->company_name
             ?? trim(($transaction->customer->contact_first_name ?? '') . ' ' . ($transaction->customer->contact_last_name ?? ''));
 
-            echo htmlspecialchars($partyName !== '' ? $partyName : 'N/A');
-
         $html .= '
                     <tr>
                         <td>'. $i++ . '</td>
