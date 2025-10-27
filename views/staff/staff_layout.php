@@ -94,7 +94,7 @@
                         <?php endif; ?>
 
                         <!-- Products (Visible to Staff, Manager, Admin) -->
-                        <?php if (in_array($userType, ['Staff', 'Manager', 'Admin'])): ?>
+                        <?php if (in_array($userType, ['Manager', 'Admin'])): ?>
                         <li>
                             <a href="/staff/products_list" class="nav-link py-1 px-0" data-bs-placement="right" data-bs-toggle="tooltip" title="Products">
                                 <i class="bi bi-motherboard fs-3"></i>

@@ -85,6 +85,7 @@ class StaffTransactionController extends Controller {
      */
 public function store() {
     Logger::log('TRANSACTION_STORE: Attempting to store new transaction.');
+    date_default_timezone_set('Asia/Manila');
 
     // Get inputs
     $transaction_type = $this->input('transaction_type');
@@ -1374,6 +1375,15 @@ public function printTransaction($id) {
     ];
     $amount_label = $amount_label_map[$transaction->transaction_type] ?? '';
 
+    $type_map = [
+        'Sale' => 'Stock Out',
+        'Purchase' => 'Stock Out',
+        'Customer Return' => 'Stock In',
+        'Supplier Return' => 'Stock Out',
+        'Stock Adjustment' => 'Stock In/Out'
+    ];
+    $amount_label = $amount_label_map[$transaction->transaction_type] ?? '';
+    $type = $type_map[$transaction->transaction_type] ?? '';
     // Prepare logo
     $logoData = base64_encode(file_get_contents('resources/images/Heading.png'));
     $logoSrc = 'data:image/png;base64,' . $logoData;
@@ -1447,9 +1457,12 @@ public function printTransaction($id) {
             <tr>
                 <th>#</th>
                 <th>Product</th>
-                <th>Previous</th>
-                <th>Quantity</th>
-                <th>New Quantity</th>
+                <th>Original</th>';
+    if($type){
+      $html .= '<th>' . $type .'</th>';
+
+    $html .='
+                <th>Current</th>
                 <th>Unit Price</th>
                 <th>Subtotal</th>
                 <th>Serial Number</th>
@@ -1528,7 +1541,7 @@ public function printTransaction($id) {
     Logger::log("PRINT_TRANSACTION_SUCCESS: PDF generated and streamed for transaction ID: $id.");
     exit();
 }
-
+}
     public function printTransactionsList() {
         Logger::log("PRINT_TRANSACTIONS_LIST: Attempting to generate PDF for transactions list.");
 
@@ -1689,7 +1702,6 @@ public function printTransaction($id) {
         </div>
 
         <div class="filters-info">
-            <p><strong>Search:</strong> ' . htmlspecialchars($search_query ?: 'N/A') . '</p>
             <p><strong>Type Filter:</strong> ' . htmlspecialchars($filter_type ?: 'All Types') . '</p>
             <p><strong>Status Filter:</strong> ' . htmlspecialchars($filter_status ?: 'All Statuses') . '</p>
             <p><strong>Sort By:</strong> ' . htmlspecialchars(ucwords(str_replace('_', ' ', $sort_by))) . ' (' . htmlspecialchars(ucfirst($sort_order)) . ')</p>
@@ -1708,9 +1720,9 @@ public function printTransaction($id) {
                     <th>Customer/Supplier</th>
                     <th>Invoice</th>
                     <th>Product</th>
-                    <th style="width:40px;">Previous</th>
-                    <th style="width:40px;">Quantity</th>
-                    <th style="width:40px;">New</th>
+                    <th style="width:40px;">Original</th>
+                    <th style="width:40px;">Stock In/Out</th>
+                    <th style="width:40px;">Current</th>
                     <th>Total (₱)</th>
                     <th>Status</th>
                     <th style="width:50px;">Created By</th>
@@ -1813,7 +1825,8 @@ public function printTransaction($id) {
     $sort_by = trim($this->input('sort_by')) ?: 'transaction_date';
     $sort_order = trim($this->input('sort_order')) ?: 'desc';
     $filter_date_range = trim($this->input('filter_date_range'));
-
+    $start_date = $this->input('start_date');
+    $end_date = $this->input('end_date');
     // Always restrict to Sale transactions
     $transactions_query = Transaction::with(['customer', 'supplier', 'createdBy', 'updatedBy'])
         ->where('transaction_type', 'Sale');
@@ -1836,44 +1849,79 @@ public function printTransaction($id) {
         });
     }
 
-    // Apply filters
     if (!empty($filter_status)) {
         $transactions_query->where('status', $filter_status);
     }
+
+    // Initialize $from and $to for common filtering logic
+    $from = null;
+    $to = null;
 
     if (!empty($filter_date_range)) {
         $now = Carbon::now();
 
         switch ($filter_date_range) {
             case 'today':
-                $from = $now->startOfDay();
+                // Today: Start of day to End of day
+                $from = $now->copy()->startOfDay();
+                $to = $now->copy()->endOfDay();
                 break;
+                
             case 'yesterday':
-                $from = $now->subDay()->startOfDay();
-                $to   = $now->copy()->endOfDay();
+                // Yesterday: Start of day yesterday to End of day yesterday
+                $from = $now->copy()->subDay()->startOfDay();
+                $to = $now->copy()->subDay()->endOfDay();
                 break;
+                
             case 'week':
-                $from = $now->startOfWeek();
+                // This Week: Start of week to End of current day/time
+                $from = $now->copy()->startOfWeek();
+                $to = $now->copy();
                 break;
+                
             case 'month':
-                $from = $now->startOfMonth();
+                // This Month: Start of month to End of current day/time
+                $from = $now->copy()->startOfMonth();
+                $to = $now->copy();
                 break;
+                
             case 'year':
-                $from = $now->startOfYear();
+                // This Year: Start of year to End of current day/time
+                $from = $now->copy()->startOfYear();
+                $to = $now->copy();
                 break;
-            default:
-                $from = null;
+                
+            case 'custom':
+                if (!empty($start_date) && !empty($end_date)) {
+                    $start = Carbon::parse($start_date)->startOfDay();
+                    $end = Carbon::parse($end_date)->endOfDay();
+
+                    if ($start->gt($end)) {
+                        // Log error, but DO NOT set $from/$to, which prevents filtering
+                        Logger::log("WARNING: Invalid custom date range: $start_date > $end_date");
+                    } else {
+                        // Set $from and $to for the common filtering block below
+                        $from = $start;
+                        $to = $end;
+                        Logger::log("DEBUG: Parsed 'custom' date filter: $from to $to");
+                    }
+                } else {
+                    Logger::log("WARNING: Custom date range selected but missing start or end date.");
+                }
+                break;
+            // No default needed, as $from/$to remain null if no case is matched
         }
 
-        if ($from) {
-            $transactions_query->where('transaction_date', '>=', $from);
-            Logger::log("DEBUG: Applied date filter for sales report: '{$filter_date_range}' from " . $from->toDateTimeString());
+        // Common filtering logic applied only if a valid $from and $to range was determined
+        // This replaces the old, incomplete 'if ($from)' block at the end of the switch
+        if ($from && $to) {
+            $transactions_query->whereBetween('transaction_date', [$from, $to]);
+            Logger::log("DEBUG: Applied final date range filter: '{$filter_date_range}' from " . $from->toDateTimeString() . " to " . $to->toDateTimeString());
         }
     }
 
     // Apply sorting
     $transactions = $transactions_query->orderBy($sort_by, $sort_order)->get();
-
     if ($transactions->isEmpty()) {
         Logger::log("PRINT_SALES_REPORT_FAILED: No sales found matching criteria.");
         $_SESSION['error_message'] = "No sales found matching criteria for printing.";
@@ -1928,10 +1976,13 @@ public function printTransaction($id) {
             </div>
 
             <div class="filters-info">
-                <p><strong>Search:</strong> ' . htmlspecialchars($search_query ?: 'N/A') . '</p>
                 <p><strong>Status Filter:</strong> ' . htmlspecialchars($filter_status ?: 'All Statuses') . '</p>
                 <p><strong>Sort By:</strong> ' . htmlspecialchars(ucwords(str_replace("_", " ", $sort_by))) . ' (' . htmlspecialchars(ucfirst($sort_order)) . ')</p>
-                <p><strong>Date Filter:</strong> ' . htmlspecialchars($filter_date_range ?: 'All Time') . '</p>
+                <p><strong>Time Filter:</strong> ' . htmlspecialchars(
+                $filter_date_range === 'custom' && !empty($start_date) && !empty($end_date)
+                    ? "From $start_date to $end_date"
+                    : ucwords(str_replace(['5min'], ['Last 5 Minutes'], $filter_date_range ?: 'All Time'))
+            ) . '</p>
                 
             </div>
 

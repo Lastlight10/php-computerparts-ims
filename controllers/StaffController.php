@@ -383,7 +383,8 @@ class StaffController extends Controller {
     $search_query = trim((string) $this->input('search_query'));
     $filter_status = $this->input('filter_status');
     $filter_date_range = $this->input('filter_date_range');
-
+    $start_date = $this->input('start_date');
+    $end_date = $this->input('end_date');
     $sort_by = $this->input('sort_by') ?: 'transaction_date'; // Default sort column
     $sort_order = $this->input('sort_order') ?: 'desc'; // Default sort order
 
@@ -431,6 +432,22 @@ class StaffController extends Controller {
                     $now->copy()->startOfYear(),
                     $now->copy()->endOfYear()
                 ]);
+                break;
+            case 'custom':
+                if ($filter_date_range === 'custom' && !empty($start_date) && !empty($end_date)) {
+                    if (Carbon::parse($start_date)->gt(Carbon::parse($end_date))) {
+                        $_SESSION['error_message'] = "Start date cannot be later than end date.";
+                        Logger::log("WARNING: Invalid custom date range selected: $start_date > $end_date");
+                    } else {
+                        $transactions_query->whereBetween('created_at', [
+                            Carbon::parse($start_date)->startOfDay(),
+                            Carbon::parse($end_date)->endOfDay()
+                        ]);
+                    }
+                }
+                else {
+                    Logger::log("WARNING: Custom date range selected but missing start or end date.");
+                }
                 break;
         }
     }
@@ -480,6 +497,8 @@ class StaffController extends Controller {
         'search_query' => $search_query, // Pass back to view
         'filter_status' => $filter_status, // Pass back to view
         'filter_date_range' => $filter_date_range,
+        'start_date' => $start_date,
+        'end_date' => $end_date,
         'sort_by' => $sort_by,           // Pass back to view
         'sort_order' => $sort_order,     // Pass back to view
         'transaction_statuses_list' => ['Pending','Completed', 'Cancelled'], // For filter dropdown

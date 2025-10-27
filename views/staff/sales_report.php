@@ -57,20 +57,38 @@ use Carbon\Carbon; // Required for date comparison
             </select>
         </div>
         <div class="col-md-3">
-    <label for="filter_date_range" class="form-label light-txt">Date Range</label>
-    <select class="form-select dark-txt light-bg" id="filter_date_range" name="filter_date_range">
-        <option value="">All Time</option>
-        <option value="today" <?= (($filter_date_range ?? '') === 'today') ? 'selected' : '' ?>>Today</option>
-        <option value="yesterday" <?= (($filter_date_range ?? '') === 'yesterday') ? 'selected' : '' ?>>Yesterday</option>
-        <option value="week" <?= (($filter_date_range ?? '') === 'week') ? 'selected' : '' ?>>This Week</option>
-        <option value="month" <?= (($filter_date_range ?? '') === 'month') ? 'selected' : '' ?>>This Month</option>
-        <option value="year" <?= (($filter_date_range ?? '') === 'year') ? 'selected' : '' ?>>This Year</option>
-    </select>
-</div>
+            <label for="filter_date_range" class="form-label light-txt">Date Range</label>
+            <select class="form-select dark-txt light-bg" id="filter_date_range" name="filter_date_range">
+                <option value="">All Time</option>
+                <option value="today" <?= (($filter_date_range ?? '') === 'today') ? 'selected' : '' ?>>Today</option>
+                <option value="yesterday" <?= (($filter_date_range ?? '') === 'yesterday') ? 'selected' : '' ?>>Yesterday</option>
+                <option value="week" <?= (($filter_date_range ?? '') === 'week') ? 'selected' : '' ?>>This Week</option>
+                <option value="month" <?= (($filter_date_range ?? '') === 'month') ? 'selected' : '' ?>>This Month</option>
+                <option value="year" <?= (($filter_date_range ?? '') === 'year') ? 'selected' : '' ?>>This Year</option>
+                <option value="custom" <?= (($filter_date_range ?? '') === 'custom') ? 'selected' : '' ?>>Custom Dates</option>
+            </select>
+        </div>
         <div class="col-md-2">
             <button type="submit" class="btn btn-info w-100">Apply Filters</button>
         </div>
+    </div> 
+    
+    <div class="row g-3 align-items-end mt-2" 
+         id="customDateFieldsContainer" 
+         style="display: <?= (($filter_date_range ?? '') === 'custom') ? 'flex' : 'none' ?>;">
+        <div class="col-md-3">
+            <label class="form-label light-txt">Start Date</label>
+            <input type="date" class="form-control dark-txt light-bg" id="start_date" name="start_date" 
+                value="<?= htmlspecialchars($start_date ?? '') ?>">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label light-txt">End Date</label>
+            <input type="date" class="form-control dark-txt light-bg" id="end_date" name="end_date" 
+                value="<?= htmlspecialchars($end_date ?? '') ?>">
+        </div>
+        
     </div>
+    
     <div class="row g-3 align-items-end mt-2">
         <div class="col-md-4">
             <label for="sort_by" class="form-label light-txt">Sort By</label>
@@ -93,7 +111,7 @@ use Carbon\Carbon; // Required for date comparison
             <button type="submit" class="btn btn-info w-100">Apply Sort</button>
         </div>
         <div class="col-md-3">
-            <a href="/staff/transactions_list" class="btn btn-secondary w-100">Clear Filters & Sort</a>
+            <a href="/staff/sales_report" class="btn btn-secondary w-100">Clear Filters & Sort</a>
         </div>
     </div>
 </form>
@@ -179,6 +197,45 @@ document.getElementById('printListBtn').addEventListener('click', function(e) {
     
     // Open the PDF in a new tab
     window.open(printUrl, '_blank');
+
+
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterDateRange = document.getElementById('filter_date_range');
+    // NOTE: Targeting the new container div
+    const customFieldsContainer = document.getElementById('customDateFieldsContainer');
+    const printListBtn = document.getElementById('printListBtn');
+    const transactionsFilterForm = document.getElementById('transactionsFilterForm');
+
+    // Function to handle showing/hiding custom date fields
+    function toggleCustomDateFields() {
+        if (filterDateRange.value === 'custom') {
+            // Use 'flex' to ensure the bootstrap row layout works correctly
+            customFieldsContainer.style.display = 'flex'; 
+        } else {
+            customFieldsContainer.style.display = 'none';
+        }
+    }
+
+    // Initial check when the page loads
+    toggleCustomDateFields(); 
+
+    // Event listener for date range change
+    filterDateRange.addEventListener('change', toggleCustomDateFields);
+
+    // Print Button Logic (Cleaned up and placed inside DOMContentLoaded)
+    printListBtn.addEventListener('click', function(e) {
+        e.preventDefault(); 
+        const formData = new URLSearchParams(new FormData(transactionsFilterForm));
+        
+        // Use a dedicated print route (recommended practice)
+        const printUrl = '/staff/sales_report/print?' + formData.toString();
+        
+        window.open(printUrl, '_blank');
+    });
 });
 </script>
 <?php

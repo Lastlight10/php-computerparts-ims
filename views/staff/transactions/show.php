@@ -10,7 +10,15 @@ if (!isset($transaction) || !$transaction) {
     Logger::log('ERROR: Transaction object not available in staff/transactions/show.php');
     return; // Stop rendering the page if no transaction
 }
-
+$userType = $_SESSION['user']['type'] ?? 'Guest';
+$type_map = [
+        'Sale' => 'Stock Out',
+        'Purchase' => 'Stock In',
+        'Customer Return' => 'Stock In',
+        'Supplier Return' => 'Stock Out',
+        'Stock Adjustment' => 'Stock In/Out'
+    ];
+$type = $type_map[$transaction->transaction_type] ?? '';
 // Format dates for display
 $transaction_date_formatted = date('F j, Y', strtotime($transaction->transaction_date));
 $created_at_formatted = $transaction->created_at ? date('F j, Y, h:i A', strtotime($transaction->created_at)) : 'N/A';
@@ -36,6 +44,7 @@ if ($transaction->transaction_type === 'Sale' && $transaction->customer) {
     } else {
         $party_type = 'N/A (Return)';
         $party_name = 'N/A';
+        
     }
 } elseif ($transaction->transaction_type === 'Adjustment') {
     $party_type = 'N/A';
@@ -139,7 +148,9 @@ $can_add_items = ($transaction->status !== 'Completed' && $transaction->status !
                     </div>
 
                     <div class="d-flex justify-content-center flex-wrap gap-2 mt-3">
+                      <?php if (in_array($userType, ['Manager', 'Admin'])): ?>
                         <a href="/staff/transactions/edit/<?= htmlspecialchars($transaction->id) ?>" class="btn btn-warning">Edit Transaction Details</a>
+                      <?php endif?>
                         <a href="/staff/transactions/print/<?= htmlspecialchars($transaction->id) ?>" class="btn btn-info" target="_blank">Print Transaction</a>
                         <a href="/staff/transactions_list" class="btn btn-secondary">Back to List</a>
                     </div>
@@ -166,7 +177,9 @@ $can_add_items = ($transaction->status !== 'Completed' && $transaction->status !
                                         <th>#</th>
                                         <th>Product</th>
                                         <th>Previous</th>
-                                        <th>Amount</th>
+                                        <?php if($type):?>
+                                          <th><?= $type ?></th>
+                                        <?php endif;?>
                                         <th>New Quantity</th>
                                         <th>Unit Price</th>
                                         <th>Subtotal</th>
