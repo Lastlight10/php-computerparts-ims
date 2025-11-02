@@ -182,7 +182,7 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                 // Use stored or pre-calculated amount
                 $amount_value = number_format($transaction->amount_received ?? $calculated_total_amount ?? 0, 2);
             ?>
-                <div class="row mb-3">
+                <div class="row mb-3" hidden>
                     <label class="form-label light-txt"><strong><?= $amount_label ?></strong></label>
                     <div class="col-sm-10">
                       <div class="input-group">

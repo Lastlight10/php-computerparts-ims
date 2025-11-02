@@ -1433,8 +1433,9 @@ public function printTransaction($id) {
         <tr><td><strong>Status:</strong></td><td>' . htmlspecialchars($transaction->status) . '</td></tr>
         <tr><td><strong>Total Amount:</strong></td><td>₱' . number_format($transaction->total_amount,2) . '</td></tr>';
 
+    
     if ($amount_label) {
-        $html .= '<tr><td><strong>' . $amount_label . '</strong></td><td>₱' . number_format($transaction->amount_received ?? 0, 2) . '</td></tr>';
+        //$html .= '<tr><td><strong>' . $amount_label . '</strong></td><td>₱' . number_format($transaction->amount_received ?? 0, 2) . '</td></tr>';
     }
 
     $html .= '

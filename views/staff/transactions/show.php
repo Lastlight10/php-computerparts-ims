@@ -134,8 +134,8 @@ $can_add_items = ($transaction->status !== 'Completed' && $transaction->status !
                         }
                         ?>
                         <?php if ($display_amount_received): ?>
-                            <div class="col-md-6 mb-2">
-                                <strong><?= $amount_label ?></strong> 
+                            <div class="col-md-6 mb-2" hidden>
+                                <strong><?= '' ?></strong> 
                                 ₱<?= number_format($transaction->amount_received !== null ? (float)$transaction->amount_received : 0.00, 2) ?>
                             </div>
                         <?php endif; ?>
