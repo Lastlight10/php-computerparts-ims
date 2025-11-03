@@ -90,7 +90,7 @@ if (!$transaction && $transaction_item->transaction_id) {
             <div class="mb-3">
               <label for="unit_price" class="form-label light-txt">Unit Price (₱)</label>
               <input type="number" step="0.01" class="form-control form-control-lg dark-txt light-bg" id="unit_price" name="unit_price"
-                     value="<?= htmlspecialchars(number_format($transaction_item->line_total, 2, '.', '')) ?>" min="0" required>
+                     value="<?= htmlspecialchars(number_format($transaction_item->line_total, 2, '.', '')) ?>" min="0" required readonly>
             </div>
 
             <div class="mb-3">
