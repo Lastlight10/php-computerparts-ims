@@ -36,32 +36,32 @@ if (!$transaction && $transaction_item->transaction_id) {
           <h3 class="text-white text-center mb-4">Edit Item for Transaction #<?= htmlspecialchars($transaction->invoice_bill_number ?? $transaction_item->transaction_id) ?></h3>
 
           <?php
-          if (isset($_SESSION['success_message'])) {
-              echo '
-              <div class="alert alert-success alert-dismissible fade show" role="alert">
-                  ' . htmlspecialchars($_SESSION['success_message']) . '
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>';
-              unset($_SESSION['success_message']); // fix: previously unsetting error instead
-          }
-          if (isset($_SESSION['warning_message'])) {
-              echo '
-              <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                  ' . htmlspecialchars($_SESSION['warning_message']) . '
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>';
-              unset($_SESSION['warning_message']);
-          }
+            if (isset($_SESSION['success_message'])) {
+                echo '
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    ' . htmlspecialchars($_SESSION['success_message']) . '
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>';
+                unset($_SESSION['success_message']); // fix: previously unsetting error instead
+            }
+            if (isset($_SESSION['warning_message'])) {
+                echo '
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    ' . htmlspecialchars($_SESSION['warning_message']) . '
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>';
+                unset($_SESSION['warning_message']);
+            }
 
-          if (isset($_SESSION['error_message'])) {
-              echo '
-              <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                  ' . htmlspecialchars($_SESSION['error_message']) . '
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>';
-              unset($_SESSION['error_message']);
-          }
-    ?>
+            if (isset($_SESSION['error_message'])) {
+                echo '
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    ' . htmlspecialchars($_SESSION['error_message']) . '
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>';
+                unset($_SESSION['error_message']);
+            }
+          ?>
 
           <form action="/staff/transaction_items/update" method="POST" id="transactionItemForm">
             <input type="hidden" name="id" value="<?= htmlspecialchars($transaction_item->id) ?>">
@@ -84,7 +84,9 @@ if (!$transaction && $transaction_item->transaction_id) {
             <div class="mb-3">
               <label for="quantity" class="form-label light-txt">Quantity</label>
               <input type="number" class="form-control form-control-lg dark-txt light-bg" id="quantity" name="quantity"
-                     value="<?= htmlspecialchars($transaction_item->quantity) ?>" min="1" required>
+                     value="<?= htmlspecialchars($transaction_item->quantity) ?>" min="1" required maxlength="4"
+                     pattern="[0-9]*\.?[0-9]*"
+                     oninput="this.value=this.value.slice(0,this.maxLength)">
             </div>
 
             <div class="mb-3">

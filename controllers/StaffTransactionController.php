@@ -1556,7 +1556,7 @@ public function printTransaction($id) {
         $start_date = $this->input('start_date');
         $end_date = $this->input('end_date');
         
-        $transactions_query = Transaction::with(['customer', 'supplier', 'createdBy', 'updatedBy']);
+        $transactions_query = Transaction::with(['items','customer', 'supplier', 'createdBy', 'updatedBy']);
 
         // Apply search query
         if (!empty($search_query)) {
@@ -1571,7 +1571,9 @@ public function printTransaction($id) {
                       ->orWhereHas('supplier', function($q) use ($search_query) {
                           $q->where('company_name', 'like', '%' . $search_query . '%')
                             ->orWhere('contact_first_name', 'like', '%' . $search_query . '%')
-                            ->orWhere('contact_last_name', 'like', '%' . $search_query . '%');
+                            ->orWhere('contact_last_name', 'like', '%' . $search_query . '%');})
+                      ->orWhereHas('items.product', function($q) use ($search_query) {
+                          $q->where('name', 'like', '%' . $search_query . '%');
                       });
             });
         }
@@ -1721,9 +1723,9 @@ public function printTransaction($id) {
                     <th>Customer/Supplier</th>
                     <th>Invoice</th>
                     <th>Product</th>
-                    <th style="width:40px;">Original</th>
+                    <th style="width:45px;">Original</th>
                     <th style="width:40px;">Stock In/Out</th>
-                    <th style="width:40px;">Current</th>
+                    <th style="width:45px;">Current</th>
                     <th>Total (₱)</th>
                     <th>Status</th>
                     <th style="width:50px;">Created By</th>
@@ -1762,9 +1764,9 @@ public function printTransaction($id) {
             // Product + Quantity columns (moved after invoice)
             $html .= '
                 <td>' . htmlspecialchars($item->product->name ?? 'N/A') . '</td>
-                <td style="width:40px;">' . htmlspecialchars($item->previous_quantity ?? 0) . '</td>;
+                <td style="width:45px;">' . htmlspecialchars($item->previous_quantity ?? 0) . '</td>;
                 <td style="width:40px;">' . htmlspecialchars($item->quantity ?? 0) . '</td>
-                <td style="width:40px;">' . htmlspecialchars($item->new_quantity ?? 0) . '</td>';
+                <td style="width:45px;">' . htmlspecialchars($item->new_quantity ?? 0) . '</td>';
 
             // Print total, status, and createdBy only once per transaction
             if ($first) {

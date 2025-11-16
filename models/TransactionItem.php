@@ -18,6 +18,7 @@ class TransactionItem extends Model {
     {
         return $this->belongsTo(Transaction::class, 'transaction_id');
     }
+    
 
     // Define relationship with the User who created this item
     public function createdBy(): BelongsTo // Added return type hint

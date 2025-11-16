@@ -493,8 +493,8 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
       <?php endif; ?>
 
   <?php if ($is_serialized_product && $transaction->transaction_type === 'Customer Return'): ?>
-                    <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="customer-return" data-item-id="<?= htmlspecialchars($item->id); ?>">
-                  <?php if ($transaction->customer_id): ?>
+    <div class="serial-numbers-section mt-3 border p-3 rounded" data-type="customer-return" data-item-id="<?= htmlspecialchars($item->id); ?>">
+    <?php if ($transaction->customer_id): ?>
                     <div class="serial-numbers-subsection" data-return-type="customer">
                       <h6 class="text-white">Serial Numbers (Customer Return - Qty: <?= htmlspecialchars($item->quantity) ?>)</h6>
                       <p class="text-muted">Select the specific serial numbers being returned by the customer (should be previously sold).</p>
@@ -520,18 +520,18 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
                     }
                   ?>
 
-                  <?php for ($i = 0; $i < $item->quantity; $i++): ?>
-                    <div class="mb-3">
-                      <label for="return_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>" class="form-label light-txt">Select Serial #<?= ($i + 1); ?>:</label>
-                      <select data-live-search="true"
-        data-width="100%"
-        data-maxlength="20"
-        class="form-select form-control-sm dark-txt light-bg selectpicker serial-number-select"
-        id="return_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
-        name="returned_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
-        data-product-id="<?= htmlspecialchars($item->product->id); ?>"
-        data-item-id="<?= htmlspecialchars($item->id); ?>"
-        required>
+        <?php for ($i = 0; $i < $item->quantity; $i++): ?>
+        <div class="mb-3">
+        <label for="return_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>" class="form-label light-txt">Select Serial #<?= ($i + 1); ?>:</label>
+         <select data-live-search="true"
+          data-width="100%"
+          data-maxlength="20"
+          class="form-select form-control-sm dark-txt light-bg selectpicker serial-number-select"
+          id="return_serial_<?= htmlspecialchars($item->id); ?>_<?= $i; ?>"
+          name="returned_serial_numbers[<?= htmlspecialchars($item->id); ?>][]"
+          data-product-id="<?= htmlspecialchars($item->product->id); ?>"
+          data-item-id="<?= htmlspecialchars($item->id); ?>"
+          required>
     <option value="">-- Select a Serial Number --</option>
     <?php
       $selected_value = $current_return_serials[$i] ?? null;

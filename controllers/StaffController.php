@@ -263,7 +263,9 @@ class StaffController extends Controller {
         $transactions_query->where('transaction_type', $filter_type);
         Logger::log("DEBUG: Applied type filter: '{$filter_type}'");
     }
-
+    if (!empty($search_query)) {
+        Logger::log("SEARCH QUERY :'" . $search_query);
+    }
     // Apply status filter
     if (!empty($filter_status)) {
         $transactions_query->where('status', $filter_status);

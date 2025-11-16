@@ -83,11 +83,13 @@ use Carbon\Carbon; // Required for date comparison
             </select>
         </div>
 
-        <div class="col-md-3" id="customDateFields" style="display: <?= (($filter_date_range ?? '') === 'custom') ? 'block' : 'none' ?>;">
+        <div class="col-md-6" id="customDateFields" style="display: <?= (($filter_date_range ?? '') === 'custom') ? 'block' : 'none' ?>;">
             <label class="form-label light-txt">Custom Date Range</label>
             <div class="d-flex gap-2">
                 <input type="date" class="form-control dark-txt light-bg" id="start_date" name="start_date" 
-                    value="<?= htmlspecialchars($start_date ?? '') ?>" placeholder="Start Date">
+                    value="<?= htmlspecialchars($start_date ?? '') ?>" placeholder="Start Date"
+                    max="<?= date('Y-m-d') ?>">
+                    >
                 <input type="date" class="form-control dark-txt light-bg" id="end_date" name="end_date" 
                     value="<?= htmlspecialchars($end_date ?? '') ?>" placeholder="End Date">
             </div>
@@ -197,8 +199,8 @@ use Carbon\Carbon; // Required for date comparison
                         // Access updated_by relationship
                         echo htmlspecialchars($transaction->updatedBy->username ?? 'N/A');
                         ?>
-                    </td>
-                    <td ><?= htmlspecialchars($transaction->created_at ? date('Y-m-d', strtotime($transaction->created_at)) : 'N/A') ?></td>
+                    </td>c
+                    <td ><?= htmlspecialchars($transaction->created_at ? date('Y-m-d H:i:s', strtotime($transaction->created_at)) : 'N/A') ?></td>
                     <td class="hidden-column" ><?= htmlspecialchars($transaction->updated_at ? date('Y-m-d', strtotime($transaction->updated_at)) : 'N/A') ?></td>
                     <td>
                       
