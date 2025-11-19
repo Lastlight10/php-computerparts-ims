@@ -130,7 +130,7 @@ use Carbon\Carbon; // Required for date comparison
     <table class="table table-dark table-striped table-hover">
       <thead>
         <tr>
-          <th class="hidden-header">ID</th>
+          <th >#</th>
           <th>TYPE</th>
           <th class="hidden-header">CUSTOMER</th>
           <th class="hidden-header">SUPPLIER</th>
@@ -154,7 +154,7 @@ use Carbon\Carbon; // Required for date comparison
         ?>
             <?php foreach ($transactions_info as $transaction): ?>
                 <tr>
-                    <td class="hidden-column"><?= htmlspecialchars($transaction->id ?? '') ?></td>
+                    <td><?= htmlspecialchars($transaction->id ?? '') ?></td>
                     <td><?= htmlspecialchars($transaction->transaction_type ?? 'N/A') ?></td>
                     <td class="hidden-column">
                         <?php
@@ -199,8 +199,8 @@ use Carbon\Carbon; // Required for date comparison
                         // Access updated_by relationship
                         echo htmlspecialchars($transaction->updatedBy->username ?? 'N/A');
                         ?>
-                    </td>c
-                    <td ><?= htmlspecialchars($transaction->created_at ? date('Y-m-d H:i:s', strtotime($transaction->created_at)) : 'N/A') ?></td>
+                    </td>
+                    <td ><?= htmlspecialchars($transaction->created_at ? date('Y-m-d', strtotime($transaction->created_at)) : 'N/A') ?></td>
                     <td class="hidden-column" ><?= htmlspecialchars($transaction->updated_at ? date('Y-m-d', strtotime($transaction->updated_at)) : 'N/A') ?></td>
                     <td>
                       

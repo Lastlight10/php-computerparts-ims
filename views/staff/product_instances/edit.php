@@ -65,19 +65,21 @@ if (!$instance) {
                     <input type="hidden" name="id" value="<?= htmlspecialchars($instance->id) ?>">
 
                     <div class="mb-3">
-                        <label for="serial_number" class="form-label light-txt">Serial Number</label>
-                        <input type="text" class="form-control dark-txt light-bg" id="serial_number" value="<?= htmlspecialchars($instance->serial_number ?? 'N/A') ?>" disabled>
+                      <label for="serial_number" class="form-label light-txt">Serial Number</label>
+                      <input type="text" class="form-control dark-txt light-bg" id="serial_number" value="<?= htmlspecialchars($instance->serial_number ?? 'N/A') ?>" disabled>
                     </div>
 
+                    <input type="hidden" name="status" value="<?= htmlspecialchars($instance->status ?? '') ?>"> 
+
                     <div class="mb-3">
-                        <label for="status" class="form-label light-txt">Status</label>
-                        <select class="form-select dark-txt light-bg" id="status" name="status" required>
-                            <?php foreach ($product_instance_statuses as $status): ?>
-                                <option value="<?= htmlspecialchars($status) ?>" <?= (($instance->status ?? '') === $status) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($status) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
+                      <label for="status" class="form-label light-txt">Status</label>
+                      <select class="form-select dark-txt light-bg" id="status" required disabled>
+                        <?php foreach ($product_instance_statuses as $status): ?>
+                            <option value="<?= htmlspecialchars($status) ?>" <?= (($instance->status ?? '') === $status) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($status) ?>
+                            </option>
+                        <?php endforeach; ?>
+                      </select>
                     </div>
 
                     <div class="mb-3">
@@ -87,7 +89,7 @@ if (!$instance) {
 
                     <div class="mb-3">
                         <label for="warranty_expires_at" class="form-label light-txt">Warranty Expiration Date</label>
-                        <input type="date" class="form-control dark-txt light-bg" id="warranty_expires_at" name="warranty_expires_at" value="<?= htmlspecialchars($instance->warranty_expires_at ?? '') ?>" max="2010-01-01">
+                        <input type="date" class="form-control dark-txt light-bg" id="warranty_expires_at" name="warranty_expires_at" value="<?= htmlspecialchars($instance->warranty_expires_at ?? '') ?>" max="2030-01-01">
                     </div>
 
                     <h4 class="text-white mt-4 mb-3">Associated Transactions</h4>
@@ -161,9 +163,11 @@ if (!$instance) {
                     <div class="d-grid gap-2 mt-4">
                         <button type="submit" class="btn btn-primary btn-lg">Update Unit Details</button>
                         <a href="/staff/products/show/<?= htmlspecialchars($instance->product_id) ?>" class="btn btn-secondary btn-lg">Back to Product</a>
+                        <!--
                         <form action="/staff/product_instances/delete/<?= htmlspecialchars($instance->id) ?>" method="POST" style="display:inline;" onsubmit="return confirm('WARNING: Deleting this product unit is permanent and cannot be undone. Are you absolutely sure?');">
                             <button type="submit" class="btn btn-danger btn-lg mt-2">Delete Unit</button>
                         </form>
+                                -->
                     </div>
                 </form>
             </div>
