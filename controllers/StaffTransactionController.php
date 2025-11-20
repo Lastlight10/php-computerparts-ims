@@ -768,7 +768,7 @@ public function store() {
         
         // Set error message for the user
         $_SESSION['error_message'] = "Update failed! The following serial numbers were submitted more than once in the transaction: **" . $duplicate_serials_list . "**";
-        
+        DB::rollBack();
         // Redirect back to the edit page
         header('Location: /staff/transactions/edit/' . $transactionId);
         exit(); // Crucial: Stop execution

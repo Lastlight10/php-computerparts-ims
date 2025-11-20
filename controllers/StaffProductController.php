@@ -569,7 +569,6 @@ class StaffProductController extends Controller {
         Logger::log("PRINT_PRODUCTS_LIST: Attempting to generate PDF for products list.");
         date_default_timezone_set('Asia/Manila');
         // Retrieve search, filter, and sort parameters from GET request
-        $search_query = trim($this->input('search_query'));
         $filter_category_id = trim($this->input('filter_category_id'));
         $filter_brand_id = trim($this->input('filter_brand_id'));
         $filter_is_serialized = trim($this->input('filter_is_serialized'));
@@ -581,20 +580,7 @@ class StaffProductController extends Controller {
 
         $products_query = Product::with(['category', 'brand']);
 
-        // Apply search query
-        if (!empty($search_query)) {
-            $products_query->where(function($query) use ($search_query) {
-                $query->where('sku', 'like', '%' . $search_query . '%')
-                      ->orWhere('name', 'like', '%' . $search_query . '%')
-                      ->orWhere('description', 'like', '%' . $search_query . '%')
-                      ->orWhereHas('category', function($q) use ($search_query) {
-                          $q->where('name', 'like', '%' . $search_query . '%');
-                      })
-                      ->orWhereHas('brand', function($q) use ($search_query) {
-                          $q->where('name', 'like', '%' . $search_query . '%');
-                      });
-            });
-        }
+
         if (!empty($filter_date_range)) {
     $now = Carbon::now();
 
@@ -699,7 +685,6 @@ class StaffProductController extends Controller {
                 </div>
 
                 <div class="filters-info">
-                    <p><strong>Search:</strong> ' . htmlspecialchars($search_query ?: 'N/A') . '</p>
                     <p><strong>Category Filter:</strong> ' . htmlspecialchars(Category::find($filter_category_id)->name ?? 'All Categories') . '</p>
                     <p><strong>Brand Filter:</strong> ' . htmlspecialchars(Brand::find($filter_brand_id)->name ?? 'All Brands') . '</p>
                     <p><strong>Serialized Filter:</strong> ' . htmlspecialchars($filter_is_serialized ?: 'All') . '</p>
