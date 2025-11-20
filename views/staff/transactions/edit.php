@@ -211,7 +211,7 @@ $initial_is_form_readonly = ($transaction->status === 'Completed' || $transactio
               <label for="status" class="form-label light-txt">Status</label>
               <select class="form-select form-select-lg dark-txt light-bg" id="status" name="status" required>
                 <!-- <option value="Draft" <?= ($transaction->status == 'Draft') ? 'selected' : '' ?> <?= $initial_is_form_readonly ? 'disabled' : '' ?>>Draft</option> -->
-                <option value="Pending" <?= ($transaction->status == 'Pending') ? 'selected' : '' ?> <?= $initial_is_form_readonly ? 'disabled' : '' ?>>Pending</option>
+                <!--<option value="Pending" <?= ($transaction->status == 'Pending') ? 'selected' : '' ?> <?= $initial_is_form_readonly ? 'disabled' : '' ?>>Pending</option> -->
                 <!-- <option value="Confirmed" <?= ($transaction->status == 'Confirmed') ? 'selected' : '' ?> <?= $initial_is_form_readonly ? 'disabled' : '' ?>>Confirmed</option> -->
                 <option value="Completed" <?= ($transaction->status == 'Completed') ? 'selected' : '' ?>>Completed</option>
                 <option value="Cancelled" <?= ($transaction->status == 'Cancelled') ? 'selected' : '' ?>>Cancelled</option>
@@ -915,7 +915,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Bootstrap-select creates a search input inside the dropdown
         $(select).on('shown.bs.select', function() {
-            const searchInput = document.querySelector('.bs-searchbox input');
+            const searchInput = $(this).closest('.bootstrap-select').find('.bs-searchbox input').get(0);
 
             if (searchInput) {
                 searchInput.addEventListener('input', function(event) {

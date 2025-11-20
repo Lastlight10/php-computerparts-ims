@@ -739,8 +739,42 @@ public function store() {
             $transaction->amount_received = $calculated_total_amount;
         }
 
+      $all_sale_serials = [];
+      // Loop through submitted items to gather all serials
+      foreach ($_POST['items'] as $item) {
+          // Assuming serials are submitted as a comma-separated string for each item
+          if (isset($item['serials']) && !empty($item['serials'])) {
+              // 1. Split the string, trim whitespace, and filter out any empty strings
+              $item_serials = array_filter(array_map('trim', explode(',', $item['serials'])));
+              // 2. Merge them into the main array
+              $all_sale_serials = array_merge($all_sale_serials, $item_serials);
+          }
+      }
+      if (!empty($all_sale_serials)) {
+    // Get the list of unique serials
+    $unique_serials = array_unique($all_sale_serials);
 
-        $transaction->save();
+    // Compare the count of the submitted list with the count of the unique list
+    if (count($all_sale_serials) !== count($unique_serials)) {
+        
+        // Find the actual duplicates for a helpful error message
+        // array_diff_assoc finds values present in the first array but not in the second,
+        // which helps isolate the duplicates after we ensure the first occurrence is kept in $unique_serials.
+        $duplicates = array_diff_assoc($all_sale_serials, $unique_serials);
+        $duplicate_serials_list = implode(', ', array_unique($duplicates));
+
+        // Log the error and stop the update process
+        Logger::log("UPDATE_SALE_FAILED: Duplicate serials submitted: " . $duplicate_serials_list);
+        
+        // Set error message for the user
+        $_SESSION['error_message'] = "Update failed! The following serial numbers were submitted more than once in the transaction: **" . $duplicate_serials_list . "**";
+        
+        // Redirect back to the edit page
+        header('Location: /staff/transactions/edit/' . $transactionId);
+        exit(); // Crucial: Stop execution
+    }
+}
+      $transaction->save();
 
         foreach (array_keys($product_ids_to_update_stock) as $productId) {
             $product = Product::find($productId);
@@ -1556,8 +1590,8 @@ public function printTransactionsList() {
         $search_query = trim($this->input('search_query'));
         $filter_type = trim($this->input('filter_type'));
         $filter_status = trim($this->input('filter_status'));
-        $sort_by = trim($this->input('sort_by')) ?: 'transaction_date';
-        $sort_order = trim($this->input('sort_order')) ?: 'desc';
+        $sort_by = trim($this->input('sort_by')) ?: 'created_at';
+        $sort_order = trim($this->input('sort_order')) ?: 'asc';
         $filter_date_range = $this->input('filter_date_range');
         $start_date = $this->input('start_date');
         $end_date = $this->input('end_date');
@@ -1906,8 +1940,8 @@ public function printTransactionsList() {
     // Retrieve search, filter, and sort parameters from GET request
     $search_query = trim($this->input('search_query'));
     $filter_status = trim($this->input('filter_status'));
-    $sort_by = trim($this->input('sort_by')) ?: 'transaction_date';
-    $sort_order = trim($this->input('sort_order')) ?: 'desc';
+    $sort_by = trim($this->input('sort_by')) ?: 'created_at';
+    $sort_order = trim($this->input('sort_order')) ?: 'asc';
     $filter_date_range = trim($this->input('filter_date_range'));
     $start_date = $this->input('start_date');
     $end_date = $this->input('end_date');

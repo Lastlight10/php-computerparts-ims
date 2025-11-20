@@ -240,8 +240,8 @@ class StaffController extends Controller {
     $start_date = $this->input('start_date');
     $end_date = $this->input('end_date');
 
-    $sort_by = $this->input('sort_by') ?: 'transaction_date'; // Default sort column
-    $sort_order = $this->input('sort_order') ?: 'desc'; // Default sort order
+    $sort_by = $this->input('sort_by') ?: 'created_at'; // Default sort column
+    $sort_order = $this->input('sort_order') ?: 'asc'; // Default sort order
 
     // Start building the query
     $transactions_query = Transaction::with(['items.product', 'customer', 'supplier', 'createdBy', 'updatedBy']);
