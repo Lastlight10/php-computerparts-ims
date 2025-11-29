@@ -687,47 +687,53 @@ public function store() {
                 $product_ids_to_update_stock[$original_item->product->id] = true;
 
                 if ($original_item->product->is_serialized) {
-                    $instances = ProductInstance::where('product_id', $original_item->product_id)
-                        ->where(function($q) use ($original_item) {
-                            $q->where('purchase_transaction_item_id', $original_item->id)
-                            ->orWhere('sale_transaction_item_id', $original_item->id)
-                            ->orWhere('returned_from_customer_transaction_item_id', $original_item->id)
-                            ->orWhere('returned_to_supplier_transaction_item_id', $original_item->id)
-                            ->orWhere('adjusted_in_transaction_item_id', $original_item->id)
-                            ->orWhere('adjusted_out_transaction_item_id', $original_item->id);
-                        })->get();
+                  $instances = ProductInstance::where('product_id', $original_item->product_id)
+                    ->where(function($q) use ($original_item) {
+                      $q->where('purchase_transaction_item_id', $original_item->id)
+                      ->orWhere('sale_transaction_item_id', $original_item->id)
+                      ->orWhere('returned_from_customer_transaction_item_id', $original_item->id)
+                      ->orWhere('returned_to_supplier_transaction_item_id', $original_item->id)
+                      ->orWhere('adjusted_in_transaction_item_id', $original_item->id)
+                      ->orWhere( 'adjusted_out_transaction_item_id', $original_item->id);
+                      })->get();
 
-                    foreach ($instances as $instance) {
-                        $instance->purchase_transaction_item_id = null;
-                        $instance->sale_transaction_item_id = null;
-                        $instance->returned_from_customer_transaction_item_id = null;
-                        $instance->returned_to_supplier_transaction_item_id = null;
-                        $instance->adjusted_in_transaction_item_id = null;
-                        $instance->adjusted_out_transaction_item_id = null;
-                        $instance->updated_by_user_id = $this->getCurrentUserId();
-                        $instance->save();
+                  foreach ($instances as $instance) {
+                    $instance->purchase_transaction_item_id = null;
+                    $instance->sale_transaction_item_id = null;
+                    $instance->returned_from_customer_transaction_item_id = null;
+                    $instance->returned_to_supplier_transaction_item_id = null;
+                    $instance->adjusted_in_transaction_item_id = null;
+                    $instance->adjusted_out_transaction_item_id = null;
+
+                    if ($transaction->transaction_type === 'Customer Return') {
+                        $instance->status = 'Sold'; 
                     }
+
+                    $instance->updated_by_user_id = $this->getCurrentUserId();
+                    $instance->save();
+
+                  }
                 } else {
-                    if ($originalStatus === 'Completed') {
-                        $product = $original_item->product;
-                        switch ($transaction->transaction_type) {
-                            case 'Purchase':
-                            case 'Customer Return':
-                                $transaction_item->previous_quantity = $product->current_stock;
-                            $product->increment('current_stock', $quantity);
+                  if ($originalStatus === 'Completed') {
+                    $product = $original_item->product;
+                    switch ($transaction->transaction_type) {
+                        case 'Purchase':
+                        case 'Customer Return':
+                          $transaction_item->previous_quantity = $product->current_stock;
+                          $product->increment('current_stock', $quantity);
+                          $transaction_item->new_quantity = $product->current_stock;
+                          break;
+                        case 'Sale':
+                        case 'Supplier Return':
+                        case 'Stock Adjustment':
+                            $transaction_item->previous_quantity = $product->current_stock;
+                            $product->decrement('current_stock', $quantity);
                             $transaction_item->new_quantity = $product->current_stock;
-                                break;
-                            case 'Sale':
-                            case 'Supplier Return':
-                            case 'Stock Adjustment':
-                                $transaction_item->previous_quantity = $product->current_stock;
-                                $product->decrement('current_stock', $quantity);
-                                $transaction_item->new_quantity = $product->current_stock;
-                                break;
-                        }
-                        $transaction_item->save();
-                        $product->save();
+                            break;
                     }
+                    $transaction_item->save();
+                    $product->save();
+                  }
                 }
                 $original_item->delete();
             }
@@ -989,7 +995,7 @@ private function handleSaleSerials(TransactionItem $item, array $submittedSerial
                 // Revert status to 'In Stock' - this increments stock upon sync
                 $instance->status = 'In Stock';
             } else {
-                $instance->status = 'Pending Stock';
+              Logger::log("SERIALS UNCHAGED: " . $submittedSerials . "STATUS: " . $instance->status);
             }
 
             // Save instance (CRITICAL FIX 3: Enforce successful save or roll back)
@@ -1081,7 +1087,7 @@ private function handleSaleSerials(TransactionItem $item, array $submittedSerial
             } elseif ($newTransactionStatus === 'Cancelled' && $originalTransactionStatus === 'Completed') {
                 $instance->status = 'Sold'; // Revert to Sold if return is cancelled
             } else {
-                $instance->status = 'Pending Stock'; // For pending returns
+                Logger::log("SERIALS UNCHAGED: " . $submittedSerials . "STATUS: " . $instance->status);
             }
             $instance->updated_by_user_id = $this->getCurrentUserId();
             $instance->updated_at = date('Y-m-d H:i:s');
@@ -1152,7 +1158,7 @@ private function handleSaleSerials(TransactionItem $item, array $submittedSerial
             } elseif ($newTransactionStatus === 'Cancelled' && $originalTransactionStatus === 'Completed') {
                 $instance->status = 'In Stock'; // Revert to In Stock if return is cancelled
             } else {
-                $instance->status = 'Pending Stock'; // For pending returns
+                Logger::log("SERIALS UNCHAGED: " . $submittedSerials . "STATUS: " . $instance->status);
             }
             $instance->updated_by_user_id = $this->getCurrentUserId();
             $instance->updated_at = date('Y-m-d H:i:s');
@@ -1243,7 +1249,7 @@ private function handleSaleSerials(TransactionItem $item, array $submittedSerial
                 } elseif ($newTransactionStatus === 'Cancelled' && $originalTransactionStatus === 'Completed') {
                     $instance->status = 'Removed'; // If inflow is cancelled, remove it
                 } else {
-                    $instance->status = 'Pending Stock';
+                   Logger::log("SERIALS UNCHAGED: " . $submittedInSerials . "STATUS: " . $instance->status);
                 }
                 $instance->updated_by_user_id = $this->getCurrentUserId();
                 $instance->save();
@@ -1299,7 +1305,7 @@ private function handleSaleSerials(TransactionItem $item, array $submittedSerial
                 } elseif ($newTransactionStatus === 'Cancelled' && $originalTransactionStatus === 'Completed') {
                     $instance->status = 'In Stock'; // Revert to In Stock if outflow is cancelled
                 } else {
-                    $instance->status = 'Pending Stock'; // For pending outflow
+                   Logger::log("SERIALS UNCHAGED: " . $submittedInSerials . "STATUS: " . $instance->status);
                 }
                 $instance->updated_by_user_id = $this->getCurrentUserId();
                 $instance->save();

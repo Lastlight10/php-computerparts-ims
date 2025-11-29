@@ -81,7 +81,7 @@
               <input class="form-check-input me-2" type="checkbox" id="showpass" name="showpass"  onchange="togglePassword()" />
               <label class="form-check-label light-txt" for="showpass">Show Password</label>
             </div>
-            <a href="/login/forgotpass" class="forgotpass">Forgot password?</a>
+            <a href="/login/forgotpass" class="forgotpass">Forgot Password?</a>
           </div>
 
           <div class="text-center">
