@@ -525,7 +525,34 @@ public function store() {
         'status' => $newStatus,
         'notes' => trim($this->input('notes')),
     ];
+    if ($transaction->transaction_type === 'Sale') {
+        $all_sale_serials = [];
+        // Gather all submitted serials for the 'sale' type
+        foreach ($submitted_serials['sale'] as $itemId => $itemSerials) {
+            if (is_array($itemSerials)) {
+                $all_sale_serials = array_merge($all_sale_serials, array_map('trim', $itemSerials));
+            }
+        }
+        
+        // Filter out empty serials
+        $all_sale_serials = array_filter($all_sale_serials);
 
+        if (!empty($all_sale_serials)) {
+            $unique_serials = array_unique($all_sale_serials);
+
+            // Check for duplicates within the submitted serial list
+            if (count($all_sale_serials) !== count($unique_serials)) {
+                $duplicates = array_diff_assoc($all_sale_serials, $unique_serials);
+                $duplicate_serials_list = implode(', ', array_unique($duplicates));
+                
+                Logger::log("UPDATE_SALE_FAILED_PRE_CHECK: Duplicate serials submitted: " . $duplicate_serials_list);
+                
+                $_SESSION['error_message'] = "Update failed! The following serial numbers were submitted more than once in the transaction: **" . $duplicate_serials_list . "**";
+                header('Location: /staff/transactions/edit/' . $transactionId);
+                exit();
+            }
+        }
+    }
     $changes = $this->detectTransactionChanges($transaction, $newData, $items_data, $submitted_serials);
     Logger::log("TRANSACTION_UPDATE_CHANGES: " . print_r($changes, true));
 
@@ -535,7 +562,59 @@ public function store() {
         header('Location: /staff/transactions/edit/' . $transaction->id);
         exit();
     }
+    $transactionType = $transaction->transaction_type;
+    $serialKeys = [];
 
+    // Map serial input key to transaction type
+    switch ($transactionType) {
+        case 'Purchase':
+            $serialKeys = ['purchase'];
+            break;
+        case 'Sale':
+            $serialKeys = ['sale'];
+            break;
+        case 'Customer Return':
+            $serialKeys = ['customer_return'];
+            break;
+        case 'Supplier Return':
+            $serialKeys = ['supplier_return'];
+            break;
+        case 'Stock Adjustment':
+            $serialKeys = ['adjustment']; 
+            break;
+    }
+
+    if (!empty($serialKeys)) {
+        $all_submitted_serials = [];
+        // Gather all submitted serials for the current transaction type
+        foreach ($serialKeys as $key) {
+            foreach ($submitted_serials[$key] as $itemId => $itemSerials) {
+                if (is_array($itemSerials)) {
+                    // Flatten the array of serials
+                    $all_submitted_serials = array_merge($all_submitted_serials, array_map('trim', $itemSerials));
+                }
+            }
+        }
+        
+        // Filter out empty serials
+        $all_submitted_serials = array_filter($all_submitted_serials);
+
+        if (!empty($all_submitted_serials)) {
+            $unique_serials = array_unique($all_submitted_serials);
+
+            // Check for duplicates within the submitted serial list
+            if (count($all_submitted_serials) !== count($unique_serials)) {
+                $duplicates = array_diff_assoc($all_submitted_serials, $unique_serials);
+                $duplicate_serials_list = implode(', ', array_unique($duplicates));
+                
+                Logger::log("UPDATE_{$transactionType}_FAILED_PRE_CHECK: Duplicate serials submitted: " . $duplicate_serials_list);
+                
+                $_SESSION['error_message'] = "Update failed! The following serial numbers were submitted more than once in this **{$transactionType}** transaction: **" . $duplicate_serials_list . "**";
+                header('Location: /staff/transactions/edit/' . $transactionId);
+                exit();
+            }
+        }
+    }
     DB::beginTransaction();
     try {
         // Update main transaction
@@ -744,42 +823,6 @@ public function store() {
         if (in_array($transaction->transaction_type, ['Sale', 'Purchase', 'Customer Return', 'Supplier Return'])) {
             $transaction->amount_received = $calculated_total_amount;
         }
-
-      $all_sale_serials = [];
-      // Loop through submitted items to gather all serials
-      foreach ($_POST['items'] as $item) {
-          // Assuming serials are submitted as a comma-separated string for each item
-          if (isset($item['serials']) && !empty($item['serials'])) {
-              // 1. Split the string, trim whitespace, and filter out any empty strings
-              $item_serials = array_filter(array_map('trim', explode(',', $item['serials'])));
-              // 2. Merge them into the main array
-              $all_sale_serials = array_merge($all_sale_serials, $item_serials);
-          }
-      }
-      if (!empty($all_sale_serials)) {
-    // Get the list of unique serials
-    $unique_serials = array_unique($all_sale_serials);
-
-    // Compare the count of the submitted list with the count of the unique list
-    if (count($all_sale_serials) !== count($unique_serials)) {
-        
-        // Find the actual duplicates for a helpful error message
-        // array_diff_assoc finds values present in the first array but not in the second,
-        // which helps isolate the duplicates after we ensure the first occurrence is kept in $unique_serials.
-        $duplicates = array_diff_assoc($all_sale_serials, $unique_serials);
-        $duplicate_serials_list = implode(', ', array_unique($duplicates));
-
-        // Log the error and stop the update process
-        Logger::log("UPDATE_SALE_FAILED: Duplicate serials submitted: " . $duplicate_serials_list);
-        
-        // Set error message for the user
-        $_SESSION['error_message'] = "Update failed! The following serial numbers were submitted more than once in the transaction: **" . $duplicate_serials_list . "**";
-        DB::rollBack();
-        // Redirect back to the edit page
-        header('Location: /staff/transactions/edit/' . $transactionId);
-        exit(); // Crucial: Stop execution
-    }
-}
       $transaction->save();
 
         foreach (array_keys($product_ids_to_update_stock) as $productId) {

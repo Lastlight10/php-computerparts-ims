@@ -29,7 +29,7 @@ unset($_SESSION['error_message']);
         <form action="/login/send_reset_code" method="POST">
             <div class="mb-3">
                 <label for="email" class="form-label dark-txt">Enter your email address:</label>
-                <input type="email" class="form-control light-bg dark-txt" id="email" name="email" required placeholder="your.email@example.com" maxlength="30">
+                <input type="email" class="form-control light-bg dark-txt" id="email" name="email" required placeholder="your.email@example.com" maxlength="30" value="">
             </div>
             <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-primary btn-lg">Send Reset Code</button>
